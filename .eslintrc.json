@@ -25,8 +25,8 @@
         "react/function-component-definition": [
             2,
             {
-                "namedComponents": "function-declaration",
-                "unnamedComponents": "function-expression"
+                "namedComponents": "arrow-function",
+                "unnamedComponents": "arrow-function"
             }
         ],
         "react/prop-types": 0,
@@ -37,6 +37,6 @@
         "@typescript-eslint/no-use-before-define": "off",
         // 'React' must be in scope when using JSX 에러 해결 (Next.js)
         "react/react-in-jsx-scope": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": ["error", "always"]
     }
 }
