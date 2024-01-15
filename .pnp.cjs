@@ -57,6 +57,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:3.2.2"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:18.2.0"],\
+          ["recoil", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7"],\
           ["tailwindcss", "npm:3.4.1"],\
           ["ts-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.1.1"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
@@ -7243,6 +7244,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["hamt_plus", [\
+      ["npm:1.0.2", {\
+        "packageLocation": "../../../../.yarn/berry/cache/hamt_plus-npm-1.0.2-67a52ee1df-10c0.zip/node_modules/hamt_plus/",\
+        "packageDependencies": [\
+          ["hamt_plus", "npm:1.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["has-bigints", [\
       ["npm:1.0.2", {\
         "packageLocation": "../../../../.yarn/berry/cache/has-bigints-npm-1.0.2-52732e614d-10c0.zip/node_modules/has-bigints/",\
@@ -10009,6 +10019,37 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["recoil", [\
+      ["npm:0.7.7", {\
+        "packageLocation": "../../../../.yarn/berry/cache/recoil-npm-0.7.7-4452f58b67-10c0.zip/node_modules/recoil/",\
+        "packageDependencies": [\
+          ["recoil", "npm:0.7.7"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7", {\
+        "packageLocation": "./.yarn/__virtual__/recoil-virtual-3d36dc50c3/5/.yarn/berry/cache/recoil-npm-0.7.7-4452f58b67-10c0.zip/node_modules/recoil/",\
+        "packageDependencies": [\
+          ["recoil", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7"],\
+          ["@types/react", "npm:18.2.47"],\
+          ["@types/react-dom", "npm:18.2.18"],\
+          ["@types/react-native", null],\
+          ["hamt_plus", "npm:1.0.2"],\
+          ["react", "npm:18.2.0"],\
+          ["react-dom", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:18.2.0"],\
+          ["react-native", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react-native",\
+          "@types/react",\
+          "react-dom",\
+          "react-native",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["reflect.getprototypeof", [\
       ["npm:1.0.4", {\
         "packageLocation": "../../../../.yarn/berry/cache/reflect.getprototypeof-npm-1.0.4-fa901640c3-10c0.zip/node_modules/reflect.getprototypeof/",\
@@ -10483,6 +10524,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:3.2.2"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:18.2.0"],\
+          ["recoil", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7"],\
           ["tailwindcss", "npm:3.4.1"],\
           ["ts-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.1.1"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
