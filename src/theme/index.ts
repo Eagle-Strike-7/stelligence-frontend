@@ -9,7 +9,7 @@ const customTheme = extendTheme({
     config,
     breakpoints: {
         mobile: '0px',
-        desktop: '992px',
+        desktop: '62rem',
     },
     colors: {
         background: {
