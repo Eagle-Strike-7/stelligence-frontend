@@ -8,10 +8,8 @@
 
 ## 체크리스트
 
--   [ ] PR 날리기 전에 main branch pull 받으셨나요?
--   [ ] application.properties 등 노출되지 않아야 하는 파일이 올라가지는 않았나요?
+-   [ ] PR 날리기 전에 develop branch pull 받으셨나요?
 -   [ ] 다른 담당자 파일을 수정한 부분에 대해서 이야기 하셨나요?
--   [ ] 주석 "상세히" 다셨나요?
--   [ ] 제출하기 전에 테스트코드 돌려 보셨나요?
+-   [ ] 주석 Comment Anchors 컨벤션에 맞추어 다셨나요?
 
 closes #
