@@ -1,14 +1,21 @@
 import React from 'react';
+import { Box } from '@chakra-ui/react';
 import Navigation from './Navigation';
 import Login from './Login';
 import Logo from './Logo';
 
 const Header = () => {
     return (
-        <div className="flex w-full h-16 bg-black justify-between items-center justify-items-center text-white">
-            <Navigation />
-            <Logo />
-            <Login />
+        <div className="flex w-full h-16 bg-black text-white justify-center">
+            <Box
+                display="flex"
+                width="80rem"
+                className="flex-row h-16 justify-between items-center"
+            >
+                <Navigation />
+                <Logo />
+                <Login />
+            </Box>
         </div>
     );
 };
