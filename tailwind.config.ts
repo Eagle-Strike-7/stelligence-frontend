@@ -34,6 +34,9 @@ const config: Config = {
                     light: '#000000',
                     dark: '#ffffff',
                 },
+                naver: {
+                    light: '#03C75A',
+                },
                 // TODO: light, dark에서 공통으로 쓸 색상으로 변경
                 vote: {
                     start: '#38A169',
