@@ -1,7 +1,8 @@
+import { StateTabProps } from '@/types/common/StateTabProps';
 import { Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 
-const StateTab = () => {
+const StateTab: React.FC<StateTabProps> = ({ tab1, tab2 }) => {
     return (
         <Flex>
             <Heading
@@ -9,14 +10,14 @@ const StateTab = () => {
                 fontWeight={500}
                 className="mr-4 hover:cursor-pointer"
             >
-                진행중
+                {tab1}
             </Heading>
             <Heading
                 fontSize="1.25rem"
                 fontWeight={500}
                 className="hover:cursor-pointer"
             >
-                완료
+                {tab2}
             </Heading>
         </Flex>
     );
