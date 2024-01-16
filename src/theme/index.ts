@@ -26,7 +26,7 @@ const customTheme = extendTheme({
             dark: 'ffffff',
         },
         gray: {
-            50: '#F7FAFC',
+            50: '#f2f4f6',
             100: '#EDF2F7',
             200: '#E2E8F0',
             300: '#CBD5E0',
@@ -49,6 +49,13 @@ const customTheme = extendTheme({
             800: '#2A4365',
             900: '#1A365D',
         },
+        requestBtn: '#EDF2F7',
+        section: {
+            Bg: '#F2F4F6',
+            addBg: 'rgba(237, 255, 236, 0.2)',
+            deleteBg: 'rgba(255, 159, 159, 0.2)',
+        },
+        placeholder: '#A0AEC0',
     },
     fontSizes: {
         xs: '0.75rem',
