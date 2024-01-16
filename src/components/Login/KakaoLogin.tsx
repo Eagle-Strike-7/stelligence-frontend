@@ -7,9 +7,8 @@ const KakaoLogin = () => {
             <Image
                 src="/image/kakaoLogin.png"
                 alt="카카오 로그인 버튼"
-                width={180}
-                height={45}
-                layout="responsive"
+                width={240}
+                height={60}
             />
         </button>
     );
