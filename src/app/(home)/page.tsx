@@ -12,7 +12,7 @@ const Home = () => {
     return (
         <Wrapper>
             <Center>
-                <InputGroup mt="2rem">
+                <InputGroup>
                     <Input
                         w="26.5rem"
                         h="3rem"
