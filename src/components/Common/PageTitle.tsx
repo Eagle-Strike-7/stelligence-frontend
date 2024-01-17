@@ -4,7 +4,7 @@ import React from 'react';
 
 const PageTitle: React.FC<PageTitleProps> = ({ pageTitle }) => {
     return (
-        <Heading fontSize="1.5rem" fontWeight={600} className="mb-4">
+        <Heading fontWeight={600} className="mb-4 text-3xl">
             {pageTitle}
         </Heading>
     );

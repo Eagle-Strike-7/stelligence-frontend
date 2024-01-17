@@ -4,7 +4,7 @@ import React from 'react';
 
 const StateTab: React.FC<StateTabProps> = ({ tab1, tab2 }) => {
     return (
-        <Flex>
+        <Flex className="my-4">
             <Heading
                 fontSize="1.25rem"
                 fontWeight={500}
