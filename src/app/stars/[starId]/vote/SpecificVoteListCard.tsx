@@ -4,6 +4,7 @@ import { ListCardProps } from '@/types/star/ListCardProps';
 import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
 import LikeDislike from '../../../../components/Common/LikeDislike';
 
+// FIXME - 추후에 ListCard 컴포넌트들 재사용성을 높인 구조로 고치기
 const SpecificVoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
     title,
     username,

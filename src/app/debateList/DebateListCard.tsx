@@ -3,6 +3,7 @@ import React from 'react';
 import { ListCardProps } from '@/types/star/ListCardProps';
 import { AiOutlineComment } from 'react-icons/ai';
 
+// FIXME - 추후에 ListCard 컴포넌트들 재사용성을 높인 구조로 고치기
 const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
     originalTitle,
     title,
