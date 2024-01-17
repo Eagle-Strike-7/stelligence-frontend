@@ -17,8 +17,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="ko">
             <body className={inter.className}>
-                {!isLoginPage && <Header />}
-                <Providers>{children}</Providers>
+                <Providers>
+                    {!isLoginPage && <Header />}
+                    {children}
+                </Providers>
             </body>
         </html>
     );
