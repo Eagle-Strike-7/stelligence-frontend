@@ -1,10 +1,9 @@
-import { StateTabProps } from '@/types/common/StateTabProps';
 import { Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 
-const StateTab: React.FC<StateTabProps> = ({ tab1, tab2 }) => {
+const StateTab: React.FC<{ tab1: string; tab2: string }> = ({ tab1, tab2 }) => {
     return (
-        <Flex>
+        <Flex className="my-4">
             <Heading
                 fontSize="1.25rem"
                 fontWeight={500}

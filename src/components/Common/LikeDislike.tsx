@@ -1,4 +1,4 @@
-import { LikeDislikeProps } from '@/types/LikeDislikeProps';
+import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
 import React from 'react';
 import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 
