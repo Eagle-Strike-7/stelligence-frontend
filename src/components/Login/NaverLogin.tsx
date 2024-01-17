@@ -5,7 +5,7 @@ const NaverLogin = () => {
     return (
         <button
             type="button"
-            className="flex w-60 h-15 rounded-xl bg-green-100" // 추후 네이버 색상으로 변경 예정
+            className="flex w-60 h-15 rounded-lg bg-naver-light"
         >
             <Image
                 src="/image/naverLogo.png"
