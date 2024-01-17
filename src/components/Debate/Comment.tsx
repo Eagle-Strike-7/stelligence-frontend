@@ -1,8 +1,15 @@
-import { DebateCommentProps } from '@/types/Debate/DebateCommentProps';
 import { Avatar, Box, Text, Badge } from '@chakra-ui/react';
 import React from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi';
+
+interface DebateCommentProps {
+    userImg: string;
+    userName: string;
+    commentContent: string;
+    isWriter: boolean;
+    time: string;
+}
 
 const Comment: React.FC<DebateCommentProps> = ({
     userImg,
