@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Header from '@/components/Header/Header';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import { Providers } from './providers';
+import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +22,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             </body>
         </html>
     );
-}
+};
 
 export default RootLayout;
