@@ -1,15 +1,15 @@
 import { Box, Card, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
-import { ListCardProps } from '@/types/ListCardProps';
-import LikeDislike from './LikeDislike';
+import { ListCardProps } from '@/types/star/ListCardProps';
+import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
+import LikeDislike from '../../../../components/Common/LikeDislike';
 
-const ListCard: React.FC<ListCardProps> = ({
+const SpecificVoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
     title,
     username,
     time,
     content,
-    likeNum,
-    dislikeNum,
+    option,
 }) => {
     return (
         <Card
@@ -30,10 +30,13 @@ const ListCard: React.FC<ListCardProps> = ({
                 <Text className="text-md">{content}</Text>
             </Box>
             <Box className="justify-between">
-                <LikeDislike likeNum={likeNum} dislikeNum={dislikeNum} />
+                <LikeDislike
+                    likeNum={option.likeNum}
+                    dislikeNum={option.dislikeNum}
+                />
             </Box>
         </Card>
     );
 };
 
-export default ListCard;
+export default SpecificVoteListCard;
