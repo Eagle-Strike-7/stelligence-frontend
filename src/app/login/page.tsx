@@ -15,12 +15,10 @@ const page = () => {
         <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
             <h1 className={`${lobster.className} text-5xl`}>Stelligence</h1>
             <Box
-                style={{
-                    borderWidth: '1px',
-                    borderColor: 'gray.300',
-                    padding: '5rem',
-                    borderRadius: '0.375rem',
-                }}
+                borderWidth="1px"
+                borderColor="requestBtn"
+                p="20"
+                borderRadius="lg"
             >
                 <div className="flex flex-col gap-y-3">
                     <KakaoLogin />
