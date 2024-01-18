@@ -4,7 +4,8 @@ import { usePathname } from 'next/navigation';
 import Header from '@/components/Header/Header';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import Providers from './providers';
+import { ChakraProvider } from '@chakra-ui/react';
+import customTheme from '../theme/index';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,10 +18,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="ko">
             <body className={inter.className}>
-                <Providers>
+                <ChakraProvider theme={customTheme}>
                     {!isLoginPage && <Header />}
                     {children}
-                </Providers>
+                </ChakraProvider>
             </body>
         </html>
     );
