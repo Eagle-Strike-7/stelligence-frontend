@@ -2,18 +2,15 @@ import GoogleLogin from '@/components/Login/GoogleLogin';
 import KakaoLogin from '@/components/Login/KakaoLogin';
 import NaverLogin from '@/components/Login/NaverLogin';
 import { Box } from '@chakra-ui/react';
-import { Lobster } from 'next/font/google';
+import { DM_Serif_Display } from 'next/font/google';
 import React from 'react';
 
-const lobster = Lobster({
-    weight: '400',
-    subsets: ['latin'],
-});
+const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
 const page = () => {
     return (
         <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
-            <h1 className={`${lobster.className} text-5xl`}>Stelligence</h1>
+            <h1 className={`${dm.className} text-4xl`}>Stelligence</h1>
             <Box
                 borderWidth="1px"
                 borderColor="requestBtn"
