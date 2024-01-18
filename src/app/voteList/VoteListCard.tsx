@@ -1,15 +1,16 @@
 import { Box, Card, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
-import { ListCardProps } from '@/types/ListCardProps';
-import LikeDislike from './LikeDislike';
+import { ListCardProps } from '@/types/star/ListCardProps';
+import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
+import LikeDislike from '../../components/Common/LikeDislike';
 
-const ListCard: React.FC<ListCardProps> = ({
+// FIXME - 추후에 ListCard 컴포넌트들 재사용성을 높인 구조로 고치기
+const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
+    originalTitle,
     title,
     username,
     time,
-    content,
-    likeNum,
-    dislikeNum,
+    option,
 }) => {
     return (
         <Card
@@ -18,6 +19,7 @@ const ListCard: React.FC<ListCardProps> = ({
             variant="outline"
         >
             <Box>
+                <Text className="text-md text-gray-400">{originalTitle}</Text>
                 <Heading className="text-lg font-semibold mb-1">
                     {title}
                 </Heading>
@@ -27,13 +29,15 @@ const ListCard: React.FC<ListCardProps> = ({
                         {time}
                     </Text>
                 </Box>
-                <Text className="text-md">{content}</Text>
             </Box>
             <Box className="justify-between">
-                <LikeDislike likeNum={likeNum} dislikeNum={dislikeNum} />
+                <LikeDislike
+                    likeNum={option.likeNum}
+                    dislikeNum={option.dislikeNum}
+                />
             </Box>
         </Card>
     );
 };
 
-export default ListCard;
+export default VoteListCard;
