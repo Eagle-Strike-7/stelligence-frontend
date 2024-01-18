@@ -1,42 +1,37 @@
-import Wrapper from '@/components/Common/Wrapper';
+import React from 'react';
 import {
-    Button,
     Center,
     Input,
     InputGroup,
     InputRightElement,
+    Button,
 } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
+import Wrapper from '@/components/Common/Wrapper';
 
 const Home = () => {
     return (
         <Wrapper>
             <Center>
-                <InputGroup
-                    width="26.5rem"
-                    height="3rem"
-                    className="flex justify-center place-items-center"
-                >
+                <InputGroup width="26.5rem" height="3rem">
                     <Input
                         variant="outline"
-                        pr="4rem"
+                        paddingRight="4.5rem"
                         size="lg"
                         placeholder="어떤 별을 찾으시나요?"
-                        className="rounded-md"
+                        borderRadius="md"
                     />
-                    <InputRightElement
-                        width="4rem"
-                        height="3rem"
-                        className="flex my-auto mr-1"
-                    >
+                    <InputRightElement width="4rem" height="3rem">
                         <Button
-                            w="full"
+                            width="full"
                             size="md"
                             variant="ghost"
                             colorScheme="facebook"
-                            className="mr-1 h-10 w-10"
+                            height="10"
+                            minWidth="10"
+                            marginRight="1"
                         >
-                            <BiSearch className="w-6 h-6" />
+                            <BiSearch size="24px" />
                         </Button>
                     </InputRightElement>
                 </InputGroup>
