@@ -5,6 +5,8 @@ import Header from '@/components/Header/Header';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
+import { ThemeProvider as MUIThemeProvider } from '@mui/material';
+import muiTheme from '@/theme/mui';
 import customTheme from '../theme/index';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,8 +21,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <html lang="ko">
             <body className={inter.className}>
                 <ChakraProvider theme={customTheme}>
-                    {!isLoginPage && <Header />}
-                    {children}
+                    <MUIThemeProvider theme={muiTheme}>
+                        {!isLoginPage && <Header />}
+                        {children}
+                    </MUIThemeProvider>
                 </ChakraProvider>
             </body>
         </html>
