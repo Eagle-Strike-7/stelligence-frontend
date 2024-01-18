@@ -1,11 +1,11 @@
-import { Button, Heading } from '@chakra-ui/react';
+import { Box, Button, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
 import { AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
 const Navigation = () => {
   return (
-    <div className="flex ml-20 w-12">
+    <Box className="flex ml-20 w-40">
       <div className="inline mr-2">
         <Link href="/voteList">
           <Button
@@ -38,7 +38,7 @@ const Navigation = () => {
           </Button>
         </Link>
       </div>
-    </div>
+    </Box>
   );
 };
 

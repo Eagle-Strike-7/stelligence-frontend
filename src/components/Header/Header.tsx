@@ -5,19 +5,20 @@ import Login from './Login';
 import Logo from './Logo';
 
 const Header = () => {
-    return (
-        <div className="flex w-full h-16 bg-black text-white justify-center">
-            <Box
-                display="flex"
-                width="80rem"
-                className="flex-row h-16 justify-between items-center"
-            >
-                <Navigation />
-                <Logo />
-                <Login />
-            </Box>
-        </div>
-    );
+  return (
+    <div className="flex w-full h-16 bg-black text-white justify-center">
+      <Box
+        display="flex"
+        width="80rem"
+        justifyItems="space-between"
+        className="flex-row h-16 justify-between items-center"
+      >
+        <Navigation />
+        <Logo />
+        <Login />
+      </Box>
+    </div>
+  );
 };
 
 export default Header;

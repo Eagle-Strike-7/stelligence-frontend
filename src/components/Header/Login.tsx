@@ -5,7 +5,7 @@ import { AiOutlineLogin } from 'react-icons/ai';
 
 const Login = () => {
   return (
-    <div className="mr-20  w-12">
+    <div className="flex mr-20 w-40 justify-end">
       <Tooltip
         hasArrow
         defaultIsOpen

@@ -9,7 +9,7 @@ const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
 const Logo = () => {
   return (
-    <div className="text-center flex mx-2">
+    <div className="flex w-40">
       <Link href="/">
         <h1
           className={`${dm.className} text-3xl text-white text-left align-middle justify-center tracking-wider font-extrabold`}
