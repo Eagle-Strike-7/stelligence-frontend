@@ -3,17 +3,17 @@ import React from 'react';
 
 const StateTab: React.FC<{ tab1: string; tab2: string }> = ({ tab1, tab2 }) => {
     return (
-        <Flex className="my-4">
+        <Flex className="my-6">
             <Heading
-                fontSize="1.25rem"
-                fontWeight={500}
+                size="md"
+                fontWeight={600}
                 className="mr-4 hover:cursor-pointer"
             >
                 {tab1}
             </Heading>
             <Heading
-                fontSize="1.25rem"
-                fontWeight={500}
+                size="md"
+                fontWeight={600}
                 className="hover:cursor-pointer"
             >
                 {tab2}
