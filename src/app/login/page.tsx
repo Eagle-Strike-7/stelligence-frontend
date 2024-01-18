@@ -1,3 +1,4 @@
+import Wrapper from '@/components/Common/Wrapper';
 import GoogleLogin from '@/components/Login/GoogleLogin';
 import KakaoLogin from '@/components/Login/KakaoLogin';
 import NaverLogin from '@/components/Login/NaverLogin';
@@ -9,21 +10,23 @@ const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
 const page = () => {
     return (
-        <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
-            <h1 className={`${dm.className} text-4xl`}>Stelligence</h1>
-            <Box
-                borderWidth="1px"
-                borderColor="requestBtn"
-                p="20"
-                borderRadius="lg"
-            >
-                <div className="flex flex-col gap-y-3">
-                    <KakaoLogin />
-                    <NaverLogin />
-                    <GoogleLogin />
-                </div>
-            </Box>
-        </div>
+        <Wrapper>
+            <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
+                <h1 className={`${dm.className} text-4xl`}>Stelligence</h1>
+                <Box
+                    borderWidth="1px"
+                    borderColor="requestBtn"
+                    p="20"
+                    borderRadius="lg"
+                >
+                    <div className="flex flex-col gap-y-3">
+                        <KakaoLogin />
+                        <NaverLogin />
+                        <GoogleLogin />
+                    </div>
+                </Box>
+            </div>
+        </Wrapper>
     );
 };
 
