@@ -1,4 +1,4 @@
-import { Box, Card, Heading, Text } from '@chakra-ui/react';
+import { Box, Card, Text } from '@chakra-ui/react';
 import React from 'react';
 import { ListCardProps } from '@/types/star/ListCardProps';
 import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
@@ -18,18 +18,18 @@ const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
             direction={{ base: 'column', sm: 'row' }}
             variant="outline"
         >
-            <Box>
+            <div>
                 <Text className="text-md text-gray-400">{originalTitle}</Text>
-                <Heading className="text-lg font-semibold mb-1">
+                <Text size="lg" className="text-lg font-semibold mb-1">
                     {title}
-                </Heading>
+                </Text>
                 <Box className="flex items-center mb-1">
                     <Text className="mr-3 text-sm">{username}</Text>
                     <Text className="text-sm" color="gray">
                         {time}
                     </Text>
                 </Box>
-            </Box>
+            </div>
             <Box className="justify-between">
                 <LikeDislike
                     likeNum={option.likeNum}
