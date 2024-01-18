@@ -13,22 +13,22 @@ const inter = Inter({ subsets: ['latin'] });
 
 // NOTE : 화살표 함수 형식으로 변경된 RootLayout 컴포넌트
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
-    const isLoginPage = pathname === '/login';
+  const isLoginPage = pathname === '/login';
 
-    return (
-        <html lang="ko">
-            <body className={inter.className}>
-                <ChakraProvider theme={customTheme}>
-                    <MUIThemeProvider theme={muiTheme}>
-                        {!isLoginPage && <Header />}
-                        {children}
-                    </MUIThemeProvider>
-                </ChakraProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="ko">
+      <body className={inter.className}>
+        <MUIThemeProvider theme={muiTheme}>
+          <ChakraProvider theme={customTheme}>
+            {!isLoginPage && <Header />}
+            {children}
+          </ChakraProvider>
+        </MUIThemeProvider>
+      </body>
+    </html>
+  );
 };
 
 export default RootLayout;
