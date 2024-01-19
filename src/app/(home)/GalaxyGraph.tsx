@@ -50,7 +50,6 @@ const ForceGraph = ({ nodes, links }: Graph) => {
                         event: D3DragEvent<SVGCircleElement, Node, unknown>,
                         d,
                     ) => {
-                        console.log(d);
                         if (!event.active)
                             simulation.alphaTarget(0.3).restart();
                         d.fx = d.x;

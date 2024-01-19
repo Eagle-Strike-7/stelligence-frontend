@@ -1,12 +1,7 @@
-import Wrapper from '@/components/Common/Wrapper';
-import {
-    Button,
-    Center,
-    Input,
-    InputGroup,
-    InputRightElement,
-} from '@chakra-ui/react';
+import React from 'react';
+import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
+import Wrapper from '@/components/Common/Wrapper';
 import GalaxyGraph from './GalaxyGraph';
 
 const Home = () => {
@@ -33,8 +28,8 @@ const Home = () => {
 
     return (
         <Wrapper>
-            <Center>
-                <div className="flex flex-col w-full">
+            <div className="flex flex-col justify-center place-items-center">
+                <div className="flex flex-col w-100">
                     <InputGroup>
                         <Input
                             w="26.5rem"
@@ -53,10 +48,11 @@ const Home = () => {
                         </InputRightElement>
                     </InputGroup>
                 </div>
-                <div>
+
+                <div className="flex ">
                     <GalaxyGraph nodes={nodes} links={links} />
                 </div>
-            </Center>
+            </div>
         </Wrapper>
     );
 };
