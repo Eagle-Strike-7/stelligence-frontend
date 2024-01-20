@@ -18,6 +18,7 @@ const page = () => {
           borderColor="requestBtn"
           p="20"
           borderRadius="lg"
+          bgColor="white"
         >
           <div className="flex flex-col gap-y-3">
             <KakaoLogin />
