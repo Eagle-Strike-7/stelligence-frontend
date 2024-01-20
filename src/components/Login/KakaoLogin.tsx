@@ -1,17 +1,20 @@
 import React from 'react';
-import Image from 'next/image';
+import { Button } from '@chakra-ui/react';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 
 const KakaoLogin = () => {
-    return (
-        <button type="button" className="w-60 h-15">
-            <Image
-                src="/image/kakaoLogin.png"
-                alt="카카오 로그인 버튼"
-                width={240}
-                height={60}
-            />
-        </button>
-    );
+  return (
+    <Button
+      colorScheme="kakao"
+      size="lg"
+      leftIcon={<RiKakaoTalkFill />}
+      width="20rem"
+      height="3rem"
+      color="black"
+    >
+      카카오로 로그인
+    </Button>
+  );
 };
 
 export default KakaoLogin;
