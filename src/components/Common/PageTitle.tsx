@@ -1,12 +1,7 @@
-import { Heading } from '@chakra-ui/react';
 import React from 'react';
 
 const PageTitle: React.FC<{ pageTitle: string }> = ({ pageTitle }) => {
-    return (
-        <Heading fontWeight={600} className="mb-4 text-3xl">
-            {pageTitle}
-        </Heading>
-    );
+  return <h2 className="text-3xl font-semibold">{pageTitle}</h2>;
 };
 
 export default PageTitle;
