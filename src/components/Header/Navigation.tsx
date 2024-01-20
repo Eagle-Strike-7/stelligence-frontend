@@ -1,11 +1,11 @@
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
 import { AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
 const Navigation = () => {
   return (
-    <Box className="flex ml-20 w-40">
+    <div className="flex ml-20 w-40">
       <div className="inline mr-2">
         <Link href="/voteList">
           <Button
@@ -16,9 +16,7 @@ const Navigation = () => {
             cursor="pointer"
             size="sm"
           >
-            <Heading size="sm" fontWeight={600}>
-              투표
-            </Heading>
+            <h2 className="text-md text-semibold">투표</h2>
           </Button>
         </Link>
       </div>
@@ -32,13 +30,11 @@ const Navigation = () => {
             cursor="pointer"
             size="sm"
           >
-            <Heading size="sm" fontWeight={600}>
-              토론
-            </Heading>
+            <h2 className="text-md text-semibold">토론</h2>
           </Button>
         </Link>
       </div>
-    </Box>
+    </div>
   );
 };
 

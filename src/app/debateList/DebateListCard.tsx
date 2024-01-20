@@ -1,4 +1,4 @@
-import { Box, Card, Text } from '@chakra-ui/react';
+import { Card } from '@chakra-ui/react';
 import React from 'react';
 import { ListCardProps } from '@/types/star/ListCardProps';
 import { AiOutlineComment } from 'react-icons/ai';
@@ -26,20 +26,20 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
       bg="gray.50"
     >
       <div>
-        <Text className="text-md text-gray-400">{originalTitle}</Text>
-        <Text className="text-lg font-semibold mb-1">{title}</Text>
+        <h2 className="text-md text-gray-400">{originalTitle}</h2>
+        <h2 className="text-lg font-semibold mb-1">{title}</h2>
         <div className="flex items-center mb-1">
-          <Text className="mr-3 text-sm">{username}</Text>
-          <Text className="text-sm" color="gray">
+          <p className="mr-3 text-sm">{username}</p>
+          <p className="text-sm" color="gray">
             {time}
-          </Text>
+          </p>
         </div>
       </div>
       <div className="justify-between">
-        <Box className="flex">
+        <div className="flex">
           <AiOutlineComment size="1.5rem" />
-          <Text>{option.commentNum}</Text>
-        </Box>
+          <p>{option.commentNum}</p>
+        </div>
       </div>
     </Card>
   );

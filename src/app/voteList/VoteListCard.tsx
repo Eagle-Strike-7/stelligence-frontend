@@ -1,4 +1,4 @@
-import { Box, Card, Text } from '@chakra-ui/react';
+import { Card } from '@chakra-ui/react';
 import React from 'react';
 import { ListCardProps } from '@/types/star/ListCardProps';
 import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
@@ -27,24 +27,16 @@ const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
       bg="gray.50"
     >
       <div>
-        <Text fontSize="md" color="gray.400" marginBottom={1}>
-          {originalTitle}
-        </Text>
-        <Text fontSize="lg" fontWeight={600} marginBottom={1}>
-          {title}
-        </Text>
+        <h2 className="text-md text-gray-400 mb-1">{originalTitle}</h2>
+        <h2 className="text-lg font-semibold mb-1">{title}</h2>
         <div className="flex place-items-center mb-1">
-          <Text fontSize="sm" marginRight={3}>
-            {username}
-          </Text>
-          <Text fontSize="sm" color="gray">
-            {time}
-          </Text>
+          <p className="text-sm mr-3">{username}</p>
+          <p className="text-sm text-gray">{time}</p>
         </div>
       </div>
-      <Box className="justify-between">
+      <div className="justify-between">
         <LikeDislike likeNum={option.likeNum} dislikeNum={option.dislikeNum} />
-      </Box>
+      </div>
     </Card>
   );
 };
