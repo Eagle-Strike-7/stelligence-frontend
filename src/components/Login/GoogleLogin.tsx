@@ -1,22 +1,22 @@
-import Image from 'next/image';
 import React from 'react';
+import { Button } from '@chakra-ui/react';
+import { FcGoogle } from 'react-icons/fc';
 
 const GoogleLogin = () => {
-    return (
-        <button
-            type="button"
-            className="flex item-center p-3 w-60 h-15 rounded-xl border border-gray-400 bg-white"
-        >
-            <Image
-                src="/image/googleLogo.png"
-                alt="구글 로고"
-                width={35}
-                height={35}
-                className="object-contain"
-            />
-            <p className="m-auto text-xl">구글로 로그인</p>
-        </button>
-    );
+  return (
+    <Button
+      colorScheme="white"
+      size="lg"
+      leftIcon={<FcGoogle />}
+      width="20rem"
+      height="3rem"
+      color="black"
+      border="1px"
+      borderColor="gray.300"
+    >
+      구글로 로그인
+    </Button>
+  );
 };
 
 export default GoogleLogin;
