@@ -13,6 +13,8 @@ export const getNickname = () => {
     });
 };
 
+// NOTE 닉네임 수정
+// TODO 백엔드 실제 url로 변경, response 받은 후 작업
 const putNickname = (nickname: string) => {
   axios({
     method: 'PUT',
