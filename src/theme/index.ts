@@ -16,7 +16,7 @@ const customTheme = extendTheme({
       light: '#ffffff',
     },
     accent: {
-      light: '#242372',
+      500: '#242372',
     },
     header: {
       light: '#07063B',
