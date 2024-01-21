@@ -33,6 +33,14 @@ const ForceGraph = ({ nodes, links }: Graph) => {
       const svg = d3.select(ref.current);
       const width = +svg.attr('width');
       const height = +svg.attr('height');
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      // NOTE 노드들을 원의 중심에서 시작하도록 초기 위치 설정
+      nodes.forEach(node => {
+        node.x = centerX;
+        node.y = centerY;
+      });
 
       // NOTE 기존 그래프 내용 클리어
       svg.selectAll('*').remove();
@@ -77,15 +85,17 @@ const ForceGraph = ({ nodes, links }: Graph) => {
 
       // NOTE 포스 시뮬레이션 설정
       const simulation = d3
-        .forceSimulation(nodes as Node[]) // Node 타입으로 명시
+        .forceSimulation(nodes)
         .force(
           'link',
-          d3.forceLink<Node, d3.SimulationLinkDatum<Node>>(links).id(d => {
+          d3.forceLink(links).id(d => {
             return d.id;
           }),
         )
-        .force('charge', d3.forceManyBody())
-        .force('center', d3.forceCenter(width / 2, height / 2));
+        // NOTE 노드들을 밀어내는 힘
+        .force('charge', d3.forceManyBody().strength(-50))
+        // NOTE 원형으로 퍼지게 하는 힘
+        .force('radial', d3.forceRadial(10, centerX, centerY));
 
       // NOTE 링크와 노드 요소 추가
       const link = svg
