@@ -51,15 +51,15 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         router.push(`/stars/${node.id}`); // 클릭한 노드의 ID를 사용하여 URL 경로 이동
       };
 
-      // NOTE 줌 핸들러 생성
+      // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
         .scaleExtent([1, 7]) // 스케일 범위 설정
         .on('zoom', event => {
-          // 줌 변환 적용
+          // NOTE 줌 변환 적용
           svg.selectAll('g').attr('transform', event.transform);
 
-          // 현재 줌 스케일에 따라 텍스트 크기 조정
+          // NOTE 현재 줌 스케일에 따라 텍스트 크기 조정
           const currentZoom = event.transform.k;
           let fontSize = 0;
           if (currentZoom >= 1.5 && currentZoom < 4) {
@@ -150,9 +150,9 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .text(d => {
           return d.title;
         })
-        .style('font-size', '0.3rem') // 글씨 크기 조정
+        .style('font-size', '0.3rem')
         .style('fill', 'white')
-        .attr('text-anchor', 'middle'); // 텍스트를 중앙 정렬
+        .attr('text-anchor', 'middle');
 
       // NOTE 시뮬레이션 갱신 시 링크와 노드의 위치 업데이트
       simulation.on('tick', () => {
