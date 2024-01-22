@@ -7,7 +7,7 @@ import '../styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material';
 import muiTheme from '@/theme/mui';
-import customTheme from '../theme/index';
+import customTheme from '../theme/chakra';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -13,17 +13,18 @@ const customTheme = extendTheme({
   },
   colors: {
     background: {
-      light: '#ffffff',
+      50: '#ffffff',
     },
     accent: {
       500: '#242372',
     },
     header: {
-      light: '#07063B',
+      500: '#07063B',
     },
     text: {
-      light: '000000',
-      dark: 'ffffff',
+      50: '000000',
+      500: 'AEAEAE',
+      900: 'ffffff',
     },
     gray: {
       50: '#f2f4f6',
@@ -49,11 +50,17 @@ const customTheme = extendTheme({
       800: '#2A4365',
       900: '#1A365D',
     },
-    requestBtn: '#EDF2F7',
-    section: {
-      Bg: '#F2F4F6',
-      addBg: 'rgba(237, 255, 236, 0.2)',
-      deleteBg: 'rgba(255, 159, 159, 0.2)',
+    requestBtn: {
+      500: '#EDF2F7',
+    },
+    sectionBackground: {
+      500: '#F2F4F6',
+    },
+    sectionAddBackground: {
+      500: 'rgba(237, 255, 236, 0.2)',
+    },
+    sectionDeleteBackground: {
+      500: 'rgba(255, 159, 159, 0.2)',
     },
     placeholder: '#A0AEC0',
     kakao: {

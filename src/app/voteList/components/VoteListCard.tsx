@@ -2,7 +2,7 @@ import { Card } from '@chakra-ui/react';
 import React from 'react';
 import { ListCardProps } from '@/types/star/ListCardProps';
 import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
-import LikeDislike from '../../components/Common/LikeDislike';
+import LikeDislike from '../../../components/Common/LikeDislike';
 
 // FIXME - 추후에 ListCard 컴포넌트들 재사용성을 높인 구조로 고치기
 const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
