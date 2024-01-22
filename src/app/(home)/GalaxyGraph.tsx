@@ -1,7 +1,7 @@
 'use client';
 
 import * as d3 from 'd3';
-import { D3DragEvent, drag as d3drag } from 'd3';
+import { drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -51,34 +51,25 @@ const ForceGraph = ({ nodes, links }: Graph) => {
       };
 
       // NOTE 줌 핸들러 생성
+
+      // REVIEW easeSinInOut, easeCubicOut,easeQuadInOut->가장 극적인 줌인 줌아웃 , easeQuadOut
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
+        .scaleExtent([-10, 10]) // 스케일 범위 설정
         .on('zoom', event => {
-          svg.selectAll('g').attr('transform', event.transform);
+          svg
+            .selectAll('g')
+            .transition()
+            .duration(500)
+            .ease(d3.easeQuadInOut)
+            .attr('transform', event.transform);
         });
 
       // NOTE 드래그 기능을 위한 함수
       const drag = d3drag<SVGCircleElement, Node, unknown>()
-        .on(
-          'start',
-          (event: D3DragEvent<SVGCircleElement, Node, unknown>, d) => {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-          },
-        )
-        .on(
-          'drag',
-          (event: D3DragEvent<SVGCircleElement, Node, unknown>, d) => {
-            d.fx = event.x;
-            d.fy = event.y;
-          },
-        )
-        .on('end', (event: D3DragEvent<SVGCircleElement, Node, unknown>, d) => {
-          if (!event.active) simulation.alphaTarget(0);
-          d.fx = null;
-          d.fy = null;
-        });
+        .on('start', () => {})
+        .on('drag', () => {})
+        .on('end', () => {});
 
       // NOTE 색상 스케일 설정
       const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -93,10 +84,9 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           }),
         )
         // NOTE 노드들을 밀어내는 힘
-        .force('charge', d3.forceManyBody().strength(-50))
+        .force('charge', d3.forceManyBody().strength(-20)) // 0으로 설정하여 노드 간 상호작용 없음
         // NOTE 원형으로 퍼지게 하는 힘
         .force('radial', d3.forceRadial(10, centerX, centerY));
-
       // NOTE 링크와 노드 요소 추가
       const link = svg
         .append('g')
@@ -111,7 +101,7 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .selectAll<SVGCircleElement, Node>('circle')
         .data(nodes)
         .join('circle')
-        .attr('r', 5)
+        .attr('r', 4)
         .attr('fill', d => {
           return color(d.group);
         })
