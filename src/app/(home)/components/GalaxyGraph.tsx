@@ -57,7 +57,7 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .scaleExtent([1, 7]) // 스케일 범위 설정
         .on('zoom', event => {
           // NOTE 줌 변환 적용
-           svg
+          svg
             .selectAll('g')
             .transition()
             .duration(400)
@@ -74,8 +74,6 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           }
 
           svg.selectAll('text').style('font-size', `${fontSize}px`);
-          
-         
         });
 
       svg.call(zoomHandler);
