@@ -1,9 +1,13 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
 import GalaxyGraph from './components/GalaxyGraph';
 
 const Home = () => {
+  const [searchText, setSearchText] = useState<string>('');
+
   const nodes = [{ id: 'root', group: '0' }];
   const links = [];
 
@@ -36,7 +40,15 @@ const Home = () => {
     <div className="flex flex-col items-center justify-center w-full px-4">
       <div className="mt-5">
         <InputGroup width="full">
-          <Input w="40rem" size="lg" placeholder="어떤 별을 찾으시나요?" />
+          <Input
+            w="40rem"
+            size="lg"
+            placeholder="어떤 별을 찾으시나요?"
+            value={searchText}
+            onChange={e => {
+              return setSearchText(e.target.value);
+            }}
+          />
           <InputRightElement width="4rem">
             <Button
               h="2.5rem"
