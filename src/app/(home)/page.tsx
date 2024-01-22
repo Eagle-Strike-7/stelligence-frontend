@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
 import Wrapper from '@/components/Common/Wrapper';
-import GalaxyGraph from './GalaxyGraph';
+import GalaxyGraph from './components/GalaxyGraph';
 
 const Home = () => {
   const nodes = [{ id: 'root', group: '0' }];
