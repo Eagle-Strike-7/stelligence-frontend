@@ -1,7 +1,7 @@
 import Wrapper from '@/components/Common/Wrapper';
-import GoogleLogin from '@/components/Login/GoogleLogin';
-import KakaoLogin from '@/components/Login/KakaoLogin';
-import NaverLogin from '@/components/Login/NaverLogin';
+import GoogleLogin from '@/app/login/components/GoogleLogin';
+import KakaoLogin from '@/app/login/components/KakaoLogin';
+import NaverLogin from '@/app/login/components/NaverLogin';
 import { Card } from '@chakra-ui/react';
 import { DM_Serif_Display } from 'next/font/google';
 import React from 'react';
