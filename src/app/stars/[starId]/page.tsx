@@ -6,7 +6,7 @@ import StarContent from './components/StarContent';
 import StarContributor from './components/StarContributor';
 
 // NOTE : 특정 글 상세보기 페이지
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
       <Box className="flex w-full flex-col">
@@ -18,4 +18,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

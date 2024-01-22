@@ -8,7 +8,7 @@ import React from 'react';
 
 const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
       <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
@@ -31,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -3,7 +3,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import NewStarForm from './components/NewStarForm';
 
 // NOTE : 새 글쓰기 페이지
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
       <NewStarForm />
@@ -11,4 +11,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

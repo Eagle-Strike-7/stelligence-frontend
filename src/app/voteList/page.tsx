@@ -7,7 +7,7 @@ import { Center, Select } from '@chakra-ui/react';
 import { Pagination } from '@mui/material';
 import React from 'react';
 
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
       <PageTitle pageTitle="투표" />
@@ -49,4 +49,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -7,7 +7,7 @@ import React from 'react';
 import { Pagination } from '@mui/material';
 import { Center } from '@chakra-ui/react';
 
-const page = () => {
+const Page = () => {
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
