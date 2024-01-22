@@ -51,15 +51,18 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         router.push(`/stars/${node.id}`); // 클릭한 노드의 ID를 사용하여 URL 경로 이동
       };
 
-
-    
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
         .scaleExtent([1, 7]) // 스케일 범위 설정
         .on('zoom', event => {
           // NOTE 줌 변환 적용
-          svg.selectAll('g').attr('transform', event.transform);
+           svg
+            .selectAll('g')
+            .transition()
+            .duration(400)
+            .ease(d3.easeQuadOut)
+            .attr('transform', event.transform);
 
           // NOTE 현재 줌 스케일에 따라 텍스트 크기 조정
           const currentZoom = event.transform.k;
@@ -72,13 +75,7 @@ const ForceGraph = ({ nodes, links }: Graph) => {
 
           svg.selectAll('text').style('font-size', `${fontSize}px`);
           
-          // REVIEW easeSinInOut, easeCubicOut,easeQuadInOut->가장 극적인 줌인 줌아웃 , easeQuadOut
-           svg
-            .selectAll('g')
-            .transition()
-            .duration(500)
-            .ease(d3.easeQuadInOut)
-            .attr('transform', event.transform);
+         
         });
 
       svg.call(zoomHandler);
