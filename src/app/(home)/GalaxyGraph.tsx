@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 interface Node extends d3.SimulationNodeDatum {
   id: string;
   group: string;
+  title: string;
   x?: number;
   y?: number;
   fx?: number | null;
@@ -50,20 +51,39 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         router.push(`/stars/${node.id}`); // 클릭한 노드의 ID를 사용하여 URL 경로 이동
       };
 
-      // NOTE 줌 핸들러 생성
 
-      // REVIEW easeSinInOut, easeCubicOut,easeQuadInOut->가장 극적인 줌인 줌아웃 , easeQuadOut
+    
+      // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([-10, 10]) // 스케일 범위 설정
+        .scaleExtent([1, 7]) // 스케일 범위 설정
         .on('zoom', event => {
-          svg
+          // NOTE 줌 변환 적용
+          svg.selectAll('g').attr('transform', event.transform);
+
+          // NOTE 현재 줌 스케일에 따라 텍스트 크기 조정
+          const currentZoom = event.transform.k;
+          let fontSize = 0;
+          if (currentZoom >= 1.5 && currentZoom < 4) {
+            fontSize = currentZoom * 2.2;
+          } else if (currentZoom > 4) {
+            fontSize = '1px';
+          }
+
+          svg.selectAll('text').style('font-size', `${fontSize}px`);
+          
+          // REVIEW easeSinInOut, easeCubicOut,easeQuadInOut->가장 극적인 줌인 줌아웃 , easeQuadOut
+           svg
             .selectAll('g')
             .transition()
             .duration(500)
             .ease(d3.easeQuadInOut)
             .attr('transform', event.transform);
         });
+
+      svg.call(zoomHandler);
+
+      const initialZoom = d3.zoomIdentity.scale(1); // 초기 줌 레벨 1로 설정
 
       // NOTE 드래그 기능을 위한 함수
       const drag = d3drag<SVGCircleElement, Node, unknown>()
@@ -101,12 +121,30 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .selectAll<SVGCircleElement, Node>('circle')
         .data(nodes)
         .join('circle')
-        .attr('r', 4)
+        .attr('r', 3)
         .attr('fill', d => {
           return color(d.group);
         })
         .on('click', onNodeClick)
         .call(drag);
+
+      const nodeText = svg
+        .append('g')
+        .selectAll('text')
+        .data(nodes)
+        .join('text')
+        .attr('x', d => {
+          return d.x;
+        })
+        .attr('y', d => {
+          return d.y + 15;
+        })
+        .text(d => {
+          return d.title;
+        })
+        .style('font-size', '0.3rem')
+        .style('fill', 'white')
+        .attr('text-anchor', 'middle');
 
       // NOTE 시뮬레이션 갱신 시 링크와 노드의 위치 업데이트
       simulation.on('tick', () => {
@@ -131,10 +169,18 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           .attr('cy', d => {
             return d.y ?? 0;
           });
+
+        nodeText
+          .attr('x', d => {
+            return d.x;
+          })
+          .attr('y', d => {
+            return d.y + 15;
+          });
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
-      svg.call(zoomHandler);
+      svg.call(zoomHandler.transform, initialZoom);
     }
   }, [nodes, links, router]);
 
