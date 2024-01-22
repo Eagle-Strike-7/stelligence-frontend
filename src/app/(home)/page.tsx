@@ -3,10 +3,18 @@
 import React, { useState } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
+import axios from 'axios';
 import GalaxyGraph from './components/GalaxyGraph';
 
 const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
+  const tempUrl = 'http://211.201.26.10:8080/api/documents/search';
+
+  const handleSearch = () => {
+    axios.get(`${tempUrl}?title=${searchText}`).then(response => {
+      console.log(response);
+    });
+  };
 
   const nodes = [{ id: 'root', group: '0' }];
   const links = [];
@@ -57,6 +65,7 @@ const Home = () => {
               variant="ghost"
               colorScheme="facebook"
               marginTop="0.5rem"
+              onClick={handleSearch}
             >
               <BiSearch fontSize="1.5rem" />
             </Button>
