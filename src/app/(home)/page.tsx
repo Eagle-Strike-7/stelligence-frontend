@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import Wrapper from '@/components/Common/Wrapper';
 import GalaxyGraph from './components/GalaxyGraph';
 
 const Home = () => {
@@ -34,33 +33,29 @@ const Home = () => {
   }
 
   return (
-    <Wrapper>
-      <div className="flex flex-col justify-center place-items-center">
-        <div className="flex flex-col w-100">
-          <InputGroup>
-            <Input
-              w="26.5rem"
-              h="3rem"
-              p="1rem"
-              pr="3.5rem"
-              fontSize="1rem"
-              placeholder="어떤 별을 찾으시나요?"
-              fill="gray"
-              className="bg-gray-100 rounded-md"
-            />
-            <InputRightElement>
-              <Button h="3rem" size="lg" pr="1rem">
-                <BiSearch size="1.5rem" className="h-full" />
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </div>
-
-        <div className="flex ">
-          <GalaxyGraph nodes={nodes} links={links} />
-        </div>
+    <div className="flex flex-col items-center justify-center w-full px-4">
+      <div className="mt-5">
+        <InputGroup width="full">
+          <Input w="40rem" size="lg" placeholder="어떤 별을 찾으시나요?" />
+          <InputRightElement width="4rem">
+            <Button
+              h="2.5rem"
+              size="sm"
+              paddingX="1rem"
+              variant="ghost"
+              colorScheme="facebook"
+              marginTop="0.5rem"
+            >
+              <BiSearch fontSize="1.5rem" />
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </div>
-    </Wrapper>
+
+      <div className="mt-5">
+        <GalaxyGraph nodes={nodes} links={links} />
+      </div>
+    </div>
   );
 };
 
