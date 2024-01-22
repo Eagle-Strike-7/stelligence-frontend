@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
 import axios from 'axios';
@@ -33,35 +33,37 @@ const Home = () => {
       });
   };
 
-  const nodes = [{ id: 'root', group: '0', title: '시작' }];
-  const links: Link[] = []; // Link 타입 객체들의 배열
+  const { nodes, links } = useMemo(() => {
+    const nodesTemp = [{ id: 'root', group: '0', title: '시작' }];
+    const linksTemp: Link[] = []; // Link 타입 객체들의 배열
 
-  const addChildNodes = (
-    parentId: string,
-    groupId: string,
-    numChildren: number,
-  ) => {
-    for (let i = 0; i < numChildren && nodes.length < 100; i += 1) {
-      const nodeId = `node${groupId}_${i}`;
-      nodes.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
-      links.push({ source: parentId, target: nodeId });
+    const addChildNodes = (
+      parentId: string,
+      groupId: string,
+      numChildren: number,
+    ) => {
+      for (let i = 0; i < numChildren && nodesTemp.length < 100; i += 1) {
+        const nodeId = `node${groupId}_${i}`;
+        nodesTemp.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
+        linksTemp.push({ source: parentId, target: nodeId });
+      }
+    };
+
+    let groupId = 1;
+    while (nodesTemp.length < 100) {
+      const rootId = `root${groupId}`;
+      nodesTemp.push({ id: rootId, group: `${groupId}`, title: `마리모` });
+
+      const numChildren = Math.min(
+        100 - nodesTemp.length,
+        3 + Math.floor(Math.random() * 4),
+      );
+      addChildNodes(rootId, `${groupId}`, numChildren);
+
+      groupId += 1;
     }
-  };
-  console.log(nodes);
-
-  let groupId = 1;
-  while (nodes.length < 100) {
-    const rootId = `root${groupId}`;
-    nodes.push({ id: rootId, group: `${groupId}`, title: `마리모` });
-
-    const numChildren = Math.min(
-      100 - nodes.length,
-      3 + Math.floor(Math.random() * 4),
-    );
-    addChildNodes(rootId, `${groupId}`, numChildren);
-
-    groupId += 1;
-  }
+    return { nodes: nodesTemp, links: linksTemp };
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center w-full px-4">
