@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 interface Node extends d3.SimulationNodeDatum {
   id: string;
   group: string;
+  title: string;
   x?: number;
   y?: number;
   fx?: number | null;
@@ -111,12 +112,24 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .selectAll<SVGCircleElement, Node>('circle')
         .data(nodes)
         .join('circle')
-        .attr('r', 5)
+        .attr('r', 3)
         .attr('fill', d => {
           return color(d.group);
         })
         .on('click', onNodeClick)
         .call(drag);
+
+      const nodeText = svg
+        .append('g')
+        .selectAll('text')
+        .data(nodes)
+        .join('text')
+        .attr('x', d => {return d.x})
+        .attr('y', d => {return d.y + 15})
+        .text(d => {return d.title})
+        .style('font-size', '0.3rem') // 글씨 크기 조정
+        .style('fill', 'white')
+        .attr('text-anchor', 'middle'); // 텍스트를 중앙 정렬
 
       // NOTE 시뮬레이션 갱신 시 링크와 노드의 위치 업데이트
       simulation.on('tick', () => {
@@ -141,6 +154,8 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           .attr('cy', d => {
             return d.y ?? 0;
           });
+
+        nodeText.attr('x', d => {return d.x}).attr('y', d => {return d.y + 15});
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
