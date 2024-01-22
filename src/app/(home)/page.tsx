@@ -4,42 +4,61 @@ import React, { useState } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
 import axios from 'axios';
-import GalaxyGraph from './components/GalaxyGraph';
+import GalaxyGraph, { Link } from './components/GalaxyGraph';
+
+interface SearchResult {
+  documentId: string;
+  title: string;
+  groupt: string;
+}
 
 const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+
   const tempUrl = 'http://211.201.26.10:8080/api/documents/search';
 
   const handleSearch = () => {
-    axios.get(`${tempUrl}?title=${searchText}`).then(response => {
-      console.log(response);
-    });
+    axios
+      .get(`${tempUrl}?title=${searchText}`)
+      .then(response => {
+        const { data } = response;
+        const resultIds = data.map((item: SearchResult) => {
+          return item.documentId;
+        });
+        setSearchResults(resultIds);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
   };
 
-  const nodes = [{ id: 'root', group: '0' }];
-  const links = [];
+  const nodes = [{ id: 'root', group: '0', title: '시작' }];
+  const links: Link[] = []; // Link 타입 객체들의 배열
 
-  const addChildNodes = (parentId, groupId, numChildren) => {
+  const addChildNodes = (
+    parentId: string,
+    groupId: string,
+    numChildren: number,
+  ) => {
     for (let i = 0; i < numChildren && nodes.length < 100; i += 1) {
       const nodeId = `node${groupId}_${i}`;
       nodes.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
       links.push({ source: parentId, target: nodeId });
     }
   };
+  console.log(nodes);
 
-  // 각 그룹의 루트 노드 추가 및 자식 노드 생성
   let groupId = 1;
   while (nodes.length < 100) {
-    // 새로운 그룹의 루트 노드 생성
     const rootId = `root${groupId}`;
     nodes.push({ id: rootId, group: `${groupId}`, title: `마리모` });
 
-    // 자식 노드 추가
     const numChildren = Math.min(
       100 - nodes.length,
       3 + Math.floor(Math.random() * 4),
-    ); // 3에서 6개의 자식 노드 무작위 추가
-    addChildNodes(rootId, groupId, numChildren);
+    );
+    addChildNodes(rootId, `${groupId}`, numChildren);
 
     groupId += 1;
   }
@@ -74,7 +93,11 @@ const Home = () => {
       </div>
 
       <div className="mt-5">
-        <GalaxyGraph nodes={nodes} links={links} />
+        <GalaxyGraph
+          nodes={nodes}
+          links={links}
+          searchResults={searchResults}
+        />
       </div>
     </div>
   );

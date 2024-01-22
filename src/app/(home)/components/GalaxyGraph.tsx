@@ -4,8 +4,9 @@ import * as d3 from 'd3';
 import { drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import '../../../styles/graph.module.css';
 
-interface Node extends d3.SimulationNodeDatum {
+export interface Node extends d3.SimulationNodeDatum {
   id: string;
   group: string;
   title: string;
@@ -15,7 +16,7 @@ interface Node extends d3.SimulationNodeDatum {
   fy?: number | null;
 }
 
-interface Link {
+export interface Link {
   source: string | Node;
   target: string | Node;
 }
@@ -23,9 +24,10 @@ interface Link {
 interface Graph {
   nodes: Node[];
   links: Link[];
+  searchResults: string[];
 }
 
-const ForceGraph = ({ nodes, links }: Graph) => {
+const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
   const ref = useRef<SVGSVGElement>(null);
   const router = useRouter();
 
@@ -70,7 +72,7 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           if (currentZoom >= 1.5 && currentZoom < 4) {
             fontSize = currentZoom * 2.2;
           } else if (currentZoom > 4) {
-            fontSize = '1px';
+            fontSize = 1;
           }
 
           svg.selectAll('text').style('font-size', `${fontSize}px`);
@@ -94,14 +96,18 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .forceSimulation(nodes)
         .force(
           'link',
-          d3.forceLink(links).id(d => {
-            return d.id;
+          d3.forceLink(links).id((d: d3.SimulationNodeDatum) => {
+            if ('id' in d) {
+              return (d as Node).id;
+            }
+            return '';
           }),
         )
         // NOTE 노드들을 밀어내는 힘
-        .force('charge', d3.forceManyBody().strength(-20)) // 0으로 설정하여 노드 간 상호작용 없음
+        .force('charge', d3.forceManyBody().strength(-50))
         // NOTE 원형으로 퍼지게 하는 힘
         .force('radial', d3.forceRadial(10, centerX, centerY));
+
       // NOTE 링크와 노드 요소 추가
       const link = svg
         .append('g')
@@ -115,7 +121,11 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .append('g')
         .selectAll<SVGCircleElement, Node>('circle')
         .data(nodes)
+
         .join('circle')
+        .attr('class', d => {
+          return searchResults.includes(d.id) ? 'blinking-node' : '';
+        })
         .attr('r', 3)
         .attr('fill', d => {
           return color(d.group);
@@ -128,11 +138,11 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .selectAll('text')
         .data(nodes)
         .join('text')
-        .attr('x', d => {
-          return d.x;
+        .attr('x', (d: Node) => {
+          return d.x ?? 0;
         })
-        .attr('y', d => {
-          return d.y + 15;
+        .attr('y', (d: Node) => {
+          return (d.y ?? 0) + 15;
         })
         .text(d => {
           return d.title;
@@ -158,26 +168,26 @@ const ForceGraph = ({ nodes, links }: Graph) => {
           });
 
         node
-          .attr('cx', d => {
+          .attr('cx', (d: Node) => {
             return d.x ?? 0;
           })
-          .attr('cy', d => {
+          .attr('cy', (d: Node) => {
             return d.y ?? 0;
           });
 
         nodeText
-          .attr('x', d => {
-            return d.x;
+          .attr('x', (d: Node) => {
+            return d.x ?? 0;
           })
-          .attr('y', d => {
-            return d.y + 15;
+          .attr('y', (d: Node) => {
+            return (d.y ?? 0) + 15;
           });
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
       svg.call(zoomHandler.transform, initialZoom);
     }
-  }, [nodes, links, router]);
+  }, [nodes, links, router, searchResults]);
 
   return <svg ref={ref} width={800} height={600} />;
 };

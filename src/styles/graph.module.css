@@ -1,0 +1,21 @@
+@keyframes blink {
+  0%,
+  100% {
+    fill: currentColor;
+  }
+  20%,
+  80% {
+    fill: #fff; /* 반짝임의 최고점 */
+  }
+  40%,
+  60% {
+    fill: currentColor;
+  }
+  50% {
+    fill: #fff; /* 중간점에서 최고 반짝임 */
+  }
+}
+
+.blinking-node {
+  animation: blink 3s infinite; /* 3초 동안 반복 */
+}
