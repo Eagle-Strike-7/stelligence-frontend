@@ -54,9 +54,26 @@ const ForceGraph = ({ nodes, links }: Graph) => {
       // NOTE 줌 핸들러 생성
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
+        .scaleExtent([1, 7]) // 스케일 범위 설정
         .on('zoom', event => {
+          // 줌 변환 적용
           svg.selectAll('g').attr('transform', event.transform);
+
+          // 현재 줌 스케일에 따라 텍스트 크기 조정
+          const currentZoom = event.transform.k;
+          let fontSize = 0;
+          if (currentZoom >= 1.5 && currentZoom < 4) {
+            fontSize = currentZoom * 2.2;
+          } else if (currentZoom > 4) {
+            fontSize = '1px';
+          }
+
+          svg.selectAll('text').style('font-size', `${fontSize}px`);
         });
+
+      svg.call(zoomHandler);
+
+      const initialZoom = d3.zoomIdentity.scale(1); // 초기 줌 레벨 1로 설정
 
       // NOTE 드래그 기능을 위한 함수
       const drag = d3drag<SVGCircleElement, Node, unknown>()
@@ -124,9 +141,15 @@ const ForceGraph = ({ nodes, links }: Graph) => {
         .selectAll('text')
         .data(nodes)
         .join('text')
-        .attr('x', d => {return d.x})
-        .attr('y', d => {return d.y + 15})
-        .text(d => {return d.title})
+        .attr('x', d => {
+          return d.x;
+        })
+        .attr('y', d => {
+          return d.y + 15;
+        })
+        .text(d => {
+          return d.title;
+        })
         .style('font-size', '0.3rem') // 글씨 크기 조정
         .style('fill', 'white')
         .attr('text-anchor', 'middle'); // 텍스트를 중앙 정렬
@@ -155,11 +178,17 @@ const ForceGraph = ({ nodes, links }: Graph) => {
             return d.y ?? 0;
           });
 
-        nodeText.attr('x', d => {return d.x}).attr('y', d => {return d.y + 15});
+        nodeText
+          .attr('x', d => {
+            return d.x;
+          })
+          .attr('y', d => {
+            return d.y + 15;
+          });
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
-      svg.call(zoomHandler);
+      svg.call(zoomHandler.transform, initialZoom);
     }
   }, [nodes, links, router]);
 
