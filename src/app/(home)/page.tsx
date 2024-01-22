@@ -11,7 +11,7 @@ const Home = () => {
   const addChildNodes = (parentId, groupId, numChildren) => {
     for (let i = 0; i < numChildren && nodes.length < 100; i += 1) {
       const nodeId = `node${groupId}_${i}`;
-      nodes.push({ id: nodeId, group: groupId }); // 그룹 ID를 groupId로 설정
+      nodes.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
       links.push({ source: parentId, target: nodeId });
     }
   };
@@ -21,7 +21,7 @@ const Home = () => {
   while (nodes.length < 100) {
     // 새로운 그룹의 루트 노드 생성
     const rootId = `root${groupId}`;
-    nodes.push({ id: rootId, group: `${groupId}` });
+    nodes.push({ id: rootId, group: `${groupId}`, title: `마리모` });
 
     // 자식 노드 추가
     const numChildren = Math.min(
