@@ -33,55 +33,61 @@ const dummyUserData = {
 const Page = () => {
   return (
     <Wrapper>
-      <TitleCard title="유저 정보">
-        <div className="flex">
-          <Avatar name={dummyUserData.nickname} src={dummyUserData.profile} />
-          <div className="flex flex-col gap-2 ml-4 ">
-            <div>
-              <h3 className="inline-block font-bold text-md">
-                {dummyUserData.nickname}
-              </h3>
-              <Badge ml="2" colorScheme="orange">
-                {dummyUserData.socialType}
-              </Badge>
-            </div>
-            <div className="flex">
-              <span className="flex text-sm items-center">닉네임</span>
-              <Input
-                defaultValue={dummyUserData.nickname}
-                placeholder="닉네임을 입력하세요."
-                width="md"
-                ml="2"
-                fontSize="sm"
-                size="sm"
-              />
-              <Button colorScheme="green" size="sm" ml="5">
-                변경사항 저장
-              </Button>
+      <div className="flex flex-col gap-8">
+        <TitleCard title="유저 정보">
+          <div className="flex">
+            <Avatar name={dummyUserData.nickname} src={dummyUserData.profile} />
+            <div className="flex flex-col gap-2 ml-4 ">
+              <div>
+                <h3 className="inline-block font-bold text-md">
+                  {dummyUserData.nickname}
+                </h3>
+                <Badge ml="2" colorScheme="orange">
+                  {dummyUserData.socialType}
+                </Badge>
+              </div>
+              <div className="flex">
+                <span className="flex text-sm items-center">닉네임</span>
+                <Input
+                  defaultValue={dummyUserData.nickname}
+                  placeholder="닉네임을 입력하세요."
+                  width="md"
+                  ml="2"
+                  fontSize="sm"
+                  size="sm"
+                />
+                <Button colorScheme="green" size="sm" ml="5">
+                  변경사항 저장
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </TitleCard>
-      <TitleCard title="북마크">
-        <ul className="flex flex-col gap-1">
-          {dummyUserData.bookmarks.map(bookmark => {
-            return (
-              <li key={bookmark.id}>
-                <Link href={`/stars/${bookmark.id}`}>{bookmark.title}</Link>
-              </li>
-            );
-          })}
-        </ul>
-      </TitleCard>
-      <TitleCard title="배지">
-        <div className="flex flex-wrap gap-3">
-          {dummyUserData.badges.map(badge => {
-            return (
-              <MyBadge title={badge.title} image={badge.image} key={badge.id} />
-            );
-          })}
-        </div>
-      </TitleCard>
+        </TitleCard>
+        <TitleCard title="북마크">
+          <ul className="flex flex-col gap-1">
+            {dummyUserData.bookmarks.map(bookmark => {
+              return (
+                <li key={bookmark.id}>
+                  <Link href={`/stars/${bookmark.id}`}>{bookmark.title}</Link>
+                </li>
+              );
+            })}
+          </ul>
+        </TitleCard>
+        <TitleCard title="배지">
+          <div className="flex flex-wrap gap-3">
+            {dummyUserData.badges.map(badge => {
+              return (
+                <MyBadge
+                  title={badge.title}
+                  image={badge.image}
+                  key={badge.id}
+                />
+              );
+            })}
+          </div>
+        </TitleCard>
+      </div>
     </Wrapper>
   );
 };
