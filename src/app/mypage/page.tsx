@@ -68,7 +68,12 @@ const Page = () => {
             {dummyUserData.bookmarks.map(bookmark => {
               return (
                 <li key={bookmark.id}>
-                  <Link href={`/stars/${bookmark.id}`}>{bookmark.title}</Link>
+                  <Link
+                    href={`/stars/${bookmark.id}`}
+                    className="hover:underline"
+                  >
+                    {bookmark.title}
+                  </Link>
                 </li>
               );
             })}
