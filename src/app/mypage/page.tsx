@@ -1,7 +1,50 @@
 import React from 'react';
+import Wrapper from '@/components/Common/Wrapper';
+import TitleCard from '@/components/Common/TitleCard';
+import { Avatar, Badge, Button, Input } from '@chakra-ui/react';
+
+// FIXME 백엔드 통신 후 삭제
+const dummyUserData = {
+  id: 1,
+  profile: '',
+  nickname: '독수리타법 7남매',
+  socialType: 'kakao',
+};
 
 const Page = () => {
-  return <div>page</div>;
+  return (
+    <Wrapper>
+      <TitleCard title="유저 정보">
+        <div className="flex">
+          <Avatar name={dummyUserData.nickname} src={dummyUserData.profile} />
+          <div className="flex flex-col gap-2 ml-4 ">
+            <div>
+              <h3 className="inline-block font-bold text-md">
+                {dummyUserData.nickname}
+              </h3>
+              <Badge ml="2" colorScheme="orange">
+                {dummyUserData.socialType}
+              </Badge>
+            </div>
+            <div className="flex">
+              <span className="flex text-sm items-center">닉네임</span>
+              <Input
+                defaultValue={dummyUserData.nickname}
+                placeholder="닉네임을 입력하세요."
+                width="md"
+                ml="2"
+                fontSize="sm"
+                size="sm"
+              />
+              <Button colorScheme="green" size="sm" ml="5">
+                변경사항 저장
+              </Button>
+            </div>
+          </div>
+        </div>
+      </TitleCard>
+    </Wrapper>
+  );
 };
 
 export default Page;
