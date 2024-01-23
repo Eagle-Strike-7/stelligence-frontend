@@ -1,24 +1,55 @@
+'use client';
+
 import StarSectionInput from '@/components/Common/StarSectionInput';
-import { Button, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
+import {
+  Button,
+  Input,
+  Menu,
+  MenuItem,
+  MenuList,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+} from '@chakra-ui/react';
 import React from 'react';
-import StarInput from './StarInput';
 
 // NOTE : 새 글 작성 폼
-// FIXME : 본문 Tiptap으로 변경 예정
+// FIXME : StarInput 컴포넌트 / 입력필드 비었을 때 border 색상 변경
 const NewStarForm = () => {
   return (
-    <div className="flex flex-col w-full pt-20 px-20">
-      <StarInput
-        inputTitleWidth={32}
-        inputTitle="글제목"
-        inputPlaceholder="글의 제목을 입력하세요"
-      />
-      <StarInput
-        divMarginBottom={3}
-        inputTitleWidth={32}
-        inputTitle="상위 계층 태그"
-        inputPlaceholder="연결할 글의 제목을 입력하세요"
-      />
+    <form className="flex flex-col w-full pt-20 px-20">
+      <div className="flex flex-row w-full mb-6">
+        <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
+          글 제목
+        </span>
+        <Input
+          size="lg"
+          variant="outline"
+          placeholder="글의 제목을 입력해 주세요"
+        />
+      </div>
+
+      <div className="flex flex-row">
+        <span className="w-32 text-lg font-bold mt-3">상위 계층 태그</span>
+        <div className="mb-3 relative flex-grow">
+          <Menu>
+            <Input
+              size="lg"
+              variant="outline"
+              placeholder="연결할 글의 제목을 입력해 주세요"
+              zIndex="2"
+            />
+            <MenuList mt="3.5rem" w="100%" zIndex="1">
+              <MenuItem>1</MenuItem>
+              <MenuItem>2</MenuItem>
+              <MenuItem>3</MenuItem>
+              <MenuItem>4</MenuItem>
+              <MenuItem>5</MenuItem>
+            </MenuList>
+          </Menu>
+        </div>
+      </div>
+
       <Tag
         size="lg"
         variant="subtle"
@@ -33,6 +64,7 @@ const NewStarForm = () => {
       </Tag>
 
       <StarSectionInput inputTitle="본문" />
+
       <div className="flex justify-center">
         <Button
           mt="2.5rem"
@@ -40,12 +72,13 @@ const NewStarForm = () => {
           size="lg"
           variant="solid"
           colorScheme="blue"
-          background="accent.light"
+          background="accent.500"
+          type="submit"
         >
           생성하기
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 
