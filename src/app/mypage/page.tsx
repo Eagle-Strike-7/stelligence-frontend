@@ -2,6 +2,7 @@ import React from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
 import { Avatar, Badge, Button, Input } from '@chakra-ui/react';
+import Link from 'next/link';
 
 // FIXME 백엔드 통신 후 삭제
 const dummyUserData = {
@@ -9,6 +10,11 @@ const dummyUserData = {
   profile: '',
   nickname: '독수리타법 7남매',
   socialType: 'kakao',
+  bookmarks: [
+    { id: 1, title: '깊이 우선 탐색' },
+    { id: 2, title: '알고리즘' },
+    { id: 3, title: '다익스트라 알고리즘' },
+  ],
 };
 
 const Page = () => {
@@ -42,6 +48,17 @@ const Page = () => {
             </div>
           </div>
         </div>
+      </TitleCard>
+      <TitleCard title="북마크">
+        <ul className="flex flex-col gap-1">
+          {dummyUserData.bookmarks.map(bookmark => {
+            return (
+              <li key={bookmark.id}>
+                <Link href={`/stars/${bookmark.id}`}>{bookmark.title}</Link>
+              </li>
+            );
+          })}
+        </ul>
       </TitleCard>
     </Wrapper>
   );
