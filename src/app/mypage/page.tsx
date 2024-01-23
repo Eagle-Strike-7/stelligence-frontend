@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
-import { Avatar, Badge, Button, Input } from '@chakra-ui/react';
+import { Avatar, Badge, Button, Input, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import axios from 'axios';
 import MyBadge from './components/MyBadge';
@@ -37,13 +37,19 @@ const Page = () => {
   // TODO 백엔드 데이터 받아온 뒤 initNickname 값 변경
   const initNickname = dummyUserData.nickname;
   const [newNickname, setNewNickname] = useState(initNickname);
+  const toast = useToast();
+
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
   const handleSaveNewNickname = async () => {
     if (initNickname === newNickname) {
       // TODO alert 대신에 Toast로 변경
-      alert('이미 사용한 닉네임과 같습니다.');
+      toast({
+        title: '이미 사용한 닉네임과 같습니다.',
+        status: 'error',
+        isClosable: true,
+      });
       return;
     }
 
@@ -61,9 +67,17 @@ const Page = () => {
       });
 
       if (response.data.success === 'fail') {
-        alert(response.data.message);
+        toast({
+          title: '동일한 별명이 있습니다. 재시도해 주시기 바랍니다.',
+          status: 'error',
+          isClosable: true,
+        });
       } else {
-        console.log('닉네임 수정 성공');
+        toast({
+          title: '닉네임이 수정되었습니다.',
+          status: 'success',
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.log(error);
