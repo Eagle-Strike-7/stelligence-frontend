@@ -1,66 +1,107 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useMemo } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import Wrapper from '@/components/Common/Wrapper';
-import GalaxyGraph from './components/GalaxyGraph';
+import axios from 'axios';
+import GalaxyGraph, { Link } from './components/GalaxyGraph';
+
+interface SearchResult {
+  documentId: string;
+  title: string;
+  groupt: string;
+}
 
 const Home = () => {
-  const nodes = [{ id: 'root', group: '0' }];
-  const links = [];
+  const [searchText, setSearchText] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
 
-  const addChildNodes = (parentId, groupId, numChildren) => {
-    for (let i = 0; i < numChildren && nodes.length < 100; i += 1) {
-      const nodeId = `node${groupId}_${i}`;
-      nodes.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
-      links.push({ source: parentId, target: nodeId });
-    }
+  const tempUrl = 'http://211.201.26.10:8080/api/documents/search';
+
+  const handleSearch = () => {
+    axios
+      .get(`${tempUrl}?title=${searchText}`)
+      .then(response => {
+        const { data } = response;
+        const resultIds = data.map((item: SearchResult) => {
+          return item.documentId;
+        });
+        setSearchResults(resultIds);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
   };
 
-  // 각 그룹의 루트 노드 추가 및 자식 노드 생성
-  let groupId = 1;
-  while (nodes.length < 100) {
-    // 새로운 그룹의 루트 노드 생성
-    const rootId = `root${groupId}`;
-    nodes.push({ id: rootId, group: `${groupId}`, title: `마리모` });
+  const { nodes, links } = useMemo(() => {
+    const nodesTemp = [{ id: 'root', group: '0', title: '시작' }];
+    const linksTemp: Link[] = []; // Link 타입 객체들의 배열
 
-    // 자식 노드 추가
-    const numChildren = Math.min(
-      100 - nodes.length,
-      3 + Math.floor(Math.random() * 4),
-    ); // 3에서 6개의 자식 노드 무작위 추가
-    addChildNodes(rootId, groupId, numChildren);
+    const addChildNodes = (
+      parentId: string,
+      groupId: string,
+      numChildren: number,
+    ) => {
+      for (let i = 0; i < numChildren && nodesTemp.length < 100; i += 1) {
+        const nodeId = `node${groupId}_${i}`;
+        nodesTemp.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
+        linksTemp.push({ source: parentId, target: nodeId });
+      }
+    };
 
-    groupId += 1;
-  }
+    let groupId = 1;
+    while (nodesTemp.length < 100) {
+      const rootId = `root${groupId}`;
+      nodesTemp.push({ id: rootId, group: `${groupId}`, title: `마리모` });
+
+      const numChildren = Math.min(
+        100 - nodesTemp.length,
+        3 + Math.floor(Math.random() * 4),
+      );
+      addChildNodes(rootId, `${groupId}`, numChildren);
+
+      groupId += 1;
+    }
+    return { nodes: nodesTemp, links: linksTemp };
+  }, []);
 
   return (
-    <Wrapper>
-      <div className="flex flex-col justify-center place-items-center">
-        <div className="flex flex-col w-100">
-          <InputGroup>
-            <Input
-              w="26.5rem"
-              h="3rem"
-              p="1rem"
-              pr="3.5rem"
-              fontSize="1rem"
-              placeholder="어떤 별을 찾으시나요?"
-              fill="gray"
-              className="bg-gray-100 rounded-md"
-            />
-            <InputRightElement>
-              <Button h="3rem" size="lg" pr="1rem">
-                <BiSearch size="1.5rem" className="h-full" />
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </div>
-
-        <div className="flex ">
-          <GalaxyGraph nodes={nodes} links={links} />
-        </div>
+    <div className="flex flex-col items-center justify-center w-full px-4">
+      <div className="mt-5">
+        <InputGroup width="full">
+          <Input
+            w="40rem"
+            size="lg"
+            placeholder="어떤 별을 찾으시나요?"
+            value={searchText}
+            onChange={e => {
+              return setSearchText(e.target.value);
+            }}
+          />
+          <InputRightElement width="4rem">
+            <Button
+              h="2.5rem"
+              size="sm"
+              paddingX="1rem"
+              variant="ghost"
+              colorScheme="facebook"
+              marginTop="0.5rem"
+              onClick={handleSearch}
+            >
+              <BiSearch fontSize="1.5rem" />
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </div>
-    </Wrapper>
+
+      <div className="mt-5">
+        <GalaxyGraph
+          nodes={nodes}
+          links={links}
+          searchResults={searchResults}
+        />
+      </div>
+    </div>
   );
 };
 
