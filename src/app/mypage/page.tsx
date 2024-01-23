@@ -3,6 +3,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
 import { Avatar, Badge, Button, Input } from '@chakra-ui/react';
 import Link from 'next/link';
+import MyBadge from './components/MyBadge';
 
 // FIXME 백엔드 통신 후 삭제
 const dummyUserData = {
@@ -14,6 +15,18 @@ const dummyUserData = {
     { id: 1, title: '깊이 우선 탐색' },
     { id: 2, title: '알고리즘' },
     { id: 3, title: '다익스트라 알고리즘' },
+  ],
+  badges: [
+    {
+      id: 1,
+      title: '우주 여행자',
+      image: '/image/astronaut.png',
+    },
+    {
+      id: 2,
+      title: '해왕성 탐사완료',
+      image: '/image/astronaut.png',
+    },
   ],
 };
 
@@ -59,6 +72,15 @@ const Page = () => {
             );
           })}
         </ul>
+      </TitleCard>
+      <TitleCard title="배지">
+        <div className="flex flex-wrap gap-3">
+          {dummyUserData.badges.map(badge => {
+            return (
+              <MyBadge title={badge.title} image={badge.image} key={badge.id} />
+            );
+          })}
+        </div>
       </TitleCard>
     </Wrapper>
   );
