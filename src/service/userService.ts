@@ -11,6 +11,10 @@ interface BookmarkData {
   documentId: number;
   title: string;
 }
+interface BadgeData {
+  badgeType: string;
+  badgeTitle: string;
+}
 
 export const getUserData = async (): Promise<UserData | null> => {
   try {
@@ -32,6 +36,18 @@ export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
     return response.data;
   } catch (error) {
     console.error('북마크 조회 실패: ', error);
+    return null;
+  }
+};
+
+export const getBadgeData = async (): Promise<BadgeData[] | null> => {
+  try {
+    const response = await axios.get<BadgeData[]>(
+      'http://localhost:8080/api/members/badge',
+    );
+    return response.data;
+  } catch (error) {
+    console.error('배지 조회 실패: ', error);
     return null;
   }
 };
