@@ -1,77 +1,69 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import axios from 'axios';
-import GalaxyGraph, { Link } from './components/GalaxyGraph';
+import { useQuery } from '@tanstack/react-query';
+import {
+  transformResults,
+  transformLinks,
+} from '@/hooks/graph/transformGraphInfo';
+import { SearchResult } from '@/types/graph/GraphProps';
+import GalaxyGraph, { Graph } from './components/GalaxyGraph';
+import '../../styles/graph.module.css';
 
-interface SearchResult {
-  documentId: string;
-  title: string;
-  groupt: string;
-}
+const SERVER_URL =
+  'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com';
+
+const getGraphData = async (): Promise<Graph> => {
+  const response = await axios.get(`${SERVER_URL}/api/documents`, {
+    params: { depth: 7 },
+  });
+  const { data } = response;
+
+  const transformedResults = transformResults(data.results.documentNodes);
+  const transformedLinks = transformLinks(data.results.links);
+
+  return { nodes: transformedResults, links: transformedLinks };
+};
 
 const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
 
-  const tempUrl = 'http://211.201.26.10:8080/api/documents/search';
+  const { data, isError, isLoading } = useQuery<Graph>({
+    queryKey: ['graphData'],
+    queryFn: getGraphData,
+  });
 
   const handleSearch = () => {
     axios
-      .get(`${tempUrl}?title=${searchText}`)
+      .get(`${SERVER_URL}/api/documents/search`, {
+        params: { title: searchText },
+      })
       .then(response => {
-        const { data } = response;
-        const resultIds = data.map((item: SearchResult) => {
-          return item.documentId;
+        const resultIds = response.data.results.map((item: SearchResult) => {
+          return item.documentId.toString();
         });
         setSearchResults(resultIds);
       })
       .catch(error => {
-        console.error('Error fetching data: ', error);
+        console.error('Error fetching search results: ', error);
       });
   };
 
-  const { nodes, links } = useMemo(() => {
-    const nodesTemp = [{ id: 'root', group: '0', title: '시작' }];
-    const linksTemp: Link[] = []; // Link 타입 객체들의 배열
-
-    const addChildNodes = (
-      parentId: string,
-      groupId: string,
-      numChildren: number,
-    ) => {
-      for (let i = 0; i < numChildren && nodesTemp.length < 100; i += 1) {
-        const nodeId = `node${groupId}_${i}`;
-        nodesTemp.push({ id: nodeId, group: groupId, title: nodeId }); // 그룹 ID를 groupId로 설정
-        linksTemp.push({ source: parentId, target: nodeId });
-      }
-    };
-
-    let groupId = 1;
-    while (nodesTemp.length < 100) {
-      const rootId = `root${groupId}`;
-      nodesTemp.push({ id: rootId, group: `${groupId}`, title: `마리모` });
-
-      const numChildren = Math.min(
-        100 - nodesTemp.length,
-        3 + Math.floor(Math.random() * 4),
-      );
-      addChildNodes(rootId, `${groupId}`, numChildren);
-
-      groupId += 1;
-    }
-    return { nodes: nodesTemp, links: linksTemp };
-  }, []);
+  if (isLoading) return <div>그래프 로딩중</div>;
+  if (isError) return <div>Error loading data</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full px-4">
-      <div className="mt-5">
+    <div className="flex flex-col items-center">
+      <div className="mt-8">
         <InputGroup width="full">
           <Input
             w="40rem"
             size="lg"
+            color="white"
             placeholder="어떤 별을 찾으시나요?"
             value={searchText}
             onChange={e => {
@@ -95,11 +87,13 @@ const Home = () => {
       </div>
 
       <div className="mt-5">
-        <GalaxyGraph
-          nodes={nodes}
-          links={links}
-          searchResults={searchResults}
-        />
+        {data && (
+          <GalaxyGraph
+            nodes={data.nodes}
+            links={data.links}
+            searchResults={searchResults}
+          />
+        )}
       </div>
     </div>
   );
