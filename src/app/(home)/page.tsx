@@ -16,7 +16,7 @@ import '../../styles/graph.module.css';
 const SERVER_URL =
   'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com';
 
-const fetchGraphData = async (): Promise<Graph> => {
+const getGraphData = async (): Promise<Graph> => {
   const response = await axios.get(`${SERVER_URL}/api/documents`, {
     params: { depth: 7 },
   });
@@ -34,7 +34,7 @@ const Home = () => {
 
   const { data, isError, isLoading } = useQuery<Graph>({
     queryKey: ['graphData'],
-    queryFn: fetchGraphData,
+    queryFn: getGraphData,
   });
 
   const handleSearch = () => {
