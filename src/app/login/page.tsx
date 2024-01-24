@@ -13,7 +13,8 @@ import { useRouter } from 'next/navigation';
 const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
 const Page = () => {
-  // TODO 테스트를 위한 로직. 최종에서는 삭제하기
+  // NOTE 테스트를 위한 로직.
+  // TODO 최종에서는 삭제
   const router = useRouter();
   const [nickname, setNickname] = useState('');
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +59,8 @@ const Page = () => {
           </div>
         </Card>
 
+        {/* NOTE 테스트용 닉네임으로 로그인 */}
+        {/* TODO 최종에서는 삭제 */}
         <Card p="2rem">
           <Input
             placeholder="[test] 닉네임으로 로그인"
