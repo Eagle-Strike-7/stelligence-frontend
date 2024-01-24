@@ -1,0 +1,20 @@
+{
+  "badges": [
+    {
+      "badgeType": "astronaut",
+      "badgeTitle": "우주 여행자"
+    },
+    {
+      "badgeType": "moon",
+      "badgeTitle": "달 탐사 완료"
+    },
+    {
+      "badgeType": "venus",
+      "badgeTitle": "금성 탐사 완료"
+    },
+    {
+      "badgeType": "guard",
+      "badgeTitle": "우주 방범대"
+    }
+  ]
+}
