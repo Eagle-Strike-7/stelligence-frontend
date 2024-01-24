@@ -7,9 +7,11 @@ import '../styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material';
 import muiTheme from '@/theme/mui';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import customTheme from '../theme/chakra';
 
 const inter = Inter({ subsets: ['latin'] });
+const queryClient = new QueryClient();
 
 // NOTE : 화살표 함수 형식으로 변경된 RootLayout 컴포넌트
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -20,12 +22,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <MUIThemeProvider theme={muiTheme}>
-          <ChakraProvider theme={customTheme}>
-            {!isLoginPage && <Header />}
-            {children}
-          </ChakraProvider>
-        </MUIThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <MUIThemeProvider theme={muiTheme}>
+            <ChakraProvider theme={customTheme}>
+              {!isLoginPage && <Header />}
+              {children}
+            </ChakraProvider>
+          </MUIThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
