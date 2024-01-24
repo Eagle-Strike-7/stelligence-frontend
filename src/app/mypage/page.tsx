@@ -22,7 +22,6 @@ const Page = () => {
   };
   const handleSaveNewNickname = async () => {
     if (initNickname === newNickname) {
-      // TODO alert 대신에 Toast로 변경
       toast({
         title: '이미 사용한 닉네임과 같습니다.',
         status: 'error',
@@ -31,7 +30,7 @@ const Page = () => {
       return;
     }
 
-    // TODO 실제 백엔드 url로 변경 후 response 부분 다시 작성
+    // TODO 실제 백엔드로 테스트 후 response 부분 다시 작성
     try {
       const response = await axios({
         method: 'PUT',
