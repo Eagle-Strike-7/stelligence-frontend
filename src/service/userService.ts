@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 interface UserData {
   nickname: string;
@@ -16,6 +16,7 @@ interface BadgeData {
   badgeTitle: string;
 }
 
+// NOTE 유저 정보 조회
 export const getUserData = async (): Promise<UserData | null> => {
   try {
     const response = await axios.get<UserData>(
@@ -28,6 +29,7 @@ export const getUserData = async (): Promise<UserData | null> => {
   }
 };
 
+// NOTE 북마크 정보 조회
 export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
   try {
     const response = await axios.get<BookmarkData[]>(
@@ -40,6 +42,7 @@ export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
   }
 };
 
+// NOTE 배지 정보 조회
 export const getBadgeData = async (): Promise<BadgeData[] | null> => {
   try {
     const response = await axios.get<BadgeData[]>(
@@ -49,5 +52,28 @@ export const getBadgeData = async (): Promise<BadgeData[] | null> => {
   } catch (error) {
     console.error('배지 조회 실패: ', error);
     return null;
+  }
+};
+
+// NOTE 닉네임 수정
+export const putNickname = async (
+  newNickname: string,
+): Promise<AxiosResponse> => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: 'http://localhost:8080/api/members/me/nickname',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        nickname: newNickname,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error('닉네임 수정 실패: ', error);
+    throw error;
   }
 };

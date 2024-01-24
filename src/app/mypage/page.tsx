@@ -5,11 +5,11 @@ import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
 import { Avatar, Badge, Button, Input, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
-import axios from 'axios';
 import MyBadge from './components/MyBadge';
 import dummyUserData from '../../constants/dummyUserData.json';
 import dummyBookmarkData from '../../constants/dummyBookmarkData.json';
 import dummyBadgeData from '../../constants/dummyBadgeData.json';
+import { putNickname } from '../../service/userService';
 
 const Page = () => {
   // TODO 백엔드 데이터 받아온 뒤 initNickname 값 변경
@@ -30,34 +30,21 @@ const Page = () => {
       return;
     }
 
-    // TODO 실제 백엔드로 테스트 후 response 부분 다시 작성
-    try {
-      const response = await axios({
-        method: 'PUT',
-        url: 'http://localhost:8080/api/members/me/nickname',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          nickname: newNickname,
-        },
-      });
+    // TODO react query로 수정
+    const response = putNickname(newNickname);
 
-      if (response.data.success === 'fail') {
-        toast({
-          title: '동일한 별명이 있습니다. 재시도해 주시기 바랍니다.',
-          status: 'error',
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '닉네임이 수정되었습니다.',
-          status: 'success',
-          isClosable: true,
-        });
-      }
-    } catch (error) {
-      console.log(error);
+    if ((await response).status === 400) {
+      toast({
+        title: '이미 사용 중인 닉네임입니다.',
+        status: 'error',
+        isClosable: true,
+      });
+    } else if ((await response).status === 200) {
+      toast({
+        title: '닉네임이 수정되었습니다.',
+        status: 'success',
+        isClosable: true,
+      });
     }
   };
   return (
