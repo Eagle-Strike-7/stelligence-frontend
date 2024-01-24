@@ -1,25 +1,41 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
+import { useQuery } from '@tanstack/react-query';
 import {
   transformResults,
   transformLinks,
 } from '@/hooks/graph/transformGraphInfo';
-import { GraphNode, GraphLink, SearchResult } from '@/types/graph/GraphProps';
-import GalaxyGraph from './components/GalaxyGraph';
+import { SearchResult } from '@/types/graph/GraphProps';
+import GalaxyGraph, { Graph } from './components/GalaxyGraph';
 import '../../styles/graph.module.css';
+
+const SERVER_URL =
+  'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com';
+
+const fetchGraphData = async (): Promise<Graph> => {
+  const response = await axios.get(`${SERVER_URL}/api/documents`, {
+    params: { depth: 7 },
+  });
+  const { data } = response;
+
+  const transformedResults = transformResults(data.results.documentNodes);
+  const transformedLinks = transformLinks(data.results.links);
+
+  return { nodes: transformedResults, links: transformedLinks };
+};
 
 const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
-  const [initialNodes, setInitialNodes] = useState<GraphNode[]>([]);
-  const [initialLinks, setInitialLinks] = useState<GraphLink[]>([]);
 
-  const SERVER_URL =
-    'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com';
+  const { data, isError, isLoading } = useQuery<Graph>({
+    queryKey: ['graphData'],
+    queryFn: fetchGraphData,
+  });
 
   const handleSearch = () => {
     axios
@@ -27,36 +43,18 @@ const Home = () => {
         params: { title: searchText },
       })
       .then(response => {
-        const { data } = response;
-        const resultIds = data.results.map((item: SearchResult) => {
-          return item.documentId.toString();
-        });
+        const resultIds = response.data.results.map((item: SearchResult) =>
+          {return item.documentId.toString()},
+        );
         setSearchResults(resultIds);
       })
       .catch(error => {
-        throw new Error('Error fetching data: ', error);
+        console.error('Error fetching search results: ', error);
       });
   };
 
-  const fetchGraphData = () =>
-    {return axios
-      .get(`${SERVER_URL}/api/documents`, { params: { depth: 7 } })
-      .then(response => {
-        const { data } = response;
-
-        const transfomedResults = transformResults(data.results.documentNodes);
-        const transformedLinks = transformLinks(data.results.links);
-
-        setInitialNodes(transfomedResults);
-        setInitialLinks(transformedLinks);
-      })
-      .catch(error => {
-        throw new Error('Error fetching data: ', error);
-      })};
-
-  useEffect(() => {
-    fetchGraphData();
-  }, []);
+  if (isLoading) return <div>그래프 로딩중</div>;
+  if (isError) return <div>Error loading data</div>;
 
   return (
     <div className="flex flex-col items-center">
@@ -89,11 +87,13 @@ const Home = () => {
       </div>
 
       <div className="mt-5">
-        <GalaxyGraph
-          nodes={initialNodes}
-          links={initialLinks}
-          searchResults={searchResults}
-        />
+        {data && (
+          <GalaxyGraph
+            nodes={data.nodes}
+            links={data.links}
+            searchResults={searchResults}
+          />
+        )}
       </div>
     </div>
   );
