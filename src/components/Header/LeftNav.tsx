@@ -3,10 +3,10 @@ import Link from 'next/link';
 import React from 'react';
 import { AiOutlineComment, AiOutlineLike } from 'react-icons/ai';
 
-const Navigation = () => {
+const LeftNav = () => {
   return (
     <div className="flex ml-20 w-40">
-      <div className="inline mr-2">
+      <div className="inline mr-4">
         <Link href="/voteList">
           <Button
             leftIcon={<AiOutlineLike size="20px" />}
@@ -15,6 +15,7 @@ const Navigation = () => {
             _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             cursor="pointer"
             size="sm"
+            rounded="sm"
           >
             <h2 className="text-md text-semibold">투표</h2>
           </Button>
@@ -29,6 +30,7 @@ const Navigation = () => {
             _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             cursor="pointer"
             size="sm"
+            rounded="sm"
           >
             <h2 className="text-md text-semibold">토론</h2>
           </Button>
@@ -38,4 +40,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default LeftNav;
