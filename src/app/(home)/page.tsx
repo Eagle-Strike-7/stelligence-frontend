@@ -43,9 +43,9 @@ const Home = () => {
         params: { title: searchText },
       })
       .then(response => {
-        const resultIds = response.data.results.map((item: SearchResult) =>
-          {return item.documentId.toString()},
-        );
+        const resultIds = response.data.results.map((item: SearchResult) => {
+          return item.documentId.toString();
+        });
         setSearchResults(resultIds);
       })
       .catch(error => {
