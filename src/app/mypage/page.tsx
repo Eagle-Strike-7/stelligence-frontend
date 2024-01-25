@@ -5,7 +5,8 @@ import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
 import { Avatar, Badge, Button, Input, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -15,6 +16,7 @@ import {
 } from '../../service/userService';
 
 const Page = () => {
+  const queryClient = useQueryClient();
   const { data: userData } = useQuery({
     queryKey: ['user'],
     queryFn: getUserData,
@@ -41,6 +43,22 @@ const Page = () => {
   }, [userData]);
   const toast = useToast();
 
+  const mutation = useMutation<AxiosResponse, Error, string>({
+    mutationFn: putNickname,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+
+      toast({
+        title: '닉네임이 수정되었습니다.',
+        status: 'success',
+        isClosable: true,
+      });
+    },
+    onError: (error: Error) => {
+      console.error('닉네임 수정 실패 ', error);
+    },
+  });
+
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
@@ -53,23 +71,7 @@ const Page = () => {
       });
       return;
     }
-
-    // TODO react query로 수정
-    const response = putNickname(newNickname ?? '');
-
-    if ((await response).status === 400) {
-      toast({
-        title: '이미 사용 중인 닉네임입니다.',
-        status: 'error',
-        isClosable: true,
-      });
-    } else if ((await response).status === 200) {
-      toast({
-        title: '닉네임이 수정되었습니다.',
-        status: 'success',
-        isClosable: true,
-      });
-    }
+    mutation.mutate(newNickname);
   };
   return (
     <Wrapper>
