@@ -80,12 +80,16 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .forceSimulation(nodes)
         .force(
           'link',
-          d3.forceLink(links).id((d: d3.SimulationNodeDatum) => {
-            if ('id' in d) {
-              return (d as GraphNode).id;
-            }
-            return '';
-          }),
+          d3
+            .forceLink(links)
+            .id((d: d3.SimulationNodeDatum) => {
+              if ('id' in d) {
+                return (d as GraphNode).id;
+              }
+              return '';
+            })
+            .distance(30)
+            .strength(1),
         )
         // NOTE 노드들을 밀어내는 힘
         .force('charge', d3.forceManyBody().strength(-50))
