@@ -4,8 +4,8 @@ import * as d3 from 'd3';
 import { drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import '../../../styles/graph.module.css';
 import { Graph, GraphNode } from '@/types/graph/GraphProps';
+import styles from '../../../styles/graph.module.css';
 
 interface GraphProps extends Graph {
   searchResults: string[];
@@ -93,9 +93,9 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           } else {
             fontSize = '0.5rem';
           }
-          nodeText.style('font-size', d =>
-            {return searchResults.includes(d.id) ? '1.5rem' : fontSize},
-          );
+          nodeText.style('font-size', d => {
+            return searchResults.includes(d.id) ? '1.5rem' : fontSize;
+          });
         });
 
       const initialZoom = d3.zoomIdentity.translate(180, 100).scale(0.6);
@@ -133,7 +133,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       const link = svg
         .append('g')
         .attr('stroke', '#999')
-        .attr('stroke-opacity', 0.6)
+        .attr('stroke-opacity', 0.2)
         .selectAll('line')
         .data(links)
         .join('line');
@@ -144,12 +144,13 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .data(nodes)
         .join('circle')
         .attr('class', d => {
-          return searchResults.includes(d.id) ? 'blinking-node' : '';
+          return searchResults.includes(d.id) ? styles['blinking-node'] : '';
         })
-        .attr('r', 3)
+        .attr('r', d => {return (searchResults.includes(d.id) ? 6 : 3)})
         .attr('fill', d => {
           return colorScale(d.group);
         })
+        .style('--original-color', d => {return colorScale(d.group)})
         .attr('fill', d => {
           return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`;
         })
@@ -164,26 +165,40 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('x', (d: GraphNode) => {
           return d.x ?? 0;
         })
-        .attr('y', (d: GraphNode) => {
-          return (d.y ?? 0) + 15;
-        })
+        .attr('y', (d: GraphNode) =>
+          {return searchResults.includes(d.id) ? (d.y ?? 0) + 25 : (d.y ?? 0) + 15},
+        )
         .text(d => {
           return d.title;
         })
-        .style('font-size', d =>
-          {return searchResults.includes(d.id) ? '1.2rem' : '0'},
-        )
+        .style('font-size', d => {
+          return searchResults.includes(d.id) ? '1.2rem' : '0';
+        })
         .style('fill', '#d9d9d9')
         .attr('text-anchor', 'middle');
 
       // NOTE 시뮬레이션 갱신 시 링크와 노드의 위치 업데이트
       simulation.on('tick', () => {
         link
-          .attr('x1', d => {return (d.source as GraphNode).x ?? 0})
-          .attr('y1', d => {return (d.source as GraphNode).y ?? 0})
-          .attr('x2', d => {return (d.target as GraphNode).x ?? 0})
-          .attr('y2', d => {return (d.target as GraphNode).y ?? 0});
-        node.attr('cx', d => {return d.x ?? 0}).attr('cy', d => {return d.y ?? 0});
+          .attr('x1', d => {
+            return (d.source as GraphNode).x ?? 0;
+          })
+          .attr('y1', d => {
+            return (d.source as GraphNode).y ?? 0;
+          })
+          .attr('x2', d => {
+            return (d.target as GraphNode).x ?? 0;
+          })
+          .attr('y2', d => {
+            return (d.target as GraphNode).y ?? 0;
+          });
+        node
+          .attr('cx', d => {
+            return d.x ?? 0;
+          })
+          .attr('cy', d => {
+            return d.y ?? 0;
+          });
 
         nodeText
           .attr('x', d => {return d.x ?? 0})
