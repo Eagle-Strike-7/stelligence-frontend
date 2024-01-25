@@ -15,6 +15,12 @@ interface BadgeData {
   badgeType: string;
   badgeTitle: string;
 }
+interface BookmarkResponse {
+  bookmarks: BookmarkData[];
+}
+interface BadgeResponse {
+  badges: BadgeData[];
+}
 
 // NOTE 유저 정보 조회
 export const getUserData = async (): Promise<UserData | null> => {
@@ -32,9 +38,9 @@ export const getUserData = async (): Promise<UserData | null> => {
 };
 
 // NOTE 북마크 정보 조회
-export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
+export const getBookmarkData = async (): Promise<BookmarkResponse | null> => {
   try {
-    const response = await axios.get<BookmarkData[]>(
+    const response = await axios.get<BookmarkResponse>(
       // NOTE 테스트용 -> 추후에 변경
       // 'http://localhost:8080/api/bookmarks?page=00&size=00',
       '/dummyBookmarkData.json',
@@ -47,9 +53,9 @@ export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
 };
 
 // NOTE 배지 정보 조회
-export const getBadgeData = async (): Promise<BadgeData[] | null> => {
+export const getBadgeData = async (): Promise<BadgeResponse | null> => {
   try {
-    const response = await axios.get<BadgeData[]>(
+    const response = await axios.get<BadgeResponse>(
       // NOTE 테스트용 -> 추후에 변경
       // 'http://localhost:8080/api/members/badge',
       '/dummyBadgeData.json',
