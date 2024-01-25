@@ -50,7 +50,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE SVG 요소에 그라데이션 정의 추가
       const defs = svg.append('defs');
 
-      // 각 색상에 대한 그라데이션 정의
+      // NOTE 각 색상에 대한 그라데이션 정의
       starColors.forEach((color, index) => {
         const gradientId = `gradient-${index}`;
         const gradient = defs
@@ -75,31 +75,32 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 7])
+        .scaleExtent([0.1, 10]) // 스케일 범위 설정
         .on('zoom', event => {
-          // NOTE 줌 변환 적용
           svg
             .selectAll('g')
             .transition()
             .duration(400)
-            .ease(d3.easeQuadOut)
+            .ease(d3.easeQuadInOut)
             .attr('transform', event.transform);
 
-          // NOTE 현재 줌 스케일에 따라 텍스트 크기 조정
           const currentZoom = event.transform.k;
-          let fontSize = 0;
-          if (currentZoom >= 1.5 && currentZoom < 4) {
-            fontSize = currentZoom * 2.2;
-          } else if (currentZoom > 4) {
-            fontSize = 1;
+          let fontSize: string | number;
+          if (currentZoom < 2) {
+            fontSize = '0';
+          } else if (currentZoom >= 1.5 && currentZoom < 3) {
+            fontSize = '0.4rem';
+          } else {
+            fontSize = '0.5rem';
           }
-
-          svg.selectAll('text').style('font-size', `${fontSize}px`);
+          nodeText.style('font-size', d =>
+            {return searchResults.includes(d.id) ? '1.5rem' : fontSize},
+          );
         });
 
-      svg.call(zoomHandler);
+      const initialZoom = d3.zoomIdentity.translate(180, 100).scale(0.6);
 
-      const initialZoom = d3.zoomIdentity.scale(1); // 초기 줌 레벨 1로 설정
+      svg.call(zoomHandler);
 
       // NOTE 드래그 기능을 위한 함수
       const drag = d3drag<SVGCircleElement, GraphNode, unknown>()
@@ -149,10 +150,9 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('fill', d => {
           return colorScale(d.group);
         })
-        .attr(
-          'fill',
-          d => {return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`},
-        )
+        .attr('fill', d => {
+          return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`;
+        })
         .on('click', onNodeClick)
         .call(drag);
 
@@ -170,41 +170,26 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .text(d => {
           return d.title;
         })
-        .style('font-size', '0.3rem')
-        .style('fill', 'white')
+        .style('font-size', d =>
+          {return searchResults.includes(d.id) ? '1.2rem' : '0'},
+        )
+        .style('fill', '#d9d9d9')
         .attr('text-anchor', 'middle');
 
       // NOTE 시뮬레이션 갱신 시 링크와 노드의 위치 업데이트
       simulation.on('tick', () => {
         link
-          .attr('x1', d => {
-            return (d.source as GraphNode).x ?? 0;
-          })
-          .attr('y1', d => {
-            return (d.source as GraphNode).y ?? 0;
-          })
-          .attr('x2', d => {
-            return (d.target as GraphNode).x ?? 0;
-          })
-          .attr('y2', d => {
-            return (d.target as GraphNode).y ?? 0;
-          });
-
-        node
-          .attr('cx', (d: GraphNode) => {
-            return d.x ?? 0;
-          })
-          .attr('cy', (d: GraphNode) => {
-            return d.y ?? 0;
-          });
+          .attr('x1', d => {return (d.source as GraphNode).x ?? 0})
+          .attr('y1', d => {return (d.source as GraphNode).y ?? 0})
+          .attr('x2', d => {return (d.target as GraphNode).x ?? 0})
+          .attr('y2', d => {return (d.target as GraphNode).y ?? 0});
+        node.attr('cx', d => {return d.x ?? 0}).attr('cy', d => {return d.y ?? 0});
 
         nodeText
-          .attr('x', (d: GraphNode) => {
-            return d.x ?? 0;
-          })
-          .attr('y', (d: GraphNode) => {
-            return (d.y ?? 0) + 15;
-          });
+          .attr('x', d => {return d.x ?? 0})
+          .attr('y', d =>
+            {return searchResults.includes(d.id) ? (d.y ?? 0) + 25 : (d.y ?? 0) + 15},
+          );
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
