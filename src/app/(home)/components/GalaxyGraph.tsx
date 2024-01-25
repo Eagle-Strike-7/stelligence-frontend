@@ -22,6 +22,13 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       const height = +svg.attr('height');
       const centerX = width / 2;
       const centerY = height / 2;
+      const starColors = [
+        '#547b87',
+        '#C79AE5',
+        '#6495ed',
+        '#c1a0b2',
+        '#e4e6e7',
+      ];
 
       // NOTE 노드들을 원의 중심에서 시작하도록 초기 위치 설정
       nodes.forEach(node => {
@@ -36,6 +43,9 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       const onNodeClick = (event: MouseEvent, node: GraphNode) => {
         router.push(`/stars/${node.id}`);
       };
+
+      // NOTE 색상 스케일 설정
+      const colorScale = d3.scaleOrdinal(starColors);
 
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
@@ -71,9 +81,6 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .on('start', () => {})
         .on('drag', () => {})
         .on('end', () => {});
-
-      // NOTE 색상 스케일 설정
-      const color = d3.scaleOrdinal(d3.schemeCategory10);
 
       // NOTE 포스 시뮬레이션 설정
       const simulation = d3
@@ -115,7 +122,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         })
         .attr('r', 3)
         .attr('fill', d => {
-          return color(d.group);
+          return colorScale(d.group);
         })
         .on('click', onNodeClick)
         .call(drag);
