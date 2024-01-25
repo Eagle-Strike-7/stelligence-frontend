@@ -1,21 +1,23 @@
-@keyframes blink {
+/* graph.module.css */
+
+@keyframes blinking {
   0%,
   100% {
-    fill: currentColor;
+    fill: var(--original-color);
   }
   20%,
   80% {
-    fill: #fff; /* 반짝임의 최고점 */
+    fill: white;
   }
   40%,
   60% {
-    fill: currentColor;
+    fill: var(--original-color);
   }
   50% {
-    fill: #fff; /* 중간점에서 최고 반짝임 */
+    fill: white;
   }
 }
 
 .blinking-node {
-  animation: blink 3s infinite; /* 3초 동안 반복 */
+  animation: blinking 4s ease-in infinite;
 }

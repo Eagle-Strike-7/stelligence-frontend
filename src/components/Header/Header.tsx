@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import Navigation from './Navigation';
-import Login from './Login';
+import Navigation from './LeftNav';
+import Login from './RightNav';
 import Logo from './Logo';
 
 const Header = () => {

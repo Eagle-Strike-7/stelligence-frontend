@@ -24,3 +24,8 @@ export interface ServerLink {
   parentDocumentId: number;
   childDocumentId: number;
 }
+
+export interface Graph {
+  nodes: GraphNode[];
+  links: GraphLink[];
+}

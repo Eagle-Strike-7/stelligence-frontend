@@ -9,8 +9,8 @@ import {
   transformResults,
   transformLinks,
 } from '@/hooks/graph/transformGraphInfo';
-import { SearchResult } from '@/types/graph/GraphProps';
-import GalaxyGraph, { Graph } from './components/GalaxyGraph';
+import { Graph, SearchResult } from '@/types/graph/GraphProps';
+import GalaxyGraph from './components/GalaxyGraph';
 import '../../styles/graph.module.css';
 
 const SERVER_URL =
@@ -53,11 +53,17 @@ const Home = () => {
       });
   };
 
-  if (isLoading) return <div>그래프 로딩중</div>;
+  if (isLoading)
+    return (
+      // FIXME 임시 설정
+      <div className="h-screen bg-black text-white text-center pt-10">
+        그래프 로딩중
+      </div>
+    );
   if (isError) return <div>Error loading data</div>;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-black pt-2">
       <div className="mt-8">
         <InputGroup width="full">
           <Input
@@ -65,6 +71,7 @@ const Home = () => {
             size="lg"
             color="white"
             placeholder="어떤 별을 찾으시나요?"
+            focusBorderColor="#4e4d9c"
             value={searchText}
             onChange={e => {
               return setSearchText(e.target.value);
@@ -76,11 +83,11 @@ const Home = () => {
               size="sm"
               paddingX="1rem"
               variant="ghost"
-              colorScheme="facebook"
+              _hover={{ bg: '#4e4d9c' }}
               marginTop="0.5rem"
               onClick={handleSearch}
             >
-              <BiSearch fontSize="1.5rem" />
+              <BiSearch fontSize="1.5rem" color="#d9d9d9" />
             </Button>
           </InputRightElement>
         </InputGroup>
