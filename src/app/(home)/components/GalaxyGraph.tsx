@@ -49,8 +49,10 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         'link',
         d3
           .forceLink(links)
-          .id(d => {return (d as GraphNode).id})
-          .distance(30)
+          .id(d => {
+            return (d as GraphNode).id;
+          })
+          .distance(40)
           .strength(1),
       )
       .force('charge', d3.forceManyBody().strength(-30))
@@ -130,7 +132,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
             fontSize = '0.5rem';
           }
           nodeText.style('font-size', d => {
-            return searchResults.includes(d.id) ? '1.5rem' : fontSize;
+            return searchResults.includes(d.id) ? '1rem' : fontSize;
           });
         });
 
@@ -192,7 +194,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           return d.title;
         })
         .style('font-size', d => {
-          return searchResults.includes(d.id) ? '1.2rem' : '0';
+          return searchResults.includes(d.id) ? '1rem' : '0';
         })
         .style('fill', '#d9d9d9')
         .attr('text-anchor', 'middle');
