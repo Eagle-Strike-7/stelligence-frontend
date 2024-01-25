@@ -18,9 +18,3 @@ export interface Document {
   title: string;
   group: string;
 }
-
-export interface ResponseType {
-  success: boolean;
-  message: string;
-  results: Document[];
-}

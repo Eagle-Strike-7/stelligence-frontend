@@ -3,11 +3,8 @@ import { Input, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Document,
-  NewStarProps,
-  ResponseType,
-} from '@/types/newStar/newStarProps';
+import { ResponseType } from '@/types/common/ResponseType';
+import { Document, NewStarProps } from '@/types/newStar/newStarProps';
 
 // FIXME : 검색결과 완전 일치할 때 결과가 안나옴
 const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
@@ -22,11 +19,10 @@ const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
       return [];
     }
     try {
-      const response = await axios.get<ResponseType>(
+      const response = await axios.get<ResponseType<Document>>(
         `${tempUrl}?title=${debouncedTag}`,
       );
       const { data } = response;
-      console.log(data);
       const searchResults = data.results.map((doc: Document) => {
         return {
           documentId: doc.documentId,
