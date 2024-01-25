@@ -1,7 +1,7 @@
 'use client';
 
 import * as d3 from 'd3';
-import { drag as d3drag } from 'd3';
+import { D3DragEvent, drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Graph, GraphNode } from '@/types/graph/GraphProps';
@@ -86,7 +86,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
 
           const currentZoom = event.transform.k;
           let fontSize: string | number;
-          if (currentZoom < 2) {
+          if (currentZoom < 1.5) {
             fontSize = '0';
           } else if (currentZoom >= 1.5 && currentZoom < 3) {
             fontSize = '0.4rem';
@@ -98,15 +98,35 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           });
         });
 
-      const initialZoom = d3.zoomIdentity.translate(180, 120).scale(0.6);
+      const initialZoom = d3.zoomIdentity.translate(160, 120).scale(0.6);
 
       svg.call(zoomHandler);
 
       // NOTE 드래그 기능을 위한 함수
       const drag = d3drag<SVGCircleElement, GraphNode, unknown>()
-        .on('start', () => {})
-        .on('drag', () => {})
-        .on('end', () => {});
+        .on(
+          'start',
+          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          },
+        )
+        .on(
+          'drag',
+          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          },
+        )
+        .on(
+          'end',
+          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          },
+        );
 
       // NOTE 포스 시뮬레이션 설정
       const simulation = d3
