@@ -23,12 +23,14 @@ const config: Config = {
       colors: {
         background: {
           light: '#ffffff',
+          dark: ' #121212',
         },
         accent: {
           light: '#242372',
         },
         header: {
           light: '#07063B',
+          dark: '#010101',
         },
         text: {
           light: '#000000',
