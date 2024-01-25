@@ -1,68 +1,33 @@
 'use client';
 
+import React, { useState } from 'react';
 import StarSectionInput from '@/components/Common/StarSectionInput';
-import {
-  Button,
-  Input,
-  Menu,
-  MenuItem,
-  MenuList,
-  Tag,
-  TagCloseButton,
-  TagLabel,
-} from '@chakra-ui/react';
-import React from 'react';
+import { Button } from '@chakra-ui/react';
+import NewStarTitle from './NewStarTitle';
+import NewStarTag from './NewStarTag';
 
-// NOTE : 새 글 작성 폼
-// FIXME : StarInput 컴포넌트 / 입력필드 비었을 때 border 색상 변경
 const NewStarForm = () => {
+  const [newStar, setNewStar] = useState({
+    title: '',
+    tag: '',
+    content: 'hello',
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newStar.title === '') {
+      alert('제목을 입력해주세요');
+    } else if (newStar.tag === '') {
+      alert('상위 계층 태그를 연결해주세요');
+    } else if (newStar.content === '') {
+      alert('본문을 입력해주세요');
+    }
+  };
+
   return (
-    <form className="flex flex-col w-full pt-20 px-20">
-      <div className="flex flex-row w-full mb-6">
-        <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
-          글 제목
-        </span>
-        <Input
-          size="lg"
-          variant="outline"
-          placeholder="글의 제목을 입력해 주세요"
-        />
-      </div>
-
-      <div className="flex flex-row">
-        <span className="w-32 text-lg font-bold mt-3">상위 계층 태그</span>
-        <div className="mb-3 relative flex-grow">
-          <Menu>
-            <Input
-              size="lg"
-              variant="outline"
-              placeholder="연결할 글의 제목을 입력해 주세요"
-              zIndex="2"
-            />
-            <MenuList mt="3.5rem" w="100%" zIndex="1">
-              <MenuItem>1</MenuItem>
-              <MenuItem>2</MenuItem>
-              <MenuItem>3</MenuItem>
-              <MenuItem>4</MenuItem>
-              <MenuItem>5</MenuItem>
-            </MenuList>
-          </Menu>
-        </div>
-      </div>
-
-      <Tag
-        size="lg"
-        variant="subtle"
-        colorScheme="blue"
-        ml="8rem"
-        mb="1.5rem"
-        minW="fit-content"
-        maxW="fit-content"
-      >
-        <TagLabel>Green</TagLabel>
-        <TagCloseButton />
-      </Tag>
-
+    <form onSubmit={handleSubmit} className="flex flex-col w-full pt-20 px-20">
+      <NewStarTitle newStar={newStar} setNewStar={setNewStar} />
+      <NewStarTag newStar={newStar} setNewStar={setNewStar} />
       <StarSectionInput inputTitle="본문" />
 
       <div className="flex justify-center">
