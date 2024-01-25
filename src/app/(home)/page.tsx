@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { Graph, SearchResult } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
-import SERVER_URL from '@/constants/url';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import GalaxyGraph from './components/GalaxyGraph';
@@ -30,7 +29,7 @@ const Home = () => {
 
   const handleSearch = () => {
     axios
-      .get(`${SERVER_URL}/api/documents/search`, {
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
         params: { title: searchText },
       })
       .then(response => {
