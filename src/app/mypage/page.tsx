@@ -1,27 +1,51 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
 import { Avatar, Badge, Button, Input, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 import MyBadge from './components/MyBadge';
-import dummyUserData from '../../constants/dummyUserData.json';
-import dummyBookmarkData from '../../constants/dummyBookmarkData.json';
-import dummyBadgeData from '../../constants/dummyBadgeData.json';
-import { putNickname } from '../../service/userService';
+import {
+  getBadgeData,
+  getBookmarkData,
+  getUserData,
+  putNickname,
+} from '../../service/userService';
 
 const Page = () => {
-  // TODO 백엔드 데이터 받아온 뒤 initNickname 값 변경
-  const initNickname = dummyUserData.nickname;
-  const [newNickname, setNewNickname] = useState(initNickname);
+  const { data: userData } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserData,
+  });
+  const { data: bookmarkData } = useQuery({
+    queryKey: ['user', 'bookmark'],
+    queryFn: getBookmarkData,
+  });
+  const { data: badgeData } = useQuery({
+    queryKey: ['user', 'badge'],
+    queryFn: getBadgeData,
+  });
+
+  const [oldNickname, setOldNickname] = useState('');
+  const [newNickname, setNewNickname] = useState('');
+
+  useEffect(() => {
+    if (userData?.nickname) {
+      setOldNickname(userData.nickname);
+      setNewNickname(userData.nickname);
+
+      console.log(userData.nickname);
+    }
+  }, [userData]);
   const toast = useToast();
 
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(e.target.value);
   };
   const handleSaveNewNickname = async () => {
-    if (initNickname === newNickname) {
+    if (oldNickname === newNickname) {
       toast({
         title: '이미 사용한 닉네임과 같습니다.',
         status: 'error',
@@ -31,7 +55,7 @@ const Page = () => {
     }
 
     // TODO react query로 수정
-    const response = putNickname(newNickname);
+    const response = putNickname(newNickname ?? '');
 
     if ((await response).status === 400) {
       toast({
@@ -52,17 +76,14 @@ const Page = () => {
       <div className="flex flex-col gap-8">
         <TitleCard title="유저 정보">
           <div className="flex">
-            <Avatar
-              name={dummyUserData.nickname}
-              src={dummyUserData.profileUrl}
-            />
+            <Avatar name={userData?.nickname} src={userData?.profileUrl} />
             <div className="flex flex-col gap-2 ml-4 ">
               <div>
                 <h3 className="inline-block font-bold text-md">
-                  {dummyUserData.nickname}
+                  {userData?.nickname}
                 </h3>
                 <Badge ml="2" colorScheme="orange">
-                  {dummyUserData.socialType}
+                  {userData?.socialType}
                 </Badge>
               </div>
               <div className="flex">
@@ -90,7 +111,7 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="북마크">
           <ul className="flex flex-col gap-1">
-            {dummyBookmarkData.bookmarks.map(bookmark => {
+            {bookmarkData?.bookmarks.map(bookmark => {
               return (
                 <li key={bookmark.bookmarkId}>
                   <Link
@@ -106,11 +127,11 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
-            {dummyBadgeData.badges.map(badge => {
+            {badgeData?.badges.map(badge => {
               return (
                 <MyBadge
                   title={badge.badgeTitle}
-                  image={`/image/${badge.badgeType}.jpg`}
+                  image={`/image/${badge.badgeType}.png`}
                   key={badge.badgeType}
                 />
               );
