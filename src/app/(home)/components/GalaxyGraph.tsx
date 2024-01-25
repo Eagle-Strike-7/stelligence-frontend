@@ -47,6 +47,31 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE 색상 스케일 설정
       const colorScale = d3.scaleOrdinal(starColors);
 
+      // NOTE SVG 요소에 그라데이션 정의 추가
+      const defs = svg.append('defs');
+
+      // 각 색상에 대한 그라데이션 정의
+      starColors.forEach((color, index) => {
+        const gradientId = `gradient-${index}`;
+        const gradient = defs
+          .append('linearGradient')
+          .attr('id', gradientId)
+          .attr('x1', '0%')
+          .attr('y1', '0%')
+          .attr('x2', '100%')
+          .attr('y2', '100%');
+
+        gradient
+          .append('stop')
+          .attr('offset', '0%')
+          .attr('stop-color', d3.color(color)!.brighter(1).toString());
+
+        gradient
+          .append('stop')
+          .attr('offset', '100%')
+          .attr('stop-color', d3.color(color)!.darker(1).toString());
+      });
+
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
@@ -124,6 +149,10 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('fill', d => {
           return colorScale(d.group);
         })
+        .attr(
+          'fill',
+          d => {return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`},
+        )
         .on('click', onNodeClick)
         .call(drag);
 
