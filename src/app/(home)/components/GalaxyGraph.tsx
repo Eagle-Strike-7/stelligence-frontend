@@ -1,10 +1,10 @@
 'use client';
 
 import * as d3 from 'd3';
-import { D3DragEvent, drag as d3drag } from 'd3';
+import { Simulation, drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Graph, GraphNode } from '@/types/graph/GraphProps';
+import { Graph, GraphLink, GraphNode } from '@/types/graph/GraphProps';
 import styles from '../../../styles/graph.module.css';
 
 interface GraphProps extends Graph {
@@ -14,6 +14,50 @@ interface GraphProps extends Graph {
 const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
   const ref = useRef<SVGSVGElement>(null);
   const router = useRouter();
+
+  const handleNodeClick = (event: MouseEvent, node: GraphNode) => {
+    router.push(`/stars/${node.id}`);
+  };
+
+  // NOTE 드래그 이벤트 핸들러
+  const createDragHandler = (simulation: Simulation<GraphNode, GraphLink>) => {
+    return d3drag<SVGCircleElement, GraphNode, unknown>()
+      .on('start', (event, d) => {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      })
+      .on('drag', (event, d) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      })
+      .on('end', (event, d) => {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      });
+  };
+
+  // NOTE 포스 시뮬레이션 설정
+  const createSimulation = (width: number, height: number) => {
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    return d3
+      .forceSimulation(nodes)
+      .force(
+        'link',
+        d3
+          .forceLink(links)
+          .id(d => {return (d as GraphNode).id})
+          .distance(30)
+          .strength(1),
+      )
+      .force('charge', d3.forceManyBody().strength(-30))
+      .force('center', d3.forceCenter(centerX, centerY))
+      .force('collide', d3.forceCollide().radius(10))
+      .force('radial', d3.forceRadial(0, centerX, centerY));
+  };
 
   useEffect(() => {
     if (ref.current) {
@@ -39,18 +83,10 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE 기존 그래프 내용 클리어
       svg.selectAll('*').remove();
 
-      // NOTE 노드 클릭 이벤트
-      const onNodeClick = (event: MouseEvent, node: GraphNode) => {
-        router.push(`/stars/${node.id}`);
-      };
-
-      // NOTE 색상 스케일 설정
+      // NOTE 색 및 그라데이션 설정
       const colorScale = d3.scaleOrdinal(starColors);
-
-      // NOTE SVG 요소에 그라데이션 정의 추가
       const defs = svg.append('defs');
 
-      // NOTE 각 색상에 대한 그라데이션 정의
       starColors.forEach((color, index) => {
         const gradientId = `gradient-${index}`;
         const gradient = defs
@@ -99,55 +135,13 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         });
 
       const initialZoom = d3.zoomIdentity.translate(160, 120).scale(0.6);
-
       svg.call(zoomHandler);
 
-      // NOTE 드래그 기능을 위한 함수
-      const drag = d3drag<SVGCircleElement, GraphNode, unknown>()
-        .on(
-          'start',
-          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-          },
-        )
-        .on(
-          'drag',
-          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
-            d.fx = event.x;
-            d.fy = event.y;
-          },
-        )
-        .on(
-          'end',
-          (event: D3DragEvent<SVGCircleElement, GraphNode, unknown>, d) => {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-          },
-        );
-
       // NOTE 포스 시뮬레이션 설정
-      const simulation = d3
-        .forceSimulation(nodes)
-        .force(
-          'link',
-          d3
-            .forceLink(links)
-            .id((d: d3.SimulationNodeDatum) => {
-              if ('id' in d) {
-                return (d as GraphNode).id;
-              }
-              return '';
-            })
-            .distance(30)
-            .strength(1),
-        )
-        .force('charge', d3.forceManyBody().strength(-30))
-        .force('center', d3.forceCenter(centerX, centerY))
-        .force('collide', d3.forceCollide().radius(10))
-        .force('radial', d3.forceRadial(0, centerX, centerY));
+      const simulation = createSimulation(width, height);
+
+      // NOTE 드래그 기능을 위한 함수
+      const drag = createDragHandler(simulation);
 
       // NOTE 링크와 노드 요소 추가
       const link = svg
@@ -178,7 +172,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('fill', d => {
           return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`;
         })
-        .on('click', onNodeClick)
+        .on('click', handleNodeClick)
         .call(drag);
 
       const nodeText = svg
