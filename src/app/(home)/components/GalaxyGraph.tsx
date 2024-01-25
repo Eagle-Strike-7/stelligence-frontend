@@ -75,7 +75,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([0.1, 10]) // 스케일 범위 설정
+        .scaleExtent([0.1, 10])
         .on('zoom', event => {
           svg
             .selectAll('g')
@@ -98,7 +98,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           });
         });
 
-      const initialZoom = d3.zoomIdentity.translate(180, 100).scale(0.6);
+      const initialZoom = d3.zoomIdentity.translate(180, 120).scale(0.6);
 
       svg.call(zoomHandler);
 
@@ -124,10 +124,10 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
             .distance(30)
             .strength(1),
         )
-        // NOTE 노드들을 밀어내는 힘
-        .force('charge', d3.forceManyBody().strength(-50))
-        // NOTE 원형으로 퍼지게 하는 힘
-        .force('radial', d3.forceRadial(10, centerX, centerY));
+        .force('charge', d3.forceManyBody().strength(-30))
+        .force('center', d3.forceCenter(centerX, centerY))
+        .force('collide', d3.forceCollide().radius(10))
+        .force('radial', d3.forceRadial(0, centerX, centerY));
 
       // NOTE 링크와 노드 요소 추가
       const link = svg
@@ -146,11 +146,15 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('class', d => {
           return searchResults.includes(d.id) ? styles['blinking-node'] : '';
         })
-        .attr('r', d => {return (searchResults.includes(d.id) ? 6 : 3)})
+        .attr('r', d => {
+          return searchResults.includes(d.id) ? 6 : 3;
+        })
         .attr('fill', d => {
           return colorScale(d.group);
         })
-        .style('--original-color', d => {return colorScale(d.group)})
+        .style('--original-color', d => {
+          return colorScale(d.group);
+        })
         .attr('fill', d => {
           return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`;
         })
@@ -165,9 +169,11 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
         .attr('x', (d: GraphNode) => {
           return d.x ?? 0;
         })
-        .attr('y', (d: GraphNode) =>
-          {return searchResults.includes(d.id) ? (d.y ?? 0) + 25 : (d.y ?? 0) + 15},
-        )
+        .attr('y', (d: GraphNode) => {
+          return searchResults.includes(d.id)
+            ? (d.y ?? 0) + 25
+            : (d.y ?? 0) + 15;
+        })
         .text(d => {
           return d.title;
         })
@@ -201,10 +207,14 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           });
 
         nodeText
-          .attr('x', d => {return d.x ?? 0})
-          .attr('y', d =>
-            {return searchResults.includes(d.id) ? (d.y ?? 0) + 25 : (d.y ?? 0) + 15},
-          );
+          .attr('x', d => {
+            return d.x ?? 0;
+          })
+          .attr('y', d => {
+            return searchResults.includes(d.id)
+              ? (d.y ?? 0) + 25
+              : (d.y ?? 0) + 15;
+          });
       });
 
       // NOTE SVG 요소에 줌 핸들러 적용
@@ -212,7 +222,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
     }
   }, [nodes, links, router, searchResults]);
 
-  return <svg ref={ref} width={800} height={600} />;
+  return <svg ref={ref} width={800} height={700} />;
 };
 
 export default ForceGraph;
