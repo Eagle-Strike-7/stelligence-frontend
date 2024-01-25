@@ -110,6 +110,37 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           .attr('stop-color', d3.color(color)!.darker(1).toString());
       });
 
+      const changeLinkColor = (link: any, color: string) => {
+        link.style('stroke', color);
+      };
+
+      // NOTE 호버 이벤트 핸들러
+      const handleMouseOver = (event: MouseEvent, hoveredNode: GraphNode) => {
+        node.style('opacity', 0.2);
+        node
+          .filter((node: GraphNode) => {return node.group === hoveredNode.group})
+          .style('opacity', 1);
+        link.attr('stroke-opacity', 0.5);
+
+        d3.select(event.target as SVGElement).style('cursor', 'pointer');
+
+        const relatedLinks = link.filter(
+          (d: GraphLink) =>
+            {return (d.source as GraphNode).group === hoveredNode.group &&
+            (d.target as GraphNode).group === hoveredNode.group},
+        );
+
+        changeLinkColor(relatedLinks, '#5c5cd6');
+        relatedLinks.classed(styles.flow, true);
+      };
+
+      const handleMouseOut = () => {
+        node.style('opacity', 1);
+        link.classed(styles.pulse, false);
+        changeLinkColor(link, '#999');
+        link.classed(styles.flow, false);
+      };
+
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
@@ -175,6 +206,8 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           return `url(#gradient-${starColors.indexOf(colorScale(d.group))})`;
         })
         .on('click', handleNodeClick)
+        .on('mouseover', handleMouseOver)
+        .on('mouseout', handleMouseOut)
         .call(drag);
 
       const nodeText = svg
