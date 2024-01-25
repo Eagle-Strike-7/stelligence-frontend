@@ -20,6 +20,7 @@ import {
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
+import { Pagination } from '@mui/material';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -207,6 +208,12 @@ const Page = () => {
               );
             })}
           </ul>
+          <Pagination
+            count={10}
+            showFirstButton
+            showLastButton
+            className="mt-4 self-center"
+          />
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
