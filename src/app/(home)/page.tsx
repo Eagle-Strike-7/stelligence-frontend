@@ -9,8 +9,8 @@ import {
   transformResults,
   transformLinks,
 } from '@/hooks/graph/transformGraphInfo';
-import { SearchResult } from '@/types/graph/GraphProps';
-import GalaxyGraph, { Graph } from './components/GalaxyGraph';
+import { Graph, SearchResult } from '@/types/graph/GraphProps';
+import GalaxyGraph from './components/GalaxyGraph';
 import '../../styles/graph.module.css';
 
 const SERVER_URL =

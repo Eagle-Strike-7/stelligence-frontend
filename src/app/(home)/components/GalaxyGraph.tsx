@@ -5,29 +5,13 @@ import { drag as d3drag } from 'd3';
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import '../../../styles/graph.module.css';
+import { Graph, GraphNode } from '@/types/graph/GraphProps';
 
-export interface Node extends d3.SimulationNodeDatum {
-  id: string;
-  group: string;
-  title: string;
-  x?: number;
-  y?: number;
-  fx?: number | null;
-  fy?: number | null;
-}
-
-export interface Link {
-  source: string | Node;
-  target: string | Node;
-}
-
-interface Graph {
-  nodes: Node[];
-  links: Link[];
+interface GraphProps extends Graph {
   searchResults: string[];
 }
 
-const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
+const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
   const ref = useRef<SVGSVGElement>(null);
   const router = useRouter();
 
@@ -49,14 +33,14 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
       svg.selectAll('*').remove();
 
       // NOTE 노드 클릭 이벤트
-      const onNodeClick = (event: MouseEvent, node: Node) => {
-        router.push(`/stars/${node.id}`); // 클릭한 노드의 ID를 사용하여 URL 경로 이동
+      const onNodeClick = (event: MouseEvent, node: GraphNode) => {
+        router.push(`/stars/${node.id}`);
       };
 
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 7]) // 스케일 범위 설정
+        .scaleExtent([1, 7])
         .on('zoom', event => {
           // NOTE 줌 변환 적용
           svg
@@ -83,7 +67,7 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
       const initialZoom = d3.zoomIdentity.scale(1); // 초기 줌 레벨 1로 설정
 
       // NOTE 드래그 기능을 위한 함수
-      const drag = d3drag<SVGCircleElement, Node, unknown>()
+      const drag = d3drag<SVGCircleElement, GraphNode, unknown>()
         .on('start', () => {})
         .on('drag', () => {})
         .on('end', () => {});
@@ -98,7 +82,7 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
           'link',
           d3.forceLink(links).id((d: d3.SimulationNodeDatum) => {
             if ('id' in d) {
-              return (d as Node).id;
+              return (d as GraphNode).id;
             }
             return '';
           }),
@@ -119,9 +103,8 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
 
       const node = svg
         .append('g')
-        .selectAll<SVGCircleElement, Node>('circle')
+        .selectAll<SVGCircleElement, GraphNode>('circle')
         .data(nodes)
-
         .join('circle')
         .attr('class', d => {
           return searchResults.includes(d.id) ? 'blinking-node' : '';
@@ -138,10 +121,10 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
         .selectAll('text')
         .data(nodes)
         .join('text')
-        .attr('x', (d: Node) => {
+        .attr('x', (d: GraphNode) => {
           return d.x ?? 0;
         })
-        .attr('y', (d: Node) => {
+        .attr('y', (d: GraphNode) => {
           return (d.y ?? 0) + 15;
         })
         .text(d => {
@@ -155,31 +138,31 @@ const ForceGraph = ({ nodes, links, searchResults }: Graph) => {
       simulation.on('tick', () => {
         link
           .attr('x1', d => {
-            return (d.source as Node).x ?? 0;
+            return (d.source as GraphNode).x ?? 0;
           })
           .attr('y1', d => {
-            return (d.source as Node).y ?? 0;
+            return (d.source as GraphNode).y ?? 0;
           })
           .attr('x2', d => {
-            return (d.target as Node).x ?? 0;
+            return (d.target as GraphNode).x ?? 0;
           })
           .attr('y2', d => {
-            return (d.target as Node).y ?? 0;
+            return (d.target as GraphNode).y ?? 0;
           });
 
         node
-          .attr('cx', (d: Node) => {
+          .attr('cx', (d: GraphNode) => {
             return d.x ?? 0;
           })
-          .attr('cy', (d: Node) => {
+          .attr('cy', (d: GraphNode) => {
             return d.y ?? 0;
           });
 
         nodeText
-          .attr('x', (d: Node) => {
+          .attr('x', (d: GraphNode) => {
             return d.x ?? 0;
           })
-          .attr('y', (d: Node) => {
+          .attr('y', (d: GraphNode) => {
             return (d.y ?? 0) + 15;
           });
       });
