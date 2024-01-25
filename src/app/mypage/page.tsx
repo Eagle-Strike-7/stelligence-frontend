@@ -100,7 +100,6 @@ const Page = () => {
                   color="black"
                 />
               </div>
-
               <div className="flex">
                 <span className="flex text-sm items-center">닉네임</span>
                 <Input
@@ -121,6 +120,16 @@ const Page = () => {
                   변경사항 저장
                 </Button>
               </div>
+              <Button
+                variant="outline"
+                color="black"
+                size="xs"
+                width="6rem"
+                mt="1rem"
+                _hover={{ color: 'red' }}
+              >
+                회원 탈퇴
+              </Button>
             </div>
           </div>
         </TitleCard>
