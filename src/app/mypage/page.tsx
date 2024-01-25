@@ -89,6 +89,19 @@ const Page = () => {
                 </Badge>
               </div>
               <div className="flex">
+                <span className="flex text-sm items-center">이메일</span>
+                <Input
+                  isDisabled
+                  defaultValue={userData?.email}
+                  width="md"
+                  ml="2"
+                  fontSize="sm"
+                  size="sm"
+                  color="black"
+                />
+              </div>
+
+              <div className="flex">
                 <span className="flex text-sm items-center">닉네임</span>
                 <Input
                   defaultValue={newNickname}
