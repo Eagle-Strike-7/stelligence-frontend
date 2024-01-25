@@ -20,7 +20,9 @@ interface BadgeData {
 export const getUserData = async (): Promise<UserData | null> => {
   try {
     const response = await axios.get<UserData>(
-      'http://localhost:8080/api/members/me',
+      // NOTE 테스트용 -> 추후에 변경
+      // 'http://localhost:8080/api/members/me',
+      '/dummyUserData.json',
     );
     return response.data;
   } catch (error) {
@@ -33,7 +35,9 @@ export const getUserData = async (): Promise<UserData | null> => {
 export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
   try {
     const response = await axios.get<BookmarkData[]>(
-      'http://localhost:8080/api/bookmarks?page=00&size=00',
+      // NOTE 테스트용 -> 추후에 변경
+      // 'http://localhost:8080/api/bookmarks?page=00&size=00',
+      '/dummyBookmarkData.json',
     );
     return response.data;
   } catch (error) {
@@ -46,7 +50,9 @@ export const getBookmarkData = async (): Promise<BookmarkData[] | null> => {
 export const getBadgeData = async (): Promise<BadgeData[] | null> => {
   try {
     const response = await axios.get<BadgeData[]>(
-      'http://localhost:8080/api/members/badge',
+      // NOTE 테스트용 -> 추후에 변경
+      // 'http://localhost:8080/api/members/badge',
+      '/dummyBadgeData.json',
     );
     return response.data;
   } catch (error) {
