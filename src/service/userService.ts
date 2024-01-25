@@ -28,7 +28,7 @@ export const getUserData = async (): Promise<UserData | null> => {
     const response = await axios.get<UserData>(
       // NOTE 테스트용 -> 추후에 변경
       // 'http://localhost:8080/api/members/me',
-      '/dummyUserData.json',
+      '/test/dummyUserData.json',
     );
     return response.data;
   } catch (error) {
@@ -43,7 +43,7 @@ export const getBookmarkData = async (): Promise<BookmarkResponse | null> => {
     const response = await axios.get<BookmarkResponse>(
       // NOTE 테스트용 -> 추후에 변경
       // 'http://localhost:8080/api/bookmarks?page=00&size=00',
-      '/dummyBookmarkData.json',
+      '/test/dummyBookmarkData.json',
     );
     return response.data;
   } catch (error) {
@@ -58,7 +58,7 @@ export const getBadgeData = async (): Promise<BadgeResponse | null> => {
     const response = await axios.get<BadgeResponse>(
       // NOTE 테스트용 -> 추후에 변경
       // 'http://localhost:8080/api/members/badge',
-      '/dummyBadgeData.json',
+      '/test/dummyBadgeData.json',
     );
     return response.data;
   } catch (error) {
