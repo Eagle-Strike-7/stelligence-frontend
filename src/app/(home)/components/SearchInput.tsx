@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputGroup, InputRightElement, Button, Input } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import { searchTextState } from '@/store/search/searchInput';
+import searchTextState from '@/store/search/searchInput';
 import { useRecoilState } from 'recoil';
 
 interface SearchInputProps {
@@ -15,7 +15,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   isDropdownOpen,
   setIsDropdownOpen,
 }) => {
-  const [searchText, setSearchText] = useRecoilState(searchTextState);
+  const [searchText, setSearchText] = useRecoilState<string>(searchTextState);
 
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
