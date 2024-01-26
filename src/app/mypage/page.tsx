@@ -116,17 +116,17 @@ const Page = () => {
             <div className="flex flex-col gap-2 ml-4 ">
               <div>
                 <h3 className="inline-block font-bold text-md">
-                  {userData?.nickname}
+                  {userData?.nickname ?? '닉네임 불러오기 실패'}
                 </h3>
                 <Badge ml="2" colorScheme="orange">
-                  {userData?.socialType}
+                  {userData?.socialType ?? '소셜 타입 불러오기 실패'}
                 </Badge>
               </div>
               <div className="flex">
                 <span className="flex text-sm items-center">이메일</span>
                 <Input
                   isDisabled
-                  defaultValue={userData?.email}
+                  defaultValue={userData?.email ?? '이메일 불러오기 실패'}
                   width="md"
                   ml="2"
                   fontSize="sm"
@@ -206,7 +206,7 @@ const Page = () => {
                   </Link>
                 </li>
               );
-            })}
+            }) ?? '북마크 불러오기 실패'}
           </ul>
           <Pagination
             count={10}
@@ -225,7 +225,7 @@ const Page = () => {
                   key={badge.badgeType}
                 />
               );
-            })}
+            }) ?? '배지 불러오기 실패'}
           </div>
         </TitleCard>
       </div>
