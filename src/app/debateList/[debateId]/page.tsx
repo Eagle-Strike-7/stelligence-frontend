@@ -5,6 +5,7 @@ import React from 'react';
 import CommentList from '../components/CommentList';
 import PagePreview from '../components/PagePreview';
 import WriteComment from '../components/CreateComment';
+import RouteToList from '../components/RouteToList';
 
 const page = () => {
   return (
@@ -12,6 +13,7 @@ const page = () => {
       <WriteComment />
       <CommentList />
       <PagePreview />
+      <RouteToList />
     </Wrapper>
   );
 };

@@ -13,7 +13,7 @@ const PagePreview = () => {
   };
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 mb-10">
       <div className="flex flex-col w-full mb-6 ">
         <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
           이전페이지
