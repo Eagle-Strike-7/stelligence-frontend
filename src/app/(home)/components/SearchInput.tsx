@@ -27,6 +27,14 @@ const SearchInput: React.FC<SearchInputProps> = ({
     handleSearch(searchText);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const {value} = (e.target as HTMLInputElement);
+      handleSearch(value);
+      setIsDropdownOpen(false);
+    }
+  };
+
   return (
     <InputGroup width="full" zIndex={1}>
       <Input
@@ -44,6 +52,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         _hover={{ borderColor: 'transparent', borderWidth: 2 }}
         borderBottomLeftRadius={isDropdownOpen ? 'none' : 'md'}
         borderBottomRightRadius={isDropdownOpen ? 'none' : 'md'}
+        onKeyDown={handleKeyDown}
       />
       <InputRightElement width="4rem">
         <Button
