@@ -20,7 +20,6 @@ import {
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
-import { Pagination } from '@mui/material';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -146,10 +145,12 @@ const Page = () => {
                   size="sm"
                 />
                 <Button
-                  colorScheme="green"
+                  colorScheme="green.500"
+                  color="white"
                   size="sm"
                   ml="5"
                   onClick={handleSaveNewNickname}
+                  _hover={{ bg: 'green.600' }}
                 >
                   변경사항 저장
                 </Button>
@@ -208,12 +209,6 @@ const Page = () => {
               );
             }) ?? '북마크 불러오기 실패'}
           </ul>
-          <Pagination
-            count={10}
-            showFirstButton
-            showLastButton
-            className="mt-4 self-center"
-          />
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
