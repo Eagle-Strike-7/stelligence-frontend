@@ -145,7 +145,7 @@ const Page = () => {
                   size="sm"
                 />
                 <Button
-                  colorScheme="green.500"
+                  bg="green.500"
                   color="white"
                   size="sm"
                   ml="5"
