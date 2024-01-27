@@ -3,10 +3,23 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import TitleCard from '@/components/Common/TitleCard';
-import { Avatar, Badge, Button, Input, useToast } from '@chakra-ui/react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Avatar,
+  Badge,
+  Button,
+  Input,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react';
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -73,6 +86,26 @@ const Page = () => {
     }
     mutation.mutate(newNickname);
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef<HTMLButtonElement>(null);
+
+  // NOTE 회원 탈퇴, 성공 시 메인페이지로 이동
+  const handleQuit = async (): Promise<void> => {
+    try {
+      const response = await axios({
+        method: 'DELETE',
+        url: 'http://localhost:8080/api/members/me',
+      });
+      if (response.status === 200) {
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('회원 탈퇴 실패 ', error);
+    } finally {
+      onClose();
+    }
+  };
   return (
     <Wrapper>
       <div className="flex flex-col gap-8">
@@ -82,11 +115,23 @@ const Page = () => {
             <div className="flex flex-col gap-2 ml-4 ">
               <div>
                 <h3 className="inline-block font-bold text-md">
-                  {userData?.nickname}
+                  {userData?.nickname ?? '닉네임 불러오기 실패'}
                 </h3>
                 <Badge ml="2" colorScheme="orange">
-                  {userData?.socialType}
+                  {userData?.socialType ?? '소셜 타입 불러오기 실패'}
                 </Badge>
+              </div>
+              <div className="flex">
+                <span className="flex text-sm items-center">이메일</span>
+                <Input
+                  isDisabled
+                  defaultValue={userData?.email ?? '이메일 불러오기 실패'}
+                  width="md"
+                  ml="2"
+                  fontSize="sm"
+                  size="sm"
+                  color="black"
+                />
               </div>
               <div className="flex">
                 <span className="flex text-sm items-center">닉네임</span>
@@ -100,14 +145,52 @@ const Page = () => {
                   size="sm"
                 />
                 <Button
-                  colorScheme="green"
+                  colorScheme="green.500"
+                  color="white"
                   size="sm"
                   ml="5"
                   onClick={handleSaveNewNickname}
+                  _hover={{ bg: 'green.600' }}
                 >
                   변경사항 저장
                 </Button>
               </div>
+              <Button
+                variant="outline"
+                color="black"
+                size="xs"
+                width="6rem"
+                mt="1rem"
+                _hover={{ color: 'red' }}
+                onClick={onOpen}
+              >
+                회원 탈퇴
+              </Button>
+              <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+              >
+                <AlertDialogOverlay>
+                  <AlertDialogContent>
+                    <AlertDialogHeader fontSize="lg">
+                      회원 탈퇴
+                    </AlertDialogHeader>
+                    <AlertDialogBody>
+                      정말로 탈퇴하실 건가요?🥺 <br />
+                      탈퇴할 경우 모든 데이터는 삭제되고 복구할 수 없습니다.
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={onClose}>
+                        취소
+                      </Button>
+                      <Button colorScheme="red" onClick={handleQuit} ml={3}>
+                        탈퇴
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialogOverlay>
+              </AlertDialog>
             </div>
           </div>
         </TitleCard>
@@ -124,7 +207,7 @@ const Page = () => {
                   </Link>
                 </li>
               );
-            })}
+            }) ?? '북마크 불러오기 실패'}
           </ul>
         </TitleCard>
         <TitleCard title="배지">
@@ -137,7 +220,7 @@ const Page = () => {
                   key={badge.badgeType}
                 />
               );
-            })}
+            }) ?? '배지 불러오기 실패'}
           </div>
         </TitleCard>
       </div>
