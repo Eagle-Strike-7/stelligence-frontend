@@ -87,7 +87,7 @@ const Page = () => {
           })}
         </div>
         {/* SECTION 투표 영역 */}
-        <div className="">
+        <div className="mt-16">
           <Vote
             agreePercent={dummyVoteData.agreePercent}
             disAgreePercent={dummyVoteData.disagreePercent}
