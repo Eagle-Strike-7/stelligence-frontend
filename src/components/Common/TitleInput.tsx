@@ -12,7 +12,7 @@ const TitleInput = ({
 }) => {
   return (
     <div className="flex flex-row gap-3 items-center">
-      <span className="text-base">{title}</span>
+      <span className="text-lg font-bold">{title}</span>
       <Input
         className="flex-grow"
         placeholder="내용을 입력하세요"
