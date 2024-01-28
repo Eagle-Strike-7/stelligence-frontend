@@ -15,7 +15,7 @@ const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
   return (
     <Card
       display="flex"
-      marginY="1rem"
+      mb="1rem"
       width="full"
       rounded="md"
       padding="1rem"
@@ -24,14 +24,17 @@ const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
       borderColor="black"
       colorScheme="blue"
       direction={{ base: 'column', sm: 'row' }}
-      bg="gray.50"
+      _hover={{
+        bg: 'gray.50',
+        cursor: 'pointer',
+      }}
     >
       <div>
-        <h2 className="text-md text-gray-400 mb-1">{originalTitle}</h2>
-        <h2 className="text-lg font-semibold mb-1">{title}</h2>
+        <h2 className="text-sm text-gray-400 mb-1">{originalTitle}</h2>
+        <h2 className="text-md font-semibold mb-1">{title}</h2>
         <div className="flex place-items-center mb-1">
-          <p className="text-sm mr-3">{username}</p>
-          <p className="text-sm text-gray">{time}</p>
+          <p className="text-xs mr-3">{username}</p>
+          <p className="text-xs text-gray">{time}</p>
         </div>
       </div>
       <div className="justify-between">
