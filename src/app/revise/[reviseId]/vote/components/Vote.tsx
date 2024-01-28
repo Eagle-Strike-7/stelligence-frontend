@@ -23,7 +23,7 @@ const Vote = ({
         </div>
         <Progress
           colorScheme="blue"
-          value={50}
+          value={agreePercent}
           size="lg"
           sx={{
             borderRadius: '1rem',
