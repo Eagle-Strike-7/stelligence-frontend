@@ -6,7 +6,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import { dummyVoteList } from '@/constants/dummyData';
-import SpecificVoteListCard from '@/app/stars/[starId]/vote/components/SpecificVoteListCard';
+import SpecificVoteListCard from '@/app/stars/[starId]/voteList/components/SpecificVoteListCard';
 import Pagination from '@mui/material/Pagination';
 import { Center } from '@chakra-ui/react';
 

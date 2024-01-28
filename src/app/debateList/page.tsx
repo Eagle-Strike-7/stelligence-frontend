@@ -11,7 +11,9 @@ const Page = () => {
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
-      <StateTab tab1="진행중" tab2="종료" />
+      <div>
+        <StateTab tab1="진행중" tab2="종료" />
+      </div>
       {dummyDebateList.map(item => {
         return (
           <DebateListCard

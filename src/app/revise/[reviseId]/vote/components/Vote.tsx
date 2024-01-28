@@ -15,7 +15,7 @@ const Vote = ({
 }) => {
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold">투표하기</h1>
+      <h1 className="text-xl font-bold mb-3">투표하기</h1>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row justify-between">
           <span className="text-lg font-bold">{agreePercent}%</span>
@@ -36,6 +36,7 @@ const Vote = ({
         </div>
       </div>
       <div className="flex flex-row gap-4 justify-center">
+        {/* TODO hover, 선택 시 색상 변경 */}
         <Button leftIcon={<FaRegThumbsUp />}>찬성</Button>
         <Button leftIcon={<FaRegThumbsDown />}>반대</Button>
       </div>

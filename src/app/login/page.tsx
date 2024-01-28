@@ -1,6 +1,5 @@
 'use client';
 
-import Wrapper from '@/components/Common/Wrapper';
 import GoogleLogin from '@/app/login/components/GoogleLogin';
 import KakaoLogin from '@/app/login/components/KakaoLogin';
 import NaverLogin from '@/app/login/components/NaverLogin';
@@ -9,6 +8,7 @@ import { DM_Serif_Display } from 'next/font/google';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const dm = DM_Serif_Display({ subsets: ['latin'], weight: ['400'] });
 
@@ -42,36 +42,43 @@ const Page = () => {
     }
   };
   return (
-    <Wrapper>
-      <div className="flex flex-col gap-y-8 justify-center items-center h-screen">
-        <h1 className={`${dm.className} text-4xl`}>Stelligence</h1>
-        <Card
-          borderWidth="1px"
-          borderColor="requestBtn"
-          p="20"
-          borderRadius="lg"
-          bgColor="white"
+    <div className="flex flex-col gap-y-8 justify-center items-center h-screen bg-black">
+      <Link href="/">
+        <h1
+          className={`${dm.className} text-4xl text-white text-left align-middle justify-center tracking-wider font-extrabold`}
         >
-          <div className="flex flex-col gap-y-3">
-            <KakaoLogin />
-            <NaverLogin />
-            <GoogleLogin />
-          </div>
-        </Card>
+          Stelligence
+        </h1>
+      </Link>
+      <Card
+        borderWidth="1px"
+        borderColor="requestBtn"
+        px="20"
+        pt="12"
+        pb="16"
+        borderRadius="lg"
+        bg="gray.50"
+      >
+        <h1 className="text-center font-bold mb-8 text-2xl">로그인</h1>
+        <div className="flex flex-col gap-y-3">
+          <KakaoLogin />
+          <NaverLogin />
+          <GoogleLogin />
+        </div>
+      </Card>
 
-        {/* NOTE 테스트용 닉네임으로 로그인 */}
-        {/* TODO 최종에서는 삭제 */}
-        <Card p="2rem">
-          <Input
-            placeholder="[test] 닉네임으로 로그인"
-            width="sm"
-            mb="1rem"
-            onChange={handleChangeInput}
-          />
-          <Button onClick={handleSubmitNickname}>로그인</Button>
-        </Card>
-      </div>
-    </Wrapper>
+      {/* NOTE 테스트용 닉네임으로 로그인 */}
+      {/* TODO 최종에서는 삭제 */}
+      <Card p="2rem">
+        <Input
+          placeholder="[test] 닉네임으로 로그인"
+          width="sm"
+          mb="1rem"
+          onChange={handleChangeInput}
+        />
+        <Button onClick={handleSubmitNickname}>로그인</Button>
+      </Card>
+    </div>
   );
 };
 

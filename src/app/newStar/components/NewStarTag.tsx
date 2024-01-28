@@ -67,12 +67,12 @@ const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
   }, [debouncedTag]);
 
   return (
-    <div className="flex flex-row">
-      <span className="w-32 text-lg font-bold mt-3">상위 계층 태그</span>
+    <div className="flex flex-row mb-4 flex-shrink-0">
+      <span className="w-32 text-md font-bold mt-3">상위 계층 태그</span>
 
       <div className="mb-3 relative flex-grow">
         <Input
-          size="lg"
+          size="md"
           variant="outline"
           placeholder="연결할 글의 제목을 입력해 주세요"
           value={newStar.tag}

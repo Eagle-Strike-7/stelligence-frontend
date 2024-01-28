@@ -18,8 +18,9 @@ const GoogleLogin = () => {
       height="3rem"
       color="black"
       border="1px"
-      borderColor="gray.300"
+      borderColor="gray.100"
       onClick={handleClick}
+      bg="white"
     >
       구글로 로그인
     </Button>

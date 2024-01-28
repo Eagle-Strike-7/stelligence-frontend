@@ -1,4 +1,4 @@
-import { Avatar, Box, Text, Badge } from '@chakra-ui/react';
+import { Avatar, Box, Text } from '@chakra-ui/react';
 import React from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi';
@@ -18,24 +18,27 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   isWriter,
   time,
 }) => {
+  console.log(isWriter);
+
   return (
     <Box className="flex w-full p-4 rounded-md  bg-blue-50  my-2">
       {/*  SECTION - 유저 정보 부분 */}
-      <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-24 mr-4">
-        <Avatar
-          bg="teal.500"
-          className="w-12 bg-gray-200 overflow-hidden rounded-full mb-2"
-          src={userImg}
-        />
-        <Text fontSize="xs">{userName}</Text>
+      <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
+        <Avatar src={userImg} size="sm" />
       </Box>
 
       {/* SECTION - 나머지 컨텐츠 부분  */}
       <Box className="flex-col w-full">
         {/* SECTION - 가장 위 수정/삭제 아이콘 영역 */}
-        <Box className="flex justify-end text-gray-600 ">
-          <HiOutlineTrash size="1.5rem" className="mr-1 hover:cursor-pointer" />
-          <AiOutlineEdit size="1.5rem " className="hover:cursor-pointer" />
+        <Box className="flex justify-between text-gray-600 ">
+          <Text fontSize="xs">{userName}</Text>
+          <Box className="flex">
+            <HiOutlineTrash
+              size="1.25rem"
+              className="mr-1 hover:cursor-pointer"
+            />
+            <AiOutlineEdit size="1.25rem " className="hover:cursor-pointer" />
+          </Box>
         </Box>
         {/* SECTION - 댓글 영역 */}
         <Box>
@@ -43,16 +46,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         </Box>
         {/* SECTION - 배지 및 작성 시간 영역 */}
         <Box className="flex justify-end items-baseline">
-          {isWriter ? (
-            <Badge
-              variant="subtle"
-              colorScheme="green"
-              className="mr-2 h-full px-1 rounded-md text-sm bg-blue-200"
-            >
-              작성자
-            </Badge>
-          ) : null}
-          <Text className="text-gray-600 ">{time}</Text>
+          <Text className="text-gray-600 text-xs">{time}</Text>
         </Box>
       </Box>
     </Box>

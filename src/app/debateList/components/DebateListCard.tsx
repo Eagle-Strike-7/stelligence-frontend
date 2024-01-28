@@ -14,7 +14,7 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
   return (
     <Card
       display="flex"
-      marginY="1rem"
+      mb="1rem"
       width="full"
       rounded="md"
       padding={4}
@@ -23,22 +23,25 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
       borderColor="black"
       colorScheme="blue"
       direction={{ base: 'column', sm: 'row' }}
-      bg="gray.50"
+      _hover={{
+        bg: 'gray.50',
+        cursor: 'pointer',
+      }}
     >
       <div>
-        <h2 className="text-md text-gray-400">{originalTitle}</h2>
-        <h2 className="text-lg font-semibold mb-1">{title}</h2>
+        <h2 className="text-sm text-gray-400 mb-1">{originalTitle}</h2>
+        <h2 className="text-md font-semibold mb-1">{title}</h2>
         <div className="flex items-center mb-1">
-          <p className="mr-3 text-sm">{username}</p>
-          <p className="text-sm" color="gray">
+          <p className="mr-3 text-xs">{username}</p>
+          <p className="text-xs" color="gray">
             {time}
           </p>
         </div>
       </div>
       <div className="justify-between">
         <div className="flex">
-          <AiOutlineComment size="1.5rem" />
-          <p>{option.commentNum}</p>
+          <AiOutlineComment size="1.2rem" />
+          <p className="text-sm">{option.commentNum}</p>
         </div>
       </div>
     </Card>

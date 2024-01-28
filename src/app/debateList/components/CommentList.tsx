@@ -29,7 +29,7 @@ const CommentList = () => {
 
   return (
     <div className="flex flex-col w-full mb-20">
-      <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
+      <span className="w-32 text-md font-bold mt-3 flex-shrink-0">
         작성된 댓글({commentList.length})
       </span>
       {commentList.map(comment => {
