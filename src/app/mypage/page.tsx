@@ -121,20 +121,15 @@ const Page = () => {
                   {userData?.socialType ?? '소셜 타입 불러오기 실패'}
                 </Badge>
               </div>
-              <div className="flex">
+              <div className="flex gap-5">
                 <span className="flex text-sm items-center">이메일</span>
-                <Input
-                  isDisabled
-                  defaultValue={userData?.email ?? '이메일 불러오기 실패'}
-                  width="md"
-                  ml="2"
-                  fontSize="sm"
-                  size="sm"
-                  color="black"
-                />
+                <p className="text-sm">
+                  {userData?.email ?? '이메일 불러오기 실패'}
+                </p>
               </div>
               <div className="flex">
                 <span className="flex text-sm items-center">닉네임</span>
+                {/* TODO 변경전 상태일때는 p태그, 변경중 상태일때는 Input */}
                 <Input
                   defaultValue={newNickname}
                   onChange={handleChangeNickname}
@@ -144,6 +139,7 @@ const Page = () => {
                   fontSize="sm"
                   size="sm"
                 />
+                {/* TODO 변경전 상태일때는 "변경하기" 변경중 상태일때는 "변경사항 저장" */}
                 <Button
                   bg="green.500"
                   color="white"
@@ -155,49 +151,14 @@ const Page = () => {
                   변경사항 저장
                 </Button>
               </div>
-              <Button
-                variant="outline"
-                color="black"
-                size="xs"
-                width="6rem"
-                mt="1rem"
-                _hover={{ color: 'red' }}
-                onClick={onOpen}
-              >
-                회원 탈퇴
-              </Button>
-              <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-              >
-                <AlertDialogOverlay>
-                  <AlertDialogContent>
-                    <AlertDialogHeader fontSize="lg">
-                      회원 탈퇴
-                    </AlertDialogHeader>
-                    <AlertDialogBody>
-                      정말로 탈퇴하실 건가요?🥺 <br />
-                      탈퇴할 경우 모든 데이터는 삭제되고 복구할 수 없습니다.
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                      <Button ref={cancelRef} onClick={onClose}>
-                        취소
-                      </Button>
-                      <Button colorScheme="red" onClick={handleQuit} ml={3}>
-                        탈퇴
-                      </Button>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialogOverlay>
-              </AlertDialog>
             </div>
           </div>
         </TitleCard>
         <TitleCard title="북마크">
-          <ul className="flex flex-col gap-1">
+          <ul className="flex flex-row gap-3">
             {bookmarkData?.bookmarks.map(bookmark => {
               return (
+                // TODO Badge or Tag로 변경
                 <li key={bookmark.bookmarkId}>
                   <Link
                     href={`/stars/${bookmark.documentId}`}
@@ -209,6 +170,7 @@ const Page = () => {
               );
             }) ?? '북마크 불러오기 실패'}
           </ul>
+          {/* TODO 페이지네이션은 더보기 버튼으로 하기 */}
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
@@ -223,6 +185,42 @@ const Page = () => {
             }) ?? '배지 불러오기 실패'}
           </div>
         </TitleCard>
+        {/* TODO 위치, 디자인 고민하기 */}
+        <Button
+          variant="outline"
+          color="black"
+          size="xs"
+          width="6rem"
+          mt="1rem"
+          _hover={{ color: 'red' }}
+          onClick={onOpen}
+          alignSelf="end"
+        >
+          회원 탈퇴
+        </Button>
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg">회원 탈퇴</AlertDialogHeader>
+              <AlertDialogBody>
+                정말로 탈퇴하실 건가요?🥺 <br />
+                탈퇴할 경우 모든 데이터는 삭제되고 복구할 수 없습니다.
+              </AlertDialogBody>
+              <AlertDialogFooter>
+                <Button colorScheme="red" ref={cancelRef} onClick={onClose}>
+                  취소
+                </Button>
+                <Button onClick={handleQuit} ml={3}>
+                  탈퇴
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </div>
     </Wrapper>
   );
