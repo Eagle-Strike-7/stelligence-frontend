@@ -16,7 +16,7 @@ const PagePreview = () => {
     <div className="flex flex-row gap-2 mb-10">
       <div className="flex flex-col w-full mb-6 ">
         <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
-          이전페이지
+          이전 토론
         </span>
         <DebateListCard
           originalTitle={commentedUsersInfo.commentContent}
@@ -28,7 +28,7 @@ const PagePreview = () => {
       </div>
       <div className="flex flex-col w-full mb-6 ">
         <span className="w-full text-lg font-bold mt-3 flex-shrink-0 text-right">
-          다음페이지
+          다음 토론
         </span>
         <DebateListCard
           originalTitle={commentedUsersInfo.commentContent}
