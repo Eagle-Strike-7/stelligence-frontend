@@ -66,7 +66,7 @@ const Page = () => {
           </div>
         </div>
         {/* SECTION 수정요청 사항 내용 영역 */}
-        <div className="">
+        <div className="flex flex-col gap-16 mt-10">
           {dummyReviseData.contents.map(content => {
             return (
               <BeforeAfter
