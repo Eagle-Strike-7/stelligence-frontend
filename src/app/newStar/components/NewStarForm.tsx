@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import StarSectionInput from '@/components/Common/StarSectionInput';
+import StarSectionInput from '@/components/Common/SectionInput/StarSectionInput';
 import { Button } from '@chakra-ui/react';
 import NewStarTitle from './NewStarTitle';
 import NewStarTag from './NewStarTag';
