@@ -3,6 +3,7 @@ import TitleInput from '@/components/Common/TitleInput';
 import Wrapper from '@/components/Common/Wrapper';
 import { Textarea } from '@chakra-ui/react';
 import React from 'react';
+import Vote from './components/Vote';
 
 // FIXME 백엔드 통신 이후 삭제
 const dummyReviseData = {
@@ -28,6 +29,13 @@ const dummyReviseData = {
         '마리모가 어항 위로 올라오는 행동은 광합성을 통해 생긴 기포에 의한 것이다. 요즘엔 다시 반려식물로 인기를 누리고 있다. 마트에 가면 볼 수 있는 반려식물중 하나이다. 또한 마리모는 기분이 좋으면 떠오르는데, 이때 소원을 빌면 이루어진다는 전설이 있다.',
     },
   ],
+};
+
+const dummyVoteData = {
+  agreePercent: 30,
+  disagreePercent: 70,
+  agreeNum: 30,
+  disagreeNum: 70,
 };
 const Page = () => {
   return (
@@ -77,6 +85,15 @@ const Page = () => {
               />
             );
           })}
+        </div>
+        {/* SECTION 투표 영역 */}
+        <div className="">
+          <Vote
+            agreePercent={dummyVoteData.agreePercent}
+            disAgreePercent={dummyVoteData.disagreePercent}
+            agreeNum={dummyVoteData.agreeNum}
+            disAgreeNum={dummyVoteData.disagreeNum}
+          />
         </div>
       </Wrapper>
     </div>
