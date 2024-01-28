@@ -21,14 +21,3 @@
 .blinking-node {
   animation: blinking 4s ease-in infinite;
 }
-
-@keyframes flowAnimation {
-  to {
-    stroke-dashoffset: 100;
-  }
-}
-
-.flow {
-  stroke-dasharray: 15;
-  animation: flowAnimation 2s linear infinite;
-}
