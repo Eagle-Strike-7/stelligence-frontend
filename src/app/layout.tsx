@@ -8,6 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material';
 import muiTheme from '@/theme/mui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
 import customTheme from '../theme/chakra';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -25,8 +26,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <QueryClientProvider client={queryClient}>
           <MUIThemeProvider theme={muiTheme}>
             <ChakraProvider theme={customTheme}>
-              {!isLoginPage && <Header />}
-              {children}
+              <RecoilRoot>
+                {!isLoginPage && <Header />}
+                {children}
+              </RecoilRoot>
             </ChakraProvider>
           </MUIThemeProvider>
         </QueryClientProvider>
