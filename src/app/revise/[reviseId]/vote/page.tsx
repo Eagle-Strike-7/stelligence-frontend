@@ -59,8 +59,8 @@ const Page = () => {
             content={dummyReviseData.voteTime}
             isDisable
           />
-          <div className="flex flex-col gap-2">
-            <span>수정 요청 이유</span>
+          <div className="flex flex-col gap-2 mt-2">
+            <span className="font-bold text-lg">수정 요청 이유</span>
             <Textarea
               value={dummyReviseData.reason}
               placeholder="내용을 입력해주세요"
