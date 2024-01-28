@@ -1,7 +1,7 @@
 import BeforeAfter from '@/components/Common/BeforeAfter';
 import TitleInput from '@/components/Common/TitleInput';
 import Wrapper from '@/components/Common/Wrapper';
-import { Textarea } from '@chakra-ui/react';
+import { Card, Textarea } from '@chakra-ui/react';
 import React from 'react';
 import Vote from './components/Vote';
 
@@ -39,10 +39,12 @@ const dummyVoteData = {
 };
 const Page = () => {
   return (
-    <div>
-      <Wrapper>
+    <Wrapper>
+      <div className="px-32 pt-5">
         {/* SECTION 수정요청 글 정보 영역 */}
         <div className="flex flex-col gap-4">
+          {/* TODO TitleInput -> p(기본 텍스트) */}
+          {/* TODO 수정요청사항과 투표 영역 구분하기 - 고민하기 */}
           <TitleInput title="제목" content={dummyReviseData.title} isDisable />
           <TitleInput
             title="연관된 토론 번호"
@@ -59,8 +61,9 @@ const Page = () => {
             content={dummyReviseData.voteTime}
             isDisable
           />
+
           <div className="flex flex-col gap-2 mt-2">
-            <span className="font-bold text-lg">수정 요청 이유</span>
+            <span className="font-bold text-md">수정 요청 이유</span>
             <Textarea
               value={dummyReviseData.reason}
               placeholder="내용을 입력해주세요"
@@ -87,16 +90,19 @@ const Page = () => {
           })}
         </div>
         {/* SECTION 투표 영역 */}
-        <div className="mt-16">
-          <Vote
-            agreePercent={dummyVoteData.agreePercent}
-            disAgreePercent={dummyVoteData.disagreePercent}
-            agreeNum={dummyVoteData.agreeNum}
-            disAgreeNum={dummyVoteData.disagreeNum}
-          />
+        <div className="mt-24">
+          {/* TODO 디자인 변경 필요 - 고민하기 */}
+          <Card bg="gray.50" padding={4}>
+            <Vote
+              agreePercent={dummyVoteData.agreePercent}
+              disAgreePercent={dummyVoteData.disagreePercent}
+              agreeNum={dummyVoteData.agreeNum}
+              disAgreeNum={dummyVoteData.disagreeNum}
+            />
+          </Card>
         </div>
-      </Wrapper>
-    </div>
+      </div>
+    </Wrapper>
   );
 };
 

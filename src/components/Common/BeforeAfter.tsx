@@ -24,8 +24,10 @@ const BeforeAfter = ({
           <Textarea
             isDisabled
             value={before}
-            height="15rem"
+            height="20rem"
+            lineHeight="1.5rem"
             resize="none"
+            padding={5}
             sx={{
               _disabled: {
                 color: 'black',
@@ -39,8 +41,10 @@ const BeforeAfter = ({
           <Textarea
             isDisabled
             value={after}
-            height="15rem"
+            height="20rem"
+            lineHeight="1.5rem"
             resize="none"
+            padding={5}
             sx={{
               _disabled: {
                 color: 'black',
