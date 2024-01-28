@@ -25,20 +25,24 @@ const NewStarForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col w-full pt-20 px-20">
-      <NewStarTitle newStar={newStar} setNewStar={setNewStar} />
-      <NewStarTag newStar={newStar} setNewStar={setNewStar} />
+    <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
+      <div className="">
+        <NewStarTitle newStar={newStar} setNewStar={setNewStar} />
+        <NewStarTag newStar={newStar} setNewStar={setNewStar} />
+      </div>
       <StarSectionInput inputTitle="본문" />
 
       <div className="flex justify-center">
         <Button
-          mt="2.5rem"
-          w="fit-content"
-          size="lg"
+          marginY="2rem"
+          // w="fit-content"
+          size="sm"
           variant="solid"
           colorScheme="blue"
           background="accent.500"
           type="submit"
+          paddingX="1.5rem"
+          paddingY="1.2rem"
         >
           생성하기
         </Button>
