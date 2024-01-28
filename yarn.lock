@@ -2813,6 +2813,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-underline@npm:^2.1.16":
+  version: 2.1.16
+  resolution: "@tiptap/extension-underline@npm:2.1.16"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 6eb103cac24f6114c6daf5ac046946444705503057c09375d354c6c1699676d5cd790e006b53afb361cf97a61163961220973b72902a31a0d7275354345e2265
+  languageName: node
+  linkType: hard
+
 "@tiptap/pm@npm:^2.1.16":
   version: 2.1.16
   resolution: "@tiptap/pm@npm:2.1.16"
@@ -9282,6 +9291,7 @@ __metadata:
     "@emotion/styled": "npm:^11.11.0"
     "@mui/material": "npm:^5.15.4"
     "@tanstack/react-query": "npm:^5.17.19"
+    "@tiptap/extension-underline": "npm:^2.1.16"
     "@tiptap/pm": "npm:^2.1.16"
     "@tiptap/react": "npm:^2.1.16"
     "@tiptap/starter-kit": "npm:^2.1.16"
