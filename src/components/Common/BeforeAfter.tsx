@@ -11,14 +11,14 @@ const BeforeAfter = ({
   after: string;
 }) => {
   return (
-    <div className="">
+    <div className="flex flex-col gap-5">
       {/* SECTION 수정 요청 사항 제목 영역 */}
-      <h1 className="">수정 요청 사항 : {title}</h1>
+      <h1 className="text-center">수정 요청 사항 : {title}</h1>
       {/* SECTION 수정 요청 사항 내용 영역 */}
-      <div className="">
+      <div className="grid grid-cols-2 gap-5">
         {/* SECTION 수정 전 내용 영역 */}
         <div>
-          <p className="">수정 전</p>
+          <p className="text-center">수정 전</p>
           <Textarea
             isDisabled
             value={before}
@@ -33,7 +33,7 @@ const BeforeAfter = ({
         </div>
         {/* SECTION 수정 후 내용 영역 */}
         <div>
-          <p className="">수정 후</p>
+          <p className="text-center">수정 후</p>
           <Textarea
             isDisabled
             value={after}
