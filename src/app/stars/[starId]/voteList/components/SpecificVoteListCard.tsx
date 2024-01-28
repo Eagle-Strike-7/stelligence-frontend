@@ -24,21 +24,22 @@ const SpecificVoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
       borderColor="black"
       colorScheme="blue"
       direction={{ base: 'column', sm: 'row' }}
-      bg="gray.50"
+      bg="white"
+      _hover={{ bg: 'gray.50' }}
     >
       <div>
-        <Text fontSize="lg" fontWeight={600} marginBottom={1}>
+        <Text fontSize="md" fontWeight={600} marginBottom={1}>
           {title}
         </Text>
         <div className="flex items-center mb-1">
-          <Text marginRight={3} fontSize="sm">
+          <Text marginRight={3} fontSize="xs">
             {username}
           </Text>
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="xs" color="gray.500">
             {time}
           </Text>
         </div>
-        <Text className="text-md">{content}</Text>
+        <Text className="text-sm">{content}</Text>
       </div>
       <div className="justify-between">
         <LikeDislike likeNum={option.likeNum} dislikeNum={option.dislikeNum} />
