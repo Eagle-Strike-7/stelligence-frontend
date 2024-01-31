@@ -39,7 +39,7 @@ const Home = () => {
 
   const handleSearch = async (text: string) => {
     axios
-      .get(`${process.env.SERVER_URL}/api/documents/search`, {
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
         params: { title: text, depth: 3 },
       })
       .then(response => {
