@@ -1,48 +1,47 @@
-
 name: Build and Deploy to Stelligence
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ['develop']
   pull_request:
-    branches: [ "develop" ]
+    branches: ['develop']
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20.10.0'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.10.0'
 
-    - name: Install Yarn
-      run: npm install -g yarn
-           corepack enable
-           yarn set version stable
+      - name: Install Yarn
+        run: npm install -g yarn
+          corepack enable
+          yarn set version stable
 
-    - name: Install Dependencies
-      run: yarn install
+      - name: Install Dependencies
+        run: yarn install
 
-    - name: Run Linter
-      run: yarn run eslint .
+      - name: Run Linter
+        run: yarn run eslint .
 
-    - name: Build
-      run: yarn build
-      env: 
-        NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+      - name: Build
+        run: yarn build
+        env:
+          SERVER_URL: ${{ secrets.SERVER_URL }}
 
-    - name: Deploy to EC2
-      uses: easingthemes/ssh-deploy@v2.1.5
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}  
-        SOURCE: ".next/"
-        TARGET: "/home/ubuntu/stelligence-deploy"
+      - name: Deploy to EC2
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: '.next/'
+          TARGET: '/home/ubuntu/stelligence-deploy'
 
-    - name: Clean-Up
-      run: yarn cache clean
+      - name: Clean-Up
+        run: yarn cache clean
