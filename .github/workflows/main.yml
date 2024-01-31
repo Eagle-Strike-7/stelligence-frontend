@@ -20,7 +20,8 @@ jobs:
         node-version: '20.10.0'
 
     - name: Install Yarn
-      run: npm install -g yarn@4.0.2
+      run: npm install -g yarn
+           yarn set version stable
 
     - name: Install Dependencies
       run: yarn install
