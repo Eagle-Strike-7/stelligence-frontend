@@ -5,7 +5,7 @@ import { Button } from '@chakra-ui/react';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 
 const KakaoLogin = () => {
-  const link = `http://localhost:8080/oauth2/authorization/kakao`;
+  const link = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth2/authorization/kakao`;
   const handleClick = () => {
     window.location.href = link;
   };
