@@ -32,11 +32,12 @@ jobs:
 
     - name: Build
       run: yarn build
+      env: 
+        NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
 
     - name: Deploy to EC2
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
-        NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
         REMOTE_USER: ${{ secrets.REMOTE_USER }}  
