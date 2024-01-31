@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { ResponseType } from '@/types/common/ResponseType';
-import { Document, NewStarProps } from '@/types/newStar/newStarProps';
+import { Document, StarProps } from '@/types/newStar/newStarProps';
 
-// FIXME : 검색결과 완전 일치할 때 결과가 안나옴
-const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
-  const debouncedTag = useDebounce(newStar.tag, 300);
+// NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
+const StarTagInput = ({ star, setStar }: StarProps) => {
+  const debouncedTag = useDebounce(star.tag, 300);
   const [connectedTag, setConnectedTag] = useState<string>('');
 
   const getTagResults = async () => {
@@ -43,12 +43,12 @@ const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewStar({ ...newStar, tag: e.target.value });
+    setStar({ ...star, tag: e.target.value });
   };
 
   const handleClick = (tag: string) => {
     setConnectedTag(tag);
-    setNewStar({ ...newStar, tag: '' });
+    setStar({ ...star, tag: '' });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, tag: string) => {
@@ -67,15 +67,15 @@ const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
   }, [debouncedTag]);
 
   return (
-    <div className="flex flex-row mb-4 flex-shrink-0">
-      <span className="w-32 text-md font-bold mt-3">상위 계층 태그</span>
+    <div className="flex flex-row grow mb-4 mr-10">
+      <span className="w-28 text-md font-bold mt-2">상위 계층 태그</span>
 
-      <div className="mb-3 relative flex-grow">
+      <div className="mb-3 relative grow">
         <Input
           size="md"
           variant="outline"
           placeholder="연결할 글의 제목을 입력해 주세요"
-          value={newStar.tag}
+          value={star.tag}
           onChange={handleChange}
           zIndex="1"
         />
@@ -130,4 +130,4 @@ const NewStarTag = ({ newStar, setNewStar }: NewStarProps) => {
   );
 };
 
-export default NewStarTag;
+export default StarTagInput;
