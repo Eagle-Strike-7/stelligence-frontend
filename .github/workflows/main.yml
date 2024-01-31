@@ -41,7 +41,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
         REMOTE_USER: ${{ secrets.REMOTE_USER }}  
         SOURCE: ".next/"
-        TARGET: "/stelligence-frontend"
+        TARGET: "/stelligence-deploy"
 
     - name: Clean-Up
       run: yarn cache clean
