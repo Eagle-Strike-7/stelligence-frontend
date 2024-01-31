@@ -40,7 +40,7 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }} 
         REMOTE_USER: ${{ secrets.REMOTE_USER }}  
-        SOURCE: "out/"
+        SOURCE: ".next/"
         TARGET: "/stelligence-frontend"
 
     - name: Clean-Up
