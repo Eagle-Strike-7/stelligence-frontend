@@ -45,6 +45,7 @@ const Page = () => {
 
   const [oldNickname, setOldNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
+  const [isNicknameChanging, setIsNicknameChanging] = useState(false);
 
   useEffect(() => {
     if (userData?.nickname) {
@@ -76,6 +77,7 @@ const Page = () => {
     setNewNickname(e.target.value);
   };
   const handleSaveNewNickname = async () => {
+    setIsNicknameChanging(false);
     if (oldNickname === newNickname) {
       toast({
         title: '이미 사용한 닉네임과 같습니다.',
@@ -85,6 +87,10 @@ const Page = () => {
       return;
     }
     mutation.mutate(newNickname);
+  };
+
+  const handleClickChange = () => {
+    setIsNicknameChanging(prev => {return !prev});
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -127,29 +133,44 @@ const Page = () => {
                   {userData?.email ?? '이메일 불러오기 실패'}
                 </p>
               </div>
-              <div className="flex">
+              <div className="flex gap-5">
                 <span className="flex text-sm items-center">닉네임</span>
-                {/* TODO 변경전 상태일때는 p태그, 변경중 상태일때는 Input */}
-                <Input
-                  defaultValue={newNickname}
-                  onChange={handleChangeNickname}
-                  placeholder="닉네임을 입력하세요."
-                  width="md"
-                  ml="2"
-                  fontSize="sm"
-                  size="sm"
-                />
-                {/* TODO 변경전 상태일때는 "변경하기" 변경중 상태일때는 "변경사항 저장" */}
-                <Button
-                  bg="green.500"
-                  color="white"
-                  size="sm"
-                  ml="5"
-                  onClick={handleSaveNewNickname}
-                  _hover={{ bg: 'green.600' }}
-                >
-                  변경사항 저장
-                </Button>
+                {isNicknameChanging ? (
+                  <Input
+                    defaultValue={newNickname}
+                    onChange={handleChangeNickname}
+                    placeholder="닉네임을 입력하세요."
+                    width="md"
+                    ml="2"
+                    fontSize="sm"
+                    size="sm"
+                  />
+                ) : (
+                  <p className="text-sm self-center">
+                    {userData?.nickname ?? '닉네임 불러오기 실패'}
+                  </p>
+                )}
+                {isNicknameChanging ? (
+                  <Button
+                    bg="green.500"
+                    color="white"
+                    size="sm"
+                    onClick={handleSaveNewNickname}
+                    _hover={{ bg: 'green.600' }}
+                  >
+                    변경사항 저장
+                  </Button>
+                ) : (
+                  <Button
+                    bg="green.500"
+                    color="white"
+                    size="sm"
+                    onClick={handleClickChange}
+                    _hover={{ bg: 'green.600' }}
+                  >
+                    변경하기
+                  </Button>
+                )}
               </div>
             </div>
           </div>
