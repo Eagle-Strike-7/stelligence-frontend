@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import StarSectionInput from '@/components/Common/StarSectionInput';
-import { Button } from '@chakra-ui/react';
-import NewStarTitle from './NewStarTitle';
-import NewStarTag from './NewStarTag';
+import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSectionInput';
+import StarTitleInput from '@/components/Common/Star/StarTitleInput';
+import StarTagInput from '@/components/Common/Star/StarTagInput';
+import { Star } from '@/types/newStar/newStarProps';
+import AccentButton from '@/components/Common/Button/AccentButton';
 
 const NewStarForm = () => {
-  const [newStar, setNewStar] = useState({
+  const [newStar, setNewStar] = useState<Star>({
     title: '',
     tag: '',
     content: 'hello',
@@ -26,27 +27,15 @@ const NewStarForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
-      <div className="">
-        <NewStarTitle newStar={newStar} setNewStar={setNewStar} />
-        <NewStarTag newStar={newStar} setNewStar={setNewStar} />
-      </div>
-      <StarSectionInput inputTitle="본문" />
+      <StarTitleInput star={newStar} setStar={setNewStar} />
+      <StarTagInput star={newStar} setStar={setNewStar} />
 
-      <div className="flex justify-center">
-        <Button
-          marginY="2rem"
-          // w="fit-content"
-          size="sm"
-          variant="solid"
-          colorScheme="blue"
-          background="accent.500"
-          type="submit"
-          paddingX="1.5rem"
-          paddingY="1.2rem"
-        >
-          생성하기
-        </Button>
+      <div className="flex flex-col w-full">
+        <div className="text-md font-bold mb-2">본문</div>
+        <StarSectionInput />
       </div>
+
+      <AccentButton name="생성하기" />
     </form>
   );
 };
