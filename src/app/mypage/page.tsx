@@ -14,6 +14,9 @@ import {
   Badge,
   Button,
   Input,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -90,7 +93,9 @@ const Page = () => {
   };
 
   const handleClickChange = () => {
-    setIsNicknameChanging(prev => {return !prev});
+    setIsNicknameChanging(prev => {
+      return !prev;
+    });
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -176,17 +181,19 @@ const Page = () => {
           </div>
         </TitleCard>
         <TitleCard title="북마크">
-          <ul className="flex flex-row gap-3">
+          <ul className="flex flex-row gap-3 flex-wrap">
             {bookmarkData?.bookmarks.map(bookmark => {
               return (
                 // TODO Badge or Tag로 변경
                 <li key={bookmark.bookmarkId}>
-                  <Link
-                    href={`/stars/${bookmark.documentId}`}
-                    className="hover:underline"
-                  >
-                    {bookmark.title}
-                  </Link>
+                  <Tag borderRadius="full" variant="solid" bg="accent.500">
+                    <TagLabel fontSize="xs" fontWeight="bold">
+                      <Link href={`/stars/${bookmark.documentId}`}>
+                        {bookmark.title}
+                      </Link>
+                    </TagLabel>
+                    <TagCloseButton />
+                  </Tag>
                 </li>
               );
             }) ?? '북마크 불러오기 실패'}
