@@ -40,7 +40,8 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           port: 22
-          script: cd /home/ubuntu
+          script: |
+            cd /home/ubuntu
             ./deploy.sh
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           
