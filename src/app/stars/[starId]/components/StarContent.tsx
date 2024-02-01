@@ -1,34 +1,23 @@
 import React from 'react';
-import StarSection, { StarSectionProps } from '@/components/Common/StarSection';
+import StarSectionShow from '@/components/Common/Star/StarSectionShow';
 import dummyContentData from '@/constants/dummyContentData';
-import { Button } from '@chakra-ui/react';
+import { StarSectionProps } from '@/app/revise/components/ReviseStarContent/ReviseStarSection';
 
-// NOTE : 글의 내용을 보여주는 컴포넌트
+// NOTE : 상세보기 페이지, 글의 내용을 보여주는 컴포넌트
 const StarContent = () => {
-    return (
-        <div className="flex flex-col w-full mb-16">
-            {dummyContentData.map((data: StarSectionProps) => {
-                return (
-                    <div key={data.id} className="flex flex-col w-full mb-6">
-                        <div className="flex flex-row mb-2 justify-between items-center justify-items-center">
-                            <span className="text-xl font-bold align-middle">
-                                {data.sectionTitle}
-                            </span>
-                            <Button
-                                size="md"
-                                colorScheme="gray"
-                                variant="outline"
-                                h="2rem"
-                            >
-                                편집
-                            </Button>
-                        </div>
-                        <StarSection sectionContent={data.sectionContent} />
-                    </div>
-                );
-            })}
-        </div>
-    );
+  return (
+    <div className="flex flex-col w-full my-16">
+      {dummyContentData.map((data: StarSectionProps) => {
+        return (
+          <StarSectionShow
+            key={data.id}
+            sectionTitle={data.sectionTitle}
+            sectionContent={data.sectionContent}
+          />
+        );
+      })}
+    </div>
+  );
 };
 
 export default StarContent;
