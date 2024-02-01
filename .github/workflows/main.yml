@@ -38,7 +38,7 @@ jobs:
       - name: Zip
         run: |
           zip -r app.zip .next
-          echo ${{ secrets.SSH_PRIVATE_KEY }} > /root/key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /root/key.pem
           scp -P 22 -i /root/key.pem app.zip ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/
       
       - name: Deploy to EC2
