@@ -4,7 +4,7 @@ import React from 'react';
 const ReviseStarReason = () => {
   return (
     <div className="flex flex-col w-full mt-4">
-      <div className="text-md font-bold mb-2">수정 이유</div>
+      <h3 className="text-md font-bold mb-2">수정 이유</h3>
       <textarea
         className="w-full h-28 p-4 border border-gray-300 rounded-md resize-none"
         placeholder="수정 이유를 입력하세요"
