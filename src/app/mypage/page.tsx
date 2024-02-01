@@ -23,6 +23,7 @@ import {
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
+import { IoIosArrowDown } from 'react-icons/io';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -184,7 +185,7 @@ const Page = () => {
           <ul className="flex flex-row gap-3 flex-wrap">
             {bookmarkData?.bookmarks.map(bookmark => {
               return (
-                // TODO Badge or Tag로 변경
+                // TODO 북마크 삭제 버튼 기능 넣기
                 <li key={bookmark.bookmarkId}>
                   <Tag borderRadius="full" variant="solid" bg="accent.500">
                     <TagLabel fontSize="xs" fontWeight="bold">
@@ -198,7 +199,15 @@ const Page = () => {
               );
             }) ?? '북마크 불러오기 실패'}
           </ul>
-          {/* TODO 페이지네이션은 더보기 버튼으로 하기 */}
+          {/* TODO 더보기 버튼 기능 넣기 */}
+          <Button
+            color="accent.500"
+            variant="link"
+            leftIcon={<IoIosArrowDown />}
+            mt="2rem"
+          >
+            더보기
+          </Button>
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
