@@ -23,7 +23,7 @@ import {
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -224,14 +224,14 @@ const Page = () => {
         </TitleCard>
         {/* TODO 위치, 디자인 고민하기 */}
         <Button
-          variant="outline"
-          color="black"
+          variant="link"
+          color="gray.500"
+          rightIcon={<IoIosArrowForward />}
           size="xs"
           width="6rem"
           mt="1rem"
           _hover={{ color: 'red' }}
           onClick={onOpen}
-          alignSelf="end"
         >
           회원 탈퇴
         </Button>
