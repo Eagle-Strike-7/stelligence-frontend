@@ -5,7 +5,7 @@ import { Button } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 
 const GoogleLogin = () => {
-  const link = `http://localhost:8080/oauth2/authorization/google`;
+  const link = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth2/authorization/google`;
   const handleClick = () => {
     window.location.href = link;
   };
