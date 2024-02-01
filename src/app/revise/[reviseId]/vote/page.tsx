@@ -66,9 +66,8 @@ const Page = () => {
           </div>
         </Card>
         {/* SECTION 투표 영역 */}
-        <div className="mt-24">
-          {/* TODO 디자인 변경 필요 - 고민하기 */}
-          <Card bg="gray.50" padding={4}>
+        <div className="mt-16">
+          <Card padding="2rem">
             <Vote
               agreePercent={dummyVoteData.agreePercent}
               disAgreePercent={dummyVoteData.disagreePercent}
