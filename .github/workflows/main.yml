@@ -35,11 +35,20 @@ jobs:
         env:
           NEXT_PUBLIC_SERVER_URL: http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com
 
-      - name: Zip
-        run: |
-          zip -r app.zip .next
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /root/key.pem
-          scp -P 22 -i /root/key.pem app.zip ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/
+      - name: Deploy to EC2
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: '.next/'
+          TARGET: '/home/ubuntu/stelligence-deploy'
+      
+      # - name: Zip
+      #   run: |
+      #     zip -r app.zip .next
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > /root/key.pem
+      #     scp -P 22 -i /root/key.pem app.zip ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/
       
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
