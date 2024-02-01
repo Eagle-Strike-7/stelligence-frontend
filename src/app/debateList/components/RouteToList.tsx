@@ -4,9 +4,11 @@ import React from 'react';
 
 const RouteToList = () => {
   return (
-    <div className="w-full flex justify-end mb-20">
+    <div className="w-full flex justify-end">
       <Link href="/debateList">
-        <Button variant="outline">토론장목록으로 가기</Button>
+        <Button variant="outline" size="sm">
+          토론장목록으로 가기
+        </Button>
       </Link>
     </div>
   );
