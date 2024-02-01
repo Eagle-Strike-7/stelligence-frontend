@@ -1,6 +1,6 @@
 import { Avatar, Box, Text } from '@chakra-ui/react';
 import React from 'react';
-import { AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi';
 
 export interface DebateCommentProps {
@@ -21,7 +21,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   console.log(isWriter);
 
   return (
-    <Box className="flex w-full p-4 rounded-md  bg-blue-50  my-2">
+    <Box className="flex w-full p-4 rounded-md  bg-blue-100  my-2">
       {/*  SECTION - 유저 정보 부분 */}
       <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
         <Avatar src={userImg} size="sm" />
@@ -32,7 +32,11 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         {/* SECTION - 가장 위 수정/삭제 아이콘 영역 */}
         <Box className="flex justify-between text-gray-600 ">
           <Text fontSize="xs">{userName}</Text>
-          <Box className="flex">
+          <Box className="flex justify-center align-center">
+            <AiTwotoneAlert
+              size="1.25rem"
+              className="mr-1 hover:cursor-pointer"
+            />
             <HiOutlineTrash
               size="1.25rem"
               className="mr-1 hover:cursor-pointer"
