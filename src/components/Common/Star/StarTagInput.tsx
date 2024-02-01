@@ -8,9 +8,12 @@ import { Document, StarProps } from '@/types/newStar/newStarProps';
 
 // NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
 const StarTagInput = ({ star, setStar }: StarProps) => {
-  const debouncedTag = useDebounce(star.tag, 300);
-  const [connectedTag, setConnectedTag] = useState<string>('');
+  const [starTag, setStarTag] = useState({
+    enteredTag: '', // input에 입력된 값
+    connectedTag: '', // 태그로 생성된 값
+  });
 
+  const debouncedTag = useDebounce(starTag.enteredTag, 300);
   const getTagResults = async () => {
     const tempUrl =
       'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com/api/documents/search';
@@ -42,23 +45,25 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
     queryFn: getTagResults,
   });
 
+  // input에 값이 입력될 때
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStar({ ...star, tag: e.target.value });
+    setStarTag({ ...starTag, enteredTag: e.target.value });
   };
 
-  const handleClick = (tag: string) => {
-    setConnectedTag(tag);
-    setStar({ ...star, tag: '' });
+  const handleClick = (doc: Document) => {
+    setStarTag({ ...starTag, enteredTag: '', connectedTag: doc.title });
+    setStar({ ...star, documentId: doc.documentId });
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, tag: string) => {
+  const handleKeyDown = (e: React.KeyboardEvent, doc: Document) => {
     if (e.key === 'Enter') {
-      handleClick(tag);
+      handleClick(doc);
     }
   };
 
   const handleDelete = () => {
-    setConnectedTag('');
+    setStarTag({ ...starTag, connectedTag: '' });
+    setStar({ ...star, documentId: 0 });
   };
 
   // NOTE : 검색어가 바뀌면 검색 다시하기
@@ -75,7 +80,7 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
           size="md"
           variant="outline"
           placeholder="연결할 글의 제목을 입력해 주세요"
-          value={star.tag}
+          value={starTag.enteredTag}
           onChange={handleChange}
           zIndex="1"
         />
@@ -84,21 +89,21 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
           <div className="absolute w-full mt-1 border border-gray-300 bg-white rounded-md z-10">
             {/* NOTE : 결과가 있을 때 */}
             {searchTag.data && searchTag.data.length > 0 ? (
-              searchTag.data.map(tag => {
+              searchTag.data.map(doc => {
                 return (
                   <div
-                    key={tag.documentId}
+                    key={doc.documentId}
                     role="button"
                     tabIndex={0}
                     className="p-2 pl-4 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
-                      handleClick(tag.title);
+                      handleClick(doc);
                     }}
                     onKeyDown={event => {
-                      handleKeyDown(event, tag.title);
+                      handleKeyDown(event, doc);
                     }}
                   >
-                    {tag.title}
+                    {doc.title}
                   </div>
                 );
               })
@@ -110,7 +115,7 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
         ) : (
           <> </>
         )}
-        {connectedTag !== '' ? (
+        {starTag.connectedTag !== '' ? (
           <Tag
             size="lg"
             variant="subtle"
@@ -119,7 +124,7 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
             minW="fit-content"
             maxW="fit-content"
           >
-            <TagLabel>{connectedTag}</TagLabel>
+            <TagLabel>{starTag.connectedTag}</TagLabel>
             <TagCloseButton onClick={handleDelete} />
           </Tag>
         ) : (
