@@ -14,7 +14,15 @@ const Page = () => {
       <div className="flex justify-between w-full items-center my-0">
         <StateTab tab1="진행중" tab2="완료" />
         <div className="flex my-0">
-          <Select variant="outline" size="sm" rounded="md">
+          <Select
+            variant="filled"
+            size="sm"
+            rounded="md"
+            borderColor="gray.200"
+            borderWidth={1}
+            focusBorderColor="gray.400"
+            bg="white"
+          >
             <option value="최신순">최신순</option>
             <option value="최근댓글순">최근댓글순</option>
           </Select>

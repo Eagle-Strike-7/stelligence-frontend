@@ -21,34 +21,40 @@ const StateTab: React.FC<{
     <div className="flex my-6">
       <Button
         variant="ghost"
-        className={
-          active === tab1
-            ? 'text-lg font-semibold mr-4 hover:cursor-pointer p-0'
-            : 'text-lg text-gray-300 font-semibold mr-4 hover:cursor-pointer p-0'
-        }
-        _hover={{ bg: 'none' }}
-        onClick={() => {return setActive(tab1)}}
-        onKeyDown={e => {return handleKeyDown(e, tab1)}}
+        fontSize="lg"
+        fontWeight="semibold"
+        color={active === tab1 ? 'black' : 'gray.300'}
+        mr={4}
+        _hover={{ cursor: 'pointer', bg: 'none' }}
+        padding={0}
+        onClick={() => {
+          return setActive(tab1);
+        }}
+        onKeyDown={e => {
+          return handleKeyDown(e, tab1);
+        }}
         role="button"
         tabIndex={0}
-        size="sm"
       >
         {tab1}
       </Button>
 
       <Button
         variant="ghost"
-        className={
-          active === tab2
-            ? 'text-lg font-semibold mr-4 hover:cursor-pointer p-0'
-            : 'text-lg text-gray-300 font-semibold mr-4 hover:cursor-pointer p-0'
-        }
-        _hover={{ bg: 'none' }}
-        onClick={() => {return setActive(tab2)}}
-        onKeyDown={e => {return handleKeyDown(e, tab2)}}
+        fontSize="lg"
+        fontWeight="semibold"
+        color={active === tab2 ? 'black' : 'gray.300'}
+        mr={4}
+        _hover={{ cursor: 'pointer', bg: 'none' }}
+        padding={0}
+        onClick={() => {
+          return setActive(tab2);
+        }}
+        onKeyDown={e => {
+          return handleKeyDown(e, tab2);
+        }}
         role="button"
         tabIndex={0}
-        size="sm"
       >
         {tab2}
       </Button>
