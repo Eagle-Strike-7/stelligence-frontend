@@ -4,15 +4,9 @@ import { Button, ButtonGroup } from '@chakra-ui/react';
 import {
   MdFormatBold,
   MdFormatItalic,
-  // MdFormatListBulleted,
   MdFormatListNumbered,
-  // MdFormatQuote,
   MdFormatStrikethrough,
-  // MdFormatUnderlined,
-  // MdOutlineList,
 } from 'react-icons/md';
-// import { BsListUl } from 'react-icons/bs';
-// import { GoListOrdered } from 'react-icons/go';
 import { IoListSharp } from 'react-icons/io5';
 
 // NOTE : 글 전체/섹션의 내용을 입력받는 컴포넌트 (TipTap의 메뉴바)
@@ -41,16 +35,6 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
       >
         <MdFormatItalic />
       </Button>
-
-      {/* NOTE : 밑줄 */}
-      {/* <Button
-        onClick={() => {
-          editor.chain().focus().toggleUnderline().run();
-        }}
-        isActive={editor.isActive('underline')}
-      >
-        <MdFormatUnderlined />
-      </Button> */}
 
       {/* NOTE : 취소선 */}
       <Button
