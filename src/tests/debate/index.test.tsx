@@ -8,9 +8,11 @@ import { useRouter } from 'next/navigation';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-jest.mock('next/router', () => {return {
-  useRouter: jest.fn(),
-}});
+jest.mock('next/router', () => {
+  return {
+    useRouter: jest.fn(),
+  };
+});
 
 // NOTE 토론 목록 정렬 방식 테스트 코드
 describe('토론 목록 정렬 방식', () => {
@@ -32,7 +34,6 @@ describe('토론 목록 정렬 방식', () => {
 // NOTE 토론 목록 진행중/완료 필터링 테스트 코드
 describe('진행중/완료 필터링', () => {
   beforeEach(() => {
-    // Mocking and initial setup
     mockedAxios.get.mockResolvedValueOnce({ data: dummyEndDebateList });
     render(<Page />);
   });
@@ -75,35 +76,10 @@ describe('토론 카드 클릭 시 페이지 이동 테스트', () => {
 // NOTE 토론 목록 페이지네이션 테스트 코드
 describe('PaginationComponent', () => {
   it('특정 페이지 번호를 클릭하면 해당 페이지의 데이터가 렌더링되어야 한다', async () => {
-    // 가정: 페이지 2의 데이터를 모킹합니다.
+    // 가정: 페이지 2의 데이터를 모킹
     const page2Data = {
       data: {
-        items: [
-          { id: 'item1', name: 'Item 1' },
-          { id: 'item2', name: 'Item 2' },
-        ],
-        currentPage: 2,
-        totalPages: 5,
-      },
-    };
-    mockedAxios.get.mockResolvedValueOnce(page2Data);
-
-    render(<Page />);
-
-    fireEvent.click(screen.getByText('2'));
-
-    // NOTE axios 호출이 올바른 URL로 이루어졌는지 확인
-    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('page=2'));
-
-    // NOTE 페이지 2의 첫 번째 아이템이 화면에 표시되는지 확인
-    const item = await screen.findByText('Item 1');
-    expect(item).toBeInTheDocument();
-  });
-  it('"다음" 버튼을 클릭하면 다음 페이지의 데이터가 렌더링되어야 한다', async () => {
-    // NOTE 현재 페이지가 1이고, 다음 페이지 클릭 시 페이지 2의 데이터를 반환
-    const page2Data = {
-      data: {
-        items: [
+        results: [
           {
             id: 11,
             originalTitle: 'dfs',
@@ -132,14 +108,51 @@ describe('PaginationComponent', () => {
 
     render(<Page />);
 
-    // "다음" 버튼 클릭
+    fireEvent.click(screen.getByText('2'));
+
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('page=2'));
+
+    const item = await screen.findByText('dfs는 이렇게 구현하면 안됩니다');
+    expect(item).toBeInTheDocument();
+  });
+
+  it('"다음" 버튼을 클릭하면 다음 페이지의 데이터가 렌더링되어야 한다', async () => {
+    const page2Data = {
+      data: {
+        results: [
+          {
+            id: 11,
+            originalTitle: 'dfs',
+            title: 'dfs는 이렇게 구현하면 안됩니다',
+            username: '독수리타법 7남매',
+            time: '2024. 04. 10. 11:38',
+            content:
+              '마리모는 동물입니다. 동물을 식물이라고 부르는 것은 마리모에게 실례입니다.',
+            commentNum: 4,
+          },
+          {
+            id: 12,
+            originalTitle: '날씨',
+            title: '날씨가 이렇게 맑다니!',
+            username: '여행갈고양',
+            time: '2025. 02. 10. 10:22',
+            content: '여행갈 때에는 오늘의 날씨가 중요하긴 합니다. 그러나',
+            commentNum: 4,
+          },
+        ],
+        currentPage: 2,
+        totalPages: 2,
+      },
+    };
+    mockedAxios.get.mockResolvedValueOnce(page2Data);
+
+    render(<Page />);
+
     const nextButton = screen.getByLabelText('Next page');
     fireEvent.click(nextButton);
 
-    // axios 호출이 올바른 URL로 이루어졌는지 확인
     expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('page=2'));
 
-    // 페이지 2의 첫 번째 아이템이 화면에 표시되는지 확인
     const item = await screen.findByText('dfs는 이렇게 구현하면 안됩니다');
     expect(item).toBeInTheDocument();
   });
