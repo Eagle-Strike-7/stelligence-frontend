@@ -14,12 +14,16 @@ import {
   Badge,
   Button,
   Input,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
+import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import MyBadge from './components/MyBadge';
 import {
   getBadgeData,
@@ -45,6 +49,7 @@ const Page = () => {
 
   const [oldNickname, setOldNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
+  const [isNicknameChanging, setIsNicknameChanging] = useState(false);
 
   useEffect(() => {
     if (userData?.nickname) {
@@ -76,6 +81,7 @@ const Page = () => {
     setNewNickname(e.target.value);
   };
   const handleSaveNewNickname = async () => {
+    setIsNicknameChanging(false);
     if (oldNickname === newNickname) {
       toast({
         title: '이미 사용한 닉네임과 같습니다.',
@@ -85,6 +91,12 @@ const Page = () => {
       return;
     }
     mutation.mutate(newNickname);
+  };
+
+  const handleClickChange = () => {
+    setIsNicknameChanging(prev => {
+      return !prev;
+    });
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -127,50 +139,75 @@ const Page = () => {
                   {userData?.email ?? '이메일 불러오기 실패'}
                 </p>
               </div>
-              <div className="flex">
+              <div className="flex gap-5">
                 <span className="flex text-sm items-center">닉네임</span>
-                {/* TODO 변경전 상태일때는 p태그, 변경중 상태일때는 Input */}
-                <Input
-                  defaultValue={newNickname}
-                  onChange={handleChangeNickname}
-                  placeholder="닉네임을 입력하세요."
-                  width="md"
-                  ml="2"
-                  fontSize="sm"
-                  size="sm"
-                />
-                {/* TODO 변경전 상태일때는 "변경하기" 변경중 상태일때는 "변경사항 저장" */}
-                <Button
-                  bg="green.500"
-                  color="white"
-                  size="sm"
-                  ml="5"
-                  onClick={handleSaveNewNickname}
-                  _hover={{ bg: 'green.600' }}
-                >
-                  변경사항 저장
-                </Button>
+                {isNicknameChanging ? (
+                  <Input
+                    defaultValue={newNickname}
+                    onChange={handleChangeNickname}
+                    placeholder="닉네임을 입력하세요."
+                    width="md"
+                    ml="2"
+                    fontSize="sm"
+                    size="sm"
+                  />
+                ) : (
+                  <p className="text-sm self-center">
+                    {userData?.nickname ?? '닉네임 불러오기 실패'}
+                  </p>
+                )}
+                {isNicknameChanging ? (
+                  <Button
+                    bg="green.500"
+                    color="white"
+                    size="sm"
+                    onClick={handleSaveNewNickname}
+                    _hover={{ bg: 'green.600' }}
+                  >
+                    변경사항 저장
+                  </Button>
+                ) : (
+                  <Button
+                    bg="green.500"
+                    color="white"
+                    size="sm"
+                    onClick={handleClickChange}
+                    _hover={{ bg: 'green.600' }}
+                  >
+                    변경하기
+                  </Button>
+                )}
               </div>
             </div>
           </div>
         </TitleCard>
         <TitleCard title="북마크">
-          <ul className="flex flex-row gap-3">
+          <ul className="flex flex-row gap-3 flex-wrap">
             {bookmarkData?.bookmarks.map(bookmark => {
               return (
-                // TODO Badge or Tag로 변경
+                // TODO 북마크 삭제 버튼 기능 넣기
                 <li key={bookmark.bookmarkId}>
-                  <Link
-                    href={`/stars/${bookmark.documentId}`}
-                    className="hover:underline"
-                  >
-                    {bookmark.title}
-                  </Link>
+                  <Tag borderRadius="full" variant="solid" bg="accent.500">
+                    <TagLabel fontSize="xs" fontWeight="bold">
+                      <Link href={`/stars/${bookmark.documentId}`}>
+                        {bookmark.title}
+                      </Link>
+                    </TagLabel>
+                    <TagCloseButton />
+                  </Tag>
                 </li>
               );
             }) ?? '북마크 불러오기 실패'}
           </ul>
-          {/* TODO 페이지네이션은 더보기 버튼으로 하기 */}
+          {/* TODO 더보기 버튼 기능 넣기 */}
+          <Button
+            color="accent.500"
+            variant="link"
+            leftIcon={<IoIosArrowDown />}
+            mt="2rem"
+          >
+            더보기
+          </Button>
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
@@ -187,14 +224,14 @@ const Page = () => {
         </TitleCard>
         {/* TODO 위치, 디자인 고민하기 */}
         <Button
-          variant="outline"
-          color="black"
+          variant="link"
+          color="gray.500"
+          rightIcon={<IoIosArrowForward />}
           size="xs"
           width="6rem"
           mt="1rem"
           _hover={{ color: 'red' }}
           onClick={onOpen}
-          alignSelf="end"
         >
           회원 탈퇴
         </Button>
