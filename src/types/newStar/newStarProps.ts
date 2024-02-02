@@ -1,16 +1,13 @@
-export interface NewStar {
+export interface Star {
   title: string;
   tag: string;
+  realtedDebate?: string;
   content: string;
 }
 
-export interface NewStarProps {
-  newStar: {
-    title: string;
-    tag: string;
-    content: string;
-  };
-  setNewStar: (newState: NewStar | ((prevState: NewStar) => NewStar)) => void;
+export interface StarProps {
+  star: Star;
+  setStar: (newState: Star | ((prevState: Star) => Star)) => void;
 }
 
 export interface Document {

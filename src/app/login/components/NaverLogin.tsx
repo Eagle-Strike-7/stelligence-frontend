@@ -5,7 +5,7 @@ import { Button } from '@chakra-ui/react';
 import { SiNaver } from 'react-icons/si';
 
 const NaverLogin = () => {
-  const link = `http://localhost:8080/oauth2/authorization/naver`;
+  const link = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth2/authorization/naver`;
   const handleClick = () => {
     window.location.href = link;
   };
