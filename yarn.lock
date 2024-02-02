@@ -2896,6 +2896,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-placeholder@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@tiptap/extension-placeholder@npm:2.2.1"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: 838974fc3d78cfcaab2a11e4de77b8706a4d5a9365771d114dc45adfd61f66ef471d970b3760d7facb86e5fb60c01de2d9ab35e789fc016c9b336cced11d8ac6
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-strike@npm:^2.2.1":
   version: 2.2.1
   resolution: "@tiptap/extension-strike@npm:2.2.1"
@@ -2911,6 +2921,15 @@ __metadata:
   peerDependencies:
     "@tiptap/core": ^2.0.0
   checksum: 8ead961e44a0a596ff0807d413bc9c2ae652dc1f6404a9bcee7d418255dd21872c8d1167d6011f152217d760d64897e61d93a7d4edda61da83534f5d3d32ad7b
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-underline@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@tiptap/extension-underline@npm:2.2.1"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: e0dc58f5c5fa3a20aff9c9cab2df389dac2e1cc7db5fe8b1151fdbc23a119484a7faeef11ab3c1d2321869625d4f0ce1a736e03b7092f5652eb771dab7eaf5ac
   languageName: node
   linkType: hard
 
@@ -9951,6 +9970,8 @@ __metadata:
     "@testing-library/react-hooks": "npm:^8.0.1"
     "@testing-library/user-event": "npm:^14.5.2"
     "@tiptap/core": "npm:^2.1.16"
+    "@tiptap/extension-placeholder": "npm:^2.2.1"
+    "@tiptap/extension-underline": "npm:^2.2.1"
     "@tiptap/pm": "npm:^2.1.16"
     "@tiptap/react": "npm:^2.1.16"
     "@tiptap/starter-kit": "npm:^2.1.16"

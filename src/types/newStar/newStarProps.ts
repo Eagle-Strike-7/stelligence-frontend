@@ -1,6 +1,6 @@
 export interface Star {
   title: string;
-  tag: string;
+  documentId: number;
   realtedDebate?: string;
   content: string;
 }
@@ -11,7 +11,7 @@ export interface StarProps {
 }
 
 export interface Document {
-  documentId: string;
+  documentId: number;
   title: string;
-  group: string;
+  group?: string;
 }
