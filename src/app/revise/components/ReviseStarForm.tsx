@@ -14,7 +14,7 @@ import ReviseStarDebate from './ReviseStarInfo/ReviseStarDebate';
 const ReviseStarForm = () => {
   const [reviseStar, setReviseStar] = useState<Star>({
     title: '',
-    tag: '',
+    documentId: 0,
     realtedDebate: '#1234',
     content: 'hello',
   });
