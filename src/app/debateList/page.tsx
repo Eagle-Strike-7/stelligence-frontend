@@ -15,8 +15,8 @@ const Page = () => {
         <StateTab tab1="진행중" tab2="완료" />
         <div className="flex my-0">
           <Select variant="outline" size="sm" rounded="md">
-            <option value="전체">최신순</option>
-            <option value="반영완료">최근댓글순</option>
+            <option value="최신순">최신순</option>
+            <option value="최근댓글순">최근댓글순</option>
           </Select>
         </div>
       </div>
