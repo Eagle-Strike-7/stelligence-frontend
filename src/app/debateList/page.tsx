@@ -5,14 +5,20 @@ import Wrapper from '@/components/Common/Wrapper';
 import { dummyDebateList } from '@/constants/dummyData';
 import React from 'react';
 import { Pagination } from '@mui/material';
-import { Center } from '@chakra-ui/react';
+import { Center, Select } from '@chakra-ui/react';
 
 const Page = () => {
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
-      <div>
-        <StateTab tab1="진행중" tab2="종료" />
+      <div className="flex justify-between w-full items-center my-0">
+        <StateTab tab1="진행중" tab2="완료" />
+        <div className="flex my-0">
+          <Select variant="outline" size="sm" rounded="md">
+            <option value="전체">최신순</option>
+            <option value="반영완료">최근댓글순</option>
+          </Select>
+        </div>
       </div>
       {dummyDebateList.map(item => {
         return (
