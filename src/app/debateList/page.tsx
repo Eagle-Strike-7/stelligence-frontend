@@ -6,6 +6,7 @@ import { dummyDebateList } from '@/constants/dummyData';
 import React from 'react';
 import { Pagination } from '@mui/material';
 import { Center, Select } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const Page = () => {
   return (
@@ -30,15 +31,16 @@ const Page = () => {
       </div>
       {dummyDebateList.map(item => {
         return (
-          <DebateListCard
-            key={item.id}
-            originalTitle={item.originalTitle}
-            title={item.title}
-            username={item.username}
-            time={item.time}
-            content={item.content}
-            option={{ commentNum: item.commentNum }}
-          />
+          <Link href={`/debateList/${item.id}`} key={item.id}>
+            <DebateListCard
+              originalTitle={item.originalTitle}
+              title={item.title}
+              username={item.username}
+              time={item.time}
+              content={item.content}
+              option={{ commentNum: item.commentNum }}
+            />
+          </Link>
         );
       })}
       <Center>
