@@ -72,7 +72,7 @@ const StarTagInput = ({ star, setStar }: StarProps) => {
   }, [debouncedTag]);
 
   return (
-    <div className="flex flex-row grow mb-4 mr-10">
+    <div className="flex flex-row grow mb-4">
       <span className="w-28 text-md font-bold mt-2">상위 계층 태그</span>
 
       <div className="mb-3 relative grow">

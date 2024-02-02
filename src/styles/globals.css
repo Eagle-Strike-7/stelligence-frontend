@@ -20,7 +20,7 @@ body {
   @apply leading-normal;
   @apply border-t border-gray-300;
   /* @apply border border-gray-300; */
-  @apply rounded-md p-4;
+  @apply p-4;
 }
 
 .ProseMirror:focus {
