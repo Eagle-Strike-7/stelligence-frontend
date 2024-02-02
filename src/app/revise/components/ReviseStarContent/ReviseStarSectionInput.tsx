@@ -1,5 +1,5 @@
 import OutlineButton from '@/components/Common/Button/OutlineButton';
-import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSectionInput';
+// import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSectionInput';
 import { Input, Select } from '@chakra-ui/react';
 import React from 'react';
 
@@ -21,10 +21,14 @@ const ReviseStarSectionInput = ({
 
         <Input size="sm" variant="outline" rounded="md" mx="0.25rem" />
 
-        <OutlineButton name="완료" setCreate={setCreate} setRevise={setRevise} />
+        <OutlineButton
+          name="완료"
+          setCreate={setCreate}
+          setRevise={setRevise}
+        />
       </div>
 
-      <StarSectionInput />
+      {/* <StarSectionInput /> */}
     </div>
   );
 };
