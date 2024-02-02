@@ -1,19 +1,17 @@
 'use client';
 
 import { Button } from '@chakra-ui/react';
-import { useState } from 'react';
 
 const StateTab: React.FC<{
   tab1: string;
   tab2: string;
-}> = ({ tab1, tab2 }) => {
-  const [active, setActive] = useState<string>(tab1);
-
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}> = ({ tab1, tab2, activeTab, setActiveTab }) => {
   const handleKeyDown = (e: React.KeyboardEvent, tab: string) => {
-    // 'Enter' 또는 'Space' 키가 눌렸는지 확인
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setActive(tab);
+      setActiveTab(tab);
     }
   };
 
@@ -23,12 +21,12 @@ const StateTab: React.FC<{
         variant="ghost"
         fontSize="lg"
         fontWeight="semibold"
-        color={active === tab1 ? 'black' : 'gray.300'}
+        color={activeTab === tab1 ? 'black' : 'gray.300'}
         mr={4}
         _hover={{ cursor: 'pointer', bg: 'none' }}
         padding={0}
         onClick={() => {
-          return setActive(tab1);
+          return setActiveTab(tab1);
         }}
         onKeyDown={e => {
           return handleKeyDown(e, tab1);
@@ -43,12 +41,12 @@ const StateTab: React.FC<{
         variant="ghost"
         fontSize="lg"
         fontWeight="semibold"
-        color={active === tab2 ? 'black' : 'gray.300'}
+        color={activeTab === tab2 ? 'black' : 'gray.300'}
         mr={4}
         _hover={{ cursor: 'pointer', bg: 'none' }}
         padding={0}
         onClick={() => {
-          return setActive(tab2);
+          return setActiveTab(tab2);
         }}
         onKeyDown={e => {
           return handleKeyDown(e, tab2);

@@ -1,19 +1,29 @@
+'use client';
+
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import DebateListCard from '@/app/debateList/components/DebateListCard';
 import Wrapper from '@/components/Common/Wrapper';
 import { dummyDebateList } from '@/constants/dummyData';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pagination } from '@mui/material';
 import { Center, Select } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const Page = () => {
+  const [activeTab, setActiveTab] = useState<string>('진행중');
+
+  // activeTab에 따라서 다른 axios 호출
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
       <div className="flex justify-between w-full items-center my-0">
-        <StateTab tab1="진행중" tab2="완료" />
+        <StateTab
+          tab1="진행중"
+          tab2="완료"
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
         <div className="flex my-0">
           <Select
             variant="filled"
