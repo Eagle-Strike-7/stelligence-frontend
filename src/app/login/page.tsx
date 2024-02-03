@@ -24,7 +24,7 @@ const Page = () => {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:8080/api/login',
+        url: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/login`,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -35,6 +35,7 @@ const Page = () => {
 
       // NOTE 닉네임으로 로그인 성공 시 메인페이지로 이동
       if (response.status === 200) {
+        console.log('로그인 성공', response);
         router.push('/');
       }
     } catch (error) {
