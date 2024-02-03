@@ -36,9 +36,25 @@ const Vote = ({
         </div>
       </div>
       <div className="flex flex-row gap-4 justify-center">
-        {/* TODO hover, 선택 시 색상 변경 */}
-        <Button leftIcon={<FaRegThumbsUp />}>찬성</Button>
-        <Button leftIcon={<FaRegThumbsDown />}>반대</Button>
+        {/* TODO 선택 시 색상 변경 */}
+        <Button
+          leftIcon={<FaRegThumbsUp />}
+          _hover={{
+            bg: 'blue.500',
+            color: 'white',
+          }}
+        >
+          찬성
+        </Button>
+        <Button
+          leftIcon={<FaRegThumbsDown />}
+          _hover={{
+            bg: 'red.500',
+            color: 'white',
+          }}
+        >
+          반대
+        </Button>
       </div>
     </div>
   );
