@@ -1,10 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+import apiClient from './login/axiosClient';
 
 interface UserData {
   nickname: string;
   email: string;
   profileUrl: string;
   socialType: string;
+}
+interface UserResponse {
+  success: boolean;
+  message: string;
+  results: UserData;
 }
 interface BookmarkData {
   bookmarkId: number;
@@ -16,20 +22,20 @@ interface BadgeData {
   badgeTitle: string;
 }
 interface BookmarkResponse {
-  bookmarks: BookmarkData[];
+  success: boolean;
+  message: string;
+  results: BookmarkData[];
 }
 interface BadgeResponse {
-  badges: BadgeData[];
+  success: boolean;
+  message: string;
+  results: BadgeData[];
 }
 
 // NOTE 유저 정보 조회
-export const getUserData = async (): Promise<UserData | null> => {
+export const getUserData = async (): Promise<UserResponse | null> => {
   try {
-    const response = await axios.get<UserData>(
-      // NOTE 테스트용 -> 추후에 변경
-      // 'http://localhost:8080/api/members/me',
-      '/test/dummyUserData.json',
-    );
+    const response = await apiClient.get<UserResponse>('/api/members/me');
     return response.data;
   } catch (error) {
     console.error('회원정보 조회 실패: ', error);
@@ -40,11 +46,7 @@ export const getUserData = async (): Promise<UserData | null> => {
 // NOTE 북마크 정보 조회
 export const getBookmarkData = async (): Promise<BookmarkResponse | null> => {
   try {
-    const response = await axios.get<BookmarkResponse>(
-      // NOTE 테스트용 -> 추후에 변경
-      // 'http://localhost:8080/api/bookmarks?page=00&size=00',
-      '/test/dummyBookmarkData.json',
-    );
+    const response = await apiClient.get<BookmarkResponse>('/api/bookmarks');
     return response.data;
   } catch (error) {
     console.error('북마크 조회 실패: ', error);
@@ -55,10 +57,8 @@ export const getBookmarkData = async (): Promise<BookmarkResponse | null> => {
 // NOTE 배지 정보 조회
 export const getBadgeData = async (): Promise<BadgeResponse | null> => {
   try {
-    const response = await axios.get<BadgeResponse>(
-      // NOTE 테스트용 -> 추후에 변경
-      // 'http://localhost:8080/api/members/badge',
-      '/test/dummyBadgeData.json',
+    const response = await apiClient.get<BadgeResponse>(
+      '/api/members/me/badges',
     );
     return response.data;
   } catch (error) {
@@ -72,15 +72,8 @@ export const putNickname = async (
   newNickname: string,
 ): Promise<AxiosResponse> => {
   try {
-    const response = await axios({
-      method: 'PUT',
-      url: 'http://localhost:8080/api/members/me/nickname',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        nickname: newNickname,
-      },
+    const response = await apiClient.put('/api/members/me/nickname', {
+      nickname: newNickname,
     });
 
     return response;
