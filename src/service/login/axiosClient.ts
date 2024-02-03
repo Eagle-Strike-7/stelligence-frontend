@@ -9,7 +9,9 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.response.use(
-  response => {return response},
+  response => {
+    return response;
+  },
   error => {
     // SECTION UnAuthorized: 로그인하지 않은 사용자가 접속했을 때
     if (error.response.status === 401) {
