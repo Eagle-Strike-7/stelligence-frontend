@@ -5,7 +5,8 @@ import { Button } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 
 const GoogleLogin = () => {
-  const link = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth2/authorization/google`;
+  // NOTE 로그인 전용 서버로 연결 (추후 기존 서버로 변경 예정)
+  const link = `${process.env.NEXT_PUBLIC_SERVER_URL}:8080/oauth2/authorization/google`;
   const handleClick = () => {
     window.location.href = link;
   };
