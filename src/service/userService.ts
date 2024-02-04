@@ -105,3 +105,13 @@ export const getMiniProfile = async (): Promise<MiniProfileResponse | null> => {
     return null;
   }
 };
+
+export const deleteUserData = async (): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.delete('/api/members/me');
+    return response.data;
+  } catch (error) {
+    console.error('회원 탈퇴 실패 ', error);
+    throw error;
+  }
+};
