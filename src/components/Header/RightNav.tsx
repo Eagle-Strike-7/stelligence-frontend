@@ -1,6 +1,7 @@
 import postLogout from '@/service/login/logout';
 import { getMiniProfile } from '@/service/userService';
 import loginState from '@/store/user/login';
+import deleteCookie from '@/store/user/withdrawal';
 import { Avatar, Button, Tooltip, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -13,6 +14,7 @@ import { useRecoilState } from 'recoil';
 
 const RightNav = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
+  console.log('header의 현재 로그인 상태: ', isLogin);
 
   const router = useRouter();
   const toast = useToast();
@@ -34,7 +36,18 @@ const RightNav = () => {
       console.log('로그아웃 성공: ', response.data);
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
+      // TODO 쿠키 삭제
       setIsLogin({ email: '', nickname: '', profileImgUrl: '' });
+      deleteCookie(
+        'StelligenceAccessToken',
+        '/',
+        process.env.NEXT_PUBLIC_SERVER_URL,
+      );
+      deleteCookie(
+        'StelligenceRefreshToken',
+        '/',
+        process.env.NEXT_PUBLIC_SERVER_URL,
+      );
       router.push('/');
       toast({
         title: '로그아웃에 성공했습니다.',

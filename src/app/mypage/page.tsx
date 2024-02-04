@@ -22,15 +22,19 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
-import MyBadge from './components/MyBadge';
+import { useSetRecoilState } from 'recoil';
+import loginState from '@/store/user/login';
+import deleteCookie from '@/store/user/withdrawal';
 import {
+  deleteUserData,
   getBadgeData,
   getBookmarkData,
   getUserData,
   putNickname,
 } from '../../service/userService';
+import MyBadge from './components/MyBadge';
 
 const Page = () => {
   const queryClient = useQueryClient();
@@ -61,7 +65,7 @@ const Page = () => {
   }, [userData]);
   const toast = useToast();
 
-  const mutation = useMutation<AxiosResponse, Error, string>({
+  const nicknameMutation = useMutation<AxiosResponse, Error, string>({
     mutationFn: putNickname,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -90,7 +94,7 @@ const Page = () => {
       });
       return;
     }
-    mutation.mutate(newNickname);
+    nicknameMutation.mutate(newNickname);
   };
 
   const handleClickChange = () => {
@@ -101,23 +105,56 @@ const Page = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<HTMLButtonElement>(null);
+  const setIsLogin = useSetRecoilState(loginState);
 
   // NOTE 회원 탈퇴, 성공 시 메인페이지로 이동
-  const handleQuit = async (): Promise<void> => {
-    try {
-      const response = await axios({
-        method: 'DELETE',
-        url: 'http://localhost:8080/api/members/me',
+  // TODO 쿠키 삭제
+  const quitMutation = useMutation<AxiosResponse, Error>({
+    mutationFn: deleteUserData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      setIsLogin(prev => {
+        return {
+          ...prev,
+          email: '',
+          nickname: '',
+          profileImgUrl: '',
+        };
       });
-      if (response.status === 200) {
-        window.location.href = '/';
-      }
-    } catch (error) {
-      console.error('회원 탈퇴 실패 ', error);
-    } finally {
+      deleteCookie(
+        'StelligenceAccessToken',
+        '/',
+        process.env.NEXT_PUBLIC_SERVER_URL,
+      );
+      deleteCookie(
+        'StelligenceRefreshToken',
+        '/',
+        process.env.NEXT_PUBLIC_SERVER_URL,
+      );
       onClose();
-    }
+      toast({
+        title: '회원탈퇴 완료! 다음에 다시 만나요👋',
+        status: 'success',
+        isClosable: true,
+      });
+      // FIXME 임시로 href로 함(새로고침 필요) -> router.push로는 안됨
+      window.location.href = 'http://localhost:3000/';
+    },
+    onError: (error: Error) => {
+      console.error('회원탈퇴 실패: ', error);
+
+      toast({
+        title: '회원탈퇴 실패',
+        status: 'error',
+        isClosable: true,
+      });
+    },
+  });
+
+  const handleQuit = () => {
+    quitMutation.mutate();
   };
+
   return (
     <Wrapper>
       <div className="flex flex-col gap-8">
