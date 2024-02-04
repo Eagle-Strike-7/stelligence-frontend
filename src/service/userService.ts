@@ -21,6 +21,11 @@ interface BadgeData {
   badgeType: string;
   badgeTitle: string;
 }
+interface MiniProfileData {
+  memberId: number;
+  nickname: string;
+  profileImgUrl: string;
+}
 interface BookmarkResponse {
   success: boolean;
   message: string;
@@ -30,6 +35,11 @@ interface BadgeResponse {
   success: boolean;
   message: string;
   results: BadgeData[];
+}
+interface MiniProfileResponse {
+  success: boolean;
+  message: string;
+  results: MiniProfileData;
 }
 
 // NOTE 유저 정보 조회
@@ -80,5 +90,18 @@ export const putNickname = async (
   } catch (error) {
     console.error('닉네임 수정 실패: ', error);
     throw error;
+  }
+};
+
+// NOTE 미니프로필 정보 조회
+export const getMiniProfile = async (): Promise<MiniProfileResponse | null> => {
+  try {
+    const response = await apiClient.get<MiniProfileResponse>(
+      '/api/members/me/mini-profile',
+    );
+    return response.data;
+  } catch (error) {
+    console.error('미니프로필 조회 실패: ', error);
+    return null;
   }
 };
