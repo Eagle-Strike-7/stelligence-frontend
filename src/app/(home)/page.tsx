@@ -10,6 +10,9 @@ import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import { useSetRecoilState } from 'recoil';
 import searchTextState from '@/store/search/searchInput';
 import { usePathname } from 'next/navigation';
+import { getUserData } from '@/service/userService';
+import { setLatestLogin } from '@/service/login/latestLogin';
+import loginState from '@/store/user/login';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/SearchInput';
 import SearchDropdown from './components/SearchDropdown';
@@ -18,6 +21,7 @@ import ErrorComponent from './components/ErrorComponent';
 
 const Home = () => {
   const setSearchText = useSetRecoilState(searchTextState);
+  const setIsLogin = useSetRecoilState(loginState);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -28,9 +32,25 @@ const Home = () => {
     setSearchText('');
   }, [pathname]);
 
+  useEffect(() => {
+    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
+    setLatestLogin(userData?.results.socialType);
+    // NOTE 로그인 상태 recoil set
+    setIsLogin(prev => {return {
+      ...prev,
+      email: userData?.results.email ?? '이메일 없음',
+      nickname: userData?.results.nickname ?? '닉네임 없음',
+      profileImgUrl: userData?.results.profileImgUrl ?? '이미지 없음',
+    }});
+  });
   const { data, isError, isLoading } = useQuery<Graph>({
     queryKey: ['graphData'],
     queryFn: getGraphData,
+  });
+
+  const { data: userData } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserData,
   });
 
   // FIXME 임시 설정
@@ -49,7 +69,6 @@ const Home = () => {
         console.error('Error fetching search results: ', error);
       });
   };
-
   return (
     <div className="flex flex-col items-center bg-background-dark h-screen pt-2">
       <div className="mt-8 relative">
