@@ -52,11 +52,11 @@ const Page = () => {
   const [isNicknameChanging, setIsNicknameChanging] = useState(false);
 
   useEffect(() => {
-    if (userData?.nickname) {
-      setOldNickname(userData.nickname);
-      setNewNickname(userData.nickname);
+    if (userData?.results.nickname) {
+      setOldNickname(userData?.results.nickname);
+      setNewNickname(userData?.results.nickname);
 
-      console.log(userData.nickname);
+      console.log(userData?.results.nickname);
     }
   }, [userData]);
   const toast = useToast();
@@ -123,20 +123,23 @@ const Page = () => {
       <div className="flex flex-col gap-8">
         <TitleCard title="유저 정보">
           <div className="flex">
-            <Avatar name={userData?.nickname} src={userData?.profileUrl} />
+            <Avatar
+              name={userData?.results.nickname}
+              src={userData?.results.profileImgUrl}
+            />
             <div className="flex flex-col gap-2 ml-4 ">
               <div>
                 <h3 className="inline-block font-bold text-md">
-                  {userData?.nickname ?? '닉네임 불러오기 실패'}
+                  {userData?.results.nickname ?? '닉네임 불러오기 실패'}
                 </h3>
                 <Badge ml="2" colorScheme="orange">
-                  {userData?.socialType ?? '소셜 타입 불러오기 실패'}
+                  {userData?.results.socialType ?? '소셜 타입 불러오기 실패'}
                 </Badge>
               </div>
               <div className="flex gap-5">
                 <span className="flex text-sm items-center">이메일</span>
                 <p className="text-sm">
-                  {userData?.email ?? '이메일 불러오기 실패'}
+                  {userData?.results.email ?? '이메일 불러오기 실패'}
                 </p>
               </div>
               <div className="flex gap-5">
@@ -153,7 +156,7 @@ const Page = () => {
                   />
                 ) : (
                   <p className="text-sm self-center">
-                    {userData?.nickname ?? '닉네임 불러오기 실패'}
+                    {userData?.results.nickname ?? '닉네임 불러오기 실패'}
                   </p>
                 )}
                 {isNicknameChanging ? (
@@ -183,7 +186,7 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="북마크">
           <ul className="flex flex-row gap-3 flex-wrap">
-            {bookmarkData?.bookmarks.map(bookmark => {
+            {bookmarkData?.results?.map(bookmark => {
               return (
                 // TODO 북마크 삭제 버튼 기능 넣기
                 <li key={bookmark.bookmarkId}>
@@ -211,7 +214,7 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
-            {badgeData?.badges.map(badge => {
+            {badgeData?.results?.map(badge => {
               return (
                 <MyBadge
                   title={badge.badgeTitle}
