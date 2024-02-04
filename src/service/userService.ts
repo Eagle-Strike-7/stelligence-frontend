@@ -4,7 +4,7 @@ import apiClient from './login/axiosClient';
 interface UserData {
   nickname: string;
   email: string;
-  profileUrl: string;
+  profileImgUrl: string;
   socialType: string;
 }
 interface UserResponse {
@@ -76,7 +76,7 @@ export const putNickname = async (
       nickname: newNickname,
     });
 
-    return response;
+    return response.data;
   } catch (error) {
     console.error('닉네임 수정 실패: ', error);
     throw error;
