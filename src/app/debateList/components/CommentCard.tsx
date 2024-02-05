@@ -7,7 +7,6 @@ export interface DebateCommentProps {
   userImg: string;
   userName: string;
   commentContent: string;
-  isWriter: boolean;
   time: string;
 }
 
@@ -15,11 +14,8 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   userImg,
   userName,
   commentContent,
-  isWriter,
   time,
 }) => {
-  console.log(isWriter);
-
   return (
     <Box className="flex w-full p-4 rounded-md  bg-blue-100  my-2">
       {/*  SECTION - 유저 정보 부분 */}
