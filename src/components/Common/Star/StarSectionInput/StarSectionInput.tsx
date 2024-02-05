@@ -4,13 +4,15 @@ import React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
-import { StarProps } from '@/types/newStar/newStarProps';
+import Image from '@tiptap/extension-image';
+import { NewStarProps } from '@/types/star/NewStarProps';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { Node } from '@tiptap/core';
 import FixedMenu from './FixedMenu';
+import styles from '../../../../styles/starSectionInput.module.css';
 
 // NOTE : 글 전체/섹션의 내용을 입력받는 컴포넌트 (TipTap)
-const StarSectionInput = ({ star, setStar }: StarProps) => {
+const StarSectionInput = ({ star, setStar }: NewStarProps) => {
   const CustomDocument = Node.create({
     name: 'doc',
     topNode: true,
@@ -23,9 +25,10 @@ const StarSectionInput = ({ star, setStar }: StarProps) => {
       StarterKit.configure({
         document: false,
       }),
+      Image,
       Placeholder.configure({
         placeholder: ({ node }) => {
-          console.log(node.type.name);
+          // console.log(node.type.name);
           if (node.type.name === 'heading') {
             return 'What’s the title?';
           }
@@ -54,7 +57,7 @@ const StarSectionInput = ({ star, setStar }: StarProps) => {
   return (
     <div className="border border-gray-300 rounded-md">
       {editor && <FixedMenu editor={editor} />}
-      <EditorContent editor={editor} className="min-h-80" />
+      <EditorContent editor={editor} className={styles.ProseMirror} />
 
       <button type="button" onClick={logContent}>
         Log Content
