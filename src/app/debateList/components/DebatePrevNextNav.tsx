@@ -1,8 +1,8 @@
 import React from 'react';
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 import Link from 'next/link';
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 
-const PagePreview = () => {
+const PrevNextNav = () => {
   return (
     <div className="flex flex-row gap-5 mb-5">
       <Link href="/debateList">
@@ -21,4 +21,4 @@ const PagePreview = () => {
   );
 };
 
-export default PagePreview;
+export default PrevNextNav;

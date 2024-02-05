@@ -5,7 +5,7 @@ import {
   HiOutlineChevronDoubleUp,
 } from 'react-icons/hi';
 
-const CreateComment = () => {
+const CommentCreate = () => {
   const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
 
   return (
@@ -16,7 +16,9 @@ const CreateComment = () => {
             <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
             <HiOutlineChevronDoubleDown
               size={20}
-              onClick={() => {return setIsCommentCreateOpen(false)}}
+              onClick={() => {
+                return setIsCommentCreateOpen(false);
+              }}
               className="hover:cursor-pointer"
             />
           </div>
@@ -42,7 +44,9 @@ const CreateComment = () => {
           <HiOutlineChevronDoubleUp
             className="hover:cursor-pointer"
             size={20}
-            onClick={() => {return setIsCommentCreateOpen(true)}}
+            onClick={() => {
+              return setIsCommentCreateOpen(true);
+            }}
           />
         </div>
       )}
@@ -50,4 +54,4 @@ const CreateComment = () => {
   );
 };
 
-export default CreateComment;
+export default CommentCreate;
