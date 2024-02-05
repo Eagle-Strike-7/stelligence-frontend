@@ -44,12 +44,18 @@ const Page = () => {
   const [debateLists, setDebateLists] = useState<Debate[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLastPage, setIsLastPage] = useState<boolean>(false);
-  const [isFirstPage, setIsFirstPage] = useState<boolean>(true);
+
   const options = [
     { value: '최신순', label: '최신순' },
     { value: '최근 댓글 순', label: '최근 댓글 순' },
   ];
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCurrentPage(value);
+  };
 
   // NOTE activeTab에 따라서 다른 axios 호출
   const getDebateLists = async () => {
@@ -59,8 +65,8 @@ const Page = () => {
         {
           params: {
             status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
-            // FIXME - 서버 구조 바뀌면 추가하기
-            // order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
+            order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
+            page: currentPage - 1,
           },
         },
       );
@@ -69,8 +75,6 @@ const Page = () => {
         console.log('데이터 로딩 성공:', response.data.results);
         setDebateLists(response.data.results.debates);
         setTotalPages(response.data.results.totalPages);
-        setIsFirstPage(response.data.results.isFirstPage);
-        setIsLastPage(response.data.results.isLastPage);
       } else {
         console.log('서버로부터 실패 메시지:', response.data.message);
       }
@@ -85,14 +89,8 @@ const Page = () => {
 
   useEffect(() => {
     getDebateLists();
-  }, [activeTab, selectedOption]);
+  }, [activeTab, selectedOption, currentPage]);
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
-    setCurrentPage(value);
-  };
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
@@ -121,8 +119,8 @@ const Page = () => {
       <Center>
         <Pagination
           count={totalPages}
-          showFirstButton={isFirstPage}
-          showLastButton={isLastPage}
+          showFirstButton
+          showLastButton
           className="my-10 mb-20"
           page={currentPage}
           onChange={handlePageChange}
