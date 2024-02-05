@@ -1,13 +1,13 @@
 'use client';
 
-import Wrapper from '@/components/Common/Wrapper';
 import React from 'react';
+import Wrapper from '@/components/Common/Wrapper';
 import TitleInput from '@/components/Common/TitleInput';
 import { Textarea } from '@chakra-ui/react';
 import CommentList from '../components/CommentList';
-import PagePreview from '../components/PagePreview';
-import WriteComment from '../components/CreateComment';
-import RouteToList from '../components/RouteToList';
+import CommentCreate from '../components/CommentCreate';
+import DebatePrevNextNav from '../components/DebatePrevNextNav';
+import ReturnToDebateList from '../components/ReturnToDebateList';
 
 const page = () => {
   const dummyReviseData = {
@@ -36,8 +36,8 @@ const page = () => {
   };
   return (
     <Wrapper>
-      <PagePreview />
-      <RouteToList />
+      <DebatePrevNextNav />
+      <ReturnToDebateList />
       {/* FIXME 추후에 투표페이지 참고하여 수정 필요 */}
       <div className="flex flex-col gap-4 my-5 border-2 border-gray-50 p-10 rounded-md bg-white">
         {/* TODO TitleInput -> p(기본 텍스트) */}
@@ -83,7 +83,7 @@ const page = () => {
         </div>
       </div>
       <CommentList />
-      <WriteComment />
+      <CommentCreate />
     </Wrapper>
   );
 };

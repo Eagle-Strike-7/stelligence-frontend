@@ -1,8 +1,8 @@
-import { Button } from '@chakra-ui/react';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+import { Button } from '@chakra-ui/react';
 
-const RouteToList = () => {
+const ReturnToDebateList = () => {
   return (
     <div className="w-full flex justify-end">
       <Link href="/debateList">
@@ -14,4 +14,4 @@ const RouteToList = () => {
   );
 };
 
-export default RouteToList;
+export default ReturnToDebateList;
