@@ -6,9 +6,11 @@ import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
 import { NewStar } from '@/types/star/NewStarProps';
 import AccentButton from '@/components/Common/Button/AccentButton';
-import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import apiClient from '@/service/login/axiosClient';
 
 const NewStarForm = () => {
+  const router = useRouter();
   const [newStar, setNewStar] = useState<NewStar>({
     title: '',
     documentId: 0,
@@ -16,12 +18,9 @@ const NewStarForm = () => {
   });
 
   const postNewStar = async (star: NewStar) => {
-    const tempUrl =
-      'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com/api/documents';
-
     try {
-      const response = await axios.post<NewStar>(
-        tempUrl,
+      const response = await apiClient.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents`,
         JSON.stringify(star),
         {
           headers: {
@@ -29,15 +28,22 @@ const NewStarForm = () => {
           },
         },
       );
-      console.log('response', response.data);
+      console.log('response', response.data); // FIXME : 기능완성 시 삭제예정
+      if (response.data.success) {
+        // 요청 성공하면 해당 문서로 이동
+        const { documentId } = response.data.results;
+        router.push(`/stars/${documentId}`);
+      }
     } catch (error) {
+      // 요청 실패하면 에러 출력
+      alert('요청 실패');
       console.error('Error:', error);
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const startsWithH2orH3 = /^<(h2|h3)>/i;
+    const startsWithH2orH3 = /^<(h1|h2|h3)>/i;
     if (newStar.title === '') {
       alert('제목을 입력해주세요');
     } else if (newStar.content === '') {
