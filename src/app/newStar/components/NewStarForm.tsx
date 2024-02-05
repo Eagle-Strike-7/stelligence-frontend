@@ -4,27 +4,31 @@ import React, { useState } from 'react';
 import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSectionInput';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
-import { Star } from '@/types/newStar/newStarProps';
+import { NewStar } from '@/types/star/NewStarProps';
 import AccentButton from '@/components/Common/Button/AccentButton';
 import axios from 'axios';
 
 const NewStarForm = () => {
-  const [newStar, setNewStar] = useState<Star>({
+  const [newStar, setNewStar] = useState<NewStar>({
     title: '',
     documentId: 0,
     content: 'hello',
   });
 
-  const postNewStar = async (star: Star) => {
+  const postNewStar = async (star: NewStar) => {
     const tempUrl =
       'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com/api/documents';
 
     try {
-      const response = await axios.post<Star>(tempUrl, JSON.stringify(star), {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post<NewStar>(
+        tempUrl,
+        JSON.stringify(star),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
       console.log('response', response.data);
     } catch (error) {
       console.error('Error:', error);
