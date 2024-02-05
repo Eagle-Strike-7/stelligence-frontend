@@ -8,42 +8,36 @@ const CommentList = () => {
       userImg: 'sdfsd',
       userName: '독수리타법 7남매',
       commentContent: '우주에는 마리모가 없습니다',
-      isWriter: true,
       time: 'asdfsd',
     },
     {
       userImg: 'sdfsd',
       userName: '동기와비동',
       commentContent: '마리모는 배가 고프다는데 동물 아닐까요?',
-      isWriter: false,
       time: 'asdfsd',
     },
     {
       userImg: 'sdfsd',
       userName: '여행가가',
       commentContent: '마리모는 식물임이 틀림없습니다.',
-      isWriter: true,
       time: 'asdfsd',
     },
     {
       userImg: 'sdfsd',
       userName: '독수리타법 7남매',
       commentContent: '우주에는 마리모가 없습니다',
-      isWriter: true,
       time: 'asdfsd',
     },
     {
       userImg: 'sdfsd',
       userName: '동기와비동',
       commentContent: '마리모는 배가 고프다는데 동물 아닐까요?',
-      isWriter: false,
       time: 'asdfsd',
     },
     {
       userImg: 'sdfsd',
       userName: '여행가가',
       commentContent: '마리모는 식물임이 틀림없습니다.',
-      isWriter: true,
       time: 'asdfsd',
     },
   ];
@@ -56,11 +50,10 @@ const CommentList = () => {
       {commentList.map(comment => {
         return (
           <Comment
-            key={comment.time}
+            key={Date.now()}
             userImg={comment.userImg}
             userName={comment.userName}
             commentContent={comment.commentContent}
-            isWriter={comment.isWriter}
             time={comment.time}
           />
         );
