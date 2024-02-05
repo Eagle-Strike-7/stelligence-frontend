@@ -1,3 +1,5 @@
+'use client';
+
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import VoteListCard from '@/app/voteList/components/VoteListCard';
@@ -5,14 +7,21 @@ import Wrapper from '@/components/Common/Wrapper';
 import { dummyVoteList } from '@/constants/dummyData';
 import { Center, Select } from '@chakra-ui/react';
 import { Pagination } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Page = () => {
+  const [activeTab, setActiveTab] = useState<string>('진행중');
+
   return (
     <Wrapper>
       <PageTitle pageTitle="투표" />
       <div className="flex justify-between w-full items-center my-0">
-        <StateTab tab1="진행중" tab2="완료" />
+        <StateTab
+          tab1="진행중"
+          tab2="완료"
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
         <div className="flex my-0">
           <Select variant="outline" size="sm" rounded="md">
             <option value="전체">전체</option>

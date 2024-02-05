@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Wrapper from '@/components/Common/Wrapper';
 import PageTitle from '@/components/Common/PageTitle';
@@ -13,11 +13,17 @@ import { Center } from '@chakra-ui/react';
 const Page: React.FC = () => {
   const params = useParams<{ starId: string }>();
   const id = params.starId;
+  const [activeTab, setActiveTab] = useState<string>('요청중');
 
   return (
     <Wrapper>
       <PageTitle pageTitle="마리모" />
-      <StateTab tab1="요청중" tab2="완료" />
+      <StateTab
+        tab1="요청중"
+        tab2="완료"
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
       {dummyVoteList.map(item => {
         return (
