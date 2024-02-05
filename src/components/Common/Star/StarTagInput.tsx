@@ -1,10 +1,10 @@
 import useDebounce from '@/hooks/useDebounce';
 import { Input, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { ResponseType } from '@/types/common/ResponseType';
 import { Document, NewStarProps } from '@/types/star/NewStarProps';
+import apiClient from '../../../service/login/axiosClient';
 
 // NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
 const StarTagInput = ({ star, setStar }: NewStarProps) => {
@@ -15,15 +15,12 @@ const StarTagInput = ({ star, setStar }: NewStarProps) => {
 
   const debouncedTag = useDebounce(starTag.enteredTag, 300);
   const getTagResults = async () => {
-    const tempUrl =
-      'http://ec2-43-203-87-227.ap-northeast-2.compute.amazonaws.com/api/documents/search';
-
     if (debouncedTag === '') {
       return [];
     }
     try {
-      const response = await axios.get<ResponseType<Document>>(
-        `${tempUrl}?title=${debouncedTag}`,
+      const response = await apiClient.get<ResponseType<Document>>(
+        `/api/documents/search?title=${debouncedTag}`,
       );
       const { data } = response;
       const searchResults = data.results.map((doc: Document) => {
