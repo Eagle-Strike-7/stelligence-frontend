@@ -3,7 +3,7 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect } from 'react';
-import styles from '../../../../styles/StarContent.module.css';
+import styles from '../../../../styles/starContent.module.css';
 
 // NOTE : 상세보기 페이지, 글의 내용을 보여주는 컴포넌트
 // TODO : 편집중 여부 표시
