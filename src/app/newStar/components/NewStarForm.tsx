@@ -20,13 +20,8 @@ const NewStarForm = () => {
   const postNewStar = async (star: NewStar) => {
     try {
       const response = await apiClient.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents`,
+        `/api/documents`,
         JSON.stringify(star),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
       );
       console.log('response', response.data); // FIXME : 기능완성 시 삭제예정
       if (response.data.success) {
