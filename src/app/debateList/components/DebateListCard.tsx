@@ -23,6 +23,7 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
       borderColor="black"
       colorScheme="blue"
       direction={{ base: 'column', sm: 'row' }}
+      bg="white"
       _hover={{
         bg: 'gray.50',
         cursor: 'pointer',
