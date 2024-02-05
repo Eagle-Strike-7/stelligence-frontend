@@ -1,15 +1,15 @@
 'use client';
 
-import PageTitle from '@/components/Common/PageTitle';
-import StateTab from '@/components/Common/StateTab';
-import DebateListCard from '@/app/debateList/components/DebateListCard';
-import Wrapper from '@/components/Common/Wrapper';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 import { Pagination } from '@mui/material';
 import { Center } from '@chakra-ui/react';
-import Link from 'next/link';
+import Wrapper from '@/components/Common/Wrapper';
+import PageTitle from '@/components/Common/PageTitle';
+import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
-import axios from 'axios';
+import DebateListCard from '@/app/debateList/components/DebateListCard';
 
 interface Debate {
   debateId: number;
@@ -33,6 +33,8 @@ interface ApiResponse {
   results: {
     debates: Debate[];
     totalPages: number;
+    isFirstPage: boolean;
+    isLastPage: boolean;
   };
 }
 
@@ -40,8 +42,10 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState<string>('진행중');
   const [selectedOption, setSelectedOption] = useState<string>('최신순');
   const [debateLists, setDebateLists] = useState<Debate[]>([]);
-  // TODO 추후 추가 예정
-  // const [totalPages, setTotalPages] = useState<number>();
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
+  const [isFirstPage, setIsFirstPage] = useState<boolean>(true);
   const options = [
     { value: '최신순', label: '최신순' },
     { value: '최근 댓글 순', label: '최근 댓글 순' },
@@ -55,7 +59,8 @@ const Page = () => {
         {
           params: {
             status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
-            // sort: selectedOption === '최신순' ? 'latest' : 'recentComment',
+            // FIXME - 서버 구조 바뀌면 추가하기
+            // order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
           },
         },
       );
@@ -63,8 +68,9 @@ const Page = () => {
       if (response.data.success) {
         console.log('데이터 로딩 성공:', response.data.results);
         setDebateLists(response.data.results.debates);
-        // TODO 추후 추가 예정
-        // setTotalPages(response.data.results.totalPages);
+        setTotalPages(response.data.results.totalPages);
+        setIsFirstPage(response.data.results.isFirstPage);
+        setIsLastPage(response.data.results.isLastPage);
       } else {
         console.log('서버로부터 실패 메시지:', response.data.message);
       }
@@ -80,6 +86,13 @@ const Page = () => {
   useEffect(() => {
     getDebateLists();
   }, [activeTab, selectedOption]);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCurrentPage(value);
+  };
   return (
     <Wrapper>
       <PageTitle pageTitle="토론" />
@@ -107,10 +120,12 @@ const Page = () => {
       })}
       <Center>
         <Pagination
-          count={10}
-          showFirstButton
-          showLastButton
+          count={totalPages}
+          showFirstButton={isFirstPage}
+          showLastButton={isLastPage}
           className="my-10 mb-20"
+          page={currentPage}
+          onChange={handlePageChange}
         />
       </Center>
     </Wrapper>
