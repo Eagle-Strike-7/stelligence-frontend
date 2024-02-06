@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { ResponseType } from '@/types/common/ResponseType';
-import { Document, StarProps } from '@/types/newStar/newStarProps';
+import { Document, NewStarProps } from '@/types/star/NewStarProps';
 
 // NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
-const StarTagInput = ({ star, setStar }: StarProps) => {
+const StarTagInput = ({ star, setStar }: NewStarProps) => {
   const [starTag, setStarTag] = useState({
     enteredTag: '', // input에 입력된 값
     connectedTag: '', // 태그로 생성된 값
