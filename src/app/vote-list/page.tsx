@@ -2,7 +2,7 @@
 
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
-import VoteListCard from '@/app/voteList/components/VoteListCard';
+import VoteListCard from '@/app/vote-list/components/VoteListCard';
 import Wrapper from '@/components/Common/Wrapper';
 import { Center, Select } from '@chakra-ui/react';
 import { Pagination } from '@mui/material';
