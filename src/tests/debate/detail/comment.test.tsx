@@ -12,12 +12,10 @@ describe('댓글 기능', () => {
   // NOTE 댓글 작성 테스트 로직
   describe('댓글 작성', () => {
     beforeEach(() => {
-      // 각 테스트가 실행되기 전에 axios 호출 결과를 초기화합니다.
       mockedAxios.post.mockClear();
     });
 
     test('기본 댓글 작성', async () => {
-      // 모킹된 axios.post 호출에 대한 반환 값 설정
       mockedAxios.post.mockResolvedValue({
         data: {
           success: true,
@@ -26,7 +24,7 @@ describe('댓글 기능', () => {
         },
       });
 
-      const result = await createComment('새 댓글입니다.');
+      const result = await createComment('새 댓글입니다.', 1);
       expect(result).toHaveProperty('id');
       expect(result.content).toBe('새 댓글입니다.');
       // NOTE Axios 호출이 예상대로 실행되었는지 확인
@@ -34,20 +32,19 @@ describe('댓글 기능', () => {
     });
 
     test('다른 댓글 태그 시 (멘션 기능)', async () => {
-      // 멘션 기능 포함하여 댓글 작성
-      const result = await createComment('#1 새로운 댓글!');
+      const result = await createComment('#1 새로운 댓글!', 1);
       expect(result.content).toContain('#1');
     });
 
     test('빈 댓글 작성 시도', async () => {
-      await expect(createComment('')).rejects.toThrow(
+      await expect(createComment('', 1)).rejects.toThrow(
         '댓글 내용이 비어있습니다.',
       );
     });
 
     test('글자 수 제한 초과 시', async () => {
       const longContent = 'a'.repeat(1001); // 예시로 1000자 제한 가정
-      await expect(createComment(longContent)).rejects.toThrow(
+      await expect(createComment(longContent, 1)).rejects.toThrow(
         '글자 수 제한을 초과했습니다.',
       );
     });
@@ -56,7 +53,6 @@ describe('댓글 기능', () => {
   // NOTE 댓글 수정 테스트 로직
   describe('댓글 수정', () => {
     beforeEach(() => {
-      // 각 테스트가 실행되기 전에 axios 호출 결과를 초기화합니다.
       mockedAxios.patch.mockClear();
     });
 
