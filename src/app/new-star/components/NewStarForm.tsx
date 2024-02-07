@@ -11,11 +11,9 @@ import apiClient from '@/service/login/axiosClient';
 
 const NewStarForm = () => {
   const router = useRouter();
-  const [newStar, setNewStar] = useState<NewStar>({
-    title: '',
-    parentDocumentId: null,
-    content: 'hello',
-  });
+  const [title, setTitle] = useState<string>('');
+  const [parentDocumentId, setParentDocumentId] = useState<number | null>(null);
+  const [content, setContent] = useState<string>('');
 
   const postNewStar = async (star: NewStar) => {
     try {
@@ -39,15 +37,20 @@ const NewStarForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const startsWithH2orH3 = /^<(h1|h2|h3)>/i;
-    if (newStar.title === '') {
+    if (title === '') {
       alert('제목을 입력해주세요');
-    } else if (newStar.content === '') {
+    } else if (content === '') {
       alert('본문을 입력해주세요');
-    } else if (startsWithH2orH3.test(newStar.content) === false) {
+    } else if (startsWithH2orH3.test(content) === false) {
       alert(
         '본문은 소제목으로 시작해야 합니다.\n##, ###을 통해 소제목을 생성해주세요.',
       );
     } else {
+      const newStar = {
+        title,
+        parentDocumentId,
+        content,
+      };
       console.log(newStar);
       postNewStar(newStar);
     }
@@ -55,12 +58,12 @@ const NewStarForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
-      <StarTitleInput star={newStar} setStar={setNewStar} />
-      <StarTagInput star={newStar} setStar={setNewStar} />
+      <StarTitleInput title={title} setTitle={setTitle} />
+      <StarTagInput setParentDocumentId={setParentDocumentId} />
 
       <div className="flex flex-col w-full">
         <div className="text-md font-bold mb-2">본문</div>
-        <StarSectionInput star={newStar} setStar={setNewStar} />
+        <StarSectionInput content={content} setContent={setContent} />
       </div>
 
       <SubmitButton name="생성하기" />
