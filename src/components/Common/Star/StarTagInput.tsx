@@ -1,4 +1,4 @@
-import useDebounce from '@/hooks/useDebounce';
+import useDebounce from '@/hooks/common/useDebounce';
 import { Input, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -49,7 +49,7 @@ const StarTagInput = ({ star, setStar }: NewStarProps) => {
 
   const handleClick = (doc: Document) => {
     setStarTag({ ...starTag, enteredTag: '', connectedTag: doc.title });
-    setStar({ ...star, documentId: doc.documentId });
+    setStar({ ...star, parentDocumentId: doc.documentId });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, doc: Document) => {
@@ -60,7 +60,7 @@ const StarTagInput = ({ star, setStar }: NewStarProps) => {
 
   const handleDelete = () => {
     setStarTag({ ...starTag, connectedTag: '' });
-    setStar({ ...star, documentId: 0 });
+    setStar({ ...star, parentDocumentId: null });
   };
 
   // NOTE : 검색어가 바뀌면 검색 다시하기
