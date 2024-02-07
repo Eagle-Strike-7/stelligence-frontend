@@ -65,7 +65,7 @@ export const deleteComment = async (
     await axios.delete(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments/${commentId}`,
     );
-    return true; // 삭제 성공
+    return true;
   } catch (error) {
     console.error('댓글 삭제 중 오류 발생:', error);
     throw error;

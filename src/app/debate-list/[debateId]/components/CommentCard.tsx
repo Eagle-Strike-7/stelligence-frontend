@@ -1,5 +1,7 @@
+import { deleteComment } from '@/service/debate/comment';
 import { Avatar, Box, Text } from '@chakra-ui/react';
-import React from 'react';
+import { usePathname } from 'next/navigation';
+import React, { Dispatch, SetStateAction } from 'react';
 import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi';
 
@@ -8,6 +10,8 @@ export interface DebateCommentProps {
   userName: string;
   commentContent: string;
   time: string;
+  commentId: number;
+  setIsChanged: Dispatch<SetStateAction<boolean>>;
 }
 
 const CommentCard: React.FC<DebateCommentProps> = ({
@@ -15,7 +19,17 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   userName,
   commentContent,
   time,
+  commentId,
+  setIsChanged,
 }) => {
+  const pathname = usePathname();
+  const debateId = Number(pathname.split('/').pop());
+
+  const handleDeleteComment = () => {
+    deleteComment(commentId, debateId);
+    setIsChanged(prev => {return !prev});
+  };
+
   return (
     <Box className="flex w-full p-4 rounded-md  bg-blue-100  my-2">
       <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
@@ -32,6 +46,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
             <HiOutlineTrash
               size="1.25rem"
               className="mr-1 hover:cursor-pointer"
+              onClick={handleDeleteComment}
             />
             <AiOutlineEdit size="1.25rem " className="hover:cursor-pointer" />
           </Box>
