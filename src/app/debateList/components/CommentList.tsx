@@ -1,60 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { getCommentList } from '@/service/debate/comment';
+import { CommentProps } from '@/types/debate/comment';
 import Comment from './CommentCard';
 
 const CommentList = () => {
-  // FIXME - 추후에 서버 연결 후 삭제할 더미 데이터
-  const commentList = [
-    {
-      userImg: 'sdfsd',
-      userName: '독수리타법 7남매',
-      commentContent: '우주에는 마리모가 없습니다',
-      time: 'asdfsd',
-    },
-    {
-      userImg: 'sdfsd',
-      userName: '동기와비동',
-      commentContent: '마리모는 배가 고프다는데 동물 아닐까요?',
-      time: 'asdfsd',
-    },
-    {
-      userImg: 'sdfsd',
-      userName: '여행가가',
-      commentContent: '마리모는 식물임이 틀림없습니다.',
-      time: 'asdfsd',
-    },
-    {
-      userImg: 'sdfsd',
-      userName: '독수리타법 7남매',
-      commentContent: '우주에는 마리모가 없습니다',
-      time: 'asdfsd',
-    },
-    {
-      userImg: 'sdfsd',
-      userName: '동기와비동',
-      commentContent: '마리모는 배가 고프다는데 동물 아닐까요?',
-      time: 'asdfsd',
-    },
-    {
-      userImg: 'sdfsd',
-      userName: '여행가가',
-      commentContent: '마리모는 식물임이 틀림없습니다.',
-      time: 'asdfsd',
-    },
-  ];
+  const pathname = usePathname();
+  const debateId = Number(pathname.split('/').pop());
+  const [commentList, setCommentList] = useState<CommentProps[]>([]);
+
+  useEffect(() => {
+    getCommentList(debateId)
+      .then(comments => {
+        console.log('Fetched comments:', comments);
+        setCommentList([...comments]);
+      })
+      .catch(error => {
+        console.error('Error fetching comments:', error);
+      });
+  }, [debateId]);
 
   return (
     <div className="flex flex-col w-full mb-20 ">
-      <span className="w-32 text-md font-bold mt-3 flex-shrink-0">
+      <span className="w-32 text-lg font-bold mt-3 flex-shrink-0">
         작성된 댓글({commentList.length})
       </span>
-      {commentList.map(comment => {
+      {commentList.map((comment: CommentProps) => {
         return (
           <Comment
             key={Date.now()}
-            userImg={comment.userImg}
-            userName={comment.userName}
-            commentContent={comment.commentContent}
-            time={comment.time}
+            userImg={comment.commenter.profileImgUrl}
+            userName={comment.commenter.nickname}
+            commentContent={comment.content}
+            time={comment.createdAt.replace('T', ' ')}
           />
         );
       })}
