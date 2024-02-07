@@ -10,16 +10,20 @@ import apiClient from '@/service/login/axiosClient';
 import StarInfo from './components/StarInfo';
 import StarContent from './components/StarContent';
 import StarAuthors from './components/StarAuthors';
+import formatDate from '../../../lib/formatDate';
 
 // NOTE : 특정 글 상세보기 페이지
-// TODO : 편집중 여부 표시, 태그 id
+// TODO : 편집중 여부 표시
 const Page = () => {
   const [title, setTitle] = useState('');
+  const [lastModifiedAt, setLastModifiedAt] = useState('');
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
-  const [contributors, setContributors] = useState<string[]>([]);
+  const [contributors, setContributors] = useState<StarContributor[]>([]);
+  const [editable, setEditable] = useState(false);
+
   const pathname = usePathname();
-  const documentId = pathname.split('/').pop();
+  const documentId = Number(pathname.split('/').pop());
 
   const getStar = async () => {
     try {
@@ -28,16 +32,20 @@ const Page = () => {
       );
       const { data } = response;
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
-      if (data.success) {
-        // TODO : && data.results.documentId === documentId
+      if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
+        setLastModifiedAt(formatDate(data.results.lastModifiedAt));
         setContent(data.results.content);
         setOriginalAuthor(data.results.originalAuthor.nickname);
         setContributors(
           data.results.contributors.map((contributor: StarContributor) => {
-            return contributor.nickname;
+            return {
+              memberId: contributor.memberId,
+              nickname: contributor.nickname,
+            };
           }),
         );
+        setEditable(data.results.editable);
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +59,11 @@ const Page = () => {
   return (
     <Wrapper>
       <Box className="flex w-full flex-col">
-        <StarInfo title={title} />
+        <StarInfo
+          title={title}
+          lastModifiedAt={lastModifiedAt}
+          editable={editable}
+        />
         <StarContent content={content} />
         <StarAuthors
           originalAuthor={originalAuthor}
