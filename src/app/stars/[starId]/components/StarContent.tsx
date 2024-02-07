@@ -2,6 +2,7 @@
 
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
 import React, { useEffect } from 'react';
 import styles from '../../../../styles/starContent.module.css';
 
@@ -15,7 +16,7 @@ const StarContent = ({ content }: { content: string }) => {
   }, [content]);
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Image],
     content,
     editable: false,
   });
