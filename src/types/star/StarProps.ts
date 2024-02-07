@@ -7,17 +7,18 @@ export interface StarSection {
 }
 
 export interface StarContributor {
+  memberId: number;
   nickname: string;
-  email: string;
-  profileImgUrl: string;
-  socialType: ['GOOGLE' | 'NAVER' | 'KAKAO'];
+  profileImgUrl?: string;
 }
 
 export interface Star {
   documentId: number;
   title: string;
+  lastModifiedAt: string;
   sections: StarSection[];
   content: string;
   originalAuthor: StarContributor;
   contributors: StarContributor[];
+  editable: boolean;
 }

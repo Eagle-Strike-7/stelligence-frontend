@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tag } from '@chakra-ui/react';
+import { StarContributor } from '@/types/star/StarProps';
 
 // NOTE : 글의 기여자를 보여주는 컴포넌트
 // FIXME : 기여자 id 추가
@@ -8,7 +9,7 @@ const StarAuthors = ({
   contributors,
 }: {
   originalAuthor: string;
-  contributors: string[];
+  contributors: StarContributor[];
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -34,11 +35,10 @@ const StarAuthors = ({
           <span className="text-lg align-middle mt-0.5">기여자</span>
           <div className="flex flex-row flex-wrap">
             {contributors &&
-              contributors.map((contributor, index) => {
+              contributors.map(contributor => {
                 return (
                   <Tag
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={index}
+                    key={contributor.memberId}
                     ml="0.5rem"
                     h="2rem"
                     colorScheme="gray"
@@ -47,7 +47,7 @@ const StarAuthors = ({
                     fontSize="sm"
                     fontWeight="extrabold"
                   >
-                    {contributor}
+                    {contributor.nickname}
                   </Tag>
                 );
               })}

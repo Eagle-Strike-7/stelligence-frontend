@@ -22,7 +22,7 @@ export const getCommentList = async (
 };
 
 // NOTE 댓글 생성
-export const createComment = async (newContent: string, debateId: number) => {
+export const postNewComment = async (newContent: string, debateId: number) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,

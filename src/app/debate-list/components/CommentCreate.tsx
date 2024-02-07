@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { createComment } from '@/service/debate/comment';
-import scrollToBottom from '@/hooks/debate/scrollToBottom';
+import { postNewComment } from '@/service/debate/comment';
+import scrollToBottom from '@/lib/debate/scrollToBottom';
 import { Button, Textarea } from '@chakra-ui/react';
 import {
   HiOutlineChevronDoubleDown,
@@ -16,7 +16,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
   const [newContent, setNewContent] = useState<string>('');
 
   const submitComment = () => {
-    createComment(newContent, debateId)
+    postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
         setNewContent('');
