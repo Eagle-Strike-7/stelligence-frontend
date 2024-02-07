@@ -22,7 +22,7 @@ export interface DebateDetailApiResponse {
   results: Debate;
 }
 
-export async function getDebateData(debateId: string): Promise<Debate | null> {
+export async function getDebateData(debateId: number): Promise<Debate | null> {
   try {
     const response = await axios.get<DebateDetailApiResponse>(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}`,

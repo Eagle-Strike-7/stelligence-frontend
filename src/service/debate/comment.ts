@@ -1,8 +1,4 @@
-import {
-  CommentApiResponse,
-  CommentCreateProps,
-  CommentProps,
-} from '@/types/debate/comment';
+import { CommentApiResponse, CommentProps } from '@/types/debate/comment';
 import axios from 'axios';
 
 // NOTE 댓글 리스트 조회
@@ -26,15 +22,20 @@ export const getCommentList = async (
 };
 
 // NOTE 댓글 생성
-export const createComment: (content: string) => CommentCreateProps = (
-  content: string,
-) => {
-  return {
-    id: Date.now(),
-    content,
-  };
+export const createComment = async (newContent: string, debateId: number) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
+      {
+        content: newContent,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('댓글 수정 중 오류 발생:', error);
+    throw error;
+  }
 };
-
 // NOTE 댓글 수정
 export const updateComment = async (
   commentId: number,

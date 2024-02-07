@@ -12,8 +12,9 @@ import DebatePrevNextNav from '../components/DebatePrevNextNav';
 
 const Page = () => {
   const pathname = usePathname();
-  const debateId = pathname.split('/').pop(); // Assuming debateId is the last segment
+  const debateId = Number(pathname.split('/').pop()); // Assuming debateId is the last segment
   const [debateData, setDebateData] = useState<Debate | null>(null);
+  const [commentsUpdated, setCommentsUpdated] = useState(false);
 
   useEffect(() => {
     if (debateId) {
@@ -21,14 +22,18 @@ const Page = () => {
     }
   }, [debateId]);
 
+  const refreshComments = () => {
+    setCommentsUpdated(prev => {return !prev});
+  };
+
   return (
     <Wrapper>
       <DebatePrevNextNav />
       <ReturnToDebateList />
       {/* FIXME 추후에 투표페이지와 공통 컴포넌트로 수정 필요 */}
       <DebateDetail debateData={debateData} />
-      <CommentList />
-      <CommentCreate />
+      <CommentList debateId={debateId} commentsUpdated={commentsUpdated} />
+      <CommentCreate onCommentCreated={refreshComments} debateId={debateId} />
     </Wrapper>
   );
 };
