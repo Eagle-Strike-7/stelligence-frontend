@@ -5,7 +5,7 @@ import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSect
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
 import { NewStar } from '@/types/star/NewStarProps';
-import AccentButton from '@/components/Common/Button/AccentButton';
+import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 
@@ -63,7 +63,7 @@ const NewStarForm = () => {
         <StarSectionInput star={newStar} setStar={setNewStar} />
       </div>
 
-      <AccentButton name="생성하기" />
+      <SubmitButton name="생성하기" />
     </form>
   );
 };

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { NewStar } from '@/types/star/NewStarProps';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
-import AccentButton from '@/components/Common/Button/AccentButton';
+import SubmitButton from '@/components/Common/Button/SubmitButton';
 import ReviseStarReason from './ReviseStarInfo/ReviseStarReason';
 import ReviseStarContent from './ReviseStarContent/ReviseStarContent';
 import ReviseStarDebate from './ReviseStarInfo/ReviseStarDebate';
@@ -30,7 +30,7 @@ const ReviseStarForm = () => {
       <ReviseStarReason />
       <ReviseStarContent />
 
-      <AccentButton name="수정 요청하기" />
+      <SubmitButton name="수정 요청하기" />
     </form>
   );
 };
