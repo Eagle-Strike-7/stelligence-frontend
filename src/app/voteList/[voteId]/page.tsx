@@ -2,7 +2,7 @@ import BeforeAfter from '@/components/Common/BeforeAfter';
 import Wrapper from '@/components/Common/Wrapper';
 import { Card } from '@chakra-ui/react';
 import React from 'react';
-import ReviseInformation from '@/app/revise/[reviseId]/vote/components/ReviseInformation';
+import ReviseInformation from '@/app/voteList/[voteId]/components/ReviseInformation';
 import Vote from './components/Vote';
 
 // FIXME 백엔드 통신 이후 삭제
