@@ -13,7 +13,7 @@ const NewStarForm = () => {
   const router = useRouter();
   const [newStar, setNewStar] = useState<NewStar>({
     title: '',
-    documentId: 0,
+    parentDocumentId: null,
     content: 'hello',
   });
 

@@ -1,6 +1,6 @@
 export interface NewStar {
   title: string;
-  documentId: number;
+  parentDocumentId: number | null;
   realtedDebate?: string;
   content: string;
 }
