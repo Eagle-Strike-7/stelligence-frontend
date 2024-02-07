@@ -1,17 +1,45 @@
-import { Card } from '@chakra-ui/react';
+import { Badge, Card } from '@chakra-ui/react';
 import React from 'react';
-import { ListCardProps } from '@/types/star/ListCardProps';
-import { LikeDislikeProps } from '@/types/common/LikeDislikeProps';
+import { useRouter } from 'next/navigation';
 import LikeDislike from '../../../components/Common/LikeDislike';
 
-// FIXME - 추후에 ListCard 컴포넌트들 재사용성을 높인 구조로 고치기
-const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
-  originalTitle,
-  title,
-  username,
-  time,
-  option,
-}) => {
+interface VoteListCardProps {
+  documentTitle: string;
+  contributeId: number;
+  contributeTitle: string;
+  contributorNickname: string;
+  createTime: string;
+  agreeCount: number;
+  disagreeCount: number;
+  contributeStatus: string;
+}
+
+// TODO - ListCard 컴포넌트를 활용해 재사용성을 높인 구조로 리팩토링
+const VoteListCard = ({
+  documentTitle,
+  contributeId,
+  contributeTitle,
+  contributorNickname,
+  createTime,
+  agreeCount,
+  disagreeCount,
+  contributeStatus,
+}: VoteListCardProps) => {
+  const translateStatus: { [key: string]: string } = {
+    MERGED: '반영 완료',
+    DEBATING: '토론 중',
+    REJECTED: '미반영',
+  };
+
+  const router = useRouter();
+  const handleClickVoteCard = () => {
+    if (contributeStatus === 'DEBATING') {
+      router.push(`/debateList/${contributeId}`); // FIXME contributeId가 아니라 debateId로 변경
+    } else {
+      router.push(`/voteList/${contributeId}`);
+    }
+  };
+
   return (
     <Card
       display="flex"
@@ -28,17 +56,25 @@ const VoteListCard: React.FC<ListCardProps<LikeDislikeProps>> = ({
         bg: 'gray.50',
         cursor: 'pointer',
       }}
+      onClick={handleClickVoteCard}
     >
       <div>
-        <h2 className="text-sm text-gray-400 mb-1">{originalTitle}</h2>
-        <h2 className="text-md font-semibold mb-1">{title}</h2>
+        <h2 className="text-sm text-gray-400 mb-1">{documentTitle}</h2>
+        <h2 className="text-md font-semibold mb-1">{contributeTitle}</h2>
         <div className="flex place-items-center mb-1">
-          <p className="text-xs mr-3">{username}</p>
-          <p className="text-xs text-gray">{time}</p>
+          <p className="text-xs mr-3">{contributorNickname}</p>
+          <p className="text-xs text-gray">{createTime}</p>
         </div>
       </div>
-      <div className="justify-between">
-        <LikeDislike likeNum={option.likeNum} dislikeNum={option.dislikeNum} />
+      <div className="flex flex-col gap-3">
+        <div className="justify-between">
+          <LikeDislike likeNum={agreeCount} dislikeNum={disagreeCount} />
+        </div>
+        {contributeStatus !== 'VOTING' && (
+          <Badge colorScheme="green" width="fit-content" alignSelf="end">
+            {translateStatus[contributeStatus] || '투표 상태'}
+          </Badge>
+        )}
       </div>
     </Card>
   );
