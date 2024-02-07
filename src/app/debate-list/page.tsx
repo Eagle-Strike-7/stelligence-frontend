@@ -9,7 +9,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
-import DebateListCard from '@/app/debateList/components/DebateListCard';
+import DebateListCard from '@/app/debate-list/components/DebateListCard';
 
 interface Debate {
   debateId: number;
