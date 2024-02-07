@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import Page from '@/app/debateList/page';
+import Page from '@/app/debate-list/page';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { dummyEndDebateList } from '@/constants/dummyData';
 import axios from 'axios';

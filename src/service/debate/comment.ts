@@ -1,11 +1,32 @@
+import {
+  CommentApiResponse,
+  CommentCreateProps,
+  CommentProps,
+} from '@/types/debate/comment';
 import axios from 'axios';
 
-export interface Comment {
-  id: number;
-  content: string;
-}
+// NOTE 댓글 리스트 조회
+export const getCommentList = async (
+  debateId: number,
+): Promise<CommentProps[]> => {
+  try {
+    const response = await axios.get<CommentApiResponse>(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
+    );
 
-export const createComment: (content: string) => Comment = (
+    if (response.data.success) {
+      return response.data.results;
+    }
+    console.error('Fetching comments failed:', response.data.message);
+    return [];
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    return [];
+  }
+};
+
+// NOTE 댓글 생성
+export const createComment: (content: string) => CommentCreateProps = (
   content: string,
 ) => {
   return {
@@ -14,6 +35,7 @@ export const createComment: (content: string) => Comment = (
   };
 };
 
+// NOTE 댓글 수정
 export const updateComment = async (
   commentId: number,
   newContent: string,
@@ -33,6 +55,7 @@ export const updateComment = async (
   }
 };
 
+// NOTE 댓글 삭제
 export const deleteComment = async (
   commentId: number,
   debateId: number,
