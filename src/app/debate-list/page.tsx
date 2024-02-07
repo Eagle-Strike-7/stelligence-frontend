@@ -105,7 +105,7 @@ const Page = () => {
       </div>
       {debateLists.map(item => {
         return (
-          <Link href={`/debateList/${item.debateId}`} key={item.debateId}>
+          <Link href={`/debate-list/${item.debateId}`} key={item.debateId}>
             <DebateListCard
               originalTitle={item.documentTitle}
               title={item.documentTitle}
