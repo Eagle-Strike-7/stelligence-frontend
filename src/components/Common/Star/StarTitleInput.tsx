@@ -1,9 +1,9 @@
-import { StarProps } from '@/types/newStar/newStarProps';
+import { NewStarProps } from '@/types/star/NewStarProps';
 import { Input } from '@chakra-ui/react';
 import React from 'react';
 
 // NOTE : 제목을 입력받는 컴포넌트 (글쓰기, 수정)
-const StarTitleInput = ({ star, setStar }: StarProps) => {
+const StarTitleInput = ({ star, setStar }: NewStarProps) => {
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStar({ ...star, title: e.target.value });
   };
