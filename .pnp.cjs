@@ -54,6 +54,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.7"],\
           ["babel-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.7.0"],\
           ["d3", "npm:7.8.5"],\
+          ["embla-carousel-react", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.0-rc22"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-airbnb", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:19.0.4"],\
           ["eslint-config-airbnb-typescript", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:17.1.0"],\
@@ -8374,6 +8375,61 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["embla-carousel", [\
+      ["npm:8.0.0-rc22", {\
+        "packageLocation": "../../.yarn/berry/cache/embla-carousel-npm-8.0.0-rc22-17fe2ef7bc-10c0.zip/node_modules/embla-carousel/",\
+        "packageDependencies": [\
+          ["embla-carousel", "npm:8.0.0-rc22"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["embla-carousel-react", [\
+      ["npm:8.0.0-rc22", {\
+        "packageLocation": "../../.yarn/berry/cache/embla-carousel-react-npm-8.0.0-rc22-1676bdcb5b-10c0.zip/node_modules/embla-carousel-react/",\
+        "packageDependencies": [\
+          ["embla-carousel-react", "npm:8.0.0-rc22"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.0-rc22", {\
+        "packageLocation": "./.yarn/__virtual__/embla-carousel-react-virtual-c644774b9e/3/.yarn/berry/cache/embla-carousel-react-npm-8.0.0-rc22-1676bdcb5b-10c0.zip/node_modules/embla-carousel-react/",\
+        "packageDependencies": [\
+          ["embla-carousel-react", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.0-rc22"],\
+          ["@types/react", "npm:18.2.48"],\
+          ["embla-carousel", "npm:8.0.0-rc22"],\
+          ["embla-carousel-reactive-utils", "virtual:c644774b9ee023e4495f540573e2684c71a36788f81c389b14930fb7c46570923e9a16ddeabf192ca608bb9141fb38b9336e016aace3c793ee4d6d6f6f48f934#npm:8.0.0-rc22"],\
+          ["react", "npm:18.2.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["embla-carousel-reactive-utils", [\
+      ["npm:8.0.0-rc22", {\
+        "packageLocation": "../../.yarn/berry/cache/embla-carousel-reactive-utils-npm-8.0.0-rc22-6f0c2497f0-10c0.zip/node_modules/embla-carousel-reactive-utils/",\
+        "packageDependencies": [\
+          ["embla-carousel-reactive-utils", "npm:8.0.0-rc22"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:c644774b9ee023e4495f540573e2684c71a36788f81c389b14930fb7c46570923e9a16ddeabf192ca608bb9141fb38b9336e016aace3c793ee4d6d6f6f48f934#npm:8.0.0-rc22", {\
+        "packageLocation": "./.yarn/__virtual__/embla-carousel-reactive-utils-virtual-2947d8c7bc/3/.yarn/berry/cache/embla-carousel-reactive-utils-npm-8.0.0-rc22-6f0c2497f0-10c0.zip/node_modules/embla-carousel-reactive-utils/",\
+        "packageDependencies": [\
+          ["embla-carousel-reactive-utils", "virtual:c644774b9ee023e4495f540573e2684c71a36788f81c389b14930fb7c46570923e9a16ddeabf192ca608bb9141fb38b9336e016aace3c793ee4d6d6f6f48f934#npm:8.0.0-rc22"],\
+          ["@types/embla-carousel", null],\
+          ["embla-carousel", "npm:8.0.0-rc22"]\
+        ],\
+        "packagePeers": [\
+          "@types/embla-carousel",\
+          "embla-carousel"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["emittery", [\
       ["npm:0.13.1", {\
         "packageLocation": "../../.yarn/berry/cache/emittery-npm-0.13.1-cb6cd1bb03-10c0.zip/node_modules/emittery/",\
@@ -13935,6 +13991,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.7"],\
           ["babel-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.7.0"],\
           ["d3", "npm:7.8.5"],\
+          ["embla-carousel-react", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.0-rc22"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-airbnb", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:19.0.4"],\
           ["eslint-config-airbnb-typescript", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:17.1.0"],\
