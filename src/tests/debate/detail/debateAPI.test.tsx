@@ -33,7 +33,7 @@ describe('토론 상세 페이지 데이터 패칭', () => {
 
     mockedAxios.get.mockResolvedValue(mockApiResponse);
 
-    const debateDetail = await getDebateData('1');
+    const debateDetail = await getDebateData(1);
     expect(debateDetail).toEqual(mockApiResponse.data.results);
     expect(mockedAxios.get).toHaveBeenCalledWith(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/1`,
