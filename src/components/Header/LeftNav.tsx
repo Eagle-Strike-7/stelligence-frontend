@@ -7,7 +7,7 @@ const LeftNav = () => {
   return (
     <div className="flex ml-20 w-40">
       <div className="inline mr-4">
-        <Link href="/voteList">
+        <Link href="/vote-list">
           <Button
             leftIcon={<AiOutlineLike size="20px" />}
             variant="ghost"
@@ -22,7 +22,7 @@ const LeftNav = () => {
         </Link>
       </div>
       <div className="inline">
-        <Link href="/debateList">
+        <Link href="/debate-list">
           <Button
             leftIcon={<AiOutlineComment size="20px" />}
             variant="ghost"
