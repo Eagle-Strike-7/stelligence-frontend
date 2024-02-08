@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { getCommentList } from '@/service/debate/comment';
 import { CommentProps } from '@/types/debate/comment';
 import Comment from './CommentCard';
 
-const CommentList = () => {
-  const pathname = usePathname();
-  const debateId = Number(pathname.split('/').pop());
+interface CommentListProps {
+  debateId: number;
+  commentsUpdated: boolean;
+}
+const CommentList: React.FC<CommentListProps> = ({
+  debateId,
+  commentsUpdated,
+}) => {
   const [commentList, setCommentList] = useState<CommentProps[]>([]);
 
   useEffect(() => {
     getCommentList(debateId)
       .then(comments => {
-        console.log('Fetched comments:', comments);
         setCommentList([...comments]);
       })
       .catch(error => {
         console.error('Error fetching comments:', error);
       });
-  }, [debateId]);
+  }, [debateId, commentsUpdated]);
 
   return (
     <div className="flex flex-col w-full mb-20 ">
@@ -28,7 +31,7 @@ const CommentList = () => {
       {commentList.map((comment: CommentProps) => {
         return (
           <Comment
-            key={Date.now()}
+            key={comment.commentId}
             userImg={comment.commenter.profileImgUrl}
             userName={comment.commenter.nickname}
             commentContent={comment.content}
