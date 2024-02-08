@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import apiClient from '../login/axiosClient';
 
 // NOTE 공통 타입으로 분리하기
@@ -61,7 +62,7 @@ interface ReviseDataResponse {
 }
 
 // NOTE 수정요청 조회
-const getReviseData = async (
+export const getReviseData = async (
   contributeId: number,
 ): Promise<ReviseDataResponse | null> => {
   try {
@@ -77,4 +78,19 @@ const getReviseData = async (
   }
 };
 
-export default getReviseData;
+// NOTE 수정요청 삭제
+export const deleteReviseData = async (
+  contributeId: number,
+): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.delete('/api/contributes/', {
+      params: {
+        contributeId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('수정요청 삭제 실패', error);
+    throw error;
+  }
+};
