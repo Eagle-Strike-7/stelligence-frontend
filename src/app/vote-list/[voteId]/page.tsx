@@ -3,6 +3,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import { Card, Input } from '@chakra-ui/react';
 import React from 'react';
 import ReviseInformation from '@/app/vote-list/[voteId]/components/ReviseInformation';
+import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import Vote from './components/Vote';
 
 // FIXME 백엔드 통신 이후 삭제
@@ -60,10 +61,10 @@ const Page = () => {
     <Wrapper>
       <div className="pt-5">
         {/* TODO 페이지 제목 - 공통컴포넌트로 분리 */}
-        <div className="flex flex-col gap-1 mb-16">
-          <h1 className="text-3xl font-bold">투표하기</h1>
-          <p className="text-sm">수정요청 반영 여부에 대해 투표하세요! </p>
-        </div>
+        <PageTitleDescription
+          title="투표하기"
+          description="수정요청 반영 여부에 대해 투표하세요!"
+        />
         <div className="flex flex-col gap-8">
           {/* SECTION 수정요청 글 정보 영역 */}
           <ReviseInformation reviseData={dummyReviseData} />
