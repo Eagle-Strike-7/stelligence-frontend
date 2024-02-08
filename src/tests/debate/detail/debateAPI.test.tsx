@@ -1,4 +1,4 @@
-import { getDebateData } from '@/app/debateList/[debateId]/page.server';
+import { getDebateData } from '@/app/debate-list/[debateId]/page.server';
 import axios from 'axios';
 
 jest.mock('axios');

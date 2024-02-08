@@ -38,6 +38,7 @@ const RAW_RUNTIME_STATE =
           ["@testing-library/react-hooks", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.1"],\
           ["@testing-library/user-event", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:14.5.2"],\
           ["@tiptap/core", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
+          ["@tiptap/extension-image", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/extension-placeholder", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/extension-underline", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/pm", "npm:2.2.1"],\
@@ -5181,6 +5182,28 @@ const RAW_RUNTIME_STATE =
           "@tiptap/pm",\
           "@types/tiptap__core",\
           "@types/tiptap__pm"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@tiptap/extension-image", [\
+      ["npm:2.2.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@tiptap-extension-image-npm-2.2.1-40bf6f71da-10c0.zip/node_modules/@tiptap/extension-image/",\
+        "packageDependencies": [\
+          ["@tiptap/extension-image", "npm:2.2.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1", {\
+        "packageLocation": "./.yarn/__virtual__/@tiptap-extension-image-virtual-b127f67d87/3/.yarn/berry/cache/@tiptap-extension-image-npm-2.2.1-40bf6f71da-10c0.zip/node_modules/@tiptap/extension-image/",\
+        "packageDependencies": [\
+          ["@tiptap/extension-image", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
+          ["@tiptap/core", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
+          ["@types/tiptap__core", null]\
+        ],\
+        "packagePeers": [\
+          "@tiptap/core",\
+          "@types/tiptap__core"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13975,6 +13998,7 @@ const RAW_RUNTIME_STATE =
           ["@testing-library/react-hooks", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:8.0.1"],\
           ["@testing-library/user-event", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:14.5.2"],\
           ["@tiptap/core", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
+          ["@tiptap/extension-image", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/extension-placeholder", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/extension-underline", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:2.2.1"],\
           ["@tiptap/pm", "npm:2.2.1"],\

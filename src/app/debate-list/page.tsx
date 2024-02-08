@@ -9,7 +9,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
-import DebateListCard from '@/app/debateList/components/DebateListCard';
+import DebateListCard from '@/app/debate-list/components/DebateListCard';
 
 interface Debate {
   debateId: number;
@@ -105,7 +105,7 @@ const Page = () => {
       </div>
       {debateLists.map(item => {
         return (
-          <Link href={`/debateList/${item.debateId}`} key={item.debateId}>
+          <Link href={`/debate-list/${item.debateId}`} key={item.debateId}>
             <DebateListCard
               originalTitle={item.documentTitle}
               title={item.documentTitle}

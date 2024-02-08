@@ -31,6 +31,7 @@ const Page = () => {
         data: {
           nickname,
         },
+        withCredentials: true,
       });
 
       // NOTE 닉네임으로 로그인 성공 시 메인페이지로 이동
