@@ -12,7 +12,7 @@ import DebatePrevNextNav from '../components/DebatePrevNextNav';
 
 const Page = () => {
   const pathname = usePathname();
-  const debateId = Number(pathname.split('/').pop()); // Assuming debateId is the last segment
+  const debateId = Number(pathname.split('/').pop());
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
 
@@ -23,7 +23,9 @@ const Page = () => {
   }, [debateId]);
 
   const refreshComments = () => {
-    setCommentsUpdated(prev => {return !prev});
+    setCommentsUpdated(prev => {
+      return !prev;
+    });
   };
 
   return (
