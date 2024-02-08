@@ -23,13 +23,17 @@ const Page = () => {
   }, [debateId]);
 
   const refreshComments = () => {
-    setCommentsUpdated(prev => {return !prev});
+    setCommentsUpdated(prev => {
+      return !prev;
+    });
   };
 
   return (
     <Wrapper>
-      <DebatePrevNextNav />
       <ReturnToDebateList />
+      <DebatePrevNextNav />
+      <h3 className="font-bold w-full text-left mb-5 text-3xl">토론하기</h3>
+      <p>토론에 참여해보세요</p>
       {/* FIXME 추후에 투표페이지와 공통 컴포넌트로 수정 필요 */}
       <DebateDetail debateData={debateData} />
       <CommentList debateId={debateId} commentsUpdated={commentsUpdated} />
