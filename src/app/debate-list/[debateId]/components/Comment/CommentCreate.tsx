@@ -63,8 +63,8 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
           </Button>
         </>
       ) : (
-        <>
-          <span className="text-xl font-bold flex-shrink-0">댓글</span>
+        <div className="flex justify-between pt-3 z-10">
+          <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
           <HiOutlineChevronDoubleUp
             className="hover:cursor-pointer"
             size={20}
@@ -72,7 +72,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
               return setIsCommentCreateOpen(true);
             }}
           />
-        </>
+        </div>
       )}
     </div>
   );

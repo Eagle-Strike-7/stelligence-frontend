@@ -5352,6 +5352,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"embla-carousel-react@npm:^8.0.0-rc22":
+  version: 8.0.0-rc22
+  resolution: "embla-carousel-react@npm:8.0.0-rc22"
+  dependencies:
+    embla-carousel: "npm:8.0.0-rc22"
+    embla-carousel-reactive-utils: "npm:8.0.0-rc22"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.1 || ^18.0.0
+  checksum: eeb545f39c6cf9f00e658eb9d858d26050f1a26dc914a503133ea4ca015fef5d0ceea884b10ecf9b1b3fe2d421de777f7060bc570452de11cbd8a28e63ed4976
+  languageName: node
+  linkType: hard
+
+"embla-carousel-reactive-utils@npm:8.0.0-rc22":
+  version: 8.0.0-rc22
+  resolution: "embla-carousel-reactive-utils@npm:8.0.0-rc22"
+  peerDependencies:
+    embla-carousel: 8.0.0-rc22
+  checksum: 747cfbf4ed1f9cfd632256cc345c7eabba6dfa024044b10ce058d4165164e1bb85ae863ac20d245a787e8e09728ed0d4aea8041ea906462d5a9090a54a6f12a4
+  languageName: node
+  linkType: hard
+
+"embla-carousel@npm:8.0.0-rc22":
+  version: 8.0.0-rc22
+  resolution: "embla-carousel@npm:8.0.0-rc22"
+  checksum: ec23cc8171fc0d5561a74a6e10988d438ba77a11cca122cc51971974be859832402e20b3b07de59763245a2025fad3ef7223d395d923873a464345f1f1626e36
+  languageName: node
+  linkType: hard
+
 "emittery@npm:^0.13.1":
   version: 0.13.1
   resolution: "emittery@npm:0.13.1"
@@ -9996,6 +10024,7 @@ __metadata:
     axios: "npm:^1.6.5"
     babel-jest: "npm:^29.7.0"
     d3: "npm:^7.8.5"
+    embla-carousel-react: "npm:^8.0.0-rc22"
     eslint: "npm:^8.56.0"
     eslint-config-airbnb: "npm:^19.0.4"
     eslint-config-airbnb-typescript: "npm:^17.1.0"
