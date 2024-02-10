@@ -17,7 +17,8 @@ const ReviseInformation = ({
       const days = Math.floor(hours / 24);
 
       return `${days}일 ${hours % 24}시간 ${minutes % 60}분`;
-    } return '0일 0시간 0분';
+    }
+    return '0일 0시간 0분';
   };
 
   console.log(new Date(reviseData.results.endAt));
@@ -39,7 +40,14 @@ const ReviseInformation = ({
           label="수정 요청안 제목"
           text={reviseData?.results.contributeTitle || '수정요청안 제목'}
         />
-        <LabelText label="남은 투표 시간" text={calculateRemainTime()} />
+        <LabelText
+          label="남은 투표 시간"
+          text={
+            reviseData.results.contributeStatus === 'VOTING'
+              ? calculateRemainTime()
+              : '종료된 투표'
+          }
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">

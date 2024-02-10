@@ -3,7 +3,7 @@
 import BeforeAfter from '@/components/Common/BeforeAfter';
 import Wrapper from '@/components/Common/Wrapper';
 import { Card, Input } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReviseInformation from '@/app/vote-list/[voteId]/components/ReviseInformation';
 import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { useQuery } from '@tanstack/react-query';
@@ -17,23 +17,40 @@ import {
 import Vote from './components/Vote';
 
 const Page = () => {
+  const [status, setStatus] = useState<string | undefined>('DEFAULT');
   const contributeId = Number(useParams().voteId);
 
-  const { data: contributeData } = useQuery<ReviseDataResponse>({
+  const { data: contributeData, isLoading } = useQuery<ReviseDataResponse>({
     queryKey: ['contribute', contributeId],
-    queryFn: () => {return getReviseData(contributeId)},
+    queryFn: () => {
+      return getReviseData(contributeId);
+    },
   });
 
   const { data: voteData } = useQuery<VoteResponse>({
     queryKey: ['vote', contributeId],
-    queryFn: () => {return getVoteData(contributeId)},
+    queryFn: () => {
+      return getVoteData(contributeId);
+    },
   });
 
+  useEffect(() => {
+    setStatus(contributeData?.results.contributeStatus ?? 'DEFAULT');
+  }, [contributeData]);
+
+  console.log(`${status}`);
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <div>웜홀 타고 이동중...🧑‍🚀</div>
+      </Wrapper>
+    );
+  }
   return (
     <Wrapper>
       <div className="pt-5">
         <PageTitleDescription
-          title="투표하기"
+          title={status === 'VOTING' ? '투표하기' : '투표 결과'}
           description="수정요청 반영 여부에 대해 투표하세요!"
         />
         <div className="flex flex-col gap-8">
@@ -137,7 +154,11 @@ const Page = () => {
         <div className="mt-16">
           <Card padding="2rem">
             {voteData && (
-              <Vote voteData={voteData} contributeId={contributeId} />
+              <Vote
+                voteData={voteData}
+                contributeId={contributeId}
+                status={status}
+              />
             )}
           </Card>
         </div>

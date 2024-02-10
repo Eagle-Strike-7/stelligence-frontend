@@ -8,9 +8,11 @@ import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
 const Vote = ({
   voteData,
   contributeId,
+  status,
 }: {
   voteData: VoteResponse;
   contributeId: number;
+  status: string | undefined;
 }) => {
   const [myVote, setMyVote] = useState<boolean | null>(
     voteData?.results.myVote,
@@ -49,12 +51,14 @@ const Vote = ({
   };
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-xl font-bold mb-3">투표하기</h1>
+      <h1 className="text-xl font-bold mb-3">
+        {status === 'VOTING' ? '투표하기' : '투표 결과'}
+      </h1>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row justify-between">
           <span className="text-lg font-bold">{calculateAgreePercent()}%</span>
           <span className="text-lg font-bold">
-            {100 - calculateAgreePercent()}%
+            {100 - calculateAgreePercent() && 0}%
           </span>
         </div>
         <Progress
@@ -75,30 +79,32 @@ const Vote = ({
           </span>
         </div>
       </div>
-      <div className="flex flex-row gap-4 justify-center">
-        <Button
-          leftIcon={<FaRegThumbsUp />}
-          _hover={{
-            bg: 'blue.500',
-            color: 'white',
-          }}
-          data-vote="agree"
-          onClick={handleVote}
-        >
-          찬성
-        </Button>
-        <Button
-          leftIcon={<FaRegThumbsDown />}
-          _hover={{
-            bg: 'red.500',
-            color: 'white',
-          }}
-          data-vote="disagree"
-          onClick={handleVote}
-        >
-          반대
-        </Button>
-      </div>
+      {status === 'VOTING' && (
+        <div className="flex flex-row gap-4 justify-center">
+          <Button
+            leftIcon={<FaRegThumbsUp />}
+            _hover={{
+              bg: 'blue.500',
+              color: 'white',
+            }}
+            data-vote="agree"
+            onClick={handleVote}
+          >
+            찬성
+          </Button>
+          <Button
+            leftIcon={<FaRegThumbsDown />}
+            _hover={{
+              bg: 'red.500',
+              color: 'white',
+            }}
+            data-vote="disagree"
+            onClick={handleVote}
+          >
+            반대
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
