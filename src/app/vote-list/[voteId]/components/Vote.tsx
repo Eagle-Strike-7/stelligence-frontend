@@ -2,7 +2,7 @@ import { VoteResponse, postVote } from '@/service/vote/voteService';
 import { Button, Progress } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
 
 const Vote = ({
@@ -17,6 +17,7 @@ const Vote = ({
   const [myVote, setMyVote] = useState<boolean | null>(
     voteData?.results.myVote,
   );
+  const [votePercent, setVotePercent] = useState({ agree: 0, disagree: 0 });
   const queryClient = useQueryClient();
   const voteMutation = useMutation<
     AxiosResponse,
@@ -43,12 +44,26 @@ const Vote = ({
     }
   };
 
-  const calculateAgreePercent = () => {
-    const agree = voteData?.results.agreeCount;
-    const disagree = voteData?.results.disagreeCount;
-    if (agree === 0 && disagree === 0) return 0;
-    return Math.floor((agree / (agree + disagree)) * 100);
+  const calculateVotePercent = (agree: number, disagree: number) => {
+    const total = agree + disagree;
+
+    if (total === 0) {
+      return { agree: 0, disagree: 0 };
+    }
+
+    const agreePercent = Math.floor((agree / disagree) * 100);
+    const disagreePercent = 100 - agreePercent;
+    return { agree: agreePercent, disagree: disagreePercent };
   };
+
+  useEffect(() => {
+    setVotePercent(
+      calculateVotePercent(
+        voteData.results.agreeCount,
+        voteData.results.disagreeCount,
+      ),
+    );
+  }, [voteData]);
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-xl font-bold mb-3">
@@ -56,15 +71,13 @@ const Vote = ({
       </h1>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row justify-between">
-          <span className="text-lg font-bold">{calculateAgreePercent()}%</span>
-          <span className="text-lg font-bold">
-            {100 - calculateAgreePercent() && 0}%
-          </span>
+          <span className="text-lg font-bold">{votePercent.agree}%</span>
+          <span className="text-lg font-bold">{votePercent.disagree}%</span>
         </div>
         <Progress
           bg="red.500"
           colorScheme="blue"
-          value={calculateAgreePercent()}
+          value={votePercent.agree}
           height="2rem"
           sx={{
             borderRadius: '1rem',
