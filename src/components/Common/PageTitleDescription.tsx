@@ -8,8 +8,8 @@ const PageTitleDescription = ({
   description: string;
 }) => {
   return (
-    <div className="flex flex-col gap-1 mb-10 ml-2">
-      <h1 className="text-3xl font-bold">{title}</h1>
+    <div className="flex flex-col gap-1  text-white">
+      <h1 className="text-4xl font-bold">{title}</h1>
       <p className="text-sm">{description}</p>
     </div>
   );
