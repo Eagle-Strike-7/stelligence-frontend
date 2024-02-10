@@ -1,6 +1,5 @@
 .embla {
   position: relative;
-  margin-top: 4rem;
   width: 100%;
 }
 
@@ -25,11 +24,11 @@
 
 .embla__button:not(:disabled) {
   cursor: pointer;
-  fill: '#7693e7';
+  fill: #7693e7;
 }
 
 .embla__button:disabled {
-  fill: #7693e7;
+  fill: #3e3e3e;
 }
 
 .embla__button__svg {
@@ -82,7 +81,7 @@
 }
 
 .is-selected:after {
-  background-color: #667799;
+  background-color: #7693e7;
   width: 100%;
   height: 0.7rem;
   border-radius: 50%;
