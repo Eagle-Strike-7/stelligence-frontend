@@ -1,28 +1,13 @@
 import React from 'react';
 import LabelText from '@/components/Common/LabelText';
 import { ReviseDataResponse } from '@/service/vote/voteService';
+import calculateRemainTime from '@/lib/calculateRemainTime';
 
 const ReviseInformation = ({
   reviseData,
 }: {
   reviseData: ReviseDataResponse;
 }) => {
-  const calculateRemainTime = () => {
-    const now = new Date();
-    const endAt = new Date(reviseData.results.endAt);
-    const remainTime = endAt.getTime() - now.getTime();
-    if (!Number.isNaN(endAt.getTime()) && remainTime >= 0) {
-      const minutes = Math.floor(remainTime / 60 / 1000);
-      const hours = Math.floor(minutes / 60);
-      const days = Math.floor(hours / 24);
-
-      return `${days}일 ${hours % 24}시간 ${minutes % 60}분`;
-    }
-    return '0일 0시간 0분';
-  };
-
-  console.log(new Date(reviseData.results.endAt));
-
   return (
     <div className="flex flex-col gap-8">
       <div className="grid grid-cols-2 gap-4">
@@ -44,7 +29,7 @@ const ReviseInformation = ({
           label="남은 투표 시간"
           text={
             reviseData.results.contributeStatus === 'VOTING'
-              ? calculateRemainTime()
+              ? calculateRemainTime(reviseData.results.endAt)
               : '종료된 투표'
           }
         />
