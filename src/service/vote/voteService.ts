@@ -95,7 +95,7 @@ export const deleteReviseData = async (
 // NOTE 투표 현황 조회하기
 export const getVoteData = async (
   contributeId: number,
-): Promise<VoteResponse | null> => {
+): Promise<VoteResponse> => {
   try {
     const response = await apiClient.get(
       `/api/contributes/${contributeId}/votes`,
@@ -103,7 +103,7 @@ export const getVoteData = async (
     return response.data;
   } catch (error) {
     console.error('투표 현황 조회 실패: ', error);
-    return null;
+    throw error;
   }
 };
 
