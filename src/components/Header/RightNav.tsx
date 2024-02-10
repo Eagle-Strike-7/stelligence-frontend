@@ -86,7 +86,7 @@ const RightNav = () => {
   return (
     <div className="flex mr-20 w-40 justify-end place-items-center">
       <div className="inline mr-4">
-        <Link href="/newStar">
+        <Link href="/new-star">
           <Button
             leftIcon={<HiOutlinePencil size="20px" />}
             variant="ghost"

@@ -34,7 +34,9 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     });
   };
   const handleEditComment = () => {
-    setIsEdit(prev => {return !prev});
+    setIsEdit(prev => {
+      return !prev;
+    });
   };
 
   const handleUpdateComment = () => {
@@ -42,10 +44,12 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     setIsChanged(prev => {
       return !prev;
     });
-    setIsEdit(prev => {return !prev});
+    setIsEdit(prev => {
+      return !prev;
+    });
   };
   return (
-    <Box className="flex w-full p-4 rounded-md bg-blue-100 my-3">
+    <Box className="flex w-full p-4 border-b-[1px] my-3">
       {isEdit ? (
         <div className="flex flex-col w-full my-2">
           <Textarea

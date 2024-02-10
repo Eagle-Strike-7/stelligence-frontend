@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
-import { Box } from '@chakra-ui/react';
+import { Box, Stack } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarContributor } from '@/types/star/StarProps';
 import { usePathname } from 'next/navigation';
@@ -13,7 +13,7 @@ import StarAuthors from './components/StarAuthors';
 import formatDate from '../../../lib/formatDate';
 
 // NOTE : 특정 글 상세보기 페이지
-// TODO : 편집중 여부 표시
+// TODO : 편집중 여부 표시, revision
 const Page = () => {
   const [title, setTitle] = useState('');
   const [lastModifiedAt, setLastModifiedAt] = useState('');
@@ -26,6 +26,7 @@ const Page = () => {
   const documentId = Number(pathname.split('/').pop());
 
   const getStar = async () => {
+    // TODO : getStar 분리
     try {
       const response = await apiClient.get<StarResponseType<Star>>(
         `/api/documents/${documentId}`,
@@ -59,16 +60,18 @@ const Page = () => {
   return (
     <Wrapper>
       <Box className="flex w-full flex-col">
-        <StarInfo
-          title={title}
-          lastModifiedAt={lastModifiedAt}
-          editable={editable}
-        />
-        <StarContent content={content} />
-        <StarAuthors
-          originalAuthor={originalAuthor}
-          contributors={contributors}
-        />
+        <Stack spacing="6">
+          <StarInfo
+            title={title}
+            lastModifiedAt={lastModifiedAt}
+            editable={editable}
+          />
+          <StarContent content={content} />
+          <StarAuthors
+            originalAuthor={originalAuthor}
+            contributors={contributors}
+          />
+        </Stack>
       </Box>
     </Wrapper>
   );

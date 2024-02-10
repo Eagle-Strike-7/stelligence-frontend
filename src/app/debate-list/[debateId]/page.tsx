@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
+import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { Debate, getDebateData } from './page.server';
-import CommentList from '../components/CommentList';
+import CommentList from './components/Comment/CommentList';
 import DebateDetail from './components/DebateDetail';
-import CommentCreate from '../components/CommentCreate';
+import CommentCreate from './components/Comment/CommentCreate';
 import ReturnToDebateList from '../components/ReturnToDebateList';
-import DebatePrevNextNav from '../components/DebatePrevNextNav';
 
 const Page = () => {
   const pathname = usePathname();
@@ -30,9 +30,11 @@ const Page = () => {
 
   return (
     <Wrapper>
-      <DebatePrevNextNav />
       <ReturnToDebateList />
-      {/* FIXME 추후에 투표페이지와 공통 컴포넌트로 수정 필요 */}
+      <PageTitleDescription
+        title="토론하기"
+        description="토론에 참여해보세요"
+      />
       <DebateDetail debateData={debateData} />
       <CommentList debateId={debateId} commentsUpdated={commentsUpdated} />
       <CommentCreate onCommentCreated={refreshComments} debateId={debateId} />
