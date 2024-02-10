@@ -42,49 +42,49 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
   );
 
   return (
-    <div className={`${styles.embla} w-full`}>
-      <div className="flex align-middle place-items-center justify-start ">
-        <h3 className="font-bold text-left text-2xl h-6 mb-5">
-          수정 요청 사항
-        </h3>
-      </div>
+    <div className={`${styles.embla} w-full mt-20`}>
+      <h3 className="font-bold text-left text-xl mb-8">수정 요청 사항</h3>
       <div
         ref={emblaRef}
         className={`${styles.embla__viewport} place-items-center`}
       >
         <div className={`${styles.embla__container}`}>
-          {amendments.map(amendment => {return (
-            <div className={styles.embla__slide} key={amendment.amendmentId}>
-              <div
-                className={`${styles.embla__slide__number} flex justify-end`}
-               />
-              <div className="tiptap flex justify-between gap-5 ">
-                <div className="w-1/2">
-                  <p className="font-bold w-full text-center ">수정 전</p>
-                  <StarContent
-                    content={`${amendment.targetSection.title} ${amendment.targetSection.content}`}
-                  />
-                </div>
-                <div className="w-1/2">
-                  <p className="font-bold w-full text-center">수정 후</p>
-                  <StarContent
-                    content={`${amendment.requestedSectionTitle} ${amendment.requestedSectionContent}`}
-                  />
+          {amendments.map(amendment => {
+            return (
+              <div className={styles.embla__slide} key={amendment.amendmentId}>
+                <div
+                  className={`${styles.embla__slide__number} flex justify-end`}
+                />
+                <div className="tiptap flex justify-between gap-5 ">
+                  <div className="w-1/2">
+                    <p className="font-bold w-full text-center ">수정 전</p>
+                    <StarContent
+                      content={`${amendment.targetSection.title} ${amendment.targetSection.content}`}
+                    />
+                  </div>
+                  <div className="w-1/2">
+                    <p className="font-bold w-full text-center">수정 후</p>
+                    <StarContent
+                      content={`${amendment.requestedSectionTitle} ${amendment.requestedSectionContent}`}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          )})}
+            );
+          })}
         </div>
       </div>
       <div className={`${styles.embla__dots} place-items-center`}>
-        {scrollSnaps.map((snap, index) => {return (
-          <DotButton
-            selected={index === selectedIndex}
-            onClick={onDotClick}
-            key={snap}
-            index={index}
-          />
-        )})}
+        {scrollSnaps.map((snap, index) => {
+          return (
+            <DotButton
+              selected={index === selectedIndex}
+              onClick={onDotClick}
+              key={snap}
+              index={index}
+            />
+          );
+        })}
       </div>
 
       <PrevButton

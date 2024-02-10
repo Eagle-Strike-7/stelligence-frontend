@@ -22,7 +22,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-[#F9F9F9]`}>
+      <body className={`${inter.className} bg-background-dark`}>
         <QueryClientProvider client={queryClient}>
           <MUIThemeProvider theme={muiTheme}>
             <ChakraProvider theme={customTheme}>

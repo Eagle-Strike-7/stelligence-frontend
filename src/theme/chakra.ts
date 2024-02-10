@@ -26,6 +26,17 @@ const customTheme = extendTheme({
       500: 'AEAEAE',
       900: 'ffffff',
     },
+    primaryGray: {
+      500: '#667799', // 다희님색
+    },
+    primary: {
+      500: '#7693E7',
+    },
+    primaryLight: {
+      500: '#D0D8FB',
+    },
+    secondary: { 500: '#F9AF6C' },
+    secondaryLight: { 500: '#FFD8B7' },
     gray: {
       50: '#f2f4f6',
       100: '#EDF2F7',

@@ -74,7 +74,7 @@ const Home = () => {
       });
   };
   return (
-    <div className="flex flex-col items-center bg-background-dark h-screen pt-2">
+    <div className="flex flex-col items-center h-screen pt-2">
       <div className="mt-8 relative">
         <SearchInput
           handleSearch={handleSearch}

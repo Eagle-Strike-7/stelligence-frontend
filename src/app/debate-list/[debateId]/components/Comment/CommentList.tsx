@@ -25,10 +25,10 @@ const CommentList: React.FC<CommentListProps> = ({
   }, [debateId, commentsUpdated, isChanged]);
 
   return (
-    <div className="flex flex-col gap-6 mb-5 bg-white py-10 px-10 rounded-lg">
+    <div className="flex flex-col gap-6 mb-5  rounded-lg ">
       <div className="flex flex-col w-full mb-10 ">
         <div className="flex justify-between my-3 place-content-center align-bottom place-items-end">
-          <span className="text-2xl font-bold">토론 현황</span>
+          <span className="text-2xl font-bold text-white">토론 현황</span>
           <span>총 {commentList.length}개</span>
         </div>
 
