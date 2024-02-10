@@ -7,6 +7,7 @@ import { Debate } from '../page.server';
 const DebateInformation = ({ debateData }: { debateData: Debate }) => {
   return (
     <div className="flex flex-col gap-8">
+      <h3 className="font-bold text-left text-xl mb-4">개요</h3>
       <div className="grid grid-cols-2 gap-4">
         <LabelText
           label="수정 요청안 제목"
@@ -27,8 +28,8 @@ const DebateInformation = ({ debateData }: { debateData: Debate }) => {
           text={debateData.contributor?.nickname || '수정요청자'}
         />
         <div className="flex">
-          <h3 className="font-bold text-md w-36">남은토론시간</h3>
-          <Tag className="text-md text-black">2시간</Tag>
+          <h3 className="font-bold text-md w-36 text-white">남은토론시간</h3>
+          <Tag className="text-md  text-black">2시간</Tag>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import DebateSlider from '@/app/debate-list/[debateId]/components/Carousel/DebateSlider';
-import DebateInformation from './DebateInformation';
 import { Debate } from '../page.server';
+import DebateInformation from './DebateInformation';
+import DebateSlider from './Carousel/DebateSlider';
 
 interface DeabteDetailProps {
   debateData: Debate | null;
@@ -9,12 +9,9 @@ interface DeabteDetailProps {
 
 const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
   return (
-    <div>
+    <div className="flex-col ">
       {debateData && (
-        <div className="flex flex-col gap-6 my-5 pb-20  bg-[#E6E9FF]/40 p-10 rounded-lg mb-5 ">
-          <h3 className="font-bold text-left text-2xl mr-3 mb-2 text-[#032142] ">
-            개요
-          </h3>
+        <div className="flex flex-col px-10 pt-10 pb-16 rounded-lg text-white border-2 border-primary-dark/20 mb-10">
           <DebateInformation debateData={debateData} />
           <DebateSlider amendments={debateData.amendments} />
         </div>
