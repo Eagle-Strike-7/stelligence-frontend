@@ -5,3 +5,12 @@
   background-color: rgb(242 244 246 / var(--tw-bg-opacity));
   padding: 1rem /* 16px */;
 }
+
+.revise__content {
+  background-color: white;
+  height: 20rem;
+  line-height: 1.5rem;
+  padding: 1.25rem;
+  font-size: 1rem;
+  overflow-y: scroll;
+}
