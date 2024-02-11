@@ -7,11 +7,15 @@ import { Document } from '@/types/star/NewStarProps';
 import apiClient from '../../../service/login/axiosClient';
 
 interface StarParentDocumentIdProps {
+  inputTitle: string;
   setParentDocumentId: (parentDocumentId: number | null) => void;
 }
 
 // NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
-const StarTagInput = ({ setParentDocumentId }: StarParentDocumentIdProps) => {
+const StarTagInput = ({
+  inputTitle,
+  setParentDocumentId,
+}: StarParentDocumentIdProps) => {
   const [searchTitle, setSearchTitle] = useState({
     enteredTitle: '', // input에 입력된 제목
     parentDocTitle: '', // 태그로 생성된 제목
@@ -78,7 +82,11 @@ const StarTagInput = ({ setParentDocumentId }: StarParentDocumentIdProps) => {
 
   return (
     <div className="flex flex-row grow mb-4">
-      <span className="w-28 text-md font-bold mt-2">상위 계층 태그</span>
+      {inputTitle === '상위 계층 태그' ? (
+        <span className="w-28 text-md font-bold mt-2">{inputTitle}</span>
+      ) : (
+        <span className="w-40 text-md font-bold mt-2">{inputTitle}</span>
+      )}
 
       <div className="mb-3 relative grow">
         <Input
