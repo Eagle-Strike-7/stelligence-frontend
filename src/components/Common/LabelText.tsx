@@ -1,6 +1,12 @@
 import React from 'react';
 
-const LabelText = ({ label, text }: { label: string; text: string }) => {
+const LabelText = ({
+  label,
+  text,
+}: {
+  label: string;
+  text: string | number;
+}) => {
   return (
     <div className="flex">
       <h3 className="font-bold text-md w-36 text-white">{label}</h3>

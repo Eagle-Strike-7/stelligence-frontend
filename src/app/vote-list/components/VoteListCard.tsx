@@ -34,9 +34,9 @@ const VoteListCard = ({
   const router = useRouter();
   const handleClickVoteCard = () => {
     if (contributeStatus === 'DEBATING') {
-      router.push(`/debateList/${contributeId}`); // FIXME contributeId가 아니라 debateId로 변경
+      router.push(`/debate-list/${contributeId}`); // FIXME contributeId가 아니라 debateId로 변경
     } else {
-      router.push(`/voteList/${contributeId}`);
+      router.push(`/vote-list/${contributeId}`);
     }
   };
 
