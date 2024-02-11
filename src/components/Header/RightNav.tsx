@@ -7,14 +7,13 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 
 const RightNav = () => {
-  const [isLogin] = useRecoilState(loginState);
-  console.log('header의 현재 로그인 상태: ', isLogin);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   const router = useRouter();
   const toast = useToast();
@@ -29,6 +28,10 @@ const RightNav = () => {
     queryFn: getMiniProfile,
   });
 
+  useEffect(() => {
+    setIsLogin(!!miniProfileData?.success);
+  }, [miniProfileData]);
+
   // NOTE 로그아웃 요청
   const logoutMutation = useMutation<AxiosResponse, Error>({
     mutationFn: postLogout,
@@ -37,7 +40,6 @@ const RightNav = () => {
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
       // TODO 쿠키 삭제
-      // setIsLogin({ email: '', nickname: '', profileImgUrl: '' });
       deleteCookie(
         'StelligenceAccessToken',
         '/',
@@ -113,7 +115,7 @@ const RightNav = () => {
           >
             <Avatar
               name={miniProfileData?.results.nickname}
-              src={miniProfileData?.results.profileImgUrl}
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${miniProfileData?.results.profileImgUrl}`}
               size="xs"
             />
             <h3 className="text-sm self-center">
