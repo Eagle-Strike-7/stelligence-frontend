@@ -1,4 +1,5 @@
 import apiClient from '@/service/login/axiosClient';
+import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ const LoginInterceptor = () => {
       error => {
         // SECTION UnAuthorized: 로그인하지 않은 사용자가 접속했을 때
         if (error.response && error.response.status === 401) {
+          removeLoginStateLocalStorage();
           toast({
             title: '로그아웃 되었습니다.',
             description: '다시 로그인 해주세요🚀',

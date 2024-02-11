@@ -28,6 +28,7 @@ import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 // import { loginState } from '@/store/user/login';
 // import deleteCookie from '@/store/user/withdrawal';
 import { useRouter } from 'next/navigation';
+import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import {
   deleteUserData,
   getBadgeData,
@@ -131,6 +132,7 @@ const Page = () => {
       //   '/',
       //   process.env.NEXT_PUBLIC_SERVER_URL,
       // );
+      removeLoginStateLocalStorage();
       onClose();
       toast({
         title: '회원탈퇴 완료! 다음에 다시 만나요👋',
