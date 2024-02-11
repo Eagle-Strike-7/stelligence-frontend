@@ -23,7 +23,7 @@ const config: Config = {
       colors: {
         background: {
           light: '#ffffff',
-          dark: ' #121212',
+          dark: ' #212121',
         },
         accent: {
           light: '#242372',
@@ -58,6 +58,17 @@ const config: Config = {
         input: {
           placeholder: '#A0AEC0',
         },
+        primaryGray: {
+          dark: '#667799', // 다희님색
+        },
+        primary: {
+          dark: '#7693E7',
+        },
+        primaryLight: {
+          dark: '#D0D8FB',
+        },
+        secondary: { dark: '#F9AF6C' },
+        secondaryLight: { dark: '#FFD8B7' },
         gray: {
           50: '#F2F4F6',
           100: '#EDF2F7',

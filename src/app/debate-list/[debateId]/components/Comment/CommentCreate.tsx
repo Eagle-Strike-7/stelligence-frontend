@@ -28,7 +28,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
   };
 
   return (
-    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto bg-[#F6F8F9] shadow-lg rounded-md border">
+    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto border-2 text-white border-primary-dark/10 shadow-lg rounded-md bg-background-dark">
       {isCreateCommentOpen ? (
         <>
           <div className="flex flex-row justify-between align-center w-full mt-3">
@@ -39,6 +39,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
                 return setIsCommentCreateOpen(false);
               }}
               className="hover:cursor-pointer"
+              color="primary.500"
             />
           </div>
           <Textarea
@@ -54,7 +55,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
           <Button
             className="w-20 self-end"
             size="sm"
-            bg="accent.500"
+            bg="primary.500"
             color="white"
             marginBottom={6}
             onClick={submitComment}
