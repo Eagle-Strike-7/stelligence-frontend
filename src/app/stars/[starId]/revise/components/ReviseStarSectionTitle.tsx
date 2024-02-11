@@ -43,6 +43,7 @@ const ReviseStarSectionTitle = ({
         <Select
           placeholder="소제목"
           size="sm"
+          color="white"
           variant="flushed"
           w="6rem"
           onChange={handleHeadingChange}
@@ -53,6 +54,7 @@ const ReviseStarSectionTitle = ({
         </Select>
         <Input
           size="sm"
+          color="white"
           variant="flushed"
           h="fit-content"
           mx="0.5rem"
@@ -66,6 +68,7 @@ const ReviseStarSectionTitle = ({
 
         <Button
           size="md"
+          color="white"
           colorScheme="gray"
           variant="outline"
           h="2rem"

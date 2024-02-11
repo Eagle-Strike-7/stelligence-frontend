@@ -16,16 +16,17 @@ const StarTitleInput = ({ inputTitle, title, setTitle }: StarTitleProps) => {
   return (
     <div className="flex flex-row w-full mb-4">
       {inputTitle === '글 제목' ? (
-        <span className="w-28 text-md font-bold mt-2 shrink-0">
+        <span className="w-28 text-white text-md font-bold mt-2 shrink-0">
           {inputTitle}
         </span>
       ) : (
-        <span className="w-40 text-md font-bold mt-2 shrink-0">
+        <span className="w-40 text-white text-md font-bold mt-2 shrink-0">
           {inputTitle}
         </span>
       )}
       <Input
         size="md"
+        color="white"
         variant="outline"
         placeholder="글의 제목을 입력해 주세요"
         value={title}

@@ -93,7 +93,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('bold')}
         >
-          <MdFormatBold />
+          <MdFormatBold className="text-white" />
         </Button>
 
         {/* NOTE : 이탤릭체 */}
@@ -103,7 +103,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('italic')}
         >
-          <MdFormatItalic />
+          <MdFormatItalic className="text-white" />
         </Button>
 
         {/* NOTE : 밑줄 */}
@@ -113,7 +113,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('underline')}
         >
-          <MdFormatUnderlined />
+          <MdFormatUnderlined className="text-white" />
         </Button>
 
         {/* NOTE : 취소선 */}
@@ -123,7 +123,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('strike')}
         >
-          <MdFormatStrikethrough />
+          <MdFormatStrikethrough className="text-white" />
         </Button>
 
         {/* NOTE : 코드 */}
@@ -133,7 +133,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('code')}
         >
-          <IoCode />
+          <IoCode className="text-white" />
         </Button>
 
         <span className="pt-2.5 text-bold text-gray-300"> | </span>
@@ -144,7 +144,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('bulletList')}
         >
-          <IoListSharp />
+          <IoListSharp className="text-white" />
         </Button>
 
         {/* NOTE : 번호 매기기 목록 */}
@@ -154,7 +154,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('orderedList')}
         >
-          <MdFormatListNumbered />
+          <MdFormatListNumbered className="text-white" />
         </Button>
 
         {/* NOTE : 인용문 */}
@@ -164,7 +164,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('blockquote')}
         >
-          <BsChatSquareQuote />
+          <BsChatSquareQuote className="text-white" />
         </Button>
 
         {/* NOTE : 코드블럭 */}
@@ -174,7 +174,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           }}
           isActive={editor.isActive('codeBlock')}
         >
-          <PiCodeBlockBold />
+          <PiCodeBlockBold className="text-white" />
         </Button>
 
         <span className="pt-2.5 text-bold text-gray-300"> | </span>
@@ -203,7 +203,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
             }}
             className="hidden"
           />
-          <LuImage />
+          <LuImage className="text-white" />
         </Button>
       </ButtonGroup>
     </div>

@@ -40,10 +40,13 @@ const ReviseStarSectionShow = ({
   return (
     <div className="flex flex-col w-full mb-6">
       <div className="flex flex-row justify-between items-center justify-items-center mb-2">
-        <span className={`${headSize} font-bold align-middle`}>{title}</span>
+        <span className={`${headSize} text-white font-bold align-middle`}>
+          {title}
+        </span>
         <div className="space-x-2">
           <Button
             size="md"
+            color="white"
             colorScheme="gray"
             variant="outline"
             h="2rem"
@@ -53,6 +56,7 @@ const ReviseStarSectionShow = ({
           </Button>
           <Button
             size="md"
+            color="white"
             colorScheme="gray"
             variant="outline"
             h="2rem"

@@ -83,15 +83,20 @@ const StarTagInput = ({
   return (
     <div className="flex flex-row grow mb-4">
       {inputTitle === '상위 계층 태그' ? (
-        <span className="w-28 text-md font-bold mt-2">{inputTitle}</span>
+        <span className="w-28 text-white text-md font-bold mt-2">
+          {inputTitle}
+        </span>
       ) : (
-        <span className="w-40 text-md font-bold mt-2">{inputTitle}</span>
+        <span className="w-40 text-white text-md font-bold mt-2">
+          {inputTitle}
+        </span>
       )}
 
       <div className="mb-3 relative grow">
         <Input
           size="md"
           variant="outline"
+          color="white"
           placeholder="연결할 글의 제목을 입력해 주세요"
           value={searchTitle.enteredTitle}
           onChange={handleChange}

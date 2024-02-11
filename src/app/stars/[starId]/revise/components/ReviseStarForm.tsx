@@ -77,7 +77,7 @@ const ReviseStarForm = () => {
     <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
       <PageTitleDescription
         title="수정 요청하기"
-        description="글을 수정해보세요 어디한번 해보세요"
+        description="글을 수정해보세요"
       />
       {/* SECTION : 수정요청안 제목 */}
       <StarTitleInput
@@ -92,7 +92,9 @@ const ReviseStarForm = () => {
       />
 
       {/* SECTION : 수정안 */}
-      <h3 className="text-2xl font-bold mt-12 mb-4">수정 요청안 작성</h3>
+      <h3 className="text-2xl text-white font-bold mt-12 mb-4">
+        수정 요청안 작성
+      </h3>
       {/* SECTION : 새로운 글 제목 */}
       <StarTitleInput
         inputTitle="새로운 글 제목"
