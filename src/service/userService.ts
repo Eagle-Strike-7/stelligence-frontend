@@ -15,11 +15,14 @@ interface UserResponse {
 interface BookmarkData {
   bookmarkId: number;
   documentId: number;
-  title: string;
+  documentTitle: string;
 }
 interface BadgeData {
   badgeType: string;
   badgeTitle: string;
+  badgeEventCategory: string;
+  badgeDescription: string;
+  badgeImgUrl: string;
 }
 interface MiniProfileData {
   memberId: number;
@@ -29,12 +32,17 @@ interface MiniProfileData {
 interface BookmarkResponse {
   success: boolean;
   message: string;
-  results: BookmarkData[];
+  results: {
+    hasNext: boolean;
+    bookmarks: BookmarkData[];
+  };
 }
 interface BadgeResponse {
   success: boolean;
   message: string;
-  results: BadgeData[];
+  results: {
+    badges: BadgeData[];
+  };
 }
 interface MiniProfileResponse {
   success: boolean;
@@ -106,6 +114,7 @@ export const getMiniProfile = async (): Promise<MiniProfileResponse | null> => {
   }
 };
 
+// NOTE 회원 탈퇴
 export const deleteUserData = async (): Promise<AxiosResponse> => {
   try {
     const response = await apiClient.delete('/api/members/me');
