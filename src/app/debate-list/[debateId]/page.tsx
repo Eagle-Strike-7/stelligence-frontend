@@ -31,6 +31,7 @@ const Page = () => {
   };
 
   return (
+    // TODO 페이지 컴포넌트 전체 리팩토링 필요
     <Wrapper>
       <ReturnToDebateList />
       <Tooltip
