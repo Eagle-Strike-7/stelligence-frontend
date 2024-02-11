@@ -10,8 +10,13 @@ import {
 interface CommentCreateProps {
   onCommentCreated: () => void;
   debateId: number;
+  debateStatus: 'OPEN' | 'CLOSED' | null;
 }
-const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
+const CommentCreate = ({
+  onCommentCreated,
+  debateId,
+  debateStatus,
+}: CommentCreateProps) => {
   const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
   const [newContent, setNewContent] = useState<string>('');
 
@@ -27,17 +32,27 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
       });
   };
 
-  return (
-    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto border-2 text-white border-primary-dark/10 shadow-lg rounded-md bg-background-dark">
-      {isCreateCommentOpen ? (
+  // NOTE 중첩 삼항연산자를 피하기 위해 renderCreateCommentBox 함수 별도로 설정
+  // TODO 별도의 컴포넌트로 리팩토링
+  const renderCreateCommentBox = () => {
+    if (debateStatus !== 'OPEN') {
+      return (
+        <div className="flex justify-center pt-3 z-10 place-items-baseline">
+          <span className="text-xl font-bold flex-shrink-0 mr-4">
+            종료된 토론입니다.
+          </span>
+        </div>
+      );
+    }
+
+    if (isCreateCommentOpen) {
+      return (
         <>
           <div className="flex flex-row justify-between align-center w-full mt-3">
             <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
             <HiOutlineChevronDoubleDown
               size={20}
-              onClick={() => {
-                return setIsCommentCreateOpen(false);
-              }}
+              onClick={() => {return setIsCommentCreateOpen(false)}}
               className="hover:cursor-pointer"
               color="primary.500"
             />
@@ -48,9 +63,7 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
             marginBottom={8}
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={newContent}
-            onChange={e => {
-              setNewContent(e.target.value);
-            }}
+            onChange={e => {return setNewContent(e.target.value)}}
           />
           <Button
             className="w-20 self-end"
@@ -63,18 +76,24 @@ const CommentCreate = ({ onCommentCreated, debateId }: CommentCreateProps) => {
             댓글달기
           </Button>
         </>
-      ) : (
-        <div className="flex justify-between pt-3 z-10">
-          <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
-          <HiOutlineChevronDoubleUp
-            className="hover:cursor-pointer"
-            size={20}
-            onClick={() => {
-              return setIsCommentCreateOpen(true);
-            }}
-          />
-        </div>
-      )}
+      );
+    }
+
+    return (
+      <div className="flex justify-between pt-3 z-10">
+        <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
+        <HiOutlineChevronDoubleUp
+          className="hover:cursor-pointer"
+          size={20}
+          onClick={() => {return setIsCommentCreateOpen(true)}}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto border-2 text-white border-primary-dark-500/10 shadow-lg rounded-md bg-background-dark">
+      {renderCreateCommentBox()}
     </div>
   );
 };

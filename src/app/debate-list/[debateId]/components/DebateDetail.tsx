@@ -11,7 +11,9 @@ const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
   return (
     <div className="flex-col ">
       {debateData && (
-        <div className="flex flex-col px-10 pt-10 pb-16 rounded-lg text-white border-2 border-primary-dark/20 mb-10">
+        <div
+          className={`flex flex-col px-10 pt-10 pb-16 rounded-lg text-white border-2 border-primary-dark/20 mb-10 ${debateData.status === 'CLOSED' ? 'opacity-50' : ''}`}
+        >
           <DebateInformation debateData={debateData} />
           <DebateSlider amendments={debateData.amendments} />
         </div>
