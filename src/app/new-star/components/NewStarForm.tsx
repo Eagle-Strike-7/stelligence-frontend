@@ -65,7 +65,7 @@ const NewStarForm = () => {
       />
 
       <div className="flex flex-col w-full">
-        <div className="text-md font-bold mb-2">본문</div>
+        <div className="text-white text-md font-bold mb-2">본문</div>
         <StarContentInput content={content} setContent={setContent} />
       </div>
 

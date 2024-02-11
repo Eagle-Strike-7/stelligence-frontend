@@ -38,15 +38,16 @@ const StarInfo = ({ title, lastModifiedAt, editable }: StarInfoProps) => {
       <div className="flex flex-col">
         <div className="flex flex-row">
           <Button size="md" colorScheme="gray" variant="ghost" p="0">
-            <LuBookmark size="1.5rem " />
+            <LuBookmark size="1.5rem" color="white" />
           </Button>
           <Button size="md" colorScheme="gray" variant="ghost" p="0">
-            <AiOutlineEllipsis size="1.5rem " />
+            <AiOutlineEllipsis size="1.5rem" color="white" />
           </Button>
         </div>
         {editable === false ? ( // TODO : 버튼 수정 및 정리하기
           <Button
             size="md"
+            color="white"
             colorScheme="accent"
             variant="solid"
             onClick={handleClick}
@@ -56,6 +57,7 @@ const StarInfo = ({ title, lastModifiedAt, editable }: StarInfoProps) => {
         ) : (
           <Button
             size="md"
+            color="white"
             colorScheme="gray"
             variant="outline"
             onClick={handleEdit}
