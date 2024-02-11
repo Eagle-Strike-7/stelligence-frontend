@@ -7,12 +7,12 @@ import { Graph, SearchResult } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import searchTextState from '@/store/search/searchInput';
 import { usePathname } from 'next/navigation';
 import { getUserData } from '@/service/userService';
 import { setLatestLogin } from '@/service/login/latestLogin';
-import loginState from '@/store/user/login';
+import { loginState } from '@/store/user/login';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/SearchInput';
 import SearchDropdown from './components/SearchDropdown';
@@ -21,7 +21,8 @@ import ErrorComponent from './components/ErrorComponent';
 
 const Home = () => {
   const setSearchText = useSetRecoilState(searchTextState);
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const setIsLogin = useSetRecoilState(loginState);
+
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -32,21 +33,6 @@ const Home = () => {
     setSearchText('');
   }, [pathname]);
 
-  useEffect(() => {
-    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
-    setLatestLogin(userData?.results.socialType);
-    // NOTE 로그인 상태 recoil set
-    console.log('현재 login 상태: ', isLogin);
-
-    setIsLogin(prev => {
-      return {
-        ...prev,
-        email: userData?.results.email ?? '',
-        nickname: userData?.results.nickname ?? '',
-        profileImgUrl: userData?.results.profileImgUrl ?? '',
-      };
-    });
-  }, []);
   const { data, isError, isLoading } = useQuery<Graph>({
     queryKey: ['graphData'],
     queryFn: getGraphData,
@@ -56,6 +42,14 @@ const Home = () => {
     queryKey: ['user'],
     queryFn: getUserData,
   });
+
+  useEffect(() => {
+    // NOTE 로그인 성공 시 상태 변경
+    setIsLogin(!!userData?.success);
+    console.log('로그인 성공 여부: ', userData?.success);
+    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
+    setLatestLogin(userData?.results.socialType);
+  }, [userData]);
 
   // FIXME 임시 설정
   if (isLoading) return <LoadingComponent />;

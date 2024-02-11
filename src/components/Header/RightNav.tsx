@@ -1,6 +1,6 @@
 import postLogout from '@/service/login/logout';
 import { getMiniProfile } from '@/service/userService';
-import loginState from '@/store/user/login';
+import { loginState } from '@/store/user/login';
 import deleteCookie from '@/store/user/withdrawal';
 import { Avatar, Button, Tooltip, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -13,7 +13,7 @@ import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 
 const RightNav = () => {
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const [isLogin] = useRecoilState(loginState);
   console.log('header의 현재 로그인 상태: ', isLogin);
 
   const router = useRouter();
@@ -37,7 +37,7 @@ const RightNav = () => {
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
       // TODO 쿠키 삭제
-      setIsLogin({ email: '', nickname: '', profileImgUrl: '' });
+      // setIsLogin({ email: '', nickname: '', profileImgUrl: '' });
       deleteCookie(
         'StelligenceAccessToken',
         '/',
@@ -102,7 +102,7 @@ const RightNav = () => {
       </div>
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
-      {isLogin.nickname ? (
+      {isLogin ? (
         <div className="flex flex-row gap-4">
           <Button
             variant="link"
