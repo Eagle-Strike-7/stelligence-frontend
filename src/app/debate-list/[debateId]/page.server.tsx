@@ -14,6 +14,7 @@ export interface Debate {
   amendments: Amendment[];
   prevDebate?: Debate;
   nextDebate?: Debate;
+  status: 'OPEN' | 'CLOSED';
 }
 
 export interface DebateDetailApiResponse {
