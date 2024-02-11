@@ -3,7 +3,7 @@ import React from 'react';
 
 const NewReviseRequest = () => {
   return (
-    <div className="flex text-center place-self-center justify-center mb-4 mt-[-2rem] ">
+    <div className="flex text-center place-self-center justify-center mb-4 mt-[-1rem] ">
       <Button
         variant="solid"
         bg="primary.500"
