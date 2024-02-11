@@ -37,12 +37,12 @@ body {
 /* NOTE : list */
 .tiptap ul {
   @apply list-disc;
-  @apply p-4;
+  @apply px-4 py-2;
 }
 
 .tiptap ol {
   @apply list-decimal;
-  @apply p-4;
+  @apply px-4 py-2;
 }
 
 /* NOTE : 인용 */
@@ -53,13 +53,12 @@ body {
 
 /* NOTE : 코드블럭 감싸는 태그 */
 .tiptap pre {
-  @apply bg-gray-100 p-4 overflow-x-auto rounded-lg;
-  @apply p-4 m-4;
+  @apply bg-gray-100 p-4 m-2 overflow-x-auto rounded-lg;
 }
 
 /* NOTE : 코드 입력 태그 */
 .tiptap code {
-  @apply bg-gray-100 font-mono font-bold text-blue-900 p-1 px-2 rounded;
+  @apply bg-gray-100 font-mono font-bold text-blue-900 my-1 py-1 px-2 rounded;
 }
 
 /* NOTE : 기본 텍스트 */

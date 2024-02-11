@@ -11,11 +11,16 @@ import FixedMenu from './FixedMenu';
 import styles from '../../../../styles/starSectionInput.module.css';
 
 interface StarContentProps {
+  state?: '읽기' | '수정' | '추가' | '삭제';
   content: string;
   setContent: (content: string) => void;
 }
-// NOTE : 글 전체/섹션의 내용을 입력받는 컴포넌트 (TipTap)
-const StarSectionInput = ({ content, setContent }: StarContentProps) => {
+// NOTE : 글 전체의 내용을 입력받는 컴포넌트 (TipTap)
+const StarContentInput = ({ state, content, setContent }: StarContentProps) => {
+  if (state === '추가') {
+    content = '';
+  }
+
   const CustomDocument = Node.create({
     name: 'doc',
     topNode: true,
@@ -31,7 +36,7 @@ const StarSectionInput = ({ content, setContent }: StarContentProps) => {
       Image,
       Placeholder.configure({
         placeholder: ({ node }) => {
-          // console.log(node.type.name);
+          console.log(node.type.name);
           if (node.type.name === 'heading') {
             return 'What’s the title?';
           }
@@ -69,4 +74,4 @@ const StarSectionInput = ({ content, setContent }: StarContentProps) => {
   );
 };
 
-export default StarSectionInput;
+export default StarContentInput;
