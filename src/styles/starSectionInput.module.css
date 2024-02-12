@@ -2,5 +2,6 @@
   @apply min-h-96;
   @apply leading-normal;
   @apply border-t border-gray-300;
+  @apply text-white;
   @apply p-4;
 }

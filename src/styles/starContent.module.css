@@ -2,7 +2,8 @@
   border-width: 2px;
   border-radius: 0.5rem /* 8px */;
   --tw-bg-opacity: 1;
-  background-color: rgb(242 244 246 / var(--tw-bg-opacity));
+  background-color: rgb(33 33 33 / var(--tw-bg-opacity));
+  color: white;
   padding: 1rem /* 16px */;
 }
 

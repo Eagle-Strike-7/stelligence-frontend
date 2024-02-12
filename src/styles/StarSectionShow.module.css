@@ -1,7 +1,0 @@
-.ProseMirror {
-  border-width: 2px;
-  border-radius: 0.5rem /* 8px */;
-  --tw-bg-opacity: 1;
-  background-color: rgb(242 244 246 / var(--tw-bg-opacity));
-  padding: 1rem /* 16px */;
-}

@@ -20,7 +20,11 @@ const StarContent = ({ content }: { content: string }) => {
     editable: false,
   });
   if (!editor) {
-    return <div className="flex flex-col w-full">별 보러 가는 중...⭐️</div>;
+    return (
+      <div className="flex flex-col text-white w-full">
+        별 보러 가는 중...⭐️
+      </div>
+    );
   }
 
   return (
