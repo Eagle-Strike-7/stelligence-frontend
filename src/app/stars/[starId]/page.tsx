@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { Box, Stack } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
-import { Star, StarContributor } from '@/types/star/StarProps';
+import { DocStatus, Star, StarContributor } from '@/types/star/StarProps';
 import { usePathname } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import StarInfo from './components/StarInfo';
@@ -21,7 +21,13 @@ const Page = () => {
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
   const [contributors, setContributors] = useState<StarContributor[]>([]);
-  const [editable, setEditable] = useState(false);
+  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
+    DocStatus.EDITABLE,
+  );
+  const [id, setId] = useState({
+    contributeId: 0,
+    debateId: 0,
+  });
 
   const pathname = usePathname();
   const documentId = Number(pathname.split('/').pop());
@@ -48,7 +54,11 @@ const Page = () => {
             };
           }),
         );
-        setEditable(data.results.editable);
+        setDocumentStatus(data.results.documentStatus);
+        setId({
+          contributeId: data.results.contributeId,
+          debateId: data.results.debateId,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -67,7 +77,8 @@ const Page = () => {
             title={title}
             parentDocumentTitle={parentDocumentTitle}
             lastModifiedAt={lastModifiedAt}
-            editable={editable}
+            documentStatus={documentStatus}
+            id={id}
           />
           <StarContent content={content} />
           <StarAuthors
