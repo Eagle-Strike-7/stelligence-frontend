@@ -49,7 +49,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     });
   };
   return (
-    <Box className="flex w-full p-4 my-3 rounded-md bg-primary-dark/10 text-white">
+    <Box className="flex w-full p-4 my-3 rounded-md bg-primary-dark-500/10 text-white">
       {isEdit ? (
         <div className="flex flex-col w-full my-2">
           <Textarea
@@ -79,7 +79,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
           </Box>
           <Box className="flex-col w-full">
             <Box className="flex justify-between text-white ">
-              <Text fontSize="xs" className="text-primary">
+              <Text fontSize="xs" color="primary.500">
                 {userName}
               </Text>
               <Box className="flex justify-center align-center">

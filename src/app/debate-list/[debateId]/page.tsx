@@ -10,6 +10,7 @@ import CommentList from './components/Comment/CommentList';
 import CommentCreate from './components/Comment/CommentCreate';
 import ReturnToDebateList from '../components/ReturnToDebateList';
 import DebateDetail from './components/DebateDetail';
+import NewReviseRequest from './components/NewReviseRequest';
 
 const Page = () => {
   const pathname = usePathname();
@@ -30,6 +31,7 @@ const Page = () => {
   };
 
   return (
+    // TODO 페이지 컴포넌트 전체 리팩토링 필요
     <Wrapper>
       <ReturnToDebateList />
       <Tooltip
@@ -47,15 +49,27 @@ const Page = () => {
         rounded="sm"
       >
         <div className="w-max">
-          <PageTitleDescription
-            title="토론하기"
-            description="토론에 참여해보세요"
-          />
+          {debateData?.status === 'OPEN' ? (
+            <PageTitleDescription
+              title="토론하기"
+              description="토론에 참여해보세요"
+            />
+          ) : (
+            <PageTitleDescription
+              title="토론결과"
+              description="종료된 토론의 결과를 확인하세요."
+            />
+          )}
         </div>
       </Tooltip>
+      <NewReviseRequest />
       <DebateDetail debateData={debateData} />
       <CommentList debateId={debateId} commentsUpdated={commentsUpdated} />
-      <CommentCreate onCommentCreated={refreshComments} debateId={debateId} />
+      <CommentCreate
+        onCommentCreated={refreshComments}
+        debateId={debateId}
+        debateStatus={debateData?.status ?? null}
+      />
     </Wrapper>
   );
 };

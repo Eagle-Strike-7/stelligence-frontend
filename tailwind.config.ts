@@ -62,7 +62,17 @@ const config: Config = {
           dark: '#667799', // 다희님색
         },
         primary: {
-          dark: '#7693E7',
+          dark: {
+            100: '#e4e9fa',
+            200: '#c8d4f5',
+            300: '#adbef1',
+            400: '#91a9ec',
+            500: '#7693e7',
+            600: '#5e76b9',
+            700: '#47588b',
+            800: '#2f3b5c',
+            900: '#181d2e',
+          },
         },
         primaryLight: {
           dark: '#D0D8FB',
