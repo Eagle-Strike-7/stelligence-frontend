@@ -52,25 +52,43 @@ const CommentCreate = ({
             <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
             <HiOutlineChevronDoubleDown
               size={20}
-              onClick={() => {return setIsCommentCreateOpen(false)}}
+              onClick={() => {
+                return setIsCommentCreateOpen(false);
+              }}
               className="hover:cursor-pointer"
               color="primary.500"
             />
           </div>
           <Textarea
             className="w-full my-3 flex-shrink-0"
-            bg="white"
+            bg="#292929"
             marginBottom={8}
+            border="none"
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={newContent}
-            onChange={e => {return setNewContent(e.target.value)}}
+            onChange={e => {
+              return setNewContent(e.target.value);
+            }}
           />
           <Button
             className="w-20 self-end"
             size="sm"
             bg="primary.500"
-            color="white"
+            color="text.light"
             marginBottom={6}
+            _hover={{
+              bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
+              color: 'white',
+              transition: 'background-color 0.5s ease',
+            }}
+            _active={{
+              bg: 'rgba(118, 147, 231, 0.5)',
+              transition: 'background-color 0.2s ease',
+            }}
+            _focus={{
+              boxShadow:
+                '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+            }}
             onClick={submitComment}
           >
             댓글달기
@@ -85,7 +103,9 @@ const CommentCreate = ({
         <HiOutlineChevronDoubleUp
           className="hover:cursor-pointer"
           size={20}
-          onClick={() => {return setIsCommentCreateOpen(true)}}
+          onClick={() => {
+            return setIsCommentCreateOpen(true);
+          }}
         />
       </div>
     );

@@ -68,7 +68,7 @@ const Page = () => {
       <CommentCreate
         onCommentCreated={refreshComments}
         debateId={debateId}
-        debateStatus={debateData?.status ?? null}
+        debateStatus={debateData?.status ?? 'OPEN'}
       />
     </Wrapper>
   );
