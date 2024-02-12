@@ -7,11 +7,10 @@ import { Graph, SearchResult } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
-import { useRecoilState } from 'recoil';
 import { usePathname } from 'next/navigation';
 import { getUserData } from '@/service/userService';
 import { setLatestLogin } from '@/service/login/latestLogin';
-import loginState from '@/store/user/login';
+import { setLoginStateLocalStorage } from '@/service/login/loginState';
 import useDebounce from '@/hooks/common/useDebounce';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/Search/SearchInput';
@@ -23,7 +22,6 @@ const Home = () => {
   const [searchText, setSearchText] = useState<string>('');
   // NOTE 드롭다운에서 클릭한 요소 state
   const [selectedItem, setSelectedItem] = useState('');
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -33,22 +31,6 @@ const Home = () => {
   useEffect(() => {
     setSearchText('');
   }, [pathname]);
-
-  useEffect(() => {
-    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
-    setLatestLogin(userData?.results.socialType);
-    // NOTE 로그인 상태 recoil set
-    console.log('현재 login 상태: ', isLogin);
-
-    setIsLogin(prev => {
-      return {
-        ...prev,
-        email: userData?.results.email ?? '',
-        nickname: userData?.results.nickname ?? '',
-        profileImgUrl: userData?.results.profileImgUrl ?? '',
-      };
-    });
-  }, []);
 
   const debouncedSearchText = useDebounce(searchText, 300);
 
@@ -72,7 +54,7 @@ const Home = () => {
 
   const handleChangedSearchInput = (e: any) => {
     e.stopPropagation();
-    const {value} = e.target;
+    const { value } = e.target;
     setSearchText(value);
     // NOTE 검색 텍스트가 있을 때만 드롭다운을 열도록 설정
     setIsDropdownOpen(value !== '');
@@ -95,6 +77,13 @@ const Home = () => {
     queryKey: ['user'],
     queryFn: getUserData,
   });
+
+  useEffect(() => {
+    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
+    setLatestLogin(userData?.results.socialType);
+    // NOTE 로그인 상태 새로고침 해도 유지되게 로컬스토리지에 저장
+    setLoginStateLocalStorage(!!userData?.success);
+  }, [userData]);
 
   // FIXME 임시 설정
   if (isLoading) return <LoadingComponent />;

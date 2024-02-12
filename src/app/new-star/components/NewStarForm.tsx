@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import StarSectionInput from '@/components/Common/Star/StarSectionInput/StarSectionInput';
+import apiClient from '@/service/login/axiosClient';
+import StarContentInput from '@/components/Common/Star/StarContentInput/StarContentInput';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
 import { NewStar } from '@/types/star/NewStarProps';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { useRouter } from 'next/navigation';
-import apiClient from '@/service/login/axiosClient';
 
 const NewStarForm = () => {
   const router = useRouter();
@@ -58,12 +58,15 @@ const NewStarForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
-      <StarTitleInput title={title} setTitle={setTitle} />
-      <StarTagInput setParentDocumentId={setParentDocumentId} />
+      <StarTitleInput inputTitle="글 제목" title={title} setTitle={setTitle} />
+      <StarTagInput
+        inputTitle="상위 계층 태그"
+        setParentDocumentId={setParentDocumentId}
+      />
 
       <div className="flex flex-col w-full">
-        <div className="text-md font-bold mb-2">본문</div>
-        <StarSectionInput content={content} setContent={setContent} />
+        <div className="text-white text-md font-bold mb-2">본문</div>
+        <StarContentInput content={content} setContent={setContent} />
       </div>
 
       <SubmitButton name="생성하기" />

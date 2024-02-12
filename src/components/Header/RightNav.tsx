@@ -1,20 +1,19 @@
 import postLogout from '@/service/login/logout';
 import { getMiniProfile } from '@/service/userService';
-import loginState from '@/store/user/login';
+import { loginState } from '@/store/user/login';
 import deleteCookie from '@/store/user/withdrawal';
 import { Avatar, Button, Tooltip, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState } from 'recoil';
 
 const RightNav = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-  console.log('header의 현재 로그인 상태: ', isLogin);
 
   const router = useRouter();
   const toast = useToast();
@@ -29,6 +28,10 @@ const RightNav = () => {
     queryFn: getMiniProfile,
   });
 
+  useEffect(() => {
+    setIsLogin(!!miniProfileData?.success);
+  }, [miniProfileData]);
+
   // NOTE 로그아웃 요청
   const logoutMutation = useMutation<AxiosResponse, Error>({
     mutationFn: postLogout,
@@ -37,7 +40,6 @@ const RightNav = () => {
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
       // TODO 쿠키 삭제
-      setIsLogin({ email: '', nickname: '', profileImgUrl: '' });
       deleteCookie(
         'StelligenceAccessToken',
         '/',
@@ -102,7 +104,7 @@ const RightNav = () => {
       </div>
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
-      {isLogin.nickname ? (
+      {isLogin ? (
         <div className="flex flex-row gap-4">
           <Button
             variant="link"
@@ -113,7 +115,7 @@ const RightNav = () => {
           >
             <Avatar
               name={miniProfileData?.results.nickname}
-              src={miniProfileData?.results.profileImgUrl}
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${miniProfileData?.results.profileImgUrl}`}
               size="xs"
             />
             <h3 className="text-sm self-center">
