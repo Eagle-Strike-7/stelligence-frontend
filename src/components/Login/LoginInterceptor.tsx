@@ -18,7 +18,7 @@ const LoginInterceptor = () => {
         if (error.response && error.response.status === 401) {
           removeLoginStateLocalStorage();
           toast({
-            title: '로그아웃 되었습니다.',
+            title: '로그인이 필요합니다',
             description: '다시 로그인 해주세요🚀',
             status: 'warning',
             duration: 1000,
