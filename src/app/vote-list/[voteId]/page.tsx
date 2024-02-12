@@ -114,6 +114,7 @@ const Page = () => {
           <PageTitleDescription
             title={status === 'VOTING' ? '투표하기' : '투표 결과'}
             description="수정요청 반영 여부에 대해 투표하세요!"
+            relatedDebateId={contributeData?.results.relatedDebateId}
           />
           <Menu>
             <MenuButton
