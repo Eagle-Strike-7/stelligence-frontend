@@ -7,20 +7,22 @@ import { Graph, SearchResult } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import searchTextState from '@/store/search/searchInput';
+import { useRecoilState } from 'recoil';
 import { usePathname } from 'next/navigation';
 import { getUserData } from '@/service/userService';
 import { setLatestLogin } from '@/service/login/latestLogin';
 import loginState from '@/store/user/login';
+import useDebounce from '@/hooks/common/useDebounce';
 import GalaxyGraph from './components/GalaxyGraph';
-import SearchInput from './components/SearchInput';
-import SearchDropdown from './components/SearchDropdown';
+import SearchInput from './components/Search/SearchInput';
+import SearchDropdown from './components/Search/SearchDropdown';
 import LoadingComponent from './components/LoadingComponent';
 import ErrorComponent from './components/ErrorComponent';
 
 const Home = () => {
-  const setSearchText = useSetRecoilState(searchTextState);
+  const [searchText, setSearchText] = useState<string>('');
+  // NOTE 드롭다운에서 클릭한 요소 state
+  const [selectedItem, setSelectedItem] = useState('');
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -47,6 +49,43 @@ const Home = () => {
       };
     });
   }, []);
+
+  const debouncedSearchText = useDebounce(searchText, 300);
+
+  useEffect(() => {
+    const handleInputChange = async (text: string) => {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
+          params: { title: text, depth: 3 },
+        })
+        .then(response => {
+          setSearchResults(response.data.results);
+        })
+        .catch(error => {
+          console.error('Error fetching search results: ', error);
+        });
+    };
+    // NOTE 드롭다운에서 선택된 항목이 있으면 그 값을 사용하고, 그렇지 않으면 디바운스된 검색 텍스트를 사용
+    const queryText = selectedItem || debouncedSearchText;
+    handleInputChange(queryText);
+  }, [debouncedSearchText, selectedItem]);
+
+  const handleChangedSearchInput = (e: any) => {
+    e.stopPropagation();
+    const {value} = e.target;
+    setSearchText(value);
+    // NOTE 검색 텍스트가 있을 때만 드롭다운을 열도록 설정
+    setIsDropdownOpen(value !== '');
+  };
+
+  const handleDropdownSelect = (e: any) => {
+    e.stopPropagation();
+    const selectedValue = e.target.id;
+    setSearchText(selectedValue);
+    setSelectedItem(selectedValue);
+    setIsDropdownOpen(false);
+  };
+
   const { data, isError, isLoading } = useQuery<Graph>({
     queryKey: ['graphData'],
     queryFn: getGraphData,
@@ -61,31 +100,21 @@ const Home = () => {
   if (isLoading) return <LoadingComponent />;
   if (isError) return <ErrorComponent />;
 
-  const handleSearch = async (text: string) => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
-        params: { title: text, depth: 3 },
-      })
-      .then(response => {
-        setSearchResults(response.data.results);
-      })
-      .catch(error => {
-        console.error('Error fetching search results: ', error);
-      });
-  };
   return (
     <div className="flex flex-col items-center h-screen pt-2">
       <div className="mt-8 relative">
         <SearchInput
-          handleSearch={handleSearch}
+          searchText={searchText}
+          setSearchText={setSearchText}
           isDropdownOpen={isDropdownOpen}
           setIsDropdownOpen={setIsDropdownOpen}
+          handleChangedSearchInput={handleChangedSearchInput}
         />
-        {isDropdownOpen && (
+        {searchText && isDropdownOpen && (
           <SearchDropdown
-            handleSearch={handleSearch}
             searchResults={searchResults}
             setIsDropdownOpen={setIsDropdownOpen}
+            handleDropdownSelect={handleDropdownSelect}
           />
         )}
       </div>
