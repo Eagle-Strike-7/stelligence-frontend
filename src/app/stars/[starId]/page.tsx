@@ -16,6 +16,7 @@ import formatDate from '../../../lib/formatDate';
 // TODO : 편집중 여부 표시, revision
 const Page = () => {
   const [title, setTitle] = useState('');
+  const [parentDocumentTitle, setParentDocumentTitle] = useState('');
   const [lastModifiedAt, setLastModifiedAt] = useState('');
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
@@ -35,6 +36,7 @@ const Page = () => {
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
       if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
+        setParentDocumentTitle(data.results.parentDocumentTitle);
         setLastModifiedAt(formatDate(data.results.lastModifiedAt));
         setContent(data.results.content);
         setOriginalAuthor(data.results.originalAuthor.nickname);
@@ -63,6 +65,7 @@ const Page = () => {
         <Stack spacing="6">
           <StarInfo
             title={title}
+            parentDocumentTitle={parentDocumentTitle}
             lastModifiedAt={lastModifiedAt}
             editable={editable}
           />
