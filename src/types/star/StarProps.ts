@@ -6,6 +6,7 @@ export interface StarSection {
   heading: Heading;
   title: string;
   content: string;
+  creatingOrder: number;
 }
 
 export interface StarContributor {
@@ -17,6 +18,10 @@ export interface StarContributor {
 export interface Star {
   documentId: number;
   title: string;
+  parentDocumentId: number;
+  parentDocumentTitle: string;
+  latestRevision: number;
+  currentRevision: number;
   lastModifiedAt: string;
   sections: StarSection[];
   content: string;
