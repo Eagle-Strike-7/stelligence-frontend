@@ -124,3 +124,31 @@ export const deleteUserData = async (): Promise<AxiosResponse> => {
     throw error;
   }
 };
+
+// NOTE 북마크 생성
+export const postBookmarkData = async (
+  documentId: number,
+): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.post('/api/bookmarks', {
+      data: {
+        documentId,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('북마크 생성 실패 ', error);
+    throw error;
+  }
+};
+
+// NOTE 북마크 삭제
+export const deleteBookmarkData = async (): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.delete('/api/bookmarks');
+    return response.data;
+  } catch (error) {
+    console.error('북마크 삭제 실패 ', error);
+    throw error;
+  }
+};
