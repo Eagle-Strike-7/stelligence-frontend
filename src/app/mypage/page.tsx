@@ -24,9 +24,11 @@ import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
-import { useSetRecoilState } from 'recoil';
-import loginState from '@/store/user/login';
-import deleteCookie from '@/store/user/withdrawal';
+// import { useSetRecoilState } from 'recoil';
+// import { loginState } from '@/store/user/login';
+// import deleteCookie from '@/store/user/withdrawal';
+import { useRouter } from 'next/navigation';
+import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import {
   deleteUserData,
   getBadgeData,
@@ -35,8 +37,15 @@ import {
   putNickname,
 } from '../../service/userService';
 import MyBadge from './components/MyBadge';
+// import useRequireLogin from '@/hooks/common/useRequireLogin';
 
 const Page = () => {
+  // NOTE 페이지 접근 시 로그아웃 상태라면 /login으로 리다이렉트
+  // const isLogin = useRequireLogin();
+
+  // if (!isLogin) {
+  //   return <div>Loading...</div>;
+  // }
   const queryClient = useQueryClient();
   const { data: userData } = useQuery({
     queryKey: ['user'],
@@ -59,8 +68,6 @@ const Page = () => {
     if (userData?.results.nickname) {
       setOldNickname(userData?.results.nickname);
       setNewNickname(userData?.results.nickname);
-
-      console.log(userData?.results.nickname);
     }
   }, [userData]);
   const toast = useToast();
@@ -105,7 +112,7 @@ const Page = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<HTMLButtonElement>(null);
-  const setIsLogin = useSetRecoilState(loginState);
+  const router = useRouter();
 
   // NOTE 회원 탈퇴, 성공 시 메인페이지로 이동
   // TODO 쿠키 삭제
@@ -113,36 +120,33 @@ const Page = () => {
     mutationFn: deleteUserData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      setIsLogin(prev => {
-        return {
-          ...prev,
-          email: '',
-          nickname: '',
-          profileImgUrl: '',
-        };
-      });
-      deleteCookie(
-        'StelligenceAccessToken',
-        '/',
-        process.env.NEXT_PUBLIC_SERVER_URL,
-      );
-      deleteCookie(
-        'StelligenceRefreshToken',
-        '/',
-        process.env.NEXT_PUBLIC_SERVER_URL,
-      );
+
+      // TODO 클라이언트에서 쿠키 삭제할 필요 없는지 확인하고 삭제 or 유지
+      // deleteCookie(
+      //   'StelligenceAccessToken',
+      //   '/',
+      //   process.env.NEXT_PUBLIC_SERVER_URL,
+      // );
+      // deleteCookie(
+      //   'StelligenceRefreshToken',
+      //   '/',
+      //   process.env.NEXT_PUBLIC_SERVER_URL,
+      // );
+      removeLoginStateLocalStorage();
       onClose();
       toast({
         title: '회원탈퇴 완료! 다음에 다시 만나요👋',
         status: 'success',
+        duration: 1000,
         isClosable: true,
       });
-      // FIXME 임시로 href로 함(새로고침 필요) -> router.push로는 안됨
-      window.location.href = 'http://localhost:3000/';
+
+      router.push('/');
     },
     onError: (error: Error) => {
       console.error('회원탈퇴 실패: ', error);
 
+      onClose();
       toast({
         title: '회원탈퇴 실패',
         status: 'error',
@@ -223,14 +227,14 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="북마크">
           <ul className="flex flex-row gap-3 flex-wrap">
-            {bookmarkData?.results?.map(bookmark => {
+            {bookmarkData?.results.bookmarks.map(bookmark => {
               return (
                 // TODO 북마크 삭제 버튼 기능 넣기
                 <li key={bookmark.bookmarkId}>
                   <Tag borderRadius="full" variant="solid" bg="accent.500">
                     <TagLabel fontSize="xs" fontWeight="bold">
                       <Link href={`/stars/${bookmark.documentId}`}>
-                        {bookmark.title}
+                        {bookmark.documentTitle}
                       </Link>
                     </TagLabel>
                     <TagCloseButton />
@@ -251,11 +255,11 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
-            {badgeData?.results?.map(badge => {
+            {badgeData?.results.badges.map(badge => {
               return (
                 <MyBadge
                   title={badge.badgeTitle}
-                  image={`/image/${badge.badgeType}.png`}
+                  image={`${process.env.NEXT_PUBLIC_SERVER_URL}${badge.badgeImgUrl}`}
                   key={badge.badgeType}
                 />
               );
