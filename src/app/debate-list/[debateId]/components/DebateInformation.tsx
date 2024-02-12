@@ -2,12 +2,13 @@ import React from 'react';
 import LabelText from '@/components/Common/LabelText';
 import { Tag } from '@chakra-ui/react';
 import { Debate } from '../page.server';
+import MiddleTitle from './MiddleTitle';
 
 // TODO ReviseInformation과 통일
 const DebateInformation = ({ debateData }: { debateData: Debate }) => {
   return (
-    <div className="flex flex-col gap-8">
-      <h3 className="font-bold text-left text-xl mb-4">개요</h3>
+    <div className="flex flex-col gap-8 mb-4">
+      <MiddleTitle title="개요" color="white" />
       <div className="grid grid-cols-2 gap-4">
         <LabelText
           label="수정 요청안 제목"

@@ -1,8 +1,11 @@
 import { atom } from 'recoil';
 
-const loginState = atom({
+export const loginState = atom({
   key: 'loginState',
-  default: { email: '', nickname: '', profileImgUrl: '' },
+  default: false,
 });
 
-export default loginState;
+export const userData = atom({
+  key: 'userData',
+  default: { email: '', nickname: '', profileImgUrl: '' },
+});

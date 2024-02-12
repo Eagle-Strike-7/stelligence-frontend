@@ -16,9 +16,8 @@
 
 .embla__button {
   position: absolute;
-  top: 55%;
-  transform: translateY(65%);
-
+  top: 50%;
+  transform: translateY(50%);
   cursor: pointer;
 }
 
@@ -47,7 +46,7 @@
 
 .embla__dots {
   position: absolute;
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   list-style: none;
   padding-left: 0;
