@@ -22,14 +22,11 @@ const ChakraSelect: React.FC<ChakraSelectProps> = ({
   return (
     <div className="flex my-0">
       <Select
-        variant="outline"
+        variant="fill"
         size="sm"
         rounded="md"
-        // color="text.dark"
-        bg="primary.500"
-        borderColor="primary.500"
-        borderWidth={1}
-        focusBorderColor="primary.400"
+        color="text.dark"
+        bg="#292929"
         fontSize="md"
         fontWeight={500}
         onChange={handleSelectedOption}
