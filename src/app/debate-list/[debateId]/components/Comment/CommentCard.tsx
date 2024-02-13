@@ -12,6 +12,7 @@ export interface DebateCommentProps {
   time: string;
   commentId: number;
   setIsChanged: Dispatch<SetStateAction<boolean>>;
+  handleClickCommentId: (e: any) => void;
 }
 
 const CommentCard: React.FC<DebateCommentProps> = ({
@@ -21,6 +22,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   time,
   commentId,
   setIsChanged,
+  handleClickCommentId,
 }) => {
   const pathname = usePathname();
   const debateId = Number(pathname.split('/').pop());
@@ -86,6 +88,11 @@ const CommentCard: React.FC<DebateCommentProps> = ({
                   verticalAlign="middle"
                   fontSize="sm"
                   lineHeight="max"
+                  bg="primary.900"
+                  color="primary.300"
+                  fontWeight={700}
+                  onClick={handleClickCommentId}
+                  id={commentId.toString()}
                 >
                   #{commentId}
                 </Tag>

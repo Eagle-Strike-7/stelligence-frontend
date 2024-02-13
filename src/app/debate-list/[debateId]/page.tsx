@@ -17,6 +17,7 @@ const Page = () => {
   const debateId = Number(pathname.split('/').pop());
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState<string>('');
 
   useEffect(() => {
     if (debateId) {
@@ -28,6 +29,10 @@ const Page = () => {
     setCommentsUpdated(prev => {
       return !prev;
     });
+  };
+
+  const handleClickCommentId = (e: React.MouseEvent<HTMLSpanElement>) => {
+    setSelectedCommentId(e.currentTarget.id);
   };
 
   return (
@@ -64,11 +69,17 @@ const Page = () => {
       </Tooltip>
       <NewReviseRequest />
       <DebateDetail debateData={debateData} />
-      <CommentList debateId={debateId} commentsUpdated={commentsUpdated} />
+      <CommentList
+        debateId={debateId}
+        commentsUpdated={commentsUpdated}
+        handleClickCommentId={handleClickCommentId}
+      />
       <CommentCreate
+        selectedCommentId={selectedCommentId}
         onCommentCreated={refreshComments}
         debateId={debateId}
         debateStatus={debateData?.status ?? 'OPEN'}
+        handleClickCommentId={handleClickCommentId}
       />
     </Wrapper>
   );
