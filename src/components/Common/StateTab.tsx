@@ -21,7 +21,8 @@ const StateTab: React.FC<{
         variant="ghost"
         fontSize="lg"
         fontWeight="semibold"
-        color={activeTab === tab1 ? 'black' : 'gray.300'}
+        color="text.dark"
+        opacity={activeTab === tab1 ? '1' : '0.2'}
         mr={4}
         _hover={{ cursor: 'pointer', bg: 'none' }}
         padding={0}
@@ -41,7 +42,8 @@ const StateTab: React.FC<{
         variant="ghost"
         fontSize="lg"
         fontWeight="semibold"
-        color={activeTab === tab2 ? 'black' : 'gray.300'}
+        color="text.dark"
+        opacity={activeTab === tab2 ? '1' : '0.2'}
         mr={4}
         _hover={{ cursor: 'pointer', bg: 'none' }}
         padding={0}

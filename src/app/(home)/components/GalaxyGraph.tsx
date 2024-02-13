@@ -55,9 +55,9 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           .distance(40)
           .strength(1),
       )
-      .force('charge', d3.forceManyBody().strength(-30))
+      .force('charge', d3.forceManyBody().strength(-80))
       .force('center', d3.forceCenter(centerX, centerY))
-      .force('collide', d3.forceCollide().radius(10))
+      .force('collide', d3.forceCollide().radius(25))
       .force('radial', d3.forceRadial(0, centerX, centerY));
   };
 
@@ -118,17 +118,20 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       const handleMouseOver = (event: MouseEvent, hoveredNode: GraphNode) => {
         node.style('opacity', 0.2);
         node
-          .filter((node: GraphNode) => {return node.group === hoveredNode.group})
+          .filter((node: GraphNode) => {
+            return node.group === hoveredNode.group;
+          })
           .style('opacity', 1);
         link.attr('stroke-opacity', 0.5);
 
         d3.select(event.target as SVGElement).style('cursor', 'pointer');
 
-        const relatedLinks = link.filter(
-          (d: GraphLink) =>
-            {return (d.source as GraphNode).group === hoveredNode.group &&
-            (d.target as GraphNode).group === hoveredNode.group},
-        );
+        const relatedLinks = link.filter((d: GraphLink) => {
+          return (
+            (d.source as GraphNode).group === hoveredNode.group &&
+            (d.target as GraphNode).group === hoveredNode.group
+          );
+        });
 
         changeLinkColor(relatedLinks, '#5c5cd6');
         relatedLinks.classed(styles.flow, true);
@@ -163,7 +166,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
             fontSize = '0.5rem';
           }
           nodeText.style('font-size', d => {
-            return searchResults.includes(d.id) ? '1rem' : fontSize;
+            return searchResults.includes(d.id) ? '0.7rem' : fontSize;
           });
         });
 
@@ -227,7 +230,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
           return d.title;
         })
         .style('font-size', d => {
-          return searchResults.includes(d.id) ? '1rem' : '0';
+          return searchResults.includes(d.id) ? '0.7rem' : '0';
         })
         .style('fill', '#d9d9d9')
         .attr('text-anchor', 'middle');
@@ -271,7 +274,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
     }
   }, [nodes, links, router, searchResults]);
 
-  return <svg ref={ref} width={800} height={700} />;
+  return <svg ref={ref} width={1200} height={700} />;
 };
 
 export default ForceGraph;
