@@ -1,3 +1,4 @@
+import renderContentWithTags from '@/lib/debate/renderContentWithTags';
 import { deleteComment, updateComment } from '@/service/debate/comment';
 import { Avatar, Box, Button, Tag, Text, Textarea } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
@@ -11,6 +12,7 @@ export interface DebateCommentProps {
   commentContent: string;
   time: string;
   commentId: number;
+  commentIds: number[];
   setIsChanged: Dispatch<SetStateAction<boolean>>;
   handleClickCommentId: (e: any) => void;
 }
@@ -21,6 +23,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   commentContent,
   time,
   commentId,
+  commentIds,
   setIsChanged,
   handleClickCommentId,
 }) => {
@@ -50,6 +53,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
       return !prev;
     });
   };
+
   return (
     <Box className="flex w-full p-4 my-2 rounded-md bg-primary-dark-500/10 text-white">
       {isEdit ? (
@@ -118,7 +122,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
               </div>
             </div>
             <div className="my-2">
-              <Text>{commentContent}</Text>
+              <div>{renderContentWithTags(commentContent, commentIds)}</div>
             </div>
             <div className="flex justify-end items-baseline mt-2">
               <Text className="text-gray-600 text-xs">
