@@ -1,23 +1,19 @@
 import useOutsideClick from '@/hooks/common/useOutsideClick';
-import searchTextState from '@/store/search/searchInput';
 import { SearchResult } from '@/types/graph/GraphProps';
 import { Box, VStack } from '@chakra-ui/react';
 import React, { useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
 
 interface SearchDropdownProps {
   searchResults: SearchResult[];
   setIsDropdownOpen: (isOpen: boolean) => void;
-  handleSearch: (text: string) => void;
+  handleDropdownSelect: (e: any) => void;
 }
 
 const SearchDropdown: React.FC<SearchDropdownProps> = ({
   searchResults,
   setIsDropdownOpen,
-  handleSearch,
+  handleDropdownSelect,
 }) => {
-  const setSearchText = useSetRecoilState(searchTextState);
-
   // NOTE 포커스 아웃 처리를 위한 drodownRef를 생성
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -25,12 +21,6 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
   useOutsideClick(dropdownRef, () => {
     setIsDropdownOpen(false);
   });
-
-  const handleAutoComplete = (e: any) => {
-    setSearchText(e.currentTarget.id);
-    handleSearch(e.currentTarget.id);
-    setIsDropdownOpen(false);
-  };
 
   return (
     <VStack
@@ -55,7 +45,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
         searchResults.map(result => {
           return (
             <Box
-              onClick={handleAutoComplete}
+              onClick={handleDropdownSelect}
               id={result.title}
               key={result.documentId}
               lineHeight="2.5rem"

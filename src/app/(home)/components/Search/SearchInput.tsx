@@ -1,36 +1,26 @@
 import React from 'react';
 import { InputGroup, InputRightElement, Button, Input } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
-import searchTextState from '@/store/search/searchInput';
-import { useRecoilState } from 'recoil';
 
 interface SearchInputProps {
-  handleSearch: (text: string) => void;
+  searchText: string;
+  setSearchText: (text: string) => void;
   isDropdownOpen: boolean;
   setIsDropdownOpen: (isOpen: boolean) => void;
+  handleChangedSearchInput: (e: any) => void;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
-  handleSearch,
+  searchText,
+  setSearchText,
   isDropdownOpen,
   setIsDropdownOpen,
+  handleChangedSearchInput,
 }) => {
-  const [searchText, setSearchText] = useRecoilState<string>(searchTextState);
-
-  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-    handleSearch(e.target.value);
-    setIsDropdownOpen(true);
-  };
-
-  const handleButtonSearch = () => {
-    handleSearch(searchText);
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const {value} = (e.target as HTMLInputElement);
-      handleSearch(value);
+      const { value } = e.target as HTMLInputElement;
+      setSearchText(value);
       setIsDropdownOpen(false);
     }
   };
@@ -44,7 +34,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         placeholder="어떤 별을 찾으시나요?"
         focusBorderColor="#121212"
         value={searchText}
-        onChange={handleSearchText}
+        onChange={handleChangedSearchInput}
         variant="outline"
         borderColor="#292929"
         bg="#292929"
@@ -62,7 +52,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           variant="ghost"
           _hover={{ bg: '#414141' }}
           marginTop="0.5rem"
-          onClick={handleButtonSearch}
+          onClick={handleChangedSearchInput}
         >
           <BiSearch fontSize="1.5rem" color="#d9d9d9" />
         </Button>
