@@ -6,10 +6,12 @@ import Comment from './CommentCard';
 interface CommentListProps {
   debateId: number;
   commentsUpdated: boolean;
+  handleClickCommentId: (e: any) => void;
 }
 const CommentList: React.FC<CommentListProps> = ({
   debateId,
   commentsUpdated,
+  handleClickCommentId,
 }) => {
   const [commentList, setCommentList] = useState<CommentProps[]>([]);
   const [isChanged, setIsChanged] = useState<boolean>(false);
@@ -42,6 +44,7 @@ const CommentList: React.FC<CommentListProps> = ({
               commentContent={comment.content}
               time={comment.createdAt.replace('T', ' ')}
               setIsChanged={setIsChanged}
+              handleClickCommentId={handleClickCommentId}
             />
           );
         })}
