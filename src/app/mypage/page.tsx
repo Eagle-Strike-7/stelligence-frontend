@@ -134,15 +134,16 @@ const Page = () => {
   };
   const handleSaveNewNickname = async () => {
     setIsNicknameChanging(false);
-    if (oldNickname === newNickname) {
+    if (oldNickname === newNickname.trim()) {
       toast({
         title: '현재 닉네임과 동일합니다.',
+        description: '앞 뒤 공백은 포함되지 않습니다',
         status: 'error',
         isClosable: true,
       });
       return;
     }
-    nicknameMutation.mutate(newNickname);
+    nicknameMutation.mutate(newNickname.trim());
   };
 
   const handleClickChange = () => {
