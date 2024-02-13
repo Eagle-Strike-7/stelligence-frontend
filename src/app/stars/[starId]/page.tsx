@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
-import { Box, Stack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
 import { DocStatus, Star, StarContributor } from '@/types/star/StarProps';
 import { usePathname } from 'next/navigation';
@@ -32,11 +32,20 @@ const Page = () => {
   const pathname = usePathname();
   const documentId = Number(pathname.split('/').pop());
 
+  const starRevision = localStorage.getItem('revision');
+  let params = {};
+
+  // FIXME : revision 로컬 스토리지 저장 시 수정예정
+  if (starRevision && starRevision !== '0') {
+    params = { params: { revision: starRevision } };
+  }
+
   const getStar = async () => {
     // TODO : getStar 분리
     try {
       const response = await apiClient.get<StarResponseType<Star>>(
         `/api/documents/${documentId}`,
+        { params },
       );
       const { data } = response;
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
@@ -60,6 +69,7 @@ const Page = () => {
           debateId: data.results.debateId,
         });
       }
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -72,20 +82,18 @@ const Page = () => {
   return (
     <Wrapper>
       <Box className="flex w-full flex-col">
-        <Stack spacing="6">
-          <StarInfo
-            title={title}
-            parentDocumentTitle={parentDocumentTitle}
-            lastModifiedAt={lastModifiedAt}
-            documentStatus={documentStatus}
-            id={id}
-          />
-          <StarContent content={content} />
-          <StarAuthors
-            originalAuthor={originalAuthor}
-            contributors={contributors}
-          />
-        </Stack>
+        <StarInfo
+          title={title}
+          parentDocumentTitle={parentDocumentTitle}
+          lastModifiedAt={lastModifiedAt}
+          documentStatus={documentStatus}
+          id={id}
+        />
+        <StarContent content={content} />
+        <StarAuthors
+          originalAuthor={originalAuthor}
+          contributors={contributors}
+        />
       </Box>
     </Wrapper>
   );
