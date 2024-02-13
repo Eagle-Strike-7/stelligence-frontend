@@ -74,20 +74,25 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         </div>
       ) : (
         <>
-          <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
+          <div className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
             <Avatar src={userImg} size="sm" />
-          </Box>
-          <Box className="flex-col w-full">
-            <Box className="flex justify-between text-white ">
-              <div className="flex place-items-center mb-4">
-                <Tag mr={2} cursor="pointer" textAlign="center" fontSize="xs">
+          </div>
+          <div className="flex-col w-full">
+            <div className="flex justify-between text-white">
+              <div className="flex place-items-center mb-4 ">
+                <Tag
+                  mr={2}
+                  cursor="pointer"
+                  verticalAlign="middle"
+                  fontSize="xs"
+                >
                   #{commentId}
                 </Tag>
                 <Text fontSize="xs" color="primary.500">
                   {userName}
                 </Text>
               </div>
-              <Box className="flex justify-center align-center">
+              <div className="flex justify-center align-center">
                 <AiTwotoneAlert
                   size="1.25rem"
                   className="mr-1 hover:cursor-pointer"
@@ -102,17 +107,17 @@ const CommentCard: React.FC<DebateCommentProps> = ({
                   className="hover:cursor-pointer"
                   onClick={handleEditComment}
                 />
-              </Box>
-            </Box>
-            <Box>
+              </div>
+            </div>
+            <div>
               <Text>{commentContent}</Text>
-            </Box>
-            <Box className="flex justify-end items-baseline">
+            </div>
+            <div className="flex justify-end items-baseline">
               <Text className="text-gray-600 text-xs">
                 {time.split('.')[0]}
               </Text>
-            </Box>
-          </Box>
+            </div>
+          </div>
         </>
       )}
     </Box>
