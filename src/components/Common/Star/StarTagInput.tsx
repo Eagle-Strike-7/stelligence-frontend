@@ -8,19 +8,21 @@ import apiClient from '../../../service/login/axiosClient';
 
 interface StarParentDocumentIdProps {
   inputTitle: string;
+  parentDocumentTitle?: string;
   setParentDocumentId: (parentDocumentId: number | null) => void;
 }
 
 // NOTE : 상위 계층 태그를 입력받는 컴포넌트 (글쓰기, 수정)
 const StarTagInput = ({
   inputTitle,
+  parentDocumentTitle = '',
   setParentDocumentId,
 }: StarParentDocumentIdProps) => {
   const [searchTitle, setSearchTitle] = useState({
     enteredTitle: '', // input에 입력된 제목
-    parentDocTitle: '', // 태그로 생성된 제목
+    parentTitle: parentDocumentTitle, // 태그로 생성된 제목
   });
-
+  console.log(searchTitle, parentDocumentTitle);
   const debouncedTitle = useDebounce(searchTitle.enteredTitle, 300);
   const getTagResults = async () => {
     if (debouncedTitle === '') {
@@ -59,7 +61,7 @@ const StarTagInput = ({
     setSearchTitle({
       ...searchTitle,
       enteredTitle: '',
-      parentDocTitle: doc.title,
+      parentTitle: doc.title,
     });
     setParentDocumentId(doc.documentId);
   };
@@ -71,7 +73,7 @@ const StarTagInput = ({
   };
 
   const handleDelete = () => {
-    setSearchTitle({ ...searchTitle, parentDocTitle: '' });
+    setSearchTitle({ ...searchTitle, parentTitle: '' });
     setParentDocumentId(null);
   };
 
@@ -92,63 +94,62 @@ const StarTagInput = ({
         </span>
       )}
 
-      <div className="mb-3 relative grow">
-        <Input
-          size="md"
-          variant="outline"
-          color="white"
-          placeholder="연결할 글의 제목을 입력해 주세요"
-          value={searchTitle.enteredTitle}
-          onChange={handleChange}
-          zIndex="1"
-        />
-        {/* NOTE : 검색어가 있을 때만 드롭다운 */}
-        {debouncedTitle !== '' ? (
-          <div className="absolute w-full mt-1 border border-gray-300 bg-white rounded-md z-10">
-            {/* NOTE : 결과가 있을 때 */}
-            {searchTag.data && searchTag.data.length > 0 ? (
-              searchTag.data.map(doc => {
-                return (
-                  <div
-                    key={doc.documentId}
-                    role="button"
-                    tabIndex={0}
-                    className="p-2 pl-4 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      handleClick(doc);
-                    }}
-                    onKeyDown={event => {
-                      handleKeyDown(event, doc);
-                    }}
-                  >
-                    {doc.title}
-                  </div>
-                );
-              })
-            ) : (
-              // NOTE : 결과가 없을 때
-              <div className="p-2">검색 결과가 없습니다</div>
-            )}
-          </div>
-        ) : (
-          <> </>
-        )}
-        {searchTitle.parentDocTitle !== '' ? (
-          <Tag
-            size="lg"
-            variant="subtle"
-            colorScheme="blue"
-            my="0.5rem"
-            minW="fit-content"
-            maxW="fit-content"
-          >
-            <TagLabel>{searchTitle.parentDocTitle}</TagLabel>
-            <TagCloseButton onClick={handleDelete} />
-          </Tag>
-        ) : (
-          <> </>
-        )}
-      </div>
+      {searchTitle.parentTitle === '' ? (
+        <div className="mb-3 relative grow">
+          <Input
+            size="md"
+            variant="outline"
+            color="white"
+            placeholder="연결할 글의 제목을 입력해 주세요"
+            value={searchTitle.enteredTitle}
+            onChange={handleChange}
+            zIndex="1"
+          />
+          {/* NOTE : 검색어가 있을 때만 드롭다운 */}
+          {debouncedTitle !== '' ? (
+            <div className="absolute w-full mt-1 border border-gray-300 bg-white rounded-md z-10">
+              {/* NOTE : 결과가 있을 때 */}
+              {searchTag.data && searchTag.data.length > 0 ? (
+                searchTag.data.map(doc => {
+                  return (
+                    <div
+                      key={doc.documentId}
+                      role="button"
+                      tabIndex={0}
+                      className="p-2 pl-4 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        handleClick(doc);
+                      }}
+                      onKeyDown={event => {
+                        handleKeyDown(event, doc);
+                      }}
+                    >
+                      {doc.title}
+                    </div>
+                  );
+                })
+              ) : (
+                // NOTE : 결과가 없을 때
+                <div className="p-2">검색 결과가 없습니다</div>
+              )}
+            </div>
+          ) : (
+            <> </>
+          )}
+        </div>
+      ) : (
+        <Tag
+          size="lg"
+          variant="subtle"
+          colorScheme="blue"
+          my="0.5rem"
+          minW="fit-content"
+          maxW="fit-content"
+        >
+          <TagLabel>{searchTitle.parentTitle}</TagLabel>
+          <TagCloseButton onClick={handleDelete} />
+        </Tag>
+      )}
     </div>
   );
 };
