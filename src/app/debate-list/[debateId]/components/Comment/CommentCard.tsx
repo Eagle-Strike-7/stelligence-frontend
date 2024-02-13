@@ -1,5 +1,5 @@
 import { deleteComment, updateComment } from '@/service/debate/comment';
-import { Avatar, Box, Button, Text, Textarea } from '@chakra-ui/react';
+import { Avatar, Box, Button, Tag, Text, Textarea } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
@@ -79,9 +79,14 @@ const CommentCard: React.FC<DebateCommentProps> = ({
           </Box>
           <Box className="flex-col w-full">
             <Box className="flex justify-between text-white ">
-              <Text fontSize="xs" color="primary.500">
-                {userName}
-              </Text>
+              <div className="flex place-items-center mb-4">
+                <Tag mr={2} cursor="pointer" textAlign="center" fontSize="xs">
+                  #{commentId}
+                </Tag>
+                <Text fontSize="xs" color="primary.500">
+                  {userName}
+                </Text>
+              </div>
               <Box className="flex justify-center align-center">
                 <AiTwotoneAlert
                   size="1.25rem"
