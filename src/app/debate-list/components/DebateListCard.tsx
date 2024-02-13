@@ -16,16 +16,17 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
       display="flex"
       mb="1rem"
       width="full"
+      variant="elevated"
+      bg="rgba(118, 147, 231,0.1)"
+      color="white"
       rounded="md"
       padding={4}
       justify="space-between"
       border={2}
-      borderColor="black"
-      colorScheme="blue"
+      borderColor="primary.500"
       direction={{ base: 'column', sm: 'row' }}
-      bg="white"
       _hover={{
-        bg: 'gray.50',
+        bg: 'rgba(118, 147, 231, 0.22)',
         cursor: 'pointer',
       }}
     >
