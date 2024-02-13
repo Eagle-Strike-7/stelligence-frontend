@@ -29,6 +29,7 @@ import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 // import deleteCookie from '@/store/user/withdrawal';
 import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
+import { ErrorResponse } from '@/types/common/ResponseType';
 import {
   BookmarkData,
   deleteUserData,
@@ -39,12 +40,6 @@ import {
 } from '../../service/userService';
 import MyBadge from './components/MyBadge';
 // import useRequireLogin from '@/hooks/common/useRequireLogin';
-
-interface ErrorResponse {
-  success: boolean;
-  message: string;
-  results: string;
-}
 
 const Page = () => {
   // NOTE 페이지 접근 시 로그아웃 상태라면 /login으로 리다이렉트
@@ -99,7 +94,7 @@ const Page = () => {
 
   const nicknameMutation = useMutation<
     AxiosResponse,
-    AxiosError<ErrorResponse>,
+    AxiosError<ErrorResponse<string>>,
     string
   >({
     mutationFn: putNickname,
@@ -113,7 +108,7 @@ const Page = () => {
         isClosable: true,
       });
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<ErrorResponse<string>>) => {
       console.error('닉네임 수정 실패 ', error);
       if (
         error.response?.data.message.startsWith('이미 사용 중인 닉네임입니다.')
