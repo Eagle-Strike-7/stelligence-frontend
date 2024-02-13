@@ -110,7 +110,7 @@ export const postVote = async ({
 }: {
   contributeId: number;
   isAgree: boolean;
-}): Promise<AxiosResponse> => {
+}): Promise<VoteResponse> => {
   try {
     const response = await apiClient.post('/api/votes', {
       contributeId,
