@@ -11,7 +11,7 @@ const ReviseStarReason = ({
   setContributeDescription,
 }: ReviseStarReasonProps) => {
   return (
-    <div className="flex flex-col w-full pb-12 border-b border-gray">
+    <div className="flex flex-col w-full pb-12 border-b border-primary-500">
       <h3 className="text-white text-md font-bold mb-2">수정 이유</h3>
       <textarea
         className="w-full h-28 p-4 bg-background-dark border text-white border-gray-300 rounded-md resize-none"

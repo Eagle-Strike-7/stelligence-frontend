@@ -38,7 +38,8 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
       {documentStatus === DocStatus.EDITABLE && (
         <Button
           size="md"
-          color="white"
+          color="primary.500"
+          borderColor="primary.500"
           _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
           variant="outline"
           onClick={handleEdit}
@@ -49,6 +50,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
       {documentStatus === DocStatus.VOTING && (
         <Button
           size="md"
+          bgColor="primary.500"
           color="white"
           _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
           variant="solid"
@@ -60,6 +62,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
       {documentStatus === DocStatus.DEBATING && (
         <Button
           size="md"
+          bgColor="primary.500"
           color="white"
           _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
           variant="solid"
@@ -71,6 +74,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
       {documentStatus === DocStatus.PENDING && ( // TODO : 이름 변경 필요
         <Button
           size="md"
+          bgColor="primary.500"
           color="white"
           _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
           variant="solid"

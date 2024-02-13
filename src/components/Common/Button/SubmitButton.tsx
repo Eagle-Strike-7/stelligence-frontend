@@ -10,7 +10,8 @@ const SubmitButton = ({ name }: { name: string }) => {
         w="fit-content"
         size="lg"
         variant="solid"
-        colorScheme="accent"
+        bgColor="primary.500"
+        color="white"
         type="submit"
       >
         {name}

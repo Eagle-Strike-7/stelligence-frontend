@@ -45,7 +45,7 @@ const NewStarForm = () => {
     const startsWithH2orH3 = /^<(h1|h2|h3)>/i;
     if (title === '' || title.length > 20) {
       toast({
-        title: '제목을 입력해주세요',
+        title: '20자 이하의 제목을 입력해주세요',
         status: 'error',
         isClosable: true,
       });

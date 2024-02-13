@@ -1,4 +1,4 @@
-import PageTitle from '@/components/Common/PageTitle';
+import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 import { LuBookmark } from 'react-icons/lu';
@@ -37,11 +37,11 @@ const StarInfo = ({
   return (
     <div className="flex flex-row w-full justify-between">
       <div className="flex flex-col">
-        <PageTitle pageTitle={title} />
+        <PageTitleDescription
+          title={title}
+          description={`수정일시: ${lastModifiedAt}`}
+        />
         <div>{parentDocumentTitle}</div>
-        <div className="text-sm text-input-placeholder">
-          수정 일시: {lastModifiedAt}
-        </div>
       </div>
 
       <div className="flex flex-col">
