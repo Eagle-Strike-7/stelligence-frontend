@@ -8,9 +8,11 @@ import StarTagInput from '@/components/Common/Star/StarTagInput';
 import { NewStar } from '@/types/star/NewStarProps';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@chakra-ui/react';
 
 const NewStarForm = () => {
   const router = useRouter();
+  const toast = useToast();
   const [title, setTitle] = useState<string>('');
   const [parentDocumentId, setParentDocumentId] = useState<number | null>(null);
   const [content, setContent] = useState<string>('');
@@ -29,7 +31,11 @@ const NewStarForm = () => {
       }
     } catch (error) {
       // 요청 실패하면 에러 출력
-      alert('요청 실패');
+      toast({
+        title: '글 생성에 실패했습니다.\n 다시 시도해주세요.',
+        status: 'error',
+        isClosable: true,
+      });
       console.error('Error:', error);
     }
   };
@@ -37,14 +43,25 @@ const NewStarForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const startsWithH2orH3 = /^<(h1|h2|h3)>/i;
-    if (title === '') {
-      alert('제목을 입력해주세요');
+    if (title === '' || title.length > 20) {
+      toast({
+        title: '제목을 입력해주세요',
+        status: 'error',
+        isClosable: true,
+      });
     } else if (content === '') {
-      alert('본문을 입력해주세요');
+      toast({
+        title: '본문을 입력해주세요',
+        status: 'error',
+        isClosable: true,
+      });
     } else if (startsWithH2orH3.test(content) === false) {
-      alert(
-        '본문은 소제목으로 시작해야 합니다.\n##, ###을 통해 소제목을 생성해주세요.',
-      );
+      toast({
+        title:
+          '본문은 소제목으로 시작해야 합니다.\n##, ###을 통해 소제목을 생성해주세요.',
+        status: 'error',
+        isClosable: true,
+      });
     } else {
       const newStar = {
         title,
