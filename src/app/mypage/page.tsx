@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 // import { useSetRecoilState } from 'recoil';
 // import { loginState } from '@/store/user/login';
@@ -39,6 +39,12 @@ import {
 } from '../../service/userService';
 import MyBadge from './components/MyBadge';
 // import useRequireLogin from '@/hooks/common/useRequireLogin';
+
+interface ErrorResponse {
+  success: boolean;
+  message: string;
+  results: string;
+}
 
 const Page = () => {
   // NOTE 페이지 접근 시 로그아웃 상태라면 /login으로 리다이렉트
@@ -57,7 +63,9 @@ const Page = () => {
   });
   const { data: bookmarkData } = useQuery({
     queryKey: ['user', 'bookmark', currentBookmarkPage],
-    queryFn: () => {return getBookmarkData(currentBookmarkPage)},
+    queryFn: () => {
+      return getBookmarkData(currentBookmarkPage);
+    },
   });
 
   const { data: badgeData } = useQuery({
@@ -81,16 +89,19 @@ const Page = () => {
       setHasNextPage(false);
     }
     if (bookmarkData?.results.bookmarks) {
-      setBookmarks(prevBookmarks => {return [
-        ...prevBookmarks,
-        ...bookmarkData.results.bookmarks,
-      ]});
+      setBookmarks(prevBookmarks => {
+        return [...prevBookmarks, ...bookmarkData.results.bookmarks];
+      });
     }
   }, [bookmarkData]);
 
   const toast = useToast();
 
-  const nicknameMutation = useMutation<AxiosResponse, Error, string>({
+  const nicknameMutation = useMutation<
+    AxiosResponse,
+    AxiosError<ErrorResponse>,
+    string
+  >({
     mutationFn: putNickname,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -102,8 +113,19 @@ const Page = () => {
         isClosable: true,
       });
     },
-    onError: (error: Error) => {
+    onError: (error: AxiosError<ErrorResponse>) => {
       console.error('닉네임 수정 실패 ', error);
+      if (
+        error.response?.data.message.startsWith('이미 사용 중인 닉네임입니다.')
+      ) {
+        toast({
+          title: '닉네임 수정 실패',
+          description: '중복된 닉네임입니다. 다른 닉네임을 입력하세요.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     },
   });
 
@@ -114,7 +136,7 @@ const Page = () => {
     setIsNicknameChanging(false);
     if (oldNickname === newNickname) {
       toast({
-        title: '이미 사용한 닉네임과 같습니다.',
+        title: '현재 닉네임과 동일합니다.',
         status: 'error',
         isClosable: true,
       });
@@ -166,7 +188,9 @@ const Page = () => {
   };
 
   const handleClickMoreBookmark = () => {
-    setCurrentBookmarkPage(prev => {return prev + 1});
+    setCurrentBookmarkPage(prev => {
+      return prev + 1;
+    });
   };
 
   return (
