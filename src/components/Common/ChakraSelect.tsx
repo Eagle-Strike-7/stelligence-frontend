@@ -22,20 +22,22 @@ const ChakraSelect: React.FC<ChakraSelectProps> = ({
   return (
     <div className="flex my-0">
       <Select
-        variant="filled"
+        variant="fill"
         size="sm"
         rounded="md"
-        borderColor="gray.200"
-        borderWidth={1}
-        focusBorderColor="gray.400"
-        bg="white"
+        color="text.dark"
+        bg="#292929"
+        fontSize="md"
+        fontWeight={500}
         onChange={handleSelectedOption}
       >
-        {options.map(option => {return (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        )})}
+        {options.map(option => {
+          return (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          );
+        })}
       </Select>
     </div>
   );

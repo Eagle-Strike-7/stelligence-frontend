@@ -22,9 +22,9 @@ const customTheme = extendTheme({
       500: '#07063B',
     },
     text: {
-      50: '000000',
-      500: 'AEAEAE',
-      900: 'ffffff',
+      light: '#000000',
+      dark: '#ffffff',
+      500: '#AEAEAE',
     },
     primaryGray: {
       500: '#667799', // 다희님색
