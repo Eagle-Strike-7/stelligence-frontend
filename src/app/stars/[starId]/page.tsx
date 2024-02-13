@@ -15,6 +15,7 @@ import formatDate from '../../../lib/formatDate';
 // NOTE : 특정 글 상세보기 페이지
 // TODO : 편집중 여부 표시, revision
 const Page = () => {
+  const [starRevision, setStarRevision] = useState<number | null>(null);
   const [title, setTitle] = useState('');
   const [parentDocumentTitle, setParentDocumentTitle] = useState('');
   const [lastModifiedAt, setLastModifiedAt] = useState('');
@@ -32,11 +33,10 @@ const Page = () => {
   const pathname = usePathname();
   const documentId = Number(pathname.split('/').pop());
 
-  const starRevision = localStorage.getItem('revision');
   let params = {};
 
   // FIXME : revision 로컬 스토리지 저장 시 수정예정
-  if (starRevision && starRevision !== '0') {
+  if (starRevision && starRevision !== 0) {
     params = { params: { revision: starRevision } };
   }
 
@@ -76,6 +76,8 @@ const Page = () => {
   };
 
   useEffect(() => {
+    const revision = Number(localStorage.getItem('revision'));
+    setStarRevision(revision);
     getStar();
   }, []);
 
