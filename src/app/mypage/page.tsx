@@ -297,15 +297,15 @@ const Page = () => {
             {badgeData?.results.badges.map(badge => {
               return (
                 <MyBadge
+                  key={badge.badgeType}
                   title={badge.badgeTitle}
                   image={`${process.env.NEXT_PUBLIC_SERVER_URL}${badge.badgeImgUrl}`}
-                  key={badge.badgeType}
+                  description={badge.badgeDescription}
                 />
               );
             }) ?? '배지 불러오기 실패'}
           </div>
         </TitleCard>
-        {/* TODO 위치, 디자인 고민하기 */}
         <Button
           variant="link"
           color="gray.500"
