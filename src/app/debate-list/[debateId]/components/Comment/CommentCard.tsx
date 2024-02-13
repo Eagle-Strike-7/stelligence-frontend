@@ -49,7 +49,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     });
   };
   return (
-    <Box className="flex w-full p-4 my-3 rounded-md bg-primary-dark-500/10 text-white">
+    <Box className="flex w-full p-4 my-2 rounded-md bg-primary-dark-500/10 text-white">
       {isEdit ? (
         <div className="flex flex-col w-full my-2">
           <Textarea
@@ -74,17 +74,18 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         </div>
       ) : (
         <>
-          <div className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
+          <div className="flex flex-col justify-center items-center justify-items-center align-middle w-12 mr-4 ">
             <Avatar src={userImg} size="sm" />
           </div>
-          <div className="flex-col w-full">
-            <div className="flex justify-between text-white">
-              <div className="flex place-items-center mb-4 ">
+          <div className="flex-col w-full ">
+            <div className="flex justify-between text-white place-items-center">
+              <div className="flex place-items-baseline my-1">
                 <Tag
                   mr={2}
                   cursor="pointer"
                   verticalAlign="middle"
-                  fontSize="xs"
+                  fontSize="sm"
+                  lineHeight="max"
                 >
                   #{commentId}
                 </Tag>
@@ -109,10 +110,10 @@ const CommentCard: React.FC<DebateCommentProps> = ({
                 />
               </div>
             </div>
-            <div>
+            <div className="my-2">
               <Text>{commentContent}</Text>
             </div>
-            <div className="flex justify-end items-baseline">
+            <div className="flex justify-end items-baseline mt-2">
               <Text className="text-gray-600 text-xs">
                 {time.split('.')[0]}
               </Text>
