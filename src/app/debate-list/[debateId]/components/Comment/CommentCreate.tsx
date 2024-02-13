@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getCommentList, postNewComment } from '@/service/debate/comment';
+import { postNewComment } from '@/service/debate/comment';
 import scrollToBottom from '@/lib/debate/scrollToBottom';
 import { Button, Textarea } from '@chakra-ui/react';
 import {
@@ -11,6 +11,7 @@ import CommentDropdownMenu from './CommentDropdownMenu';
 interface CommentCreateProps {
   onCommentCreated: () => void;
   debateId: number;
+  commentIds: number[];
   debateStatus: 'OPEN' | 'CLOSED' | null;
   handleClickCommentId: (e: any) => void;
   selectedCommentId: string;
@@ -21,37 +22,27 @@ const CommentCreate = ({
   debateStatus,
   selectedCommentId,
   handleClickCommentId,
+  commentIds,
 }: CommentCreateProps) => {
   const textareaRef = useRef(null);
   const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
   const [newContent, setNewContent] = useState<string>('');
-  const [commentIds, setCommentIds] = useState<number[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
-
-  // NOTE useEffect 로직
-  useEffect(() => {
-    getCommentList(debateId)
-      .then(comments => {
-        setCommentIds(comments.map(item => {return item.commentId}));
-      })
-      .catch(error => {
-        console.error('Error fetching comments:', error);
-      });
-  }, [debateId]);
 
   useEffect(() => {
     if (selectedCommentId) {
       const lastInputValue = newContent.charAt(newContent.length - 1);
       if (lastInputValue === '#') {
-        setNewContent(prevContent => {return `${prevContent + selectedCommentId  } `});
+        setNewContent(prevContent => {
+          return `${prevContent + selectedCommentId} `;
+        });
       } else {
         const additionalSpace =
           newContent && !newContent.endsWith(' ') ? ' ' : '';
-        setNewContent(
-          prevContent =>
-            {return `${prevContent}${additionalSpace}#${selectedCommentId} `},
-        );
+        setNewContent(prevContent => {
+          return `${prevContent}${additionalSpace}#${selectedCommentId} `;
+        });
       }
     }
   }, [selectedCommentId]); // newContent를 의존성 배열에서 제거

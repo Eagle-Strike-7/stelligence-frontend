@@ -5,11 +5,13 @@ import Comment from './CommentCard';
 
 interface CommentListProps {
   debateId: number;
+  commentIds: number[];
   commentsUpdated: boolean;
   handleClickCommentId: (e: any) => void;
 }
 const CommentList: React.FC<CommentListProps> = ({
   debateId,
+  commentIds,
   commentsUpdated,
   handleClickCommentId,
 }) => {
@@ -43,6 +45,7 @@ const CommentList: React.FC<CommentListProps> = ({
               commentId={comment.commentId}
               commentContent={comment.content}
               time={comment.createdAt.replace('T', ' ')}
+              commentIds={commentIds}
               setIsChanged={setIsChanged}
               handleClickCommentId={handleClickCommentId}
             />

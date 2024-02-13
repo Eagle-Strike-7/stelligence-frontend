@@ -5,6 +5,7 @@ import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
 import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { Tooltip } from '@chakra-ui/react';
+import { getCommentList } from '@/service/debate/comment';
 import { Debate, getDebateData } from './page.server';
 import CommentList from './components/Comment/CommentList';
 import CommentCreate from './components/Comment/CommentCreate';
@@ -18,10 +19,18 @@ const Page = () => {
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
+  const [commentIds, setCommentIds] = useState<number[]>([]);
 
   useEffect(() => {
     if (debateId) {
       getDebateData(debateId).then(setDebateData);
+      getCommentList(debateId).then(comments => {
+        setCommentIds(
+          comments.map(item => {
+            return item.commentId;
+          }),
+        );
+      });
     }
   }, [debateId]);
 
@@ -71,6 +80,7 @@ const Page = () => {
       <DebateDetail debateData={debateData} />
       <CommentList
         debateId={debateId}
+        commentIds={commentIds}
         commentsUpdated={commentsUpdated}
         handleClickCommentId={handleClickCommentId}
       />
@@ -78,6 +88,7 @@ const Page = () => {
         selectedCommentId={selectedCommentId}
         onCommentCreated={refreshComments}
         debateId={debateId}
+        commentIds={commentIds}
         debateStatus={debateData?.status ?? 'OPEN'}
         handleClickCommentId={handleClickCommentId}
       />
