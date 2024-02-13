@@ -18,6 +18,8 @@ const Page = () => {
   const debateId = Number(pathname.split('/').pop());
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
+  // TODO 서버로부터 해당 정보 받도록 변경 필요(계속 유지되어야 하는 정보)
+  const [isNewReviseRequested, setIsNewReviseRequested] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
   const [commentIds, setCommentIds] = useState<number[]>([]);
 
@@ -76,7 +78,15 @@ const Page = () => {
           )}
         </div>
       </Tooltip>
-      <NewReviseRequest />
+      {isNewReviseRequested ? (
+        ''
+      ) : (
+        <NewReviseRequest
+          debateId={debateId}
+          starId={debateData?.documentId}
+          setIsNewReviseRequested={setIsNewReviseRequested}
+        />
+      )}
       <DebateDetail debateData={debateData} />
       <CommentList
         debateId={debateId}

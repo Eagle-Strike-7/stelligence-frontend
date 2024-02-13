@@ -51,7 +51,7 @@ const Vote = ({
       return { agree: 0, disagree: 0 };
     }
 
-    const agreePercent = Math.floor((agree / disagree) * 100);
+    const agreePercent = Math.floor((agree / total) * 100);
     const disagreePercent = 100 - agreePercent;
     return { agree: agreePercent, disagree: disagreePercent };
   };

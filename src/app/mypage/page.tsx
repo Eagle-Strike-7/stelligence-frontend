@@ -22,14 +22,16 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 // import { useSetRecoilState } from 'recoil';
 // import { loginState } from '@/store/user/login';
 // import deleteCookie from '@/store/user/withdrawal';
 import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
+import { ErrorResponse } from '@/types/common/ResponseType';
 import {
+  BookmarkData,
   deleteUserData,
   getBadgeData,
   getBookmarkData,
@@ -47,14 +49,20 @@ const Page = () => {
   //   return <div>Loading...</div>;
   // }
   const queryClient = useQueryClient();
+  const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(1);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [bookmarks, setBookmarks] = useState<BookmarkData[]>([]);
   const { data: userData } = useQuery({
     queryKey: ['user'],
     queryFn: getUserData,
   });
   const { data: bookmarkData } = useQuery({
-    queryKey: ['user', 'bookmark'],
-    queryFn: getBookmarkData,
+    queryKey: ['user', 'bookmark', currentBookmarkPage],
+    queryFn: () => {
+      return getBookmarkData(currentBookmarkPage);
+    },
   });
+
   const { data: badgeData } = useQuery({
     queryKey: ['user', 'badge'],
     queryFn: getBadgeData,
@@ -70,9 +78,25 @@ const Page = () => {
       setNewNickname(userData?.results.nickname);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (bookmarkData?.results.hasNext === false) {
+      setHasNextPage(false);
+    }
+    if (bookmarkData?.results.bookmarks) {
+      setBookmarks(prevBookmarks => {
+        return [...prevBookmarks, ...bookmarkData.results.bookmarks];
+      });
+    }
+  }, [bookmarkData]);
+
   const toast = useToast();
 
-  const nicknameMutation = useMutation<AxiosResponse, Error, string>({
+  const nicknameMutation = useMutation<
+    AxiosResponse,
+    AxiosError<ErrorResponse<string>>,
+    string
+  >({
     mutationFn: putNickname,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -80,11 +104,23 @@ const Page = () => {
       toast({
         title: '닉네임이 수정되었습니다.',
         status: 'success',
+        duration: 2000,
         isClosable: true,
       });
     },
-    onError: (error: Error) => {
+    onError: (error: AxiosError<ErrorResponse<string>>) => {
       console.error('닉네임 수정 실패 ', error);
+      if (
+        error.response?.data.message.startsWith('이미 사용 중인 닉네임입니다.')
+      ) {
+        toast({
+          title: '닉네임 수정 실패',
+          description: '중복된 닉네임입니다. 다른 닉네임을 입력하세요.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     },
   });
 
@@ -93,15 +129,16 @@ const Page = () => {
   };
   const handleSaveNewNickname = async () => {
     setIsNicknameChanging(false);
-    if (oldNickname === newNickname) {
+    if (oldNickname === newNickname.trim()) {
       toast({
-        title: '이미 사용한 닉네임과 같습니다.',
+        title: '현재 닉네임과 동일합니다.',
+        description: '앞 뒤 공백은 포함되지 않습니다',
         status: 'error',
         isClosable: true,
       });
       return;
     }
-    nicknameMutation.mutate(newNickname);
+    nicknameMutation.mutate(newNickname.trim());
   };
 
   const handleClickChange = () => {
@@ -115,23 +152,10 @@ const Page = () => {
   const router = useRouter();
 
   // NOTE 회원 탈퇴, 성공 시 메인페이지로 이동
-  // TODO 쿠키 삭제
   const quitMutation = useMutation<AxiosResponse, Error>({
     mutationFn: deleteUserData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
-
-      // TODO 클라이언트에서 쿠키 삭제할 필요 없는지 확인하고 삭제 or 유지
-      // deleteCookie(
-      //   'StelligenceAccessToken',
-      //   '/',
-      //   process.env.NEXT_PUBLIC_SERVER_URL,
-      // );
-      // deleteCookie(
-      //   'StelligenceRefreshToken',
-      //   '/',
-      //   process.env.NEXT_PUBLIC_SERVER_URL,
-      // );
       removeLoginStateLocalStorage();
       onClose();
       toast({
@@ -157,6 +181,12 @@ const Page = () => {
 
   const handleQuit = () => {
     quitMutation.mutate();
+  };
+
+  const handleClickMoreBookmark = () => {
+    setCurrentBookmarkPage(prev => {
+      return prev + 1;
+    });
   };
 
   return (
@@ -227,46 +257,50 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="북마크">
           <ul className="flex flex-row gap-3 flex-wrap">
-            {bookmarkData?.results.bookmarks.map(bookmark => {
-              return (
-                // TODO 북마크 삭제 버튼 기능 넣기
-                <li key={bookmark.bookmarkId}>
-                  <Tag borderRadius="full" variant="solid" bg="accent.500">
-                    <TagLabel fontSize="xs" fontWeight="bold">
-                      <Link href={`/stars/${bookmark.documentId}`}>
-                        {bookmark.documentTitle}
-                      </Link>
-                    </TagLabel>
-                    <TagCloseButton />
-                  </Tag>
-                </li>
-              );
-            }) ?? '북마크 불러오기 실패'}
+            {bookmarks &&
+              bookmarks?.map(bookmark => {
+                return (
+                  // TODO 북마크 삭제 버튼 기능 넣기
+                  <li key={bookmark.bookmarkId}>
+                    <Tag borderRadius="full" variant="solid" bg="accent.500">
+                      <TagLabel fontSize="xs" fontWeight="bold">
+                        <Link href={`/stars/${bookmark.documentId}`}>
+                          {bookmark.documentTitle}
+                        </Link>
+                      </TagLabel>
+                      <TagCloseButton />
+                    </Tag>
+                  </li>
+                );
+              })}
           </ul>
           {/* TODO 더보기 버튼 기능 넣기 */}
-          <Button
-            color="accent.500"
-            variant="link"
-            leftIcon={<IoIosArrowDown />}
-            mt="2rem"
-          >
-            더보기
-          </Button>
+          {hasNextPage && (
+            <Button
+              color="accent.500"
+              variant="link"
+              leftIcon={<IoIosArrowDown />}
+              mt="2rem"
+              onClick={handleClickMoreBookmark}
+            >
+              더보기
+            </Button>
+          )}
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
             {badgeData?.results.badges.map(badge => {
               return (
                 <MyBadge
+                  key={badge.badgeType}
                   title={badge.badgeTitle}
                   image={`${process.env.NEXT_PUBLIC_SERVER_URL}${badge.badgeImgUrl}`}
-                  key={badge.badgeType}
+                  description={badge.badgeDescription}
                 />
               );
             }) ?? '배지 불러오기 실패'}
           </div>
         </TitleCard>
-        {/* TODO 위치, 디자인 고민하기 */}
         <Button
           variant="link"
           color="gray.500"

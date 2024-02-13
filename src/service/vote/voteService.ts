@@ -80,11 +80,7 @@ export const deleteReviseData = async (
   contributeId: number,
 ): Promise<AxiosResponse> => {
   try {
-    const response = await apiClient.delete('/api/contributes/', {
-      params: {
-        contributeId,
-      },
-    });
+    const response = await apiClient.delete(`/api/contributes/${contributeId}`);
     return response.data;
   } catch (error) {
     console.error('수정요청 삭제 실패', error);

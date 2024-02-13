@@ -10,6 +10,12 @@ export interface StarResponseType<T> {
   results: T;
 }
 
+export interface ErrorResponse<T> {
+  success: boolean;
+  message: string;
+  results: T;
+}
+
 export enum Heading {
   H1 = 'H1',
   H2 = 'H2',

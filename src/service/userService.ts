@@ -12,7 +12,7 @@ interface UserResponse {
   message: string;
   results: UserData;
 }
-interface BookmarkData {
+export interface BookmarkData {
   bookmarkId: number;
   documentId: number;
   documentTitle: string;
@@ -62,13 +62,19 @@ export const getUserData = async (): Promise<UserResponse | null> => {
 };
 
 // NOTE 북마크 정보 조회
-export const getBookmarkData = async (): Promise<BookmarkResponse | null> => {
+export const getBookmarkData = async (
+  page: number,
+): Promise<BookmarkResponse> => {
   try {
-    const response = await apiClient.get<BookmarkResponse>('/api/bookmarks');
+    const response = await apiClient.get<BookmarkResponse>('/api/bookmarks', {
+      params: {
+        page,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('북마크 조회 실패: ', error);
-    return null;
+    throw error;
   }
 };
 
