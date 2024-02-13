@@ -19,8 +19,6 @@ const ReviseInformation = ({
           label="상위 계층 태그"
           text={reviseData?.results.parentDocumentId || '없음'}
         />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
         <LabelText
           label="수정 요청안 제목"
           text={reviseData?.results.contributeTitle || '수정요청안 제목'}
@@ -33,9 +31,6 @@ const ReviseInformation = ({
               : '종료된 투표'
           }
         />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
         <LabelText
           label="수정 요청자"
           text={reviseData?.results.contributor.nickname || '수정요청자'}

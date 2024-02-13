@@ -1,8 +1,8 @@
 export const setLatestLogin = (socialType: string | undefined) => {
-  localStorage.setItem('socialType', JSON.stringify(socialType));
+  window.localStorage.setItem('socialType', JSON.stringify(socialType));
 };
 
 export const getLatestLogin = () => {
-  const socialType = localStorage.getItem('socialType');
+  const socialType = window.localStorage.getItem('socialType');
   return socialType;
 };
