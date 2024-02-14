@@ -34,7 +34,7 @@ import {
   BookmarkData,
   deleteUserData,
   getBadgeData,
-  getBookmarkData,
+  getBookmarkDatas,
   getUserData,
   putNickname,
 } from '../../service/userService';
@@ -59,7 +59,7 @@ const Page = () => {
   const { data: bookmarkData } = useQuery({
     queryKey: ['user', 'bookmark', currentBookmarkPage],
     queryFn: () => {
-      return getBookmarkData(currentBookmarkPage);
+      return getBookmarkDatas(currentBookmarkPage);
     },
   });
 

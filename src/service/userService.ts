@@ -61,8 +61,8 @@ export const getUserData = async (): Promise<UserResponse | null> => {
   }
 };
 
-// NOTE 북마크 정보 조회
-export const getBookmarkData = async (
+// NOTE 북마크 전체 조회
+export const getBookmarkDatas = async (
   page: number,
 ): Promise<BookmarkResponse> => {
   try {
