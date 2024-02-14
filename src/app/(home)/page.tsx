@@ -8,9 +8,6 @@ import '../../styles/graph.module.css';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import { usePathname } from 'next/navigation';
-import { getUserData } from '@/service/userService';
-import { setLatestLogin } from '@/service/login/latestLogin';
-import { setLoginStateLocalStorage } from '@/service/login/loginState';
 import useDebounce from '@/hooks/common/useDebounce';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/Search/SearchInput';
@@ -73,18 +70,6 @@ const Home = () => {
     queryKey: ['graphData'],
     queryFn: getGraphData,
   });
-
-  const { data: userData } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUserData,
-  });
-
-  useEffect(() => {
-    // NOTE 마지막 로그인 수단: 로그인 소셜 로컬스토리지에 저장
-    setLatestLogin(userData?.results.socialType);
-    // NOTE 로그인 상태 새로고침 해도 유지되게 로컬스토리지에 저장
-    setLoginStateLocalStorage(!!userData?.success);
-  }, [userData]);
 
   // FIXME 임시 설정
   if (isLoading) return <LoadingComponent />;

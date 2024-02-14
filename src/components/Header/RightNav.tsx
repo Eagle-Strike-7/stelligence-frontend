@@ -1,10 +1,10 @@
+import { setLatestLogin } from '@/service/login/latestLogin';
 import postLogout from '@/service/login/logout';
-import { getMiniProfile } from '@/service/userService';
+import { getUserData } from '@/service/userService';
 import { loginState } from '@/store/user/login';
-import deleteCookie from '@/store/user/withdrawal';
+import { ResponseType } from '@/types/common/ResponseType';
 import { Avatar, Button, Tooltip, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -18,48 +18,40 @@ const RightNav = () => {
   const router = useRouter();
   const toast = useToast();
 
-  // NOTE 미니프로필 요청
+  // NOTE 회원정보 요청
   const {
-    data: miniProfileData,
+    data: userData,
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ['user', 'mini'],
-    queryFn: getMiniProfile,
+    queryKey: ['user'],
+    queryFn: getUserData,
   });
 
+  // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
   useEffect(() => {
-    setIsLogin(!!miniProfileData?.success);
-  }, [miniProfileData]);
+    setIsLogin(!!userData?.success);
+    setLatestLogin(userData?.results.socialType);
+  }, [userData]);
 
   // NOTE 로그아웃 요청
-  const logoutMutation = useMutation<AxiosResponse, Error>({
+  const logoutMutation = useMutation<ResponseType<{}>, Error>({
     mutationFn: postLogout,
     onSuccess: response => {
-      console.log('로그아웃 성공: ', response.data);
+      console.log('로그아웃 성공: ', response.success);
+      setIsLogin(false);
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
-      // TODO 쿠키 삭제
-      deleteCookie(
-        'StelligenceAccessToken',
-        '/',
-        process.env.NEXT_PUBLIC_SERVER_URL,
-      );
-      deleteCookie(
-        'StelligenceRefreshToken',
-        '/',
-        process.env.NEXT_PUBLIC_SERVER_URL,
-      );
       router.push('/');
       toast({
         title: '로그아웃에 성공했습니다.',
         status: 'success',
+        duration: 2000,
         isClosable: true,
       });
     },
     onError: (error: Error) => {
       console.error('로그아웃 실패: ', error);
-      console.log();
       toast({
         title: '로그아웃에 실패했습니다. 다시 시도해주세요.',
         status: 'error',
@@ -114,18 +106,17 @@ const RightNav = () => {
             onClick={handleClickMypage}
           >
             <Avatar
-              name={miniProfileData?.results.nickname}
-              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${miniProfileData?.results.profileImgUrl}`}
+              name={userData?.results.nickname}
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${userData?.results.profileImgUrl}`}
               size="xs"
             />
             <h3 className="text-sm self-center">
-              {miniProfileData?.results.nickname}
+              {userData?.results.nickname}
             </h3>
           </Button>
           <div>
             <Tooltip
               hasArrow
-              // defaultIsOpen
               arrowSize={10}
               label="지구로 돌아가기🌍"
               placement="right"
