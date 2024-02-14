@@ -5,7 +5,7 @@ import { getCommentList } from '@/service/debate/comment';
 import { useQuery } from '@tanstack/react-query';
 import { getMiniProfile } from '@/service/userService';
 
-const NewReviseRequest: React.FC<{
+const NewReviseRequestButton: React.FC<{
   debateId: number;
   starId: number | undefined;
   setIsNewReviseRequested: (bool: boolean) => void;
@@ -20,7 +20,9 @@ const NewReviseRequest: React.FC<{
   useEffect(() => {
     getCommentList(debateId)
       .then(comments => {
-        const nicknames = comments.map(item => {return item.commenter.nickname});
+        const nicknames = comments.map(item => {
+          return item.commenter.nickname;
+        });
         setEngagedUsers([...nicknames]);
       })
       .catch(error => {
@@ -56,13 +58,9 @@ const NewReviseRequest: React.FC<{
           color: 'white',
           transition: 'background-color 0.5s ease',
         }}
-        _active={{
-          bg: 'rgba(118, 147, 231, 0.5)',
-          transition: 'background-color 0.2s ease',
-        }}
         _focus={{
           boxShadow:
-            '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+            '0 0 1px 2px rgba(88, 144, 255, 0.75), 0 1px 1px rgba(0, 0, 0, 0.15)',
         }}
         onClick={handleNewReviseRequestByDebate}
       >
@@ -72,4 +70,4 @@ const NewReviseRequest: React.FC<{
   );
 };
 
-export default NewReviseRequest;
+export default NewReviseRequestButton;
