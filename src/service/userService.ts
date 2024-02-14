@@ -136,11 +136,7 @@ export const postBookmarkData = async (
   documentId: number,
 ): Promise<AxiosResponse> => {
   try {
-    const response = await apiClient.post('/api/bookmarks', {
-      data: {
-        documentId,
-      },
-    });
+    const response = await apiClient.post('/api/bookmarks', documentId);
     return response.data;
   } catch (error) {
     console.error('북마크 생성 실패 ', error);

@@ -1,8 +1,10 @@
 import PageTitle from '@/components/Common/PageTitle';
-import { Button } from '@chakra-ui/react';
+import { Button, useToast } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 import { LuBookmark } from 'react-icons/lu';
 import { usePathname, useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postBookmarkData } from '@/service/userService';
 
 interface StarInfoProps {
   title: string;
@@ -26,6 +28,29 @@ const StarInfo = ({ title, lastModifiedAt, editable }: StarInfoProps) => {
     router.push(`/stars/${documentId}/revise`);
   };
 
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const createBookmarkMutation = useMutation({
+    mutationFn: postBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      toast({
+        title: '북마크 추가 성공!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 추가 실패: ', error);
+    },
+  });
+  const handleCreateBookmark = () => {
+    console.log('도큐먼트 아이디: ', typeof Number(documentId));
+
+    createBookmarkMutation.mutate(Number(documentId));
+  };
+
   return (
     <div className="flex flex-row w-full justify-between">
       <div className="flex flex-col">
@@ -37,7 +62,13 @@ const StarInfo = ({ title, lastModifiedAt, editable }: StarInfoProps) => {
 
       <div className="flex flex-col">
         <div className="flex flex-row">
-          <Button size="md" colorScheme="gray" variant="ghost" p="0">
+          <Button
+            size="md"
+            colorScheme="gray"
+            variant="ghost"
+            p="0"
+            onClick={handleCreateBookmark}
+          >
             <LuBookmark size="1.5rem" color="white" />
           </Button>
           <Button size="md" colorScheme="gray" variant="ghost" p="0">
