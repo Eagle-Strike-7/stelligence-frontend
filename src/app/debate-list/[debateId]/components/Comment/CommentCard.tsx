@@ -1,5 +1,6 @@
+import renderContentWithTags from '@/lib/debate/renderContentWithTags';
 import { deleteComment, updateComment } from '@/service/debate/comment';
-import { Avatar, Box, Button, Text, Textarea } from '@chakra-ui/react';
+import { Avatar, Box, Button, Tag, Text, Textarea } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
@@ -11,7 +12,9 @@ export interface DebateCommentProps {
   commentContent: string;
   time: string;
   commentId: number;
+  commentIds: number[];
   setIsChanged: Dispatch<SetStateAction<boolean>>;
+  handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
 const CommentCard: React.FC<DebateCommentProps> = ({
@@ -20,7 +23,9 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   commentContent,
   time,
   commentId,
+  commentIds,
   setIsChanged,
+  handleClickCommentId,
 }) => {
   const pathname = usePathname();
   const debateId = Number(pathname.split('/').pop());
@@ -48,8 +53,9 @@ const CommentCard: React.FC<DebateCommentProps> = ({
       return !prev;
     });
   };
+
   return (
-    <Box className="flex w-full p-4 my-3 rounded-md bg-primary-dark-500/10 text-white">
+    <Box className="flex w-full p-4 my-2 rounded-md bg-primary-dark-500/10 text-white">
       {isEdit ? (
         <div className="flex flex-col w-full my-2">
           <Textarea
@@ -74,15 +80,31 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         </div>
       ) : (
         <>
-          <Box className="flex flex-col justify-center items-center justify-items-center align-middle w-16 mr-4">
+          <div className="flex flex-col justify-center items-center justify-items-center align-middle w-12 mr-4 ">
             <Avatar src={userImg} size="sm" />
-          </Box>
-          <Box className="flex-col w-full">
-            <Box className="flex justify-between text-white ">
-              <Text fontSize="xs" color="primary.500">
-                {userName}
-              </Text>
-              <Box className="flex justify-center align-center">
+          </div>
+          <div className="flex-col w-full ">
+            <div className="flex justify-between text-white place-items-center">
+              <div className="flex place-items-baseline my-1">
+                <Tag
+                  mr={2}
+                  cursor="pointer"
+                  verticalAlign="middle"
+                  fontSize="sm"
+                  lineHeight="max"
+                  bg="primary.900"
+                  color="primary.300"
+                  fontWeight={700}
+                  onClick={handleClickCommentId}
+                  id={commentId.toString()}
+                >
+                  #{commentId}
+                </Tag>
+                <Text fontSize="xs" color="primary.500">
+                  {userName}
+                </Text>
+              </div>
+              <div className="flex justify-center align-center">
                 <AiTwotoneAlert
                   size="1.25rem"
                   className="mr-1 hover:cursor-pointer"
@@ -97,17 +119,17 @@ const CommentCard: React.FC<DebateCommentProps> = ({
                   className="hover:cursor-pointer"
                   onClick={handleEditComment}
                 />
-              </Box>
-            </Box>
-            <Box>
-              <Text>{commentContent}</Text>
-            </Box>
-            <Box className="flex justify-end items-baseline">
+              </div>
+            </div>
+            <div className="my-2">
+              <div>{renderContentWithTags(commentContent, commentIds)}</div>
+            </div>
+            <div className="flex justify-end items-baseline mt-2">
               <Text className="text-gray-600 text-xs">
                 {time.split('.')[0]}
               </Text>
-            </Box>
-          </Box>
+            </div>
+          </div>
         </>
       )}
     </Box>

@@ -1,7 +1,6 @@
 import { VoteResponse, postVote } from '@/service/vote/voteService';
 import { Button, Progress } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
 
@@ -20,13 +19,15 @@ const Vote = ({
   const [votePercent, setVotePercent] = useState({ agree: 0, disagree: 0 });
   const queryClient = useQueryClient();
   const voteMutation = useMutation<
-    AxiosResponse,
+    VoteResponse,
     Error,
     { contributeId: number; isAgree: boolean }
   >({
     mutationFn: postVote,
-    onSuccess: () => {
+    onSuccess: (data: VoteResponse) => {
       queryClient.invalidateQueries({ queryKey: ['vote', contributeId] });
+      console.log(data.results.myVote);
+      setMyVote(data.results.myVote);
     },
     onError: (error: Error) => {
       console.error('투표 하기 실패: ', error);
@@ -37,6 +38,7 @@ const Vote = ({
     const button = e.currentTarget as HTMLButtonElement;
     const isAgree: boolean = button.dataset.vote === 'agree';
     if (myVote !== isAgree) {
+      setMyVote(isAgree);
       voteMutation.mutate({ contributeId, isAgree });
     } else {
       // TODO 이미 선택한 버튼을 클릭 시 버튼 배경색 기본색으로 변경
@@ -96,6 +98,8 @@ const Vote = ({
         <div className="flex flex-row gap-4 justify-center">
           <Button
             leftIcon={<FaRegThumbsUp />}
+            bgColor={myVote === true ? 'blue.500' : undefined}
+            color={myVote === true ? 'white' : 'black'}
             _hover={{
               bg: 'blue.500',
               color: 'white',
@@ -107,6 +111,8 @@ const Vote = ({
           </Button>
           <Button
             leftIcon={<FaRegThumbsDown />}
+            bgColor={myVote === false ? 'red.500' : undefined}
+            color={myVote === false ? 'white' : 'black'}
             _hover={{
               bg: 'red.500',
               color: 'white',
