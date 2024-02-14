@@ -49,7 +49,7 @@ const Page = () => {
   //   return <div>Loading...</div>;
   // }
   const queryClient = useQueryClient();
-  const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(1);
+  const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [bookmarks, setBookmarks] = useState<BookmarkData[]>([]);
   const { data: userData } = useQuery({
