@@ -20,7 +20,9 @@ const NewReviseRequest: React.FC<{
   useEffect(() => {
     getCommentList(debateId)
       .then(comments => {
-        const nicknames = comments.map(item => {return item.commenter.nickname});
+        const nicknames = comments.map(item => {
+          return item.commenter.nickname;
+        });
         setEngagedUsers([...nicknames]);
       })
       .catch(error => {
@@ -62,7 +64,7 @@ const NewReviseRequest: React.FC<{
         }}
         _focus={{
           boxShadow:
-            '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+            '0 0 1px 2px rgba(88, 144, 255, 0.75), 0 1px 1px rgba(0, 0, 0, .15)',
         }}
         onClick={handleNewReviseRequestByDebate}
       >
