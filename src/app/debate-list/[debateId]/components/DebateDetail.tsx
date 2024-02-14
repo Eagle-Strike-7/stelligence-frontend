@@ -13,9 +13,9 @@ const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
     <div className="flex-col ">
       {debateData && (
         <div
-          className={`flex flex-col px-10 pt-8 pb-20 rounded-lg text-white border-2 border-primary-dark-500/20 mb-10 ${debateData.status === 'CLOSED' ? 'opacity-80' : ''}`}
+          className={`flex flex-col px-10 pt-8 pb-20 rounded-lg text-white border-2 border-primary-dark-500/20 mb-10 ${debateData.status === 'CLOSED' ? 'opacity-60' : ''}`}
         >
-          <DebateInformation debateData={debateData} />
+          <DebateInformation contributeData={debateData.contribute} />
           <div className="mt-10 my-5">
             <MiddleTitle title="수정 요청 사항" color="white" />
             <div className="tiptap flex justify-between gap-5 text-primary-dark-500 ">
@@ -23,7 +23,7 @@ const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
               <p className="font-bold w-1/2 text-center mb-4">수정 후</p>
             </div>
           </div>
-          <DebateSlider amendments={debateData.amendments} />
+          <DebateSlider amendments={debateData.contribute.amendments} />
         </div>
       )}
     </div>
