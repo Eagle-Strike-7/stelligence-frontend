@@ -85,18 +85,16 @@ const Page = () => {
     } else {
       setBookmarks(prevBookmarks => {
         const newBookmarks = bookmarkData?.results.bookmarks || [];
-        const updatedBookmarks = newBookmarks.filter(
-          newBookmark =>
-            {return !prevBookmarks.some(
-              prevBookmark =>
-                {return prevBookmark.documentId === newBookmark.documentId},
-            )},
-        );
+        const updatedBookmarks = newBookmarks.filter(newBookmark => {
+          return !prevBookmarks.some(prevBookmark => {
+            return prevBookmark.documentId === newBookmark.documentId;
+          });
+        });
         return [...prevBookmarks, ...updatedBookmarks];
       });
     }
     setHasNextPage(bookmarkData?.results.hasNext || false);
-  }, [bookmarkData?.results.bookmarks, currentBookmarkPage]); // 의존성 배열 조정
+  }, [bookmarkData?.results.bookmarks, currentBookmarkPage]);
 
   const toast = useToast();
 
