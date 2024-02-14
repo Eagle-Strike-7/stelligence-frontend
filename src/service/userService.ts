@@ -29,12 +29,19 @@ interface MiniProfileData {
   nickname: string;
   profileImgUrl: string;
 }
-interface BookmarkResponse {
+interface BookmarksResponse {
   success: boolean;
   message: string;
   results: {
     hasNext: boolean;
     bookmarks: BookmarkData[];
+  };
+}
+export interface BookmarkResponse {
+  success: boolean;
+  message: string;
+  results: {
+    bookmarked: boolean;
   };
 }
 interface BadgeResponse {
@@ -64,9 +71,9 @@ export const getUserData = async (): Promise<UserResponse | null> => {
 // NOTE 북마크 전체 조회
 export const getBookmarkDatas = async (
   page: number,
-): Promise<BookmarkResponse> => {
+): Promise<BookmarksResponse> => {
   try {
-    const response = await apiClient.get<BookmarkResponse>('/api/bookmarks', {
+    const response = await apiClient.get<BookmarksResponse>('/api/bookmarks', {
       params: {
         page,
       },
@@ -74,6 +81,25 @@ export const getBookmarkDatas = async (
     return response.data;
   } catch (error) {
     console.error('북마크 조회 실패: ', error);
+    throw error;
+  }
+};
+
+export const getBookmarkData = async (
+  documentId: number,
+): Promise<BookmarkResponse> => {
+  try {
+    const response = await apiClient.get<BookmarkResponse>(
+      '/api/bookmarks/marked',
+      {
+        params: {
+          documentId,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('북마크 단건 조회 실패: ', error);
     throw error;
   }
 };
