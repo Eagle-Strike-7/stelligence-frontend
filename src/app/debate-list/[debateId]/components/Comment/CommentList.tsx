@@ -5,11 +5,15 @@ import Comment from './CommentCard';
 
 interface CommentListProps {
   debateId: number;
+  commentIds: number[];
   commentsUpdated: boolean;
+  handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 const CommentList: React.FC<CommentListProps> = ({
   debateId,
+  commentIds,
   commentsUpdated,
+  handleClickCommentId,
 }) => {
   const [commentList, setCommentList] = useState<CommentProps[]>([]);
   const [isChanged, setIsChanged] = useState<boolean>(false);
@@ -41,7 +45,9 @@ const CommentList: React.FC<CommentListProps> = ({
               commentId={comment.commentId}
               commentContent={comment.content}
               time={comment.createdAt.replace('T', ' ')}
+              commentIds={commentIds}
               setIsChanged={setIsChanged}
+              handleClickCommentId={handleClickCommentId}
             />
           );
         })}

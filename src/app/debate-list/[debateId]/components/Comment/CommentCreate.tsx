@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { postNewComment } from '@/service/debate/comment';
 import scrollToBottom from '@/lib/debate/scrollToBottom';
 import { Button, Textarea } from '@chakra-ui/react';
@@ -6,21 +6,89 @@ import {
   HiOutlineChevronDoubleDown,
   HiOutlineChevronDoubleUp,
 } from 'react-icons/hi';
+import CommentDropdownMenu from './CommentDropdownMenu';
 
 interface CommentCreateProps {
   onCommentCreated: () => void;
   debateId: number;
+  commentIds: number[];
   debateStatus: 'OPEN' | 'CLOSED' | null;
+  handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  selectedCommentId: string;
 }
 const CommentCreate = ({
   onCommentCreated,
   debateId,
   debateStatus,
+  selectedCommentId,
+  handleClickCommentId,
+  commentIds,
 }: CommentCreateProps) => {
+  const textareaRef = useRef(null);
   const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
   const [newContent, setNewContent] = useState<string>('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
 
-  const submitComment = () => {
+  useEffect(() => {
+    if (selectedCommentId) {
+      const lastInputValue = newContent.charAt(newContent.length - 1);
+      if (lastInputValue === '#') {
+        setNewContent(prevContent => {
+          return `${prevContent + selectedCommentId} `;
+        });
+      } else {
+        const additionalSpace =
+          newContent && !newContent.endsWith(' ') ? ' ' : '';
+        setNewContent(prevContent => {
+          return `${prevContent}${additionalSpace}#${selectedCommentId} `;
+        });
+      }
+    }
+  }, [selectedCommentId]); // newContent를 의존성 배열에서 제거
+
+  // NOTE 커서 위치 기반으로 드롭다운 위치 계산하는 함수
+  const calculateDropdownPosition = (textarea: HTMLTextAreaElement) => {
+    const text = textarea.value;
+    const cursorIndex = textarea.selectionStart;
+    const lineNumber = text.substr(0, cursorIndex).split('\n').length;
+    const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10);
+    const currentLineText = text.substr(0, cursorIndex).split('\n').pop();
+    const charWidth = parseInt(getComputedStyle(textarea).fontSize, 10) * 0.6;
+    const additionalLeftOffset = 15;
+    const approximateLeft = currentLineText
+      ? currentLineText.length * charWidth + additionalLeftOffset
+      : 10;
+    const additionalOffset = 30;
+    const approximateTop =
+      (lineNumber - 1) * lineHeight + textarea.offsetTop + additionalOffset;
+
+    setCursorPosition({ top: approximateTop, left: approximateLeft });
+  };
+
+  // NOTE textarea값 바뀔 때마다 호출되는 함수
+  const handleChangeInput = (e: any) => {
+    const textarea = e.target;
+    setNewContent(textarea.value);
+
+    // '#'이 포함되어 있는지 확인하고 드롭다운 표시 여부 결정
+    const hasHashOrHashAndNumber = /#$|#\d+$/.test(textarea.value);
+    if (hasHashOrHashAndNumber) {
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+    calculateDropdownPosition(textarea);
+  };
+
+  // NOTE 드롭다운 후보 댓글 클릭 시 동작하는 함수
+  const handleClickDropdownComment = (e: React.MouseEvent<HTMLSpanElement>) => {
+    handleClickCommentId(e);
+    setShowDropdown(false);
+  };
+
+  // NOTE 댓글 작성 제출 함수
+  const handleSubmitComment = () => {
     postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
@@ -49,29 +117,71 @@ const CommentCreate = ({
       return (
         <>
           <div className="flex flex-row justify-between align-center w-full mt-3">
-            <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
+            <div className="relative inline-block">
+              <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
+            </div>
+
             <HiOutlineChevronDoubleDown
               size={20}
-              onClick={() => {return setIsCommentCreateOpen(false)}}
+              onClick={() => {
+                return setIsCommentCreateOpen(false);
+              }}
               className="hover:cursor-pointer"
               color="primary.500"
             />
           </div>
+
           <Textarea
+            ref={textareaRef}
             className="w-full my-3 flex-shrink-0"
-            bg="white"
+            bg="#292929"
             marginBottom={8}
+            border="none"
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={newContent}
-            onChange={e => {return setNewContent(e.target.value)}}
+            onChange={handleChangeInput}
+            onClick={handleChangeInput} // 커서 이동 시에도 위치 업데이트
+            style={{ lineHeight: '20px' }}
           />
+
+          {newContent.length > 0 && showDropdown && (
+            <div
+              style={{
+                position: 'absolute',
+                top: `${cursorPosition.top}px`,
+                left: `${cursorPosition.left}px`,
+                backgroundColor: 'white',
+              }}
+            >
+              {commentIds.length > 0 && (
+                <CommentDropdownMenu
+                  items={commentIds}
+                  handleClickDropdownComment={handleClickDropdownComment}
+                />
+              )}
+            </div>
+          )}
+
           <Button
             className="w-20 self-end"
             size="sm"
             bg="primary.500"
-            color="white"
+            color="text.light"
             marginBottom={6}
-            onClick={submitComment}
+            _hover={{
+              bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
+              color: 'white',
+              transition: 'background-color 0.5s ease',
+            }}
+            _active={{
+              bg: 'rgba(118, 147, 231, 0.5)',
+              transition: 'background-color 0.2s ease',
+            }}
+            _focus={{
+              boxShadow:
+                '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+            }}
+            onClick={handleSubmitComment}
           >
             댓글달기
           </Button>
@@ -85,7 +195,9 @@ const CommentCreate = ({
         <HiOutlineChevronDoubleUp
           className="hover:cursor-pointer"
           size={20}
-          onClick={() => {return setIsCommentCreateOpen(true)}}
+          onClick={() => {
+            return setIsCommentCreateOpen(true);
+          }}
         />
       </div>
     );
