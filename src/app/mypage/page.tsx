@@ -49,7 +49,7 @@ const Page = () => {
   //   return <div>Loading...</div>;
   // }
   const queryClient = useQueryClient();
-  const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(1);
+  const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [bookmarks, setBookmarks] = useState<BookmarkData[]>([]);
   const { data: userData } = useQuery({
@@ -80,15 +80,21 @@ const Page = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (bookmarkData?.results.hasNext === false) {
-      setHasNextPage(false);
-    }
-    if (bookmarkData?.results.bookmarks) {
+    if (currentBookmarkPage === 0) {
+      setBookmarks(bookmarkData?.results.bookmarks || []);
+    } else {
       setBookmarks(prevBookmarks => {
-        return [...prevBookmarks, ...bookmarkData.results.bookmarks];
+        const newBookmarks = bookmarkData?.results.bookmarks || [];
+        const updatedBookmarks = newBookmarks.filter(newBookmark => {
+          return !prevBookmarks.some(prevBookmark => {
+            return prevBookmark.documentId === newBookmark.documentId;
+          });
+        });
+        return [...prevBookmarks, ...updatedBookmarks];
       });
     }
-  }, [bookmarkData]);
+    setHasNextPage(bookmarkData?.results.hasNext || false);
+  }, [bookmarkData?.results.bookmarks, currentBookmarkPage]);
 
   const toast = useToast();
 
@@ -258,10 +264,10 @@ const Page = () => {
         <TitleCard title="북마크">
           <ul className="flex flex-row gap-3 flex-wrap">
             {bookmarks &&
-              bookmarks?.map(bookmark => {
+              bookmarks.map(bookmark => {
                 return (
                   // TODO 북마크 삭제 버튼 기능 넣기
-                  <li key={bookmark.bookmarkId}>
+                  <li key={bookmark.documentId}>
                     <Tag borderRadius="full" variant="solid" bg="accent.500">
                       <TagLabel fontSize="xs" fontWeight="bold">
                         <Link href={`/stars/${bookmark.documentId}`}>

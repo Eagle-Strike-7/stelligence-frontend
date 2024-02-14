@@ -1,9 +1,18 @@
 import PageTitleDescription from '@/components/Common/PageTitleDescription';
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useToast,
+} from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 import { LuBookmark } from 'react-icons/lu';
 import { DocStatus } from '@/types/star/StarProps';
 import { useParams, useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postBookmarkData } from '@/service/userService';
 import StarStatusButton from './StarStatusButton';
 
 interface StarInfoProps {
@@ -34,6 +43,27 @@ const StarInfo = ({
     router.push(`/stars/${starId}/history-list`);
   };
 
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const createBookmarkMutation = useMutation({
+    mutationFn: postBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      toast({
+        title: '북마크 추가 성공!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 추가 실패: ', error);
+    },
+  });
+  const handleCreateBookmark = () => {
+    createBookmarkMutation.mutate(Number(starId));
+  };
+
   return (
     <div className="flex flex-row w-full justify-between">
       <div className="flex flex-col">
@@ -53,6 +83,7 @@ const StarInfo = ({
             color="white"
             _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             p="0"
+            onClick={handleCreateBookmark}
           >
             <LuBookmark size="1.5rem" />
           </Button>
