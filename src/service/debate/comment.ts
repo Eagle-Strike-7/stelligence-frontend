@@ -32,7 +32,7 @@ export const postNewComment = async (newContent: string, debateId: number) => {
     );
     return response.data;
   } catch (error) {
-    console.error('댓글 수정 중 오류 발생:', error);
+    console.error('댓글 생성 중 오류 발생:', error);
     throw error;
   }
 };
