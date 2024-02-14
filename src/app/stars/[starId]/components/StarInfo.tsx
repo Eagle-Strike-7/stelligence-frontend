@@ -61,8 +61,6 @@ const StarInfo = ({
     },
   });
   const handleCreateBookmark = () => {
-    console.log('도큐먼트 아이디: ', typeof Number(starId));
-
     createBookmarkMutation.mutate(Number(starId));
   };
 
