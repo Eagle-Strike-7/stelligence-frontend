@@ -13,7 +13,7 @@ interface CommentCreateProps {
   debateId: number;
   commentIds: number[];
   debateStatus: 'OPEN' | 'CLOSED' | null;
-  handleClickCommentId: (e: any) => void;
+  handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   selectedCommentId: string;
 }
 const CommentCreate = ({

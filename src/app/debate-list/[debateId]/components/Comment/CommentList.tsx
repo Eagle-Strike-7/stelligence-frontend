@@ -7,7 +7,7 @@ interface CommentListProps {
   debateId: number;
   commentIds: number[];
   commentsUpdated: boolean;
-  handleClickCommentId: (e: any) => void;
+  handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 const CommentList: React.FC<CommentListProps> = ({
   debateId,
