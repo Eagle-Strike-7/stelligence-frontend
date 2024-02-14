@@ -26,7 +26,7 @@ const Vote = ({
     mutationFn: postVote,
     onSuccess: (data: VoteResponse) => {
       queryClient.invalidateQueries({ queryKey: ['vote', contributeId] });
-      console.log(data.results.myVote);
+      console.log('myVote: ', data.results.myVote);
       setMyVote(data.results.myVote);
     },
     onError: (error: Error) => {
@@ -37,9 +37,9 @@ const Vote = ({
   const handleVote = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button = e.currentTarget as HTMLButtonElement;
     const isAgree: boolean = button.dataset.vote === 'agree';
+    voteMutation.mutate({ contributeId, isAgree });
     if (myVote !== isAgree) {
       setMyVote(isAgree);
-      voteMutation.mutate({ contributeId, isAgree });
     } else {
       // TODO 이미 선택한 버튼을 클릭 시 버튼 배경색 기본색으로 변경
       setMyVote(null);
@@ -59,6 +59,7 @@ const Vote = ({
   };
 
   useEffect(() => {
+    setMyVote(voteData.results.myVote);
     setVotePercent(
       calculateVotePercent(
         voteData.results.agreeCount,
