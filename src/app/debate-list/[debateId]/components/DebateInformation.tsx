@@ -27,7 +27,7 @@ const DebateInformation = ({
           <h3 className="font-bold text-md w-36 text-white">상위계층태그</h3>
           {contributeData.parentDocumentTitle ? (
             <Tag className="text-md  text-black">
-              {contributeData.parentDocumentTitle}
+              {contributeData.beforeParentDocumentTitle}
             </Tag>
           ) : (
             'X'
