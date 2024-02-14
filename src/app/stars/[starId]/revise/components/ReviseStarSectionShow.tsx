@@ -46,7 +46,8 @@ const ReviseStarSectionShow = ({
         <div className="space-x-2">
           <Button
             size="md"
-            color="white"
+            color="primary.500"
+            borderColor="primary.500"
             _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             variant="outline"
             h="2rem"
@@ -56,7 +57,8 @@ const ReviseStarSectionShow = ({
           </Button>
           <Button
             size="md"
-            color="white"
+            color="primary.500"
+            borderColor="primary.500"
             _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             variant="outline"
             h="2rem"

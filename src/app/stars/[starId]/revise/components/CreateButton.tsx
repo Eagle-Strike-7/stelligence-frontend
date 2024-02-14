@@ -21,13 +21,13 @@ const CreateButton = ({ state, setState }: CreateButtonProps) => {
       <div className="flex flex-row w-full justify-center mt-6">
         <Button
           size="md"
-          colorScheme="gray"
+          color="primary.500"
           variant="ghost"
           onClick={handleClick}
         >
-          <IoRemoveOutline className="h-8 w-20 text-gray-300" />
-          <AiOutlinePlusCircle className="h-8 w-8 text-gray-300" />
-          <IoRemoveOutline className="h-8 w-20 text-gray-300" />
+          <IoRemoveOutline className="h-8 w-20" />
+          <AiOutlinePlusCircle className="h-8 w-8" />
+          <IoRemoveOutline className="h-8 w-20" />
         </Button>
       </div>
     )

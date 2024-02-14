@@ -19,18 +19,27 @@ body {
 }
 
 /* NOTE : 섹션 제목 */
+.tiptap.ProseMirror > h1:first-child,
+.tiptap.ProseMirror > h2:first-child,
+.tiptap.ProseMirror > h3:first-child {
+  margin-top: 0;
+}
+
 .tiptap h1 {
-  @apply text-4xl font-bold;
+  @apply text-3xl font-bold;
+  @apply mt-8 mb-1;
   @apply leading-normal;
 }
 
 .tiptap h2 {
-  @apply text-3xl font-bold;
+  @apply text-2xl font-bold;
+  @apply mt-8 mb-1;
   @apply leading-normal;
 }
 
 .tiptap h3 {
-  @apply text-2xl font-bold;
+  @apply text-xl font-bold;
+  @apply mt-8 mb-1;
   @apply leading-normal;
 }
 
@@ -62,7 +71,7 @@ body {
 }
 
 /* NOTE : 기본 텍스트 */
-/* p {
-  @apply text-lg text-black font-medium;
+.tiptap p {
+  @apply text-base;
   @apply leading-normal;
-} */
+}

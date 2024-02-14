@@ -3,7 +3,6 @@ import { Tag } from '@chakra-ui/react';
 import { StarContributor } from '@/types/star/StarProps';
 
 // NOTE : 글의 기여자를 보여주는 컴포넌트
-// FIXME : 기여자 id 추가
 const StarAuthors = ({
   originalAuthor,
   contributors,
@@ -12,8 +11,8 @@ const StarAuthors = ({
   contributors: StarContributor[];
 }) => {
   return (
-    <div className="flex flex-col w-full">
-      <div className="text-white text-lg font-bold align-middle mb-5">
+    <div className="flex flex-col w-full mt-8">
+      <div className="text-white text-lg font-bold align-middle mb-3">
         이 글에 참여한 사람
       </div>
       <div className="flex flex-row mb-3">
@@ -21,7 +20,7 @@ const StarAuthors = ({
         <Tag
           ml="0.5rem"
           h="2rem"
-          colorScheme="blue"
+          bgColor="primaryLight.500"
           variant="subtle"
           size="lg"
           fontSize="sm"
@@ -32,7 +31,7 @@ const StarAuthors = ({
       </div>
       {contributors.length > 0 && (
         <div className="flex flex-row mb-14">
-          <span className="text-white text-mt align-middle mt-1">기여자</span>
+          <span className="text-white text-md align-middle mt-1">기여자</span>
           <div className="flex flex-row flex-wrap">
             {contributors &&
               contributors.map(contributor => {
@@ -41,7 +40,7 @@ const StarAuthors = ({
                     key={contributor.memberId}
                     ml="0.5rem"
                     h="2rem"
-                    colorScheme="gray"
+                    bgColor="primaryGray.500"
                     variant="subtle"
                     size="lg"
                     fontSize="sm"
