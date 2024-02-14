@@ -10,7 +10,7 @@ import CommentList from './components/Comment/CommentList';
 import CommentCreate from './components/Comment/CommentCreate';
 import ReturnToDebateList from '../components/ReturnToDebateList';
 import DebateDetail from './components/DebateDetail';
-import NewReviseRequest from './components/NewReviseRequest';
+import NewReviseRequestButton from './components/NewReviseRequest';
 
 const Page = () => {
   const pathname = usePathname();
@@ -67,7 +67,7 @@ const Page = () => {
       {isNewReviseRequested ? (
         ''
       ) : (
-        <NewReviseRequest
+        <NewReviseRequestButton
           debateId={debateId}
           starId={debateData?.contribute.documentId}
           setIsNewReviseRequested={setIsNewReviseRequested}
