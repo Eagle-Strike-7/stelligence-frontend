@@ -1,21 +1,39 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import PageTitle from '@/components/Common/PageTitle';
 import Wrapper from '@/components/Common/Wrapper';
+import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import { useQuery } from '@tanstack/react-query';
+import getDocumentMaxVesrion from '@/service/history/getDocumentMaxVesrion';
+import { usePathname } from 'next/navigation';
 import HistoryTimeline from './HistoryTimeline';
 
 const Page = () => {
-  const [maxVersionNum, setMaxVersionNum] = useState<number>(4);
-  const title = '마리모의 역사';
+  const pathname = usePathname();
+  const [maxVersionNum, setMaxVersionNum] = useState<number>(0);
+  const [title, setTitle] = useState<string>('');
+
+  // NOTE starId 추출
+  const documentId = Number(pathname.split('/')[2]);
+
+  const { data } = useQuery({
+    queryKey: ['document', documentId],
+    queryFn: () => {return getDocumentMaxVesrion(documentId.toString())},
+  });
 
   useEffect(() => {
-    setMaxVersionNum(8);
-  }, []);
+    if (data) {
+      setMaxVersionNum(data.latestRevision);
+      setTitle(data.title);
+    }
+  }, [data]);
 
   return (
     <Wrapper>
-      <PageTitle pageTitle={title} />
+      <PageTitleDescription
+        title={title}
+        description={`${title}의 역사를 버전별로 확인하세요`}
+      />
       <HistoryTimeline maxVersionNum={maxVersionNum} />
     </Wrapper>
   );
