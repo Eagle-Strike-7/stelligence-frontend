@@ -32,6 +32,7 @@ import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
 import {
   BookmarkData,
+  deleteBookmarkData,
   deleteUserData,
   getBadgeData,
   getBookmarkDatas,
@@ -185,6 +186,23 @@ const Page = () => {
     },
   });
 
+  // NOTE 북마크 삭제 mutation
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: deleteBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      toast({
+        title: '북마크 취소',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 삭제 실패: ', error);
+    },
+  });
+
   const handleQuit = () => {
     quitMutation.mutate();
   };
@@ -193,6 +211,12 @@ const Page = () => {
     setCurrentBookmarkPage(prev => {
       return prev + 1;
     });
+  };
+
+  const handleDeleteBookmark = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const documentId = button.dataset.documentid;
+    deleteBookmarkMutation.mutate(Number(documentId));
   };
 
   return (
@@ -274,7 +298,10 @@ const Page = () => {
                           {bookmark.documentTitle}
                         </Link>
                       </TagLabel>
-                      <TagCloseButton />
+                      <TagCloseButton
+                        data-documentid={bookmark.documentId}
+                        onClick={handleDeleteBookmark}
+                      />
                     </Tag>
                   </li>
                 );
