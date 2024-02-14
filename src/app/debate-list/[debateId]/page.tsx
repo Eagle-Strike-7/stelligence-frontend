@@ -54,13 +54,13 @@ const Page = () => {
           <PageTitleDescription
             title="토론하기"
             description="토론에 참여해보세요"
-            relatedDebateId={debateId}
+            relatedDebateId={debateData.contribute.relatedDebateId}
           />
         ) : (
           <PageTitleDescription
             title="토론결과"
             description="종료된 토론의 결과를 확인하세요."
-            relatedDebateId={debateId}
+            relatedDebateId={debateData?.contribute.relatedDebateId}
           />
         )}
       </div>
