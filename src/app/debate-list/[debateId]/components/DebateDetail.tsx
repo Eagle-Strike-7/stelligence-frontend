@@ -1,14 +1,50 @@
-import React from 'react';
-import { Debate } from '../page.server';
+import React, { useEffect, useState } from 'react';
+import { Amendment } from '@/types/common/Amendment';
+import transTitleTagtoAmendment from '@/lib/debate/transTitleAndTagChanged';
 import DebateInformation from './DebateInformation';
 import DebateSlider from './Carousel/DebateSlider';
 import MiddleTitle from './MiddleTitle';
+import { Debate } from '../page.server';
 
 interface DeabteDetailProps {
   debateData: Debate | null;
 }
 
 const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
+  const [totalAmendments, setTotalAmendments] = useState<Amendment[]>();
+  useEffect(() => {
+    setTotalAmendments(debateData?.contribute.amendments || []);
+
+    const handleAmendment = (
+      changedType: 'title' | 'tag',
+      before: string,
+      after: string,
+    ) => {
+      if (before !== after) {
+        const newAmendment = transTitleTagtoAmendment(
+          changedType,
+          before,
+          after,
+        );
+        setTotalAmendments(current => {return [newAmendment, ...(current || [])]});
+      }
+    };
+
+    if (debateData) {
+      handleAmendment(
+        'title',
+        debateData.contribute.beforeDocumentTitle,
+        debateData.contribute.afterDocumentTitle,
+      );
+
+      handleAmendment(
+        'tag',
+        debateData.contribute.beforeParentDocumentTitle,
+        debateData.contribute.afterParentDocumentTitle,
+      );
+    }
+  }, [debateData]);
+
   return (
     <div className="flex-col ">
       {debateData && (
@@ -23,7 +59,7 @@ const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
               <p className="font-bold w-1/2 text-center mb-4">수정 후</p>
             </div>
           </div>
-          <DebateSlider amendments={debateData.contribute.amendments} />
+          {totalAmendments && <DebateSlider amendments={totalAmendments} />}
         </div>
       )}
     </div>
