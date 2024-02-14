@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Amendment } from '@/types/star/ReviseStarProps';
 import { Heading, WriteType } from '@/types/common/ResponseType';
 import { StarSection } from '@/types/star/StarProps';
+import addSection from '@/lib/revise/revise';
 import ReviseStarSectionTitle from './ReviseStarSectionTitle';
 import ReviseStarSectionShow from './ReviseStarSectionShow';
 import CreateButton from './CreateButton';
@@ -9,12 +10,16 @@ import StarContent from '../../components/StarContent';
 import ReviseStarSectionInput from './ReviseStarSectionInput';
 
 interface ReviseStarSectionProps {
+  sections: StarSection[];
+  setSections: React.Dispatch<React.SetStateAction<StarSection[]>>;
   section: StarSection;
   addAmendment: (newAmendment: Amendment) => void;
 }
 
 // NOTE : 글의 한 섹션을 나타내는 컴포넌트 (읽기상태 + 수정상태)
 const ReviseStarSection = ({
+  sections,
+  setSections,
   section,
   addAmendment,
 }: ReviseStarSectionProps) => {
@@ -28,46 +33,56 @@ const ReviseStarSection = ({
 
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // SECTION : 수정 상태일 때 정보 담기
+
     if (state === '수정') {
+      // SECTION : 수정 상태일 때 정보 담기
       addAmendment({
         sectionId: section.sectionId,
         type: WriteType.UPDATE,
         newSectionHeading: heading,
         newSectionTitle: title,
         newSectionContent: content,
-        creatingOrder: 0,
+        creatingOrder: section.creatingOrder,
       });
-      // SECTION : 추가 상태일 때 정보 담기
     } else if (state === '추가') {
+      // SECTION : 추가 상태일 때 정보 담기
       addAmendment({
         sectionId: section.sectionId,
         type: WriteType.CREATE,
         newSectionHeading: createHeading,
-        newSectionTitle: title,
-        newSectionContent: content,
-        creatingOrder: 0,
+        newSectionTitle: createTitle,
+        newSectionContent: createContent,
+        creatingOrder: section.creatingOrder + 1,
       });
-      // SECTION : 삭제 상태일 때 정보 담기
+      const newSection = {
+        sectionId: section.sectionId,
+        revision: section.revision,
+        heading: createHeading,
+        title: createTitle,
+        content: createContent,
+        creatingOrder: section.creatingOrder + 1,
+      };
+      addSection({ sections, setSections, newSection });
+      setCreateTitle('');
+      setCreateContent('');
     } else if (state === '삭제') {
+      // SECTION : 삭제 상태일 때 정보 담기
       addAmendment({
         sectionId: section.sectionId,
         type: WriteType.DELETE,
         newSectionHeading: heading,
         newSectionTitle: title,
         newSectionContent: '',
-        creatingOrder: 0,
+        creatingOrder: section.creatingOrder,
       });
       setContent('');
     }
     setState('읽기');
   };
-  // 삭제 상태에서는?
   return (
     <>
       {/* TODO : 제일 위에 섹션 추가 버튼 */}
-      {/* sectionId, revision */}
-      {/* {id === 1 && <ReviseStarCreateButton setRevise={setRevise} />} */}
+      {/* {id === 1 && <CreateButton setRevise={setRevise} />} */}
       {state === '읽기' && (
         // SECTION : 읽기모드
         <>
@@ -82,7 +97,7 @@ const ReviseStarSection = ({
       )}
       {state === '추가' && (
         // SECTION : 추가모드
-        // TODO: 추가 상태일 때 헤딩 값 설정, creatingOrder, 끝나면 컴포넌트로 보여주기 + 배경 초록색 만들기
+        // TODO: creatingOrder 추가의 추가
         <>
           <ReviseStarSectionShow
             heading={heading}
@@ -98,7 +113,6 @@ const ReviseStarSection = ({
             handleClick={handleButtonClick}
           />
           <ReviseStarSectionInput
-            state={state}
             content={createContent}
             setContent={setCreateContent}
           />

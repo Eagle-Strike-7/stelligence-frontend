@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import { StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarSection } from '@/types/star/StarProps';
@@ -16,7 +16,7 @@ import ReviseStarSection from './ReviseStarSection';
 // NOTE : 수정요청 패이지
 // FIXME : relatedDebateId 추가
 const ReviseStarForm = () => {
-  const documentId = Number(usePathname().split('/')[2]);
+  const documentId = Number(useParams().starId);
 
   const [contributeTitle, setContributeTitle] = useState<string>('');
   const [contributeDescription, setContributeDescription] =
@@ -26,6 +26,8 @@ const ReviseStarForm = () => {
   const [afterParentDocumentId, setAfterParentDocumentId] = useState<
     number | null
   >(0);
+  const [afterParentDocumentTitle, setAfterParentDocumentTitle] =
+    useState<string>('');
   const [sections, setSections] = useState<StarSection[]>([]);
 
   const addAmendment = (newAmendment: Amendment) => {
@@ -43,7 +45,21 @@ const ReviseStarForm = () => {
       const { data } = response;
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
       if (data.success && data.results.documentId === documentId) {
-        setSections(data.results.sections);
+        setAfterDocumentTitle(data.results.title);
+        setAfterParentDocumentId(data.results.parentDocumentId);
+        setAfterParentDocumentTitle(data.results.parentDocumentTitle);
+        setSections(
+          data.results.sections.map(section => {
+            return {
+              sectionId: section.sectionId,
+              revision: section.revision,
+              heading: section.heading,
+              title: section.title,
+              content: section.content,
+              creatingOrder: 0,
+            };
+          }),
+        );
       }
     } catch (error) {
       console.log(error);
@@ -104,14 +120,18 @@ const ReviseStarForm = () => {
       {/* SECTION : 새로운 상위 계층 태그 */}
       <StarTagInput
         inputTitle="새로운 상위 계층 태그"
+        parentDocumentTitle={afterParentDocumentTitle}
         setParentDocumentId={setAfterParentDocumentId}
       />
+
       {/* SECTION : 수정요청 섹션 */}
       <div className="flex flex-col w-full my-16">
         {sections.map((section: StarSection) => {
           return (
             <ReviseStarSection
-              key={section.sectionId}
+              key={`${section.sectionId}-${section.creatingOrder}`}
+              sections={sections}
+              setSections={setSections}
               section={section}
               addAmendment={addAmendment}
             />

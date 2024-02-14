@@ -6,6 +6,7 @@ export interface StarSection {
   heading: Heading;
   title: string;
   content: string;
+  creatingOrder: number;
 }
 
 export interface StarContributor {
@@ -14,13 +15,26 @@ export interface StarContributor {
   profileImgUrl?: string;
 }
 
+export enum DocStatus {
+  EDITABLE = 'EDITABLE',
+  VOTING = 'VOTING',
+  DEBATING = 'DEBATING',
+  PENDING = 'PENDING',
+}
+
 export interface Star {
   documentId: number;
   title: string;
+  parentDocumentId: number;
+  parentDocumentTitle: string;
+  latestRevision: number;
+  currentRevision: number;
   lastModifiedAt: string;
   sections: StarSection[];
   content: string;
   originalAuthor: StarContributor;
   contributors: StarContributor[];
-  editable: boolean;
+  documentStatus: DocStatus;
+  contributeId: number;
+  debateId: number;
 }

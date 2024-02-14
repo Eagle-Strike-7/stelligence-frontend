@@ -38,7 +38,7 @@ const ReviseStarSectionShow = ({
   };
 
   return (
-    <div className="flex flex-col w-full mb-6">
+    <div className="flex flex-col w-full my-6">
       <div className="flex flex-row justify-between items-center justify-items-center mb-2">
         <span className={`${headSize} text-white font-bold align-middle`}>
           {title}
@@ -46,8 +46,9 @@ const ReviseStarSectionShow = ({
         <div className="space-x-2">
           <Button
             size="md"
-            color="white"
-            colorScheme="gray"
+            color="primary.500"
+            borderColor="primary.500"
+            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             variant="outline"
             h="2rem"
             onClick={handleEditClick}
@@ -56,8 +57,9 @@ const ReviseStarSectionShow = ({
           </Button>
           <Button
             size="md"
-            color="white"
-            colorScheme="gray"
+            color="primary.500"
+            borderColor="primary.500"
+            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
             variant="outline"
             h="2rem"
             onClick={handleDeleteClick}

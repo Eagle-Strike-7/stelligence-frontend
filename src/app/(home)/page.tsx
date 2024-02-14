@@ -36,6 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     const handleInputChange = async (text: string) => {
+      if (!text.trim()) return;
       axios
         .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
           params: { title: text, depth: 3 },

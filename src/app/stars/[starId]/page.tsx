@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { Box, Stack } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
-import { Star, StarContributor } from '@/types/star/StarProps';
+import { DocStatus, Star, StarContributor } from '@/types/star/StarProps';
 import { usePathname } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import StarInfo from './components/StarInfo';
@@ -16,11 +16,18 @@ import formatDate from '../../../lib/formatDate';
 // TODO : 편집중 여부 표시, revision
 const Page = () => {
   const [title, setTitle] = useState('');
+  const [parentDocumentTitle, setParentDocumentTitle] = useState('');
   const [lastModifiedAt, setLastModifiedAt] = useState('');
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
   const [contributors, setContributors] = useState<StarContributor[]>([]);
-  const [editable, setEditable] = useState(false);
+  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
+    DocStatus.EDITABLE,
+  );
+  const [id, setId] = useState({
+    contributeId: 0,
+    debateId: 0,
+  });
 
   const pathname = usePathname();
   const documentId = Number(pathname.split('/').pop());
@@ -35,6 +42,7 @@ const Page = () => {
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
       if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
+        setParentDocumentTitle(data.results.parentDocumentTitle);
         setLastModifiedAt(formatDate(data.results.lastModifiedAt));
         setContent(data.results.content);
         setOriginalAuthor(data.results.originalAuthor.nickname);
@@ -46,7 +54,11 @@ const Page = () => {
             };
           }),
         );
-        setEditable(data.results.editable);
+        setDocumentStatus(data.results.documentStatus);
+        setId({
+          contributeId: data.results.contributeId,
+          debateId: data.results.debateId,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -63,8 +75,10 @@ const Page = () => {
         <Stack spacing="6">
           <StarInfo
             title={title}
+            parentDocumentTitle={parentDocumentTitle}
             lastModifiedAt={lastModifiedAt}
-            editable={editable}
+            documentStatus={documentStatus}
+            id={id}
           />
           <StarContent content={content} />
           <StarAuthors
