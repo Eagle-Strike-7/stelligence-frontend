@@ -13,6 +13,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   BookmarkResponse,
+  deleteBookmarkData,
   getBookmarkData,
   postBookmarkData,
 } from '@/service/userService';
@@ -67,11 +68,29 @@ const StarInfo = ({
       console.error('북마크 추가 실패: ', error);
     },
   });
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: deleteBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      setIsBookmarked(false);
+      toast({
+        title: '북마크 취소',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 삭제 실패: ', error);
+    },
+  });
   const handleCreateBookmark = () => {
     createBookmarkMutation.mutate(Number(starId));
   };
 
-  const handleDeleteBookmark = () => {};
+  const handleDeleteBookmark = () => {
+    deleteBookmarkMutation.mutate(Number(starId));
+  };
 
   // NOTE 북마크 단건조회
   const { data: bookmarked } = useQuery<BookmarkResponse>({
