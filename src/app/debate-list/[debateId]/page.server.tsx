@@ -1,22 +1,13 @@
 import axios from 'axios';
-import { Amendment, Contributor } from '@/types/common/Amendment';
+import { Contribute } from '@/types/common/Amendment';
 
 export interface Debate {
   debateId: number;
   createdAt: string;
   endAt: string;
-  documentId: number;
-  documentTitle: string;
-  contributor: Contributor;
-  contributeId: number;
-  contributeTitle: string;
-  contributeDescription: string;
-  amendments: Amendment[];
-  prevDebate?: Debate;
-  nextDebate?: Debate;
   status: 'OPEN' | 'CLOSED';
+  contribute: Contribute;
 }
-
 export interface DebateDetailApiResponse {
   success: boolean;
   message: string;

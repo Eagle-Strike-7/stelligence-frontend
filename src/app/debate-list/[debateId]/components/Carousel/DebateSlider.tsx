@@ -61,12 +61,12 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                 <div className="tiptap flex justify-between gap-5">
                   <div className="w-1/2">
                     <StarContent
-                      content={`${amendment.targetSection.title} ${amendment.targetSection.content}`}
+                      content={`<b>${amendment.targetSection.title}</b> <br/> ${amendment.targetSection.content}`}
                     />
                   </div>
                   <div className="w-1/2">
                     <StarContent
-                      content={`${amendment.requestedSectionTitle} ${amendment.requestedSectionContent}`}
+                      content={`<b>${amendment.requestedSectionTitle}</b> <br/> ${amendment.requestedSectionContent}`}
                     />
                   </div>
                 </div>
