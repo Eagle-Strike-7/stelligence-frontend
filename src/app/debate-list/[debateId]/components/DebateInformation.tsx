@@ -8,10 +8,13 @@ import MiddleTitle from './MiddleTitle';
 // TODO ReviseInformation과 통일
 const DebateInformation = ({
   contributeData,
+  debateEndAt,
 }: {
   contributeData: Contribute;
+  debateEndAt: string;
 }) => {
-  const leftDebateTime = calculateRemainTime(contributeData.endAt);
+  const leftDebateTime = calculateRemainTime(debateEndAt);
+
   return (
     <div className="flex flex-col gap-8 mb-4">
       <MiddleTitle title="개요" color="white" />
