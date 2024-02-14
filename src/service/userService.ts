@@ -171,9 +171,13 @@ export const postBookmarkData = async (
 };
 
 // NOTE 북마크 삭제
-export const deleteBookmarkData = async (): Promise<AxiosResponse> => {
+export const deleteBookmarkData = async (
+  documentId: number,
+): Promise<AxiosResponse> => {
   try {
-    const response = await apiClient.delete('/api/bookmarks');
+    const response = await apiClient.delete('/api/bookmarks', {
+      params: { documentId },
+    });
     return response.data;
   } catch (error) {
     console.error('북마크 삭제 실패 ', error);
