@@ -1,6 +1,7 @@
 import formatDate from '@/lib/formatDate';
 import getNotifications, {
   NotificationData,
+  deleteNotification,
   deleteNotificationAll,
   patchNotification,
   patchNotificationAll,
@@ -100,6 +101,22 @@ const Notification = ({
     },
   });
 
+  const deleteNotificationMutation = useMutation({
+    mutationFn: deleteNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification'] });
+    },
+    onError: () => {
+      toast({
+        title: '알림 개별 삭제 실패',
+        description: '잠시 후 다시 시도해주세요',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
+
   const handlePatchNotificationAll = () => {
     patchNotificationAllMutation.mutate();
   };
@@ -111,6 +128,12 @@ const Notification = ({
     const link = e.currentTarget as HTMLAnchorElement;
     const notificationId = link.dataset.notificationid;
     patchNotificationMutation.mutate(Number(notificationId));
+  };
+
+  const handleDeleteNotification = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const notificationId = button.dataset.notificationid;
+    deleteNotificationMutation.mutate(Number(notificationId));
   };
 
   return (
@@ -169,6 +192,8 @@ const Notification = ({
                       fontSize="xs"
                       bg="transparent"
                       size="xs"
+                      data-notificationid={item.notificationId}
+                      onClick={handleDeleteNotification}
                     >
                       <FaRegTrashAlt />
                     </Button>

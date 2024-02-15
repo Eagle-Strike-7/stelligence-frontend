@@ -55,4 +55,18 @@ export const patchNotification = async (
   }
 };
 
+export const deleteNotification = async (
+  notificationId: number,
+): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.delete(
+      `/api/notifications/${notificationId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('알림 개별 삭제 실패: ', error);
+    throw error;
+  }
+};
+
 export default getNotifications;
