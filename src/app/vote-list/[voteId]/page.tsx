@@ -99,7 +99,6 @@ const Page = () => {
     deleteReviseMutation.mutate(contributeId);
   };
 
-  console.log(`${status}`);
   if (isLoading) {
     return (
       <Wrapper>
@@ -147,37 +146,41 @@ const Page = () => {
           {/* SECTION 수정요청 사항 영역 */}
           <div className="flex flex-col">
             <h2 className="text-xl font-bold mb-4">수정 요청 사항</h2>
-            <div className="grid grid-cols-2 mb-10">
+            <div className="grid grid-cols-2 mb-6">
               <p className="text-lg text-center text-gray-500">수정 전</p>
               <p className="text-lg text-center text-gray-500">수정 후</p>
             </div>
             {/* SECTION 글 제목 변경사항 */}
-            {contributeData?.results.beforeDocumentTitle ===
-              contributeData?.results.afterDocumentTitle || (
+            {contributeData?.results.beforeDocumentTitle !==
+              contributeData?.results.afterDocumentTitle && (
               <div className="mb-6">
-                <h3 className="text font-bold">글 제목</h3>
+                <h3 className="text font-bold text-white">글 제목</h3>
                 <div className="grid grid-cols-2 mt-2 gap-4">
                   <Input
                     isDisabled
                     value={contributeData?.results.beforeDocumentTitle}
-                    bg="white"
+                    bg="transparent"
+                    color="white"
+                    borderColor="primaryGray.500"
                     textAlign="center"
                     paddingY="1.5rem"
                     sx={{
                       _disabled: {
-                        color: 'black',
+                        color: 'white',
                       },
                     }}
                   />
                   <Input
                     isDisabled
                     value={contributeData?.results.afterDocumentTitle}
-                    bg="white"
+                    bg="transparent"
+                    color="white"
+                    borderColor="primaryGray.500"
                     textAlign="center"
                     paddingY="1.5rem"
                     sx={{
                       _disabled: {
-                        color: 'black',
+                        color: 'white',
                       },
                     }}
                   />
@@ -185,41 +188,44 @@ const Page = () => {
               </div>
             )}
             {/* SECTION 상위 계층 태그 변경사항 */}
-            {contributeData?.results.beforeParentDocumentTitle ===
-              contributeData?.results.afterParentDocumentTitle || (
+            {contributeData?.results.beforeParentDocumentTitle !==
+              contributeData?.results.afterParentDocumentTitle && (
               <div>
-                <h3 className="text font-bold">상위 계층 태그</h3>
+                <h3 className="text font-bold text-white">상위 계층 태그</h3>
                 <div className="grid grid-cols-2 mt-2 gap-4">
                   <Input
                     isDisabled
                     value={contributeData?.results.beforeParentDocumentTitle}
-                    bg="white"
+                    bg="transparent"
+                    color="white"
+                    borderColor="primaryGray.500"
                     textAlign="center"
                     paddingY="1.5rem"
                     sx={{
                       _disabled: {
-                        color: 'black',
+                        color: 'white',
                       },
                     }}
                   />
                   <Input
                     isDisabled
                     value={contributeData?.results.afterParentDocumentTitle}
-                    bg="white"
+                    bg="transparent"
+                    color="white"
+                    borderColor="primaryGray.500"
                     textAlign="center"
                     paddingY="1.5rem"
                     sx={{
                       _disabled: {
-                        color: 'black',
+                        color: 'white',
                       },
                     }}
                   />
                 </div>
               </div>
             )}
-            {/* SECTION 상위 계층 태그 */}
             {/* SECTION 수정요청 사항 내용 영역 */}
-            <div className="flex flex-col gap-16 mt-16">
+            <div className="flex flex-col gap-16 mt-6">
               {contributeData?.results.amendments?.map((amendment, index) => {
                 return (
                   <BeforeAfter
@@ -239,7 +245,13 @@ const Page = () => {
         </div>
         {/* SECTION 투표 영역 */}
         <div className="mt-16">
-          <Card padding="2rem">
+          <Card
+            padding="2rem"
+            variant="outline"
+            borderColor="primaryGray.500"
+            bgColor="transparent"
+            color="white"
+          >
             {voteData && (
               <Vote
                 voteData={voteData}

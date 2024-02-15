@@ -8,10 +8,12 @@
 }
 
 .revise__content {
-  background-color: white;
+  background-color: transparent;
+  border-color: #667799;
   height: 20rem;
   line-height: 1.5rem;
   padding: 1.25rem;
   font-size: 1rem;
   overflow-y: scroll;
+  color: white;
 }
