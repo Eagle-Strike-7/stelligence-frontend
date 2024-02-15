@@ -6,7 +6,7 @@ import DebateSlider from './DebateSlider/DebateSlider';
 import { Debate } from '../../page.server';
 
 interface DeabteDetailProps {
-  debateData: Debate | null;
+  debateData: Debate;
 }
 
 const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {

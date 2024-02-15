@@ -14,18 +14,18 @@ export interface DebateDetailApiResponse {
   results: Debate;
 }
 
-export async function getDebateData(debateId: number): Promise<Debate | null> {
+export async function getDebateData(debateId: number): Promise<Debate> {
   try {
     const response = await apiClient.get<DebateDetailApiResponse>(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}`,
     );
     if (!response.data.success) {
       console.log('Data fetching failed');
-      return null;
+      throw Error('토론 데이터 패칭에 실패했습니다');
     }
     return response.data.results;
   } catch (error) {
     console.error(error);
-    return null;
+    throw Error('토론 데이터 패칭에 실패했습니다');
   }
 }
