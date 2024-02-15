@@ -1,6 +1,16 @@
+import ReportModal from '@/components/Common/ReportModal';
 import renderContentWithTags from '@/lib/debate/renderContentWithTags';
 import { deleteComment, updateComment } from '@/service/debate/comment';
-import { Avatar, Box, Button, Tag, Text, Textarea } from '@chakra-ui/react';
+
+import {
+  Avatar,
+  Box,
+  Button,
+  Tag,
+  Text,
+  Textarea,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
@@ -31,6 +41,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   const debateId = Number(pathname.split('/').pop());
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [updatedComment, setUpdatedComment] = useState<string>(commentContent);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDeleteComment = () => {
     deleteComment(commentId, debateId);
@@ -56,6 +67,12 @@ const CommentCard: React.FC<DebateCommentProps> = ({
 
   return (
     <Box className="flex w-full p-4 my-2 rounded-md bg-primary-dark-500/10 text-white">
+      <ReportModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="comment"
+        dataId={commentId}
+      />
       {isEdit ? (
         <div className="flex flex-col w-full my-2">
           <Textarea
@@ -108,6 +125,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
                 <AiTwotoneAlert
                   size="1.25rem"
                   className="mr-1 hover:cursor-pointer"
+                  onClick={onOpen}
                 />
                 <HiOutlineTrash
                   size="1.25rem"
