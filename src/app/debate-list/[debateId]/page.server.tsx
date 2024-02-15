@@ -17,7 +17,7 @@ export interface DebateDetailApiResponse {
 export async function getDebateData(debateId: number): Promise<Debate> {
   try {
     const response = await apiClient.get<DebateDetailApiResponse>(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}`,
+      `/api/debates/${debateId}`,
     );
     if (!response.data.success) {
       console.log('Data fetching failed');

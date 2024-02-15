@@ -48,7 +48,9 @@ const Page = () => {
     [string, number]
   >({
     queryKey: ['comments', debateId],
-    queryFn: () => {return getCommentList(debateId)},
+    queryFn: () => {
+      return getCommentList(debateId);
+    },
     enabled: !!debateId,
   });
 
@@ -81,9 +83,14 @@ const Page = () => {
   };
 
   const isDebateClosed = debateData?.status === 'CLOSED';
-  const commentIds = comments?.map(comment => {return comment.commentId}) || [];
+  const commentIds =
+    comments?.map(comment => {
+      return comment.commentId;
+    }) || [];
   const reviseAuthUsers =
-    comments?.map(comment => {return comment.commenter.nickname}) || [];
+    comments?.map(comment => {
+      return comment.commenter.nickname;
+    }) || [];
   const isRevisableDoc =
     reviseAuthData?.documentStatus === ('EDITABLE' || 'PENDING');
   const currentUser = currentUserInfo.nickname;
