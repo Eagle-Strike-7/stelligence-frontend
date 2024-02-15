@@ -62,7 +62,7 @@ const Notification = ({
     },
   });
 
-  const deleteNotificatationAllMutation = useMutation({
+  const deleteNotificationAllMutation = useMutation({
     mutationFn: deleteNotificationAll,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notification'] });
@@ -120,8 +120,8 @@ const Notification = ({
   const handlePatchNotificationAll = () => {
     patchNotificationAllMutation.mutate();
   };
-  const handleDeleteNotificaltionsAll = () => {
-    deleteNotificatationAllMutation.mutate();
+  const handleDeleteNotificationAll = () => {
+    deleteNotificationAllMutation.mutate();
   };
 
   const handlePatchNotification = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -160,7 +160,7 @@ const Notification = ({
               <Button
                 variant="outline"
                 size="xs"
-                onClick={handleDeleteNotificaltionsAll}
+                onClick={handleDeleteNotificationAll}
               >
                 모두 삭제
               </Button>
