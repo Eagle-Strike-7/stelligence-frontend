@@ -1,8 +1,8 @@
 import apiClient from '../login/axiosClient';
 
-interface Props {
+export interface ReviseStateProps {
   documentId: number;
-  documentStatus: 'EDITABLE' | any;
+  documentStatus: 'EDITABLE' | 'VOTING' | 'DEBATING' | 'PENDING';
   contributeId: number;
   debateId: number;
 }
@@ -14,23 +14,20 @@ interface ResponseType<T> {
 }
 
 // NOTE 문서 수정가능한지 상태 조회
-const getDocumentReviseState = async (
+export const getDocumentReviseState = async (
   documentId: number | undefined,
-): Promise<Props | null> => {
+): Promise<ReviseStateProps> => {
   try {
-    const response = await apiClient.get<ResponseType<Props>>(
+    const response = await apiClient.get<ResponseType<ReviseStateProps>>(
       `/api/documents/${documentId}/status`,
     );
     if (response.data.success) {
       return response.data.results;
-    } 
-      console.error('문서 수정 상태 조회 실패:', response.data.message);
-      return null;
-    
+    }
+    console.error('문서 수정 상태 조회 실패:', response.data.message);
+    throw Error('문서 수정 상태 조회 에러');
   } catch (error) {
     console.error('문서 수정 상태 조회 실패(catch):', error);
-    return null;
+    throw Error('문서 수정 상태 조회 에러');
   }
 };
-
-export default getDocumentReviseState;
