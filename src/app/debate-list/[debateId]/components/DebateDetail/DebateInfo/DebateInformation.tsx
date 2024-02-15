@@ -3,7 +3,7 @@ import LabelText from '@/components/Common/LabelText';
 import { Tag } from '@chakra-ui/react';
 import { Contribute } from '@/types/common/Amendment';
 import calculateRemainTime from '@/lib/calculateRemainTime';
-import MiddleTitle from './MiddleTitle';
+import MiddleTitle from '../../../../../../components/Common/Title/MiddleTitle';
 
 // TODO ReviseInformation과 통일
 const DebateInformation = ({
@@ -37,7 +37,6 @@ const DebateInformation = ({
           )}
         </div>
       </div>
-
       <div className="grid grid-cols-2 gap-4">
         <LabelText
           label="수정 요청자"
@@ -46,7 +45,6 @@ const DebateInformation = ({
 
         <LabelText label="남은 토론 시간" text={leftDebateTime || 'X'} />
       </div>
-
       <LabelText
         label="수정 요청 이유"
         text={contributeData.contributeDescription || 'X'}

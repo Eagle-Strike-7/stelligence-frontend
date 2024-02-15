@@ -9,7 +9,7 @@ import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { Amendment } from '@/types/star/ReviseStarProps';
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { useQuery } from '@tanstack/react-query';
 import getDocumentMaxVesrion from '@/service/history/getDocumentMaxVesrion';
 import { usePathname } from 'next/navigation';
@@ -18,7 +18,9 @@ const Page = () => {
 
   const { data } = useQuery({
     queryKey: ['document', documentId],
-    queryFn: () => {return getDocumentMaxVesrion(documentId.toString())},
+    queryFn: () => {
+      return getDocumentMaxVesrion(documentId.toString());
+    },
   });
 
   useEffect(() => {
