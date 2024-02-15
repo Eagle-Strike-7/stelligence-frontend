@@ -30,6 +30,7 @@ import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
+import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import {
   BookmarkData,
   deleteUserData,
@@ -197,6 +198,10 @@ const Page = () => {
 
   return (
     <Wrapper>
+      <PageTitleDescription
+        title="마이페이지"
+        description="Stelligence 탐험 기록 🧑‍🚀"
+      />
       <div className="flex flex-col gap-8">
         <TitleCard title="유저 정보">
           <div className="flex">
@@ -268,8 +273,13 @@ const Page = () => {
                 return (
                   // TODO 북마크 삭제 버튼 기능 넣기
                   <li key={bookmark.documentId}>
-                    <Tag borderRadius="full" variant="solid" bg="accent.500">
-                      <TagLabel fontSize="xs" fontWeight="bold">
+                    <Tag
+                      borderRadius="full"
+                      variant="solid"
+                      bg="rgba(118, 147, 231,0.5)"
+                      color="white"
+                    >
+                      <TagLabel fontSize="sm" fontWeight="bold">
                         <Link href={`/stars/${bookmark.documentId}`}>
                           {bookmark.documentTitle}
                         </Link>
@@ -280,10 +290,9 @@ const Page = () => {
                 );
               })}
           </ul>
-          {/* TODO 더보기 버튼 기능 넣기 */}
           {hasNextPage && (
             <Button
-              color="accent.500"
+              color="white"
               variant="link"
               leftIcon={<IoIosArrowDown />}
               mt="2rem"

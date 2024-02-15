@@ -10,8 +10,10 @@ const TitleCard = ({
 }) => {
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold">{title}</h1>
-      <Card p="1.5rem">{children}</Card>
+      <h1 className="text-lg font-bold text-white">{title}</h1>
+      <Card p="1.5rem" bg="rgba(118, 147, 231,0.1)" color="white">
+        {children}
+      </Card>
     </div>
   );
 };

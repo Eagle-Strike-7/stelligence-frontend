@@ -8,7 +8,7 @@ interface MyBadgeProps {
 
 const MyBadge: React.FC<MyBadgeProps> = ({ title, image, description }) => {
   return (
-    <div className="relative flex flex-col bg-accent-light rounded-xl p-3 gap-2 w-32">
+    <div className="relative flex flex-col bg-accent-light/60 rounded-xl p-3 gap-2 w-32">
       <img
         src={image}
         alt={`${title} 배지 이미지`}
