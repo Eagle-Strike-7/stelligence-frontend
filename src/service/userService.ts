@@ -29,12 +29,19 @@ interface MiniProfileData {
   nickname: string;
   profileImgUrl: string;
 }
-interface BookmarkResponse {
+interface BookmarksResponse {
   success: boolean;
   message: string;
   results: {
     hasNext: boolean;
     bookmarks: BookmarkData[];
+  };
+}
+export interface BookmarkResponse {
+  success: boolean;
+  message: string;
+  results: {
+    bookmarked: boolean;
   };
 }
 interface BadgeResponse {
@@ -61,12 +68,12 @@ export const getUserData = async (): Promise<UserResponse | null> => {
   }
 };
 
-// NOTE 북마크 정보 조회
-export const getBookmarkData = async (
+// NOTE 북마크 전체 조회
+export const getBookmarkDatas = async (
   page: number,
-): Promise<BookmarkResponse> => {
+): Promise<BookmarksResponse> => {
   try {
-    const response = await apiClient.get<BookmarkResponse>('/api/bookmarks', {
+    const response = await apiClient.get<BookmarksResponse>('/api/bookmarks', {
       params: {
         page,
       },
@@ -74,6 +81,25 @@ export const getBookmarkData = async (
     return response.data;
   } catch (error) {
     console.error('북마크 조회 실패: ', error);
+    throw error;
+  }
+};
+
+export const getBookmarkData = async (
+  documentId: number,
+): Promise<BookmarkResponse> => {
+  try {
+    const response = await apiClient.get<BookmarkResponse>(
+      '/api/bookmarks/marked',
+      {
+        params: {
+          documentId,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('북마크 단건 조회 실패: ', error);
     throw error;
   }
 };
@@ -145,9 +171,13 @@ export const postBookmarkData = async (
 };
 
 // NOTE 북마크 삭제
-export const deleteBookmarkData = async (): Promise<AxiosResponse> => {
+export const deleteBookmarkData = async (
+  documentId: number,
+): Promise<AxiosResponse> => {
   try {
-    const response = await apiClient.delete('/api/bookmarks');
+    const response = await apiClient.delete('/api/bookmarks', {
+      params: { documentId },
+    });
     return response.data;
   } catch (error) {
     console.error('북마크 삭제 실패 ', error);
