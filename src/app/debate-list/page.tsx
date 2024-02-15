@@ -10,6 +10,7 @@ import PageTitle from '@/components/Common/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
 import DebateListCard from '@/app/debate-list/components/DebateListCard';
+import apiClient from '@/service/login/axiosClient';
 
 interface Debate {
   debateId: number;
@@ -60,16 +61,13 @@ const Page = () => {
   // NOTE activeTab에 따라서 다른 axios 호출
   const getDebateLists = async () => {
     try {
-      const response = await axios.get<ApiResponse>(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates`,
-        {
-          params: {
-            status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
-            order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
-            page: currentPage - 1,
-          },
+      const response = await apiClient.get<ApiResponse>(`/api/debates`, {
+        params: {
+          status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
+          order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
+          page: currentPage - 1,
         },
-      );
+      });
 
       if (response.data.success) {
         console.log('데이터 로딩 성공:', response.data.results);

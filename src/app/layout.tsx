@@ -10,6 +10,7 @@ import muiTheme from '@/theme/mui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import customTheme from '../theme/chakra';
+import InfoButton from './info/components/InfoButton';
 
 const inter = Inter({ subsets: ['latin'] });
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <ChakraProvider theme={customTheme}>
               <RecoilRoot>
                 {!isLoginPage && <Header />}
+                <InfoButton />
                 {children}
               </RecoilRoot>
             </ChakraProvider>

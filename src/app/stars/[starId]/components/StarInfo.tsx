@@ -5,6 +5,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
@@ -17,6 +18,7 @@ import {
   getBookmarkData,
   postBookmarkData,
 } from '@/service/userService';
+import ReportModal from '@/components/Common/ReportModal';
 import { useEffect, useState } from 'react';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import StarStatusButton from './StarStatusButton';
@@ -39,6 +41,7 @@ const StarInfo = ({
 }: StarInfoProps) => {
   const starId = Number(useParams().starId);
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleReviseList = () => {
     // FIXME : 링크 확인 필요
@@ -105,6 +108,13 @@ const StarInfo = ({
 
   return (
     <div className="flex flex-row w-full justify-between">
+      {/* // NOTE 신고 모달 */}
+      <ReportModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="document"
+        dataId={starId}
+      />
       <div className="flex flex-col">
         <PageTitleDescription
           title={title}
@@ -112,7 +122,6 @@ const StarInfo = ({
         />
         <div>{parentDocumentTitle}</div>
       </div>
-
       <div className="flex flex-col">
         <div className="flex flex-row">
           {/* SECTION : 북마크 버튼 */}
@@ -166,11 +175,12 @@ const StarInfo = ({
               >
                 역사
               </MenuItem>
-              <MenuItem sx={{ justifyContent: 'center' }}>신고</MenuItem>
+              <MenuItem sx={{ justifyContent: 'center' }} onClick={onOpen}>
+                신고
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>
-
         {/* SECTION : 편집/투표중/토론중 버튼 */}
         <StarStatusButton documentStatus={documentStatus} id={id} />
       </div>
