@@ -1,3 +1,7 @@
+import getNotifications, {
+  NotificationData,
+} from '@/service/notification/notificationService';
+import { ResponseType } from '@/types/common/ResponseType';
 import {
   Button,
   Modal,
@@ -6,8 +10,9 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
 
 const Notification = ({
@@ -17,38 +22,14 @@ const Notification = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  // NOTE 알림
-  const notifications = [
-    {
-      notificationId: 0,
-      message: '마리모는 귀엽다에 댓글이 달렸습니다. 확인해보세요!',
-      uri: '/vote/1',
-      createdAt: '2024-02-14T16:24:45.440Z',
-      read: true,
-    },
-    {
-      notificationId: 1,
-      message:
-        '마리모가 귀엽다고 생각하세요?에 댓글이 달렸습니다. 확인해보세요!',
-      uri: '/vote/1',
-      createdAt: '2024-02-14T16:24:45.440Z',
-      read: false,
-    },
-    {
-      notificationId: 2,
-      message: '마리모는 귀엽다에 댓글이 달렸습니다. 확인해보세요!',
-      uri: '/vote/1',
-      createdAt: '2024-02-14T16:24:45.440Z',
-      read: false,
-    },
-    {
-      notificationId: 3,
-      message: '마리모는 귀엽다에 댓글이 달렸습니다. 확인해보세요!',
-      uri: '/vote/1',
-      createdAt: '2024-02-14T16:24:45.440Z',
-      read: true,
-    },
-  ];
+  const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
+    queryKey: ['notification'],
+    queryFn: getNotifications,
+  });
+  useEffect(() => {
+    setNotifications(notificationData?.results ?? []);
+  }, [notificationData]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
