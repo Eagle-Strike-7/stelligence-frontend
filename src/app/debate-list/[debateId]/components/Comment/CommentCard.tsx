@@ -1,20 +1,10 @@
-import ReportModal from '@/components/Common/ReportModal';
-import renderContentWithTags from '@/lib/debate/renderContentWithTags';
-import { deleteComment, updateComment } from '@/service/debate/comment';
-
-import {
-  Avatar,
-  Box,
-  Button,
-  Tag,
-  Text,
-  Textarea,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { usePathname } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { AiOutlineEdit, AiTwotoneAlert } from 'react-icons/ai';
-import { HiOutlineTrash } from 'react-icons/hi';
+import { usePathname } from 'next/navigation';
+import ReportModal from '@/components/Common/ReportModal';
+import { deleteComment, updateComment } from '@/service/debate/comment';
+import { Box, useDisclosure } from '@chakra-ui/react';
+import EditCommentForm from './EditCommentForm';
+import CommentDisplay from './CommnetDisplay';
 
 export interface DebateCommentProps {
   userImg: string;
@@ -74,83 +64,24 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         dataId={commentId}
       />
       {isEdit ? (
-        <div className="flex flex-col w-full my-2">
-          <Textarea
-            className="w-full flex-shrink-0"
-            bg="#212121"
-            border="none"
-            marginBottom={4}
-            placeholder="댓글을 여기에 입력해주세요 :)"
-            value={updatedComment}
-            onChange={e => {
-              setUpdatedComment(e.target.value);
-            }}
-          />
-          <Button
-            className="w-20 self-end"
-            size="sm"
-            bg="primary.500"
-            onClick={handleUpdateComment}
-            _hover={{ bg: 'primary.600' }}
-          >
-            수정완료
-          </Button>
-        </div>
+        <EditCommentForm
+          updatedComment={updatedComment}
+          setUpdatedComment={setUpdatedComment}
+          handleUpdateComment={handleUpdateComment}
+        />
       ) : (
-        <>
-          <div className="flex flex-col justify-center items-center w-12 mr-4 ">
-            <Avatar src={userImg} size="sm" />
-          </div>
-          <div className="flex-col w-full">
-            <div className="flex justify-between text-white place-items-end">
-              <div className="flex place-items-end">
-                <Tag
-                  mr={2}
-                  cursor="pointer"
-                  verticalAlign="middle"
-                  fontSize="xs"
-                  lineHeight="max"
-                  bg="primary.900"
-                  color="primary.300"
-                  fontWeight={700}
-                  size="sm"
-                  onClick={handleClickCommentId}
-                  id={commentId.toString()}
-                >
-                  #{commentId}
-                </Tag>
-                <Text fontSize="sm" color="primary.500">
-                  {userName}
-                </Text>
-              </div>
-              <div className="flex justify-center align-center">
-                <AiTwotoneAlert
-                  size="1.1rem"
-                  className="mr-1 hover:cursor-pointer hover:opacity-50"
-                  onClick={onOpen}
-                />
-                <HiOutlineTrash
-                  size="1.1rem"
-                  className="mr-1 hover:cursor-pointer hover:opacity-50"
-                  onClick={handleDeleteComment}
-                />
-                <AiOutlineEdit
-                  size="1.1rem "
-                  className="hover:cursor-pointer hover:opacity-50"
-                  onClick={handleEditComment}
-                />
-              </div>
-            </div>
-            <div className="text-sm my-2">
-              <div>{renderContentWithTags(commentContent, commentIds)}</div>
-            </div>
-            <div className="flex justify-end items-baseline">
-              <Text className="text-gray-600 text-xs">
-                {time.split('.')[0]}
-              </Text>
-            </div>
-          </div>
-        </>
+        <CommentDisplay
+          userImg={userImg}
+          userName={userName}
+          commentContent={commentContent}
+          time={time}
+          commentId={commentId}
+          commentIds={commentIds}
+          handleClickCommentId={handleClickCommentId}
+          onOpen={onOpen}
+          handleDeleteComment={handleDeleteComment}
+          handleEditComment={handleEditComment}
+        />
       )}
     </Box>
   );
