@@ -1,3 +1,4 @@
+import formatDate from '@/lib/formatDate';
 import getNotifications, {
   NotificationData,
   deleteNotificationAll,
@@ -93,7 +94,7 @@ const Notification = ({
       <ModalContent
         position="fixed"
         top="0"
-        right="1rem"
+        right="5rem"
         width="25rem"
         padding={0}
       >
@@ -118,15 +119,17 @@ const Notification = ({
             </div>
           </div>
         </ModalHeader>
-        <ModalBody paddingX="4">
-          <div className="flex flex-col gap-4 mb-4 ">
+        <ModalBody paddingRight={0} paddingLeft={2}>
+          <div className="flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2">
             {notifications.map(item => {
               return (
                 <div key={item.notificationId} className="flex flex-col">
                   <div className="flex flex-row gap-2 justify-between">
-                    <div className="text-secondary-dark">
-                      <FaCircle className="w-2 h-2" />
-                    </div>
+                    {!item.read && (
+                      <div className="text-secondary-dark">
+                        <FaCircle className="w-2 h-2" />
+                      </div>
+                    )}
                     <Link href={item.uri} className="text-sm text-black flex-1">
                       {item.message}
                     </Link>
@@ -140,7 +143,9 @@ const Notification = ({
                     </Button>
                   </div>
                   <div className="flex justify-end">
-                    <p className="text-xs text-slate-500">{item.createdAt}</p>
+                    <p className="text-xs text-slate-500">
+                      {formatDate(item.createdAt)}
+                    </p>
                   </div>
                 </div>
               );
