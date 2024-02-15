@@ -30,8 +30,9 @@ const Notification = ({
 }) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const toast = useToast();
-  // const router = useRouter();
   const queryClient = useQueryClient();
+
+  // NOTE 알림 전체 조회
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
     queryKey: ['notification'],
     queryFn: getNotifications,
@@ -40,6 +41,7 @@ const Notification = ({
     setNotifications(notificationData?.results ?? []);
   }, [notificationData]);
 
+  // NOTE 알림 전체 읽음 처리
   const patchNotificationAllMutation = useMutation({
     mutationFn: patchNotificationAll,
     onSuccess: () => {
@@ -62,6 +64,11 @@ const Notification = ({
     },
   });
 
+  const handlePatchNotificationAll = () => {
+    patchNotificationAllMutation.mutate();
+  };
+
+  // NOTE 알림 전체 삭제
   const deleteNotificationAllMutation = useMutation({
     mutationFn: deleteNotificationAll,
     onSuccess: () => {
@@ -84,6 +91,11 @@ const Notification = ({
     },
   });
 
+  const handleDeleteNotificationAll = () => {
+    deleteNotificationAllMutation.mutate();
+  };
+
+  // NOTE 알림 개별 읽음 처리
   const patchNotificationMutation = useMutation({
     mutationFn: patchNotification,
     onSuccess: () => {
@@ -101,6 +113,13 @@ const Notification = ({
     },
   });
 
+  const handlePatchNotification = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const link = e.currentTarget as HTMLAnchorElement;
+    const notificationId = link.dataset.notificationid;
+    patchNotificationMutation.mutate(Number(notificationId));
+  };
+
+  // NOTE 알림 개별 삭제
   const deleteNotificationMutation = useMutation({
     mutationFn: deleteNotification,
     onSuccess: () => {
@@ -116,19 +135,6 @@ const Notification = ({
       });
     },
   });
-
-  const handlePatchNotificationAll = () => {
-    patchNotificationAllMutation.mutate();
-  };
-  const handleDeleteNotificationAll = () => {
-    deleteNotificationAllMutation.mutate();
-  };
-
-  const handlePatchNotification = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const link = e.currentTarget as HTMLAnchorElement;
-    const notificationId = link.dataset.notificationid;
-    patchNotificationMutation.mutate(Number(notificationId));
-  };
 
   const handleDeleteNotification = (e: React.MouseEvent<HTMLButtonElement>) => {
     const button = e.currentTarget as HTMLButtonElement;
