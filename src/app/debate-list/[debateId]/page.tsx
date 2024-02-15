@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
+import getDocumentReviseState from '@/service/debate/reviseAuth';
 import NewReviseRequestButton from './components/NewReviseRequestButton';
 import DebateDetail from './components/DebateDetail/DebateDetail';
 import CommentsSection from './components/Comments/CommentsSection';
@@ -20,10 +21,13 @@ const Page = () => {
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
-  // const [canReviseUser, setCanReviseUser] = useState(false);
-  // const [canReviseState, setCanReviseState] = useState(false);
+  const [reviseAuthUsers, setReviseAuthUsers] = useState<string[]>([]);
+  const [isRevisableDoc, setIsRevisableDoc] = useState<boolean>(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
   const [commentIds, setCommentIds] = useState<number[]>([]);
+  const isDebateClosed = debateData?.status === 'CLOSED';
+  const [canRequestRevise, setCanRequestRevise] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<string>('');
 
   useEffect(() => {
     if (debateId) {
@@ -34,7 +38,23 @@ const Page = () => {
             return item.commentId;
           }),
         );
+        setReviseAuthUsers(
+          comments.map(item => {
+            return item.commenter.nickname;
+          }),
+        );
       });
+      getDocumentReviseState(debateData?.contribute.documentId).then(
+        response => {
+          setIsRevisableDoc(response?.documentStatus === 'EDITABLE');
+        },
+      );
+      if (isRevisableDoc && reviseAuthUsers.includes(currentUser)) {
+        setCanRequestRevise(true);
+      } else {
+        setCanRequestRevise(false);
+      }
+      setCurrentUser('1');
     }
   }, [debateId]);
 
@@ -62,14 +82,12 @@ const Page = () => {
           relatedDebateId={debateData?.contribute.relatedDebateId}
         />
       </div>
-      {
-        // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
-        // canReviseUser &&
+      {isDebateClosed && canRequestRevise && (
         <NewReviseRequestButton
           debateId={debateId}
           starId={debateData?.contribute.documentId}
         />
-      }
+      )}
       <DebateDetail debateData={debateData} />
       <CommentsSection
         debateId={debateId}
