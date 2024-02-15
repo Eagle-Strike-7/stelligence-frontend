@@ -1,12 +1,12 @@
 import { CommentApiResponse, CommentProps } from '@/types/debate/comment';
-import axios from 'axios';
+import apiClient from '../login/axiosClient';
 
 // NOTE 댓글 리스트 조회
 export const getCommentList = async (
   debateId: number,
 ): Promise<CommentProps[]> => {
   try {
-    const response = await axios.get<CommentApiResponse>(
+    const response = await apiClient.get<CommentApiResponse>(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
     );
 
@@ -24,7 +24,7 @@ export const getCommentList = async (
 // NOTE 댓글 생성
 export const postNewComment = async (newContent: string, debateId: number) => {
   try {
-    const response = await axios.post(
+    const response = await apiClient.post(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
       {
         content: newContent,
@@ -43,7 +43,7 @@ export const updateComment = async (
   debateId: number,
 ) => {
   try {
-    const response = await axios.patch(
+    const response = await apiClient.patch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments/${commentId}`,
       {
         content: newContent,
@@ -62,7 +62,7 @@ export const deleteComment = async (
   debateId: number,
 ): Promise<boolean> => {
   try {
-    await axios.delete(
+    await apiClient.delete(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments/${commentId}`,
     );
     return true;
