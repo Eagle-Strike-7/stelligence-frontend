@@ -5,7 +5,7 @@ export const loginState = atom({
   default: false,
 });
 
-export const loggedinUserState = atom({
-  key: 'loggedinUserState',
+export const loggedInUserState = atom({
+  key: 'loggedInUserState',
   default: { email: '', nickname: '', profileImgUrl: '' },
 });
