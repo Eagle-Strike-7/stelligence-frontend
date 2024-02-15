@@ -40,15 +40,8 @@ import {
   putNickname,
 } from '../../service/userService';
 import MyBadge from './components/MyBadge';
-// import useRequireLogin from '@/hooks/common/useRequireLogin';
 
 const Page = () => {
-  // NOTE 페이지 접근 시 로그아웃 상태라면 /login으로 리다이렉트
-  // const isLogin = useRequireLogin();
-
-  // if (!isLogin) {
-  //   return <div>Loading...</div>;
-  // }
   const queryClient = useQueryClient();
   const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);

@@ -9,6 +9,7 @@ import { ThemeProvider as MUIThemeProvider } from '@mui/material';
 import muiTheme from '@/theme/mui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
+import LoginInterceptor from '@/components/Login/LoginInterceptor';
 import customTheme from '../theme/chakra';
 import InfoButton from './info/components/InfoButton';
 
@@ -24,6 +25,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko">
       <body className={`${inter.className} bg-background-dark`}>
+        <LoginInterceptor />
         <QueryClientProvider client={queryClient}>
           <MUIThemeProvider theme={muiTheme}>
             <ChakraProvider theme={customTheme}>
