@@ -2,6 +2,7 @@ import formatDate from '@/lib/formatDate';
 import getNotifications, {
   NotificationData,
   deleteNotificationAll,
+  patchNotification,
   patchNotificationAll,
 } from '@/service/notification/notificationService';
 import { ResponseType } from '@/types/common/ResponseType';
@@ -28,6 +29,7 @@ const Notification = ({
 }) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const toast = useToast();
+  // const router = useRouter();
   const queryClient = useQueryClient();
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
     queryKey: ['notification'],
@@ -81,11 +83,34 @@ const Notification = ({
     },
   });
 
+  const patchNotificationMutation = useMutation({
+    mutationFn: patchNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      onClose();
+    },
+    onError: () => {
+      toast({
+        title: '알림 개별 읽음 실패',
+        description: '잠시 후 다시 시도해주세요',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
+
   const handlePatchNotificationAll = () => {
     patchNotificationAllMutation.mutate();
   };
   const handleDeleteNotificaltionsAll = () => {
     deleteNotificatationAllMutation.mutate();
+  };
+
+  const handlePatchNotification = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const link = e.currentTarget as HTMLAnchorElement;
+    const notificationId = link.dataset.notificationid;
+    patchNotificationMutation.mutate(Number(notificationId));
   };
 
   return (
@@ -130,7 +155,13 @@ const Notification = ({
                         <FaCircle className="w-2 h-2" />
                       </div>
                     )}
-                    <Link href={item.uri} className="text-sm text-black flex-1">
+                    <Link
+                      href={item.uri}
+                      data-uri={item.uri}
+                      data-notificationid={item.notificationId}
+                      className="text-sm text-black flex-1"
+                      onClick={handlePatchNotification}
+                    >
                       {item.message}
                     </Link>
                     <Button
