@@ -69,11 +69,18 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       const centerX = width / 2;
       const centerY = height / 2;
       const starColors = [
-        '#547b87',
-        '#C79AE5',
-        '#6495ed',
-        '#c1a0b2',
-        '#e4e6e7',
+        '#d6ad5c', // 노
+        '#5c5cd6', // 남
+        '#5cd65c', // 진초
+        '#ad5cd6', // 보라
+        '#547b87', // 청록
+        '#d65c5c', // 주
+        '#c1a0b2', // 연핑크
+        '#e4e6e7', // 거의 흰색
+        '#C79AE5', // 연핑크
+        '#6495ed', // 하늘
+        '#add65c', // 연초
+        '#d65cd6', // 핑
       ];
 
       // NOTE 노드들을 원의 중심에서 시작하도록 초기 위치 설정
