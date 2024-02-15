@@ -76,7 +76,7 @@ const Home = () => {
   if (isError) return <ErrorComponent />;
 
   return (
-    <div className="flex flex-col items-center h-screen pt-2">
+    <div className="flex flex-col items-center pt-2">
       <div className="mt-8 relative">
         <SearchInput
           searchText={searchText}
