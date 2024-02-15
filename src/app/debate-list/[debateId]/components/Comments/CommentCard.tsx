@@ -4,7 +4,7 @@ import ReportModal from '@/components/Common/ReportModal';
 import { deleteComment, updateComment } from '@/service/debate/comment';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import EditCommentForm from './CreateComment/EditCommentForm';
-import CommentDisplay from './CreateComment/CommnetDisplay';
+import CommentDisplay from './CreateComment/CommentDisplay';
 
 export interface DebateCommentProps {
   userImg: string;
