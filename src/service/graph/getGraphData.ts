@@ -3,15 +3,12 @@ import {
   transformLinks,
 } from '@/hooks/graph/transformGraphInfo';
 import { Graph } from '@/types/graph/GraphProps';
-import axios from 'axios';
+import apiClient from '../login/axiosClient';
 
 const getGraphData = async (): Promise<Graph> => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents`,
-    {
-      params: { depth: 3 },
-    },
-  );
+  const response = await apiClient.get(`/api/documents`, {
+    params: { depth: 3 },
+  });
   const { data } = response;
   const transformedResults = transformResults(data.results.documentNodes);
   const transformedLinks = transformLinks(data.results.links);

@@ -61,16 +61,13 @@ const Page = () => {
   // NOTE activeTab에 따라서 다른 axios 호출
   const getDebateLists = async () => {
     try {
-      const response = await apiClient.get<ApiResponse>(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates`,
-        {
-          params: {
-            status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
-            order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
-            page: currentPage - 1,
-          },
+      const response = await apiClient.get<ApiResponse>(`/api/debates`, {
+        params: {
+          status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
+          order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
+          page: currentPage - 1,
         },
-      );
+      });
 
       if (response.data.success) {
         console.log('데이터 로딩 성공:', response.data.results);

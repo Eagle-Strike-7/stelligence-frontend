@@ -7,7 +7,7 @@ export const getCommentList = async (
 ): Promise<CommentProps[]> => {
   try {
     const response = await apiClient.get<CommentApiResponse>(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
+      `/api/debates/${debateId}/comments`,
     );
 
     if (response.data.success) {
@@ -24,12 +24,9 @@ export const getCommentList = async (
 // NOTE 댓글 생성
 export const postNewComment = async (newContent: string, debateId: number) => {
   try {
-    const response = await apiClient.post(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments`,
-      {
-        content: newContent,
-      },
-    );
+    const response = await apiClient.post(`/api/debates/${debateId}/comments`, {
+      content: newContent,
+    });
     return response.data;
   } catch (error) {
     console.error('댓글 생성 중 오류 발생:', error);
@@ -44,7 +41,7 @@ export const updateComment = async (
 ) => {
   try {
     const response = await apiClient.patch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments/${commentId}`,
+      `/api/debates/${debateId}/comments/${commentId}`,
       {
         content: newContent,
       },
@@ -62,9 +59,7 @@ export const deleteComment = async (
   debateId: number,
 ): Promise<boolean> => {
   try {
-    await apiClient.delete(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/debates/${debateId}/comments/${commentId}`,
-    );
+    await apiClient.delete(`/api/debates/${debateId}/comments/${commentId}`);
     return true;
   } catch (error) {
     console.error('댓글 삭제 중 오류 발생:', error);

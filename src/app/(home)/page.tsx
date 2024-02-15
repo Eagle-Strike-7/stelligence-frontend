@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { Graph, SearchResult } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
@@ -9,6 +8,7 @@ import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import { usePathname } from 'next/navigation';
 import useDebounce from '@/hooks/common/useDebounce';
+import apiClient from '@/service/login/axiosClient';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/Search/SearchInput';
 import SearchDropdown from './components/Search/SearchDropdown';
@@ -34,8 +34,8 @@ const Home = () => {
   useEffect(() => {
     const handleInputChange = async (text: string) => {
       if (!text.trim()) return;
-      axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/documents/search`, {
+      apiClient
+        .get(`/api/documents/search`, {
           params: { title: text, depth: 3 },
         })
         .then(response => {
@@ -76,7 +76,7 @@ const Home = () => {
   if (isError) return <ErrorComponent />;
 
   return (
-    <div className="flex flex-col items-center h-screen pt-2">
+    <div className="flex flex-col items-center pt-2">
       <div className="mt-8 relative">
         <SearchInput
           searchText={searchText}
