@@ -1,7 +1,7 @@
 import { setLatestLogin } from '@/service/login/latestLogin';
 import postLogout from '@/service/login/logout';
 import { getUserData } from '@/service/userService';
-import { loginState } from '@/store/user/login';
+import { loggedinUserState, loginState } from '@/store/user/login';
 import { ResponseType } from '@/types/common/ResponseType';
 import { Avatar, Button, Tooltip, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -10,10 +10,11 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { HiOutlinePencil } from 'react-icons/hi';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const RightNav = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const setLoggedinUserData = useSetRecoilState(loggedinUserState);
 
   const router = useRouter();
   const toast = useToast();
@@ -32,6 +33,11 @@ const RightNav = () => {
   // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
   useEffect(() => {
     setIsLogin(!!userData?.success);
+    setLoggedinUserData({
+      email: userData?.results.email ?? '',
+      nickname: userData?.results.nickname ?? '',
+      profileImgUrl: userData?.results.profileImgUrl ?? '',
+    });
     setLatestLogin(userData?.results.socialType);
   }, [userData]);
 
