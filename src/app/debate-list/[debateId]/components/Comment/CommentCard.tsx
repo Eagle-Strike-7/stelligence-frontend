@@ -66,7 +66,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   };
 
   return (
-    <Box className="flex w-full p-4 my-2 rounded-md bg-primary-dark-500/10 text-white">
+    <Box className="flex w-full py-4 px-3 my-2 rounded-md bg-primary-dark-500/10 text-white">
       <ReportModal
         isOpen={isOpen}
         onClose={onClose}
@@ -77,7 +77,8 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         <div className="flex flex-col w-full my-2">
           <Textarea
             className="w-full flex-shrink-0"
-            bg="white"
+            bg="#212121"
+            border="none"
             marginBottom={4}
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={updatedComment}
@@ -88,61 +89,62 @@ const CommentCard: React.FC<DebateCommentProps> = ({
           <Button
             className="w-20 self-end"
             size="sm"
-            bg="accent.500"
-            color="white"
+            bg="primary.500"
             onClick={handleUpdateComment}
+            _hover={{ bg: 'primary.600' }}
           >
             수정완료
           </Button>
         </div>
       ) : (
         <>
-          <div className="flex flex-col justify-center items-center justify-items-center align-middle w-12 mr-4 ">
+          <div className="flex flex-col justify-center items-center w-12 mr-4 ">
             <Avatar src={userImg} size="sm" />
           </div>
-          <div className="flex-col w-full ">
-            <div className="flex justify-between text-white place-items-center">
-              <div className="flex place-items-baseline my-1">
+          <div className="flex-col w-full">
+            <div className="flex justify-between text-white place-items-end">
+              <div className="flex place-items-end">
                 <Tag
                   mr={2}
                   cursor="pointer"
                   verticalAlign="middle"
-                  fontSize="sm"
+                  fontSize="xs"
                   lineHeight="max"
                   bg="primary.900"
                   color="primary.300"
                   fontWeight={700}
+                  size="sm"
                   onClick={handleClickCommentId}
                   id={commentId.toString()}
                 >
                   #{commentId}
                 </Tag>
-                <Text fontSize="xs" color="primary.500">
+                <Text fontSize="sm" color="primary.500">
                   {userName}
                 </Text>
               </div>
               <div className="flex justify-center align-center">
                 <AiTwotoneAlert
-                  size="1.25rem"
-                  className="mr-1 hover:cursor-pointer"
+                  size="1.1rem"
+                  className="mr-1 hover:cursor-pointer hover:opacity-50"
                   onClick={onOpen}
                 />
                 <HiOutlineTrash
-                  size="1.25rem"
-                  className="mr-1 hover:cursor-pointer"
+                  size="1.1rem"
+                  className="mr-1 hover:cursor-pointer hover:opacity-50"
                   onClick={handleDeleteComment}
                 />
                 <AiOutlineEdit
-                  size="1.25rem "
-                  className="hover:cursor-pointer"
+                  size="1.1rem "
+                  className="hover:cursor-pointer hover:opacity-50"
                   onClick={handleEditComment}
                 />
               </div>
             </div>
-            <div className="my-2">
+            <div className="text-sm my-2">
               <div>{renderContentWithTags(commentContent, commentIds)}</div>
             </div>
-            <div className="flex justify-end items-baseline mt-2">
+            <div className="flex justify-end items-baseline">
               <Text className="text-gray-600 text-xs">
                 {time.split('.')[0]}
               </Text>
