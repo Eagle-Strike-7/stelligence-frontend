@@ -4,13 +4,13 @@ import { CommentProps } from '@/types/debate/comment';
 import ChakraSelect from '@/components/Common/ChakraSelect';
 import Comment from './CommentCard';
 
-interface CommentListProps {
+interface CommentsSectionProps {
   debateId: number;
   commentIds: number[];
   commentsUpdated: boolean;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
-const CommentList: React.FC<CommentListProps> = ({
+const CommentsSection: React.FC<CommentsSectionProps> = ({
   debateId,
   commentIds,
   commentsUpdated,
@@ -73,4 +73,4 @@ const CommentList: React.FC<CommentListProps> = ({
   );
 };
 
-export default CommentList;
+export default CommentsSection;
