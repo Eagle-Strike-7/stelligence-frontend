@@ -1,5 +1,5 @@
-import ChakraSelect from '@/components/Common/ChakraSelect';
 import React from 'react';
+import ChakraSelect from '@/components/Common/ChakraSelect';
 
 interface CommentsHeaderProps {
   commentsNum: number;

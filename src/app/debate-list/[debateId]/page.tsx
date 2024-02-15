@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
 
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
 import NewReviseRequestButton from './components/NewReviseRequestButton';
-import DebateDetail from './components/DebateDetail';
-import CommentsSection from './components/Comment/CommentsSection';
-import CreateComment from './components/Comment/CreateComment';
+import DebateDetail from './components/DebateDetail/DebateDetail';
+import CommentsSection from './components/Comments/CommentsSection';
+import CreateComment from './components/Comments/CreateComment/CreateComment';
 import BackToDebateListButton from './components/BackToDebateListButton';
 
 import { Debate, getDebateData } from './page.server';

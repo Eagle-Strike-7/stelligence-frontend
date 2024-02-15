@@ -1,4 +1,4 @@
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import {
   Button,
   Menu,
