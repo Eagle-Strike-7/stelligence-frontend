@@ -8,8 +8,7 @@ import { getMiniProfile } from '@/service/userService';
 const NewReviseRequestButton: React.FC<{
   debateId: number;
   starId: number | undefined;
-  setIsNewReviseRequested: (bool: boolean) => void;
-}> = ({ debateId, starId, setIsNewReviseRequested }) => {
+}> = ({ debateId, starId }) => {
   const router = useRouter();
   const [engagedUsers, setEngagedUsers] = useState<string[]>([]);
   const { data: miniProfileData } = useQuery({
@@ -40,8 +39,6 @@ const NewReviseRequestButton: React.FC<{
       localStorage.setItem('debateId', debateId.toString());
       // NOTE 수정 요청 페이지로 이동
       router.push(`/stars/${starId}/revise`);
-      // NOTE 수정 요청 버튼 이후에 안보이게 -> 백엔드 처리 필요
-      setIsNewReviseRequested(true);
     } else {
       alert('수정 요청 권한이 없습니다.');
     }
