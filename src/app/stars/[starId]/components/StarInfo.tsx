@@ -125,18 +125,7 @@ const StarInfo = ({
       <div className="flex flex-col">
         <div className="flex flex-row">
           {/* SECTION : 북마크 버튼 */}
-          {!isBookmarked ? (
-            <Button
-              size="md"
-              variant="ghost"
-              color="white"
-              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-              p="0"
-              onClick={handleCreateBookmark}
-            >
-              <FaRegBookmark size="1.5rem" />
-            </Button>
-          ) : (
+          {isBookmarked ? (
             <Button
               size="md"
               variant="ghost"
@@ -146,6 +135,17 @@ const StarInfo = ({
               onClick={handleDeleteBookmark}
             >
               <FaBookmark size="1.5rem" />
+            </Button>
+          ) : (
+            <Button
+              size="md"
+              variant="ghost"
+              color="white"
+              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              p="0"
+              onClick={handleCreateBookmark}
+            >
+              <FaRegBookmark size="1.5rem" />
             </Button>
           )}
           {/* SECTION : 더보기 버튼 (지난 수정요청, 역사, 신고) */}
