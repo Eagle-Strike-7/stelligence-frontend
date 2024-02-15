@@ -26,6 +26,7 @@ const RightNav = () => {
   } = useQuery({
     queryKey: ['user'],
     queryFn: getUserData,
+    retry: false,
   });
 
   // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
