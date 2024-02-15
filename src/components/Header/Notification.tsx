@@ -1,6 +1,7 @@
 import getNotifications, {
   NotificationData,
   deleteNotificationAll,
+  patchNotificationAll,
 } from '@/service/notification/notificationService';
 import { ResponseType } from '@/types/common/ResponseType';
 import {
@@ -35,6 +36,28 @@ const Notification = ({
     setNotifications(notificationData?.results ?? []);
   }, [notificationData]);
 
+  const patchNotificationAllMutation = useMutation({
+    mutationFn: patchNotificationAll,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      toast({
+        title: '알림 전체 읽음 처리 완료 🌻',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: () => {
+      toast({
+        title: '알림 전체 읽음처리 실패',
+        description: '잠시 후 다시 시도해주세요',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
+
   const deleteNotificatationAllMutation = useMutation({
     mutationFn: deleteNotificationAll,
     onSuccess: () => {
@@ -57,6 +80,9 @@ const Notification = ({
     },
   });
 
+  const handlePatchNotificationAll = () => {
+    patchNotificationAllMutation.mutate();
+  };
   const handleDeleteNotificaltionsAll = () => {
     deleteNotificatationAllMutation.mutate();
   };
@@ -75,7 +101,11 @@ const Notification = ({
           <div className="flex flex-row justify-between">
             <h1 className="text-lg text-black font-bold">알림</h1>
             <div className="flex flex-row gap-2">
-              <Button variant="outline" size="xs">
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={handlePatchNotificationAll}
+              >
                 모두 읽음
               </Button>
               <Button

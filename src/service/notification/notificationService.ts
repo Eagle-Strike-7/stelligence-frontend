@@ -21,6 +21,16 @@ const getNotifications = async (): Promise<ResponseType<NotificationData>> => {
   }
 };
 
+export const patchNotificationAll = async (): Promise<AxiosResponse> => {
+  try {
+    const response = await apiClient.patch('/api/notifications');
+    return response.data;
+  } catch (error) {
+    console.error('알림 일괄 읽음처리 실패: ', error);
+    throw error;
+  }
+};
+
 export const deleteNotificationAll = async (): Promise<AxiosResponse> => {
   try {
     const response = await apiClient.delete('/api/notifications');
