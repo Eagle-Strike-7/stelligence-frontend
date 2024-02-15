@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Wrapper from '@/components/Common/Wrapper';
-import PageTitle from '@/components/Common/PageTitle';
+import PageTitle from '@/components/Common/Title/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import { dummyVoteList } from '@/constants/dummyData';
 import SpecificVoteListCard from '@/app/stars/[starId]/voteList/components/SpecificVoteListCard';

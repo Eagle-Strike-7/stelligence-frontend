@@ -2,9 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@chakra-ui/react';
 
-const ReturnToDebateList = () => {
+const BackToDebateListButton = () => {
   return (
-    <div className="w-full flex justify-end ">
+    <div className="w-full flex justify-end">
       <Link href="/debate-list">
         <Button
           variant="outline"
@@ -20,4 +20,4 @@ const ReturnToDebateList = () => {
   );
 };
 
-export default ReturnToDebateList;
+export default BackToDebateListButton;

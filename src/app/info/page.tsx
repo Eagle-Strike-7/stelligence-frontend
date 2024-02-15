@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import Wrapper from '@/components/Common/Wrapper';
 import React from 'react';
 

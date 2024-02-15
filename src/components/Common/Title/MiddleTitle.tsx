@@ -6,7 +6,7 @@ interface MiddelTitleProps {
 }
 const MiddleTitle = ({ title, color }: MiddelTitleProps) => {
   return (
-    <div className={`text-${color} font-bold text-left text-xl my-2`}>
+    <div className={`text-${color} font-bold text-left text-xl mb-1`}>
       {title}
     </div>
   );
