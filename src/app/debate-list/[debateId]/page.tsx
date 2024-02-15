@@ -6,11 +6,11 @@ import { usePathname } from 'next/navigation';
 import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
 import { Debate, getDebateData } from './page.server';
-import CommentCreate from './components/Comment/CommentCreate';
 import ReturnToDebateList from '../components/ReturnToDebateList';
 import DebateDetail from './components/DebateDetail';
 import NewReviseRequestButton from './components/NewReviseRequest';
 import CommentsSection from './components/Comment/CommentsSection';
+import CreateComment from './components/Comment/CreateComment';
 
 const Page = () => {
   const pathname = usePathname();
@@ -81,7 +81,7 @@ const Page = () => {
           commentsUpdated={commentsUpdated}
           handleClickCommentId={handleClickCommentId}
         />
-        <CommentCreate
+        <CreateComment
           selectedCommentId={selectedCommentId}
           onCommentCreated={refreshComments}
           debateId={debateId}
