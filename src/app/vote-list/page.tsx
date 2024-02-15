@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/Common/PageTitle';
+import PageTitle from '@/components/Common/Title/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import VoteListCard from '@/app/vote-list/components/VoteListCard';
 import Wrapper from '@/components/Common/Wrapper';

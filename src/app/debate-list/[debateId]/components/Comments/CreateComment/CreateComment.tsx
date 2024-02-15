@@ -16,7 +16,7 @@ interface CommentCreateProps {
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   selectedCommentId: string;
 }
-const CommentCreate = ({
+const CreateComment = ({
   onCommentCreated,
   debateId,
   debateStatus,
@@ -210,4 +210,4 @@ const CommentCreate = ({
   );
 };
 
-export default CommentCreate;
+export default CreateComment;
