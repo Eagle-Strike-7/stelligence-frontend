@@ -3,22 +3,25 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
+
 import PageTitleDescription from '@/components/Common/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
-import { Debate, getDebateData } from './page.server';
-import ReturnToDebateList from '../components/ReturnToDebateList';
+import NewReviseRequestButton from './components/NewReviseRequestButton';
 import DebateDetail from './components/DebateDetail';
-import NewReviseRequestButton from './components/NewReviseRequest';
 import CommentsSection from './components/Comment/CommentsSection';
 import CreateComment from './components/Comment/CreateComment';
+import BackToDebateListButton from './components/BackToDebateListButton';
+
+import { Debate, getDebateData } from './page.server';
 
 const Page = () => {
   const pathname = usePathname();
   const debateId = Number(pathname.split('/').pop());
   const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
-  // TODO 서버로부터 해당 정보 받도록 변경 필요(계속 유지되어야 하는 정보)
-  const [isNewReviseRequested, setIsNewReviseRequested] = useState(false);
+  // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
+  // const [canReviseUser, setCanReviseUser] = useState(false);
+  // const [canReviseState, setCanReviseState] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
   const [commentIds, setCommentIds] = useState<number[]>([]);
 
@@ -46,50 +49,42 @@ const Page = () => {
   };
 
   return (
-    // TODO 페이지 컴포넌트 전체 리팩토링 필요
     <Wrapper>
-      <ReturnToDebateList />
+      <BackToDebateListButton />
       <div className="w-max">
-        {debateData?.status === 'OPEN' ? (
-          <PageTitleDescription
-            title="토론하기"
-            description="토론에 참여해보세요"
-            relatedDebateId={debateData.contribute.relatedDebateId}
-          />
-        ) : (
-          <PageTitleDescription
-            title="토론결과"
-            description="종료된 토론의 결과를 확인하세요."
-            relatedDebateId={debateData?.contribute.relatedDebateId}
-          />
-        )}
+        <PageTitleDescription
+          title={debateData?.status === 'OPEN' ? '토론하기' : '토론결과'}
+          description={
+            debateData?.status === 'OPEN'
+              ? '토론에 참여해보세요'
+              : '종료된 토론의 결과를 확인하세요.'
+          }
+          relatedDebateId={debateData?.contribute.relatedDebateId}
+        />
       </div>
-      {isNewReviseRequested ? (
-        ''
-      ) : (
+      {
+        // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
+        // canReviseUser &&
         <NewReviseRequestButton
           debateId={debateId}
           starId={debateData?.contribute.documentId}
-          setIsNewReviseRequested={setIsNewReviseRequested}
         />
-      )}
+      }
       <DebateDetail debateData={debateData} />
-      <>
-        <CommentsSection
-          debateId={debateId}
-          commentIds={commentIds}
-          commentsUpdated={commentsUpdated}
-          handleClickCommentId={handleClickCommentId}
-        />
-        <CreateComment
-          selectedCommentId={selectedCommentId}
-          onCommentCreated={refreshComments}
-          debateId={debateId}
-          commentIds={commentIds}
-          debateStatus={debateData?.status ?? 'OPEN'}
-          handleClickCommentId={handleClickCommentId}
-        />
-      </>
+      <CommentsSection
+        debateId={debateId}
+        commentIds={commentIds}
+        commentsUpdated={commentsUpdated}
+        handleClickCommentId={handleClickCommentId}
+      />
+      <CreateComment
+        selectedCommentId={selectedCommentId}
+        onCommentCreated={refreshComments}
+        debateId={debateId}
+        commentIds={commentIds}
+        debateStatus={debateData?.status ?? 'OPEN'}
+        handleClickCommentId={handleClickCommentId}
+      />
     </Wrapper>
   );
 };
