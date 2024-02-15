@@ -1,5 +1,6 @@
 import getNotifications, {
   NotificationData,
+  deleteNotificationAll,
 } from '@/service/notification/notificationService';
 import { ResponseType } from '@/types/common/ResponseType';
 import {
@@ -9,8 +10,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
@@ -23,6 +25,8 @@ const Notification = ({
   onClose: () => void;
 }) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const toast = useToast();
+  const queryClient = useQueryClient();
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
     queryKey: ['notification'],
     queryFn: getNotifications,
@@ -30,6 +34,32 @@ const Notification = ({
   useEffect(() => {
     setNotifications(notificationData?.results ?? []);
   }, [notificationData]);
+
+  const deleteNotificatationAllMutation = useMutation({
+    mutationFn: deleteNotificationAll,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      toast({
+        title: '알림 전체 삭제 완료 🦦',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: () => {
+      toast({
+        title: '알림 전체 삭제 실패',
+        description: '잠시 후 다시 시도해주세요',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
+
+  const handleDeleteNotificaltionsAll = () => {
+    deleteNotificatationAllMutation.mutate();
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -48,7 +78,11 @@ const Notification = ({
               <Button variant="outline" size="xs">
                 모두 읽음
               </Button>
-              <Button variant="outline" size="xs">
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={handleDeleteNotificaltionsAll}
+              >
                 모두 삭제
               </Button>
             </div>
