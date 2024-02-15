@@ -30,7 +30,7 @@ import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
-import PageTitleDescription from '@/components/Common/PageTitleDescription';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import {
   BookmarkData,
   deleteUserData,
