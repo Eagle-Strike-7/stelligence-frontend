@@ -25,6 +25,13 @@ body {
   margin-top: 0;
 }
 
+.tiptap a {
+  color: steelblue;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .tiptap h1 {
   @apply text-3xl font-bold;
   @apply mt-8 mb-1;
