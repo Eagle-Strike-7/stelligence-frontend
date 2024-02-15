@@ -20,8 +20,10 @@ interface ContributeData {
   contributorId: number;
   contributorNickname: string;
   createdAt: string;
-  agreeCount: number;
-  disagreeCount: number;
+  voteSummary: {
+    agreeCount: number;
+    disagreeCount: number;
+  };
 }
 interface VoteListResponse {
   success: boolean;
@@ -145,9 +147,9 @@ const Page = () => {
               contributeId={item.contributeId}
               contributeTitle={item.contributeTitle}
               contributorNickname={item.contributorNickname}
-              createTime={formatDate(item.createdAt) || convertDate(new Date())}
-              agreeCount={item.agreeCount || 10}
-              disagreeCount={item.disagreeCount || 20}
+              createTime={formatDate(item.createdAt) ?? convertDate(new Date())}
+              agreeCount={item.voteSummary.agreeCount ?? 10}
+              disagreeCount={item.voteSummary.disagreeCount ?? 20}
               contributeStatus={item.contributeStatus}
             />
           );
