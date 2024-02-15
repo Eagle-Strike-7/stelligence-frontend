@@ -32,22 +32,16 @@ import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
 import {
   BookmarkData,
+  deleteBookmarkData,
   deleteUserData,
   getBadgeData,
-  getBookmarkData,
+  getBookmarkDatas,
   getUserData,
   putNickname,
 } from '../../service/userService';
 import MyBadge from './components/MyBadge';
-// import useRequireLogin from '@/hooks/common/useRequireLogin';
 
 const Page = () => {
-  // NOTE 페이지 접근 시 로그아웃 상태라면 /login으로 리다이렉트
-  // const isLogin = useRequireLogin();
-
-  // if (!isLogin) {
-  //   return <div>Loading...</div>;
-  // }
   const queryClient = useQueryClient();
   const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
@@ -59,7 +53,7 @@ const Page = () => {
   const { data: bookmarkData } = useQuery({
     queryKey: ['user', 'bookmark', currentBookmarkPage],
     queryFn: () => {
-      return getBookmarkData(currentBookmarkPage);
+      return getBookmarkDatas(currentBookmarkPage);
     },
   });
 
@@ -185,6 +179,23 @@ const Page = () => {
     },
   });
 
+  // NOTE 북마크 삭제 mutation
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: deleteBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      toast({
+        title: '북마크 취소',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 삭제 실패: ', error);
+    },
+  });
+
   const handleQuit = () => {
     quitMutation.mutate();
   };
@@ -193,6 +204,12 @@ const Page = () => {
     setCurrentBookmarkPage(prev => {
       return prev + 1;
     });
+  };
+
+  const handleDeleteBookmark = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.currentTarget as HTMLButtonElement;
+    const documentId = button.dataset.documentid;
+    deleteBookmarkMutation.mutate(Number(documentId));
   };
 
   return (
@@ -274,7 +291,10 @@ const Page = () => {
                           {bookmark.documentTitle}
                         </Link>
                       </TagLabel>
-                      <TagCloseButton />
+                      <TagCloseButton
+                        data-documentid={bookmark.documentId}
+                        onClick={handleDeleteBookmark}
+                      />
                     </Tag>
                   </li>
                 );

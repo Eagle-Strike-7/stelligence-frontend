@@ -19,7 +19,6 @@ const Page = () => {
   useEffect(() => {
     const latestLoginString = getLatestLogin()?.replaceAll('"', '');
     setLatestLogin(latestLoginString);
-    // console.log({ latestLogin });
   }, []);
 
   // NOTE 테스트를 위한 로직.
@@ -72,21 +71,23 @@ const Page = () => {
       >
         <h1 className="text-center font-bold mb-8 text-2xl">로그인</h1>
         <div className="flex flex-col gap-y-3">
-          {['KAKAO', 'NAVER', 'GOOGLE'].map(method => {return (
-            <div className="relative" key={method}>
-              {latestLogin === method && (
-                <div className={styles.latestLoginLabel}>
-                  <div className={styles.triangle} />
-                  <div className="bg-black text-white rounded w-fit px-4 py-2 text-xs font-bold">
-                    마지막으로 로그인했어요
+          {['KAKAO', 'NAVER', 'GOOGLE'].map(method => {
+            return (
+              <div className="relative" key={method}>
+                {latestLogin === method && (
+                  <div className={styles.latestLoginLabel}>
+                    <div className={styles.triangle} />
+                    <div className="bg-black text-white rounded w-fit px-4 py-2 text-xs font-bold">
+                      마지막으로 로그인했어요
+                    </div>
                   </div>
-                </div>
-              )}
-              {method === 'KAKAO' && <KakaoLogin />}
-              {method === 'NAVER' && <NaverLogin />}
-              {method === 'GOOGLE' && <GoogleLogin />}
-            </div>
-          )})}
+                )}
+                {method === 'KAKAO' && <KakaoLogin />}
+                {method === 'NAVER' && <NaverLogin />}
+                {method === 'GOOGLE' && <GoogleLogin />}
+              </div>
+            );
+          })}
         </div>
       </Card>
 

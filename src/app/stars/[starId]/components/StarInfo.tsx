@@ -9,12 +9,18 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
-import { LuBookmark } from 'react-icons/lu';
 import { DocStatus } from '@/types/star/StarProps';
 import { useParams, useRouter } from 'next/navigation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postBookmarkData } from '@/service/userService';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  BookmarkResponse,
+  deleteBookmarkData,
+  getBookmarkData,
+  postBookmarkData,
+} from '@/service/userService';
 import ReportModal from '@/components/Common/ReportModal';
+import { useEffect, useState } from 'react';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import StarStatusButton from './StarStatusButton';
 
 interface StarInfoProps {
@@ -46,12 +52,14 @@ const StarInfo = ({
     router.push(`/stars/${starId}/history-list`);
   };
 
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const toast = useToast();
   const createBookmarkMutation = useMutation({
     mutationFn: postBookmarkData,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      setIsBookmarked(true);
       toast({
         title: '북마크 추가 성공!',
         status: 'success',
@@ -63,9 +71,40 @@ const StarInfo = ({
       console.error('북마크 추가 실패: ', error);
     },
   });
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: deleteBookmarkData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'bookmark'] });
+      setIsBookmarked(false);
+      toast({
+        title: '북마크 취소',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: error => {
+      console.error('북마크 삭제 실패: ', error);
+    },
+  });
   const handleCreateBookmark = () => {
     createBookmarkMutation.mutate(Number(starId));
   };
+
+  const handleDeleteBookmark = () => {
+    deleteBookmarkMutation.mutate(Number(starId));
+  };
+
+  // NOTE 북마크 단건조회
+  const { data: bookmarked } = useQuery<BookmarkResponse>({
+    queryKey: ['bookmark', starId],
+    queryFn: () => {
+      return getBookmarkData(starId);
+    },
+  });
+  useEffect(() => {
+    setIsBookmarked(bookmarked?.results.bookmarked ?? false);
+  }, [bookmarked]);
 
   return (
     <div className="flex flex-row w-full justify-between">
@@ -86,17 +125,29 @@ const StarInfo = ({
       <div className="flex flex-col">
         <div className="flex flex-row">
           {/* SECTION : 북마크 버튼 */}
-          <Button
-            size="md"
-            variant="ghost"
-            color="white"
-            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-            p="0"
-            onClick={handleCreateBookmark}
-          >
-            <LuBookmark size="1.5rem" />
-          </Button>
-
+          {isBookmarked ? (
+            <Button
+              size="md"
+              variant="ghost"
+              color="white"
+              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              p="0"
+              onClick={handleDeleteBookmark}
+            >
+              <FaBookmark size="1.5rem" />
+            </Button>
+          ) : (
+            <Button
+              size="md"
+              variant="ghost"
+              color="white"
+              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              p="0"
+              onClick={handleCreateBookmark}
+            >
+              <FaRegBookmark size="1.5rem" />
+            </Button>
+          )}
           {/* SECTION : 더보기 버튼 (지난 수정요청, 역사, 신고) */}
           <Menu>
             <MenuButton
