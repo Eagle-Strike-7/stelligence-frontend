@@ -20,7 +20,7 @@ const BeforeAfter = ({
 }) => {
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold">#{index + 1}</h1>
+      <h1 className="text-lg font-bold text-white">#{index + 1}</h1>
       <div className="grid grid-cols-2 gap-5">
         <div className="flex flex-col gap-1">
           <ReviseContent

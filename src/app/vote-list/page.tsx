@@ -8,6 +8,7 @@ import { Center, Select } from '@chakra-ui/react';
 import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/service/login/axiosClient';
+import formatDate from '@/lib/formatDate';
 
 interface ContributeData {
   contributeId: number;
@@ -19,8 +20,10 @@ interface ContributeData {
   contributorId: number;
   contributorNickname: string;
   createdAt: string;
-  agreeCount: number;
-  disagreeCount: number;
+  voteSummary: {
+    agreeCount: number;
+    disagreeCount: number;
+  };
 }
 interface VoteListResponse {
   success: boolean;
@@ -113,10 +116,15 @@ const Page = () => {
         />
         <div className="flex my-0">
           {activeTab === '완료' && (
+            // TODO 추후 공통컴포넌트 ChakraSelect로 변경
             <Select
-              variant="outline"
+              variant="fill"
               size="sm"
               rounded="md"
+              color="text.dark"
+              bg="#292929"
+              fontSize="md"
+              fontWeight={500}
               onChange={handleSelectStatus}
             >
               {options.map(option => {
@@ -139,9 +147,9 @@ const Page = () => {
               contributeId={item.contributeId}
               contributeTitle={item.contributeTitle}
               contributorNickname={item.contributorNickname}
-              createTime={item.createdAt || convertDate(new Date())}
-              agreeCount={item.agreeCount || 10}
-              disagreeCount={item.disagreeCount || 20}
+              createTime={formatDate(item.createdAt) ?? convertDate(new Date())}
+              agreeCount={item.voteSummary.agreeCount ?? 10}
+              disagreeCount={item.voteSummary.disagreeCount ?? 20}
               contributeStatus={item.contributeStatus}
             />
           );
@@ -149,7 +157,11 @@ const Page = () => {
       <Center>
         <Pagination
           count={totalPages}
+          showFirstButton
+          showLastButton
           className="my-10 mb-20"
+          page={currentPage}
+          color="primary"
           onChange={handlePagination}
         />
       </Center>

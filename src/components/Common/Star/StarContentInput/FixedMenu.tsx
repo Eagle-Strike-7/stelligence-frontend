@@ -35,6 +35,7 @@ const FixedMenu = ({ editor }: { editor: Editor }) => {
           headers: {
             'Content-Type': blobFile.type,
           },
+          withCredentials: true,
         },
       );
 

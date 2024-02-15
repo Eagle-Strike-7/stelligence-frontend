@@ -27,7 +27,7 @@ const VoteListCard = ({
 }: VoteListCardProps) => {
   const translateStatus: { [key: string]: string } = {
     MERGED: '반영 완료',
-    DEBATING: '토론 중',
+    DEBATING: '토론',
     REJECTED: '미반영',
   };
 
@@ -50,10 +50,11 @@ const VoteListCard = ({
       justify="space-between"
       border={2}
       borderColor="black"
-      colorScheme="blue"
+      bg="rgba(118, 147, 231,0.1)"
+      color="white"
       direction={{ base: 'column', sm: 'row' }}
       _hover={{
-        bg: 'gray.50',
+        bg: 'rgba(118, 147, 231, 0.22)',
         cursor: 'pointer',
       }}
       onClick={handleClickVoteCard}

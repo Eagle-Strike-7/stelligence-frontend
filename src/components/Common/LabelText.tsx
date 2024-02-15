@@ -10,7 +10,7 @@ const LabelText = ({
   return (
     <div className="flex">
       <h3 className="font-bold text-md w-36 text-white">{label}</h3>
-      <p className="text-md flex-1">{text}</p>
+      <p className="text-md flex-1 text-white">{text}</p>
     </div>
   );
 };
