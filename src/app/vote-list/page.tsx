@@ -157,7 +157,11 @@ const Page = () => {
       <Center>
         <Pagination
           count={totalPages}
+          showFirstButton
+          showLastButton
           className="my-10 mb-20"
+          page={currentPage}
+          color="primary"
           onChange={handlePagination}
         />
       </Center>
