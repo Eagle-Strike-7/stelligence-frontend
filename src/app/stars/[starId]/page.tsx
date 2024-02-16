@@ -17,9 +17,12 @@ import formatDate from '../../../lib/formatDate';
 const Page = () => {
   const [title, setTitle] = useState('');
   const [parentDocumentTitle, setParentDocumentTitle] = useState('');
+  const [parentDocumentId, setParentDocumentId] = useState<number>(0);
   const [lastModifiedAt, setLastModifiedAt] = useState('');
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
+  const [currentRevision, setCurrentRevision] = useState<number>(0);
+  const [latestRevision, setLatestRevision] = useState<number>(0);
   const [contributors, setContributors] = useState<StarContributor[]>([]);
 
   const documentId = Number(useParams().starId);
@@ -28,7 +31,6 @@ const Page = () => {
   let params = {};
   if (searchParams.has('revision')) {
     params = { revision: searchParams.get('revision') };
-    console.log('params', params); // FIXME : 기능완성 시 삭제예정
   }
 
   const getStar = async () => {
@@ -39,13 +41,16 @@ const Page = () => {
         { params },
       );
       const { data } = response;
-      console.log('data', data); // FIXME : 기능완성 시 삭제예정
+      console.log(data);
       if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
         setParentDocumentTitle(data.results.parentDocumentTitle);
+        setParentDocumentId(data.results.parentDocumentId);
         setLastModifiedAt(formatDate(data.results.lastModifiedAt));
         setContent(data.results.content);
         setOriginalAuthor(data.results.originalAuthor.nickname);
+        setCurrentRevision(data.results.currentRevision);
+        setLatestRevision(data.results.latestRevision);
         setContributors(
           data.results.contributors.map((contributor: StarContributor) => {
             return {
@@ -71,7 +76,10 @@ const Page = () => {
           <StarInfo
             title={title}
             parentDocumentTitle={parentDocumentTitle}
+            parentDocumentId={parentDocumentId}
             lastModifiedAt={lastModifiedAt}
+            currentRevision={currentRevision}
+            latestRevision={latestRevision}
           />
           <StarContent content={content} />
           <StarAuthors

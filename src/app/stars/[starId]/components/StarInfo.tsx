@@ -25,14 +25,20 @@ import StarStatusButton from './StarStatusButton';
 interface StarInfoProps {
   title: string;
   parentDocumentTitle: string;
+  parentDocumentId: number;
   lastModifiedAt: string;
+  currentRevision: number;
+  latestRevision: number;
 }
 
 // NOTE : 글의 정보를 보여주는 컴포넌트
 const StarInfo = ({
   title,
   parentDocumentTitle,
+  parentDocumentId,
   lastModifiedAt,
+  currentRevision,
+  latestRevision,
 }: StarInfoProps) => {
   const starId = Number(useParams().starId);
   const router = useRouter();
@@ -114,8 +120,9 @@ const StarInfo = ({
         <PageTitleDescription
           title={title}
           description={`수정일시: ${lastModifiedAt}`}
+          tagTitle={parentDocumentTitle}
+          parentDocumentId={parentDocumentId}
         />
-        <div>{parentDocumentTitle}</div>
       </div>
       <div className="flex flex-col">
         <div className="flex flex-row">
@@ -177,7 +184,7 @@ const StarInfo = ({
           </Menu>
         </div>
         {/* SECTION : 편집/투표중/토론중 버튼 */}
-        <StarStatusButton />
+        {currentRevision === latestRevision && <StarStatusButton />}
       </div>
     </div>
   );
