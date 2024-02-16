@@ -23,16 +23,12 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
   useEffect(() => {
     getCommentList(debateId)
       .then(comments => {
-        if (selectedOption === '최신순') {
-          setCommentList([...comments].reverse());
-        } else {
-          setCommentList([...comments]);
-        }
+        setCommentList([...comments]);
       })
       .catch(error => {
         console.error('Error fetching comments:', error);
       });
-  }, [debateId, commentsUpdated, isChanged, selectedOption]);
+  }, [debateId, commentsUpdated, isChanged]);
 
   return (
     <div className="flex flex-col gap-4 rounded-lg mb-16">
@@ -41,7 +37,10 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
         setSelectedOption={setSelectedOption}
       />
       <div className="flex flex-col">
-        {commentList.map((comment: CommentProps) => {
+        {(selectedOption === '최신순'
+          ? [...commentList].reverse()
+          : commentList
+        ).map((comment: CommentProps) => {
           return (
             <CommentCard
               key={comment.commentId}

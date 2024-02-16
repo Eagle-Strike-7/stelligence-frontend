@@ -10,8 +10,8 @@ const CommentsHeader = ({
   setSelectedOption,
 }: CommentsHeaderProps) => {
   const commentSelectOptions = [
-    { value: 'latest', label: '최신순' },
-    { value: 'oldest', label: '등록순' },
+    { value: '등록순', label: '등록순' },
+    { value: '최신순', label: '최신순' },
   ];
   return (
     <div className="flex justify-between my-3">
