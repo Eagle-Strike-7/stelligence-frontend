@@ -27,3 +27,10 @@ export enum WriteType {
   DELETE = 'DELETE',
   CREATE = 'CREATE',
 }
+
+export enum ContributeStatus {
+  VOTING = 'VOTING',
+  MERGED = 'MERGED',
+  REJECTED = 'REJECTED',
+  DEBATING = 'DEBATING',
+}
