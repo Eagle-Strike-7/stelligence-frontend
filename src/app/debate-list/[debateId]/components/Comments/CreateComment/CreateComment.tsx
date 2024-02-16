@@ -15,6 +15,8 @@ interface CommentCreateProps {
   debateStatus: 'OPEN' | 'CLOSED' | null;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   selectedCommentId: string;
+  selectedOption: string;
+  scrollToTopComment: () => void;
 }
 const CreateComment = ({
   onCommentCreated,
@@ -23,6 +25,8 @@ const CreateComment = ({
   selectedCommentId,
   handleClickCommentId,
   commentIds,
+  selectedOption,
+  scrollToTopComment,
 }: CommentCreateProps) => {
   const textareaRef = useRef(null);
   const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
@@ -93,7 +97,11 @@ const CreateComment = ({
       .then(() => {
         onCommentCreated();
         setNewContent('');
-        scrollToBottom();
+        if (selectedOption === '등록순') {
+          scrollToBottom();
+        } else {
+          scrollToTopComment();
+        }
       })
       .catch(error => {
         console.error('Error creating comment:', error);
