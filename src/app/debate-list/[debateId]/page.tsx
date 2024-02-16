@@ -93,15 +93,15 @@ const Page = () => {
     comments?.map(comment => {
       return comment.commentId;
     }) || [];
-  const reviseAuthUsers =
+  const reviseAuthUsersId =
     comments?.map(comment => {
-      return comment.commenter.nickname;
+      return comment.commenter.memberId;
     }) || [];
   const isRevisableDoc =
     reviseAuthData?.documentStatus === ('EDITABLE' || 'PENDING');
-  const currentUser = currentUserInfo.nickname;
+  const currentUserId = currentUserInfo.memberId;
   const canRequestRevise =
-    isRevisableDoc && reviseAuthUsers.includes(currentUser);
+    isRevisableDoc && reviseAuthUsersId.includes(currentUserId);
 
   return (
     <Wrapper>

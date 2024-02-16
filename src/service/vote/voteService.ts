@@ -1,14 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { Heading, WriteType } from '@/types/common/ResponseType';
+import {
+  ContributeStatus,
+  Heading,
+  WriteType,
+} from '@/types/common/ResponseType';
 import apiClient from '../login/axiosClient';
-
-// NOTE 공통 타입으로 분리하기
-enum ContributeStatus {
-  VOTING = 'VOTING',
-  MERGED = 'MERGED',
-  REJECTED = 'REJECTED',
-  DEBATING = 'DEBATING',
-}
 
 interface AmendmentData {
   amendmentId: number;

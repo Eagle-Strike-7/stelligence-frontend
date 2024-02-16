@@ -96,6 +96,7 @@ const CreateComment = ({
     postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
+        setIsCommentCreateOpen(false);
         setNewContent('');
         if (selectedOption === '등록순') {
           scrollToBottom();
