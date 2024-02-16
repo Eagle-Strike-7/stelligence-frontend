@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import { StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarSection } from '@/types/star/StarProps';
@@ -10,13 +10,24 @@ import StarTagInput from '@/components/Common/Star/StarTagInput';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { Amendment } from '@/types/star/ReviseStarProps';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
+import { ReviseDataResponse } from '@/service/vote/voteService';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
 
+interface RevisedStarProps {
+  contributeTitle: string;
+  contributeDescription: string;
+  amendments: Amendment[];
+  documentId: number;
+  afterDocumentTitle: string;
+  afterParentDocumentId: number | null;
+  relatedDebateId: number | null;
+}
+
 // NOTE : 수정요청 패이지
-// FIXME : relatedDebateId 추가
 const ReviseStarForm = () => {
   const documentId = Number(useParams().starId);
+  const router = useRouter();
 
   const [contributeTitle, setContributeTitle] = useState<string>('');
   const [contributeDescription, setContributeDescription] =
@@ -26,6 +37,7 @@ const ReviseStarForm = () => {
   const [afterParentDocumentId, setAfterParentDocumentId] = useState<
     number | null
   >(0);
+  const [relatedDebateId, setRelatedDebateId] = useState<number | null>(null);
   const [afterParentDocumentTitle, setAfterParentDocumentTitle] =
     useState<string>('');
   const [sections, setSections] = useState<StarSection[]>([]);
@@ -43,7 +55,6 @@ const ReviseStarForm = () => {
         `/api/documents/${documentId}`,
       );
       const { data } = response;
-      console.log('data', data); // FIXME : 기능완성 시 삭제예정
       if (data.success && data.results.documentId === documentId) {
         setAfterDocumentTitle(data.results.title);
         setAfterParentDocumentId(data.results.parentDocumentId);
@@ -66,8 +77,30 @@ const ReviseStarForm = () => {
     }
   };
 
+  // FIXME : postRevisedStar 분리
+  const postRevisedStar = async (RevisedStar: RevisedStarProps) => {
+    try {
+      const response = await apiClient.post<ReviseDataResponse>(
+        `/api/contributes`,
+        RevisedStar,
+      );
+      const { data } = response;
+      console.log('postdata', data); // FIXME : 기능완성 시 삭제예정
+      if (data.success) {
+        const { contributeId } = data.results;
+        router.push(`/vote-list/${contributeId}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getStarSections();
+    if (localStorage.getItem('debateId') !== null) {
+      setRelatedDebateId(Number(localStorage.getItem('debateId')));
+      localStorage.removeItem('debateId');
+    }
   }, []);
 
   useEffect(() => {
@@ -76,6 +109,14 @@ const ReviseStarForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (contributeTitle === '') {
+      alert('수정 요청안 제목을 입력해주세요');
+    } else if (contributeDescription === '') {
+      alert('수정 요청 이유를 입력해주세요');
+    } else if (amendments.length === 0) {
+      alert('수정안을 입력해주세요');
+    }
+
     const RevisedStar = {
       contributeTitle,
       contributeDescription,
@@ -83,10 +124,11 @@ const ReviseStarForm = () => {
       documentId,
       afterDocumentTitle,
       afterParentDocumentId,
+      relatedDebateId,
     };
-    // @ts-ignore
+
     // TODO : 함수 정의
-    postReviseStar(RevisedStar);
+    postRevisedStar(RevisedStar);
   };
 
   return (
