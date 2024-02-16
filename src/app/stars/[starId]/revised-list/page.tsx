@@ -26,8 +26,13 @@ const Page = () => {
     AxiosError
   >({
     queryKey: ['revise', activeTab],
-    queryFn: () =>
-      {return getSpecificReviseData({ documentId, activeTab, page: currentPage - 1 })},
+    queryFn: () => {
+      return getSpecificReviseData({
+        documentId,
+        activeTab,
+        page: currentPage - 1,
+      });
+    },
   });
 
   useEffect(() => {
@@ -83,7 +88,7 @@ const Page = () => {
       ) : (
         <div className="flex flex-col gap-3 text-white text-center py-10 ">
           <p className="text-xl font-bold">👽 해당 내용이 없습니다 👽</p>
-          <p>첫 수정요청을 작성해보세요!</p>
+          <p>수정요청을 작성해보세요!</p>
         </div>
       )}
     </Wrapper>
