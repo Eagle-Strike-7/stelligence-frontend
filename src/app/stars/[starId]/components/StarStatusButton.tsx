@@ -1,28 +1,56 @@
+import apiClient from '@/service/login/axiosClient';
+import { StarResponseType } from '@/types/common/ResponseType';
 import { DocStatus } from '@/types/star/StarProps';
 import { Button, useToast } from '@chakra-ui/react';
 import { useParams, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-interface StarStatusButtonProps {
+interface StarStatus {
+  documentId: number;
   documentStatus: DocStatus;
-  id: { contributeId: number; debateId: number };
+  contributeId: number;
+  debateId: number;
 }
 
-const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
+const StarStatusButton = () => {
   const starId = Number(useParams().starId);
   const router = useRouter();
   const toast = useToast();
+
+  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
+    DocStatus.EDITABLE,
+  );
+  const [contributeId, setContributeId] = useState<number | null>(0);
+  const [debateId, setDebateId] = useState<number | null>(0);
+
+  const getStarStatus = async () => {
+    // TODO : getStar 분리
+    try {
+      const response = await apiClient.get<StarResponseType<StarStatus>>(
+        `/api/documents/${starId}/status`,
+      );
+      const { data } = response;
+      console.log('data', data); // FIXME : 기능완성 시 삭제예정
+      if (data.success && data.results.documentId === starId) {
+        setDocumentStatus(data.results.documentStatus);
+        setContributeId(data.results.contributeId);
+        setDebateId(data.results.debateId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleEdit = () => {
     router.push(`/stars/${starId}/revise`);
   };
 
   const handleVoting = () => {
-    router.push(`/vote-list/${id}`);
+    router.push(`/vote-list/${contributeId}`);
   };
 
   const handleDebating = () => {
-    router.push(`/debate-list/${id}`);
+    router.push(`/debate-list/${debateId}`);
   };
 
   const handlePending = () => {
@@ -32,6 +60,10 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
       isClosable: true,
     });
   };
+
+  useEffect(() => {
+    getStarStatus();
+  }, []);
 
   return (
     <>

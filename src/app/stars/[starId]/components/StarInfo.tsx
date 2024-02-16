@@ -9,7 +9,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
-import { DocStatus } from '@/types/star/StarProps';
 import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -27,8 +26,6 @@ interface StarInfoProps {
   title: string;
   parentDocumentTitle: string;
   lastModifiedAt: string;
-  documentStatus: DocStatus;
-  id: { contributeId: number; debateId: number };
 }
 
 // NOTE : 글의 정보를 보여주는 컴포넌트
@@ -36,8 +33,6 @@ const StarInfo = ({
   title,
   parentDocumentTitle,
   lastModifiedAt,
-  documentStatus,
-  id,
 }: StarInfoProps) => {
   const starId = Number(useParams().starId);
   const router = useRouter();
@@ -182,7 +177,7 @@ const StarInfo = ({
           </Menu>
         </div>
         {/* SECTION : 편집/투표중/토론중 버튼 */}
-        <StarStatusButton documentStatus={documentStatus} id={id} />
+        <StarStatusButton />
       </div>
     </div>
   );
