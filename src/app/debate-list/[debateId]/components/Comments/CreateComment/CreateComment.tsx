@@ -92,6 +92,7 @@ const CreateComment = ({
     postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
+        setIsCommentCreateOpen(false);
         setNewContent('');
         scrollToBottom();
       })

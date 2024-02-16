@@ -13,6 +13,7 @@ export interface DebateCommentProps {
   time: string;
   commentId: number;
   commentIds: number[];
+  commentorId: number;
   setIsChanged: Dispatch<SetStateAction<boolean>>;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
@@ -23,6 +24,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   commentContent,
   time,
   commentId,
+  commentorId,
   commentIds,
   setIsChanged,
   handleClickCommentId,
@@ -77,6 +79,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
           time={time}
           commentId={commentId}
           commentIds={commentIds}
+          commentorId={commentorId}
           handleClickCommentId={handleClickCommentId}
           onOpen={onOpen}
           handleDeleteComment={handleDeleteComment}
