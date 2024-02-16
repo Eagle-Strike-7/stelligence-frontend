@@ -136,6 +136,7 @@ const ReviseStarForm = () => {
       <PageTitleDescription
         title="수정 요청하기"
         description="글을 수정해보세요"
+        relatedDebateId={Number(localStorage.getItem('debateId'))}
       />
       {/* SECTION : 수정요청안 제목 */}
       <StarTitleInput
