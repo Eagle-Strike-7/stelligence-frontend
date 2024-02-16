@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { Box, Stack } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
-import { DocStatus, Star, StarContributor } from '@/types/star/StarProps';
-import { usePathname } from 'next/navigation';
+import { Star, StarContributor } from '@/types/star/StarProps';
+import { useParams, useSearchParams } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import StarInfo from './components/StarInfo';
 import StarContent from './components/StarContent';
@@ -21,22 +21,22 @@ const Page = () => {
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
   const [contributors, setContributors] = useState<StarContributor[]>([]);
-  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
-    DocStatus.EDITABLE,
-  );
-  const [id, setId] = useState({
-    contributeId: 0,
-    debateId: 0,
-  });
 
-  const pathname = usePathname();
-  const documentId = Number(pathname.split('/').pop());
+  const documentId = Number(useParams().starId);
+  const searchParams = useSearchParams();
+
+  let params = {};
+  if (searchParams.has('revision')) {
+    params = { revision: searchParams.get('revision') };
+    console.log('params', params); // FIXME : 기능완성 시 삭제예정
+  }
 
   const getStar = async () => {
     // TODO : getStar 분리
     try {
       const response = await apiClient.get<StarResponseType<Star>>(
         `/api/documents/${documentId}`,
+        { params },
       );
       const { data } = response;
       console.log('data', data); // FIXME : 기능완성 시 삭제예정
@@ -54,11 +54,6 @@ const Page = () => {
             };
           }),
         );
-        setDocumentStatus(data.results.documentStatus);
-        setId({
-          contributeId: data.results.contributeId,
-          debateId: data.results.debateId,
-        });
       }
     } catch (error) {
       console.log(error);
@@ -77,8 +72,6 @@ const Page = () => {
             title={title}
             parentDocumentTitle={parentDocumentTitle}
             lastModifiedAt={lastModifiedAt}
-            documentStatus={documentStatus}
-            id={id}
           />
           <StarContent content={content} />
           <StarAuthors
