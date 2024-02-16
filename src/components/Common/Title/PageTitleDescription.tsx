@@ -5,13 +5,17 @@ import React from 'react';
 interface PageTitleDescriptionProps {
   title: string;
   description: string;
+  tagTitle?: string;
   relatedDebateId?: number;
+  parentDocumentId?: number;
 }
 
 const PageTitleDescription = ({
   title,
   description,
+  tagTitle = '💬 연관 토론:',
   relatedDebateId,
+  parentDocumentId,
 }: PageTitleDescriptionProps) => {
   const router = useRouter();
   const handleClickRelatedDebate = () => {
@@ -20,6 +24,12 @@ const PageTitleDescription = ({
     }
   };
 
+  const handleClickParentDocumentId = () => {
+    if (parentDocumentId) {
+      router.push(`/stars/${parentDocumentId}`);
+    }
+  };
+  // FIXME : 태그 정리하기
   return (
     <div className="flex flex-col gap-1 text-white w-max ml-2 mb-12">
       <div className="flex">
@@ -38,7 +48,27 @@ const PageTitleDescription = ({
               cursor: 'pointer',
             }}
           >
-            <TagLabel>💬 연관 토론: {relatedDebateId}</TagLabel>
+            <TagLabel>
+              {tagTitle}
+              {relatedDebateId}
+            </TagLabel>
+          </Tag>
+        )}
+        {parentDocumentId && (
+          <Tag
+            size="md"
+            backgroundColor="white"
+            color="black"
+            height="fit-content"
+            alignSelf="center"
+            marginLeft="0.5rem"
+            paddingY="0.3rem"
+            onClick={handleClickParentDocumentId}
+            _hover={{
+              cursor: 'pointer',
+            }}
+          >
+            <TagLabel>{tagTitle}</TagLabel>
           </Tag>
         )}
       </div>
