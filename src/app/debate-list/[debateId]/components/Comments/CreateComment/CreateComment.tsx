@@ -109,6 +109,15 @@ const CreateComment = ({
       });
   };
 
+  // NOTE 엔터 키 입력 시 댓글 작성
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // 엔터 키를 누르고, Shift 키가 함께 눌리지 않았을 경우 실행
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // 텍스트 영역에서의 엔터 기본 동작(새 줄 추가) 방지
+      handleSubmitComment();
+    }
+  };
+
   // NOTE 중첩 삼항연산자를 피하기 위해 renderCreateCommentBox 함수 별도로 설정
   // TODO 별도의 컴포넌트로 리팩토링
   const renderCreateCommentBox = () => {
@@ -151,6 +160,7 @@ const CreateComment = ({
             onChange={handleChangeInput}
             onClick={handleChangeInput} // 커서 이동 시에도 위치 업데이트
             style={{ lineHeight: '20px' }}
+            onKeyDown={handleKeyDown}
           />
 
           {newContent.length > 0 && showDropdown && (
