@@ -1,40 +1,17 @@
 import { Button } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { getCommentList } from '@/service/debate/comment';
-import { useQuery } from '@tanstack/react-query';
-import { getMiniProfile } from '@/service/userService';
 
 const NewReviseRequestButton: React.FC<{
   debateId: number;
   starId: number | undefined;
-}> = ({ debateId, starId }) => {
+  canRequestRevise: boolean;
+}> = ({ debateId, starId, canRequestRevise }) => {
   const router = useRouter();
-  const [engagedUsers, setEngagedUsers] = useState<string[]>([]);
-  const { data: miniProfileData } = useQuery({
-    queryKey: ['user', 'mini'],
-    queryFn: getMiniProfile,
-  });
-
-  useEffect(() => {
-    getCommentList(debateId)
-      .then(comments => {
-        const nicknames = comments.map(item => {
-          return item.commenter.nickname;
-        });
-        setEngagedUsers([...nicknames]);
-      })
-      .catch(error => {
-        console.error('Error fetching comments:', error);
-      });
-  }, [debateId]);
 
   const handleNewReviseRequestByDebate = () => {
     // NOTE 수정 요청 권한이 있는 사람만 가능
-    if (
-      miniProfileData &&
-      engagedUsers.includes(miniProfileData!.results.nickname)
-    ) {
+    if (canRequestRevise) {
       // NOTE 로컬스토리지에 debateId 저장
       localStorage.setItem('debateId', debateId.toString());
       // NOTE 수정 요청 페이지로 이동

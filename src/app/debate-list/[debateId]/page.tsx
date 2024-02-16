@@ -1,42 +1,76 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
-
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
+import {
+  getDocumentReviseState,
+  ReviseStateProps,
+} from '@/service/debate/reviseAuth';
+import { useQuery } from '@tanstack/react-query';
+import { CommentProps } from '@/types/debate/comment';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/store/user/login';
 import NewReviseRequestButton from './components/NewReviseRequestButton';
 import DebateDetail from './components/DebateDetail/DebateDetail';
 import CommentsSection from './components/Comments/CommentsSection';
 import CreateComment from './components/Comments/CreateComment/CreateComment';
 import BackToDebateListButton from './components/BackToDebateListButton';
-
 import { Debate, getDebateData } from './page.server';
 
 const Page = () => {
   const pathname = usePathname();
   const debateId = Number(pathname.split('/').pop());
-  const [debateData, setDebateData] = useState<Debate | null>(null);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
-  // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
-  // const [canReviseUser, setCanReviseUser] = useState(false);
-  // const [canReviseState, setCanReviseState] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
-  const [commentIds, setCommentIds] = useState<number[]>([]);
+  const currentUserInfo = useRecoilValue(loggedInUserState);
 
-  useEffect(() => {
-    if (debateId) {
-      getDebateData(debateId).then(setDebateData);
-      getCommentList(debateId).then(comments => {
-        setCommentIds(
-          comments.map(item => {
-            return item.commentId;
-          }),
-        );
-      });
-    }
-  }, [debateId]);
+  const { data: debateData } = useQuery<
+    Debate,
+    Error,
+    Debate,
+    [string, number]
+  >({
+    queryKey: ['debateData', debateId],
+    queryFn: () => {
+      return getDebateData(debateId);
+    },
+    enabled: !!debateId,
+    staleTime: 10000000,
+  });
+
+  const { data: comments } = useQuery<
+    CommentProps[],
+    Error,
+    CommentProps[],
+    [string, number]
+  >({
+    queryKey: ['comments', debateId],
+    queryFn: () => {
+      return getCommentList(debateId);
+    },
+    enabled: !!debateId,
+  });
+
+  const { data: reviseAuthData } = useQuery<
+    ReviseStateProps | undefined,
+    Error,
+    ReviseStateProps,
+    [string, number | undefined]
+  >({
+    queryKey: ['reviseAuth', debateData?.contribute.documentId],
+    queryFn: () => {
+      const documentId = debateData?.contribute.documentId;
+      if (!documentId) {
+        // NOTE documentId가 없는 경우 즉시 종료하고 undefined를 반환
+        return Promise.resolve(undefined);
+      }
+      return getDocumentReviseState(documentId);
+    },
+    enabled: !!debateData?.contribute.documentId,
+  });
 
   const refreshComments = () => {
     setCommentsUpdated(prev => {
@@ -47,6 +81,21 @@ const Page = () => {
   const handleClickCommentId = (e: React.MouseEvent<HTMLSpanElement>) => {
     setSelectedCommentId(e.currentTarget.id);
   };
+
+  const isDebateClosed = debateData?.status === 'CLOSED';
+  const commentIds =
+    comments?.map(comment => {
+      return comment.commentId;
+    }) || [];
+  const reviseAuthUsers =
+    comments?.map(comment => {
+      return comment.commenter.nickname;
+    }) || [];
+  const isRevisableDoc =
+    reviseAuthData?.documentStatus === ('EDITABLE' || 'PENDING');
+  const currentUser = currentUserInfo.nickname;
+  const canRequestRevise =
+    isRevisableDoc && reviseAuthUsers.includes(currentUser);
 
   return (
     <Wrapper>
@@ -62,15 +111,14 @@ const Page = () => {
           relatedDebateId={debateData?.contribute.relatedDebateId}
         />
       </div>
-      {
-        // TODO 수정 가능한 유저인지, 수정 가능한 상태인지 확인하는 로직 필요
-        // canReviseUser &&
+      {isDebateClosed && canRequestRevise && (
         <NewReviseRequestButton
           debateId={debateId}
           starId={debateData?.contribute.documentId}
+          canRequestRevise={canRequestRevise}
         />
-      }
-      <DebateDetail debateData={debateData} />
+      )}
+      {debateData && <DebateDetail debateData={debateData} />}
       <CommentsSection
         debateId={debateId}
         commentIds={commentIds}
