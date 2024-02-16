@@ -42,6 +42,7 @@ const RightNav = () => {
   useEffect(() => {
     setIsLogin(!!userData?.success);
     setLoggedInUserState({
+      memberId: userData?.results.memberId ?? 0,
       email: userData?.results.email ?? '',
       nickname: userData?.results.nickname ?? '',
       profileImgUrl: userData?.results.profileImgUrl ?? '',
