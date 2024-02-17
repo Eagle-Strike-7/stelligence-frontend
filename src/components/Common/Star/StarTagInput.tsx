@@ -140,7 +140,8 @@ const StarTagInput = ({
         <Tag
           size="lg"
           variant="subtle"
-          colorScheme="blue"
+          bgColor="primaryLight.500"
+          pt="0.1rem"
           my="0.5rem"
           minW="fit-content"
           maxW="fit-content"

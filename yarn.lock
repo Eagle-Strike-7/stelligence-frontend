@@ -3013,6 +3013,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-link@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@tiptap/extension-link@npm:2.2.2"
+  dependencies:
+    linkifyjs: "npm:^4.1.0"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: a796bed3125dc70a70322d46b84b3e967e6ac30236c4b008f331c2c8f7de39e2c74beaba9da599bad095c2084f1cb9aa864005520ff9d34861c32ea1cea93fd4
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-list-item@npm:^2.2.1":
   version: 2.2.1
   resolution: "@tiptap/extension-list-item@npm:2.2.1"
@@ -3077,9 +3089,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/pm@npm:^2.1.16":
-  version: 2.2.1
-  resolution: "@tiptap/pm@npm:2.2.1"
+"@tiptap/pm@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "@tiptap/pm@npm:2.2.3"
   dependencies:
     prosemirror-changeset: "npm:^2.2.1"
     prosemirror-collab: "npm:^1.3.1"
@@ -3099,7 +3111,7 @@ __metadata:
     prosemirror-trailing-node: "npm:^2.0.7"
     prosemirror-transform: "npm:^1.8.0"
     prosemirror-view: "npm:^1.32.7"
-  checksum: 4a5078cef2c640523609bf35f9354ab75ad4afbae5cd362bcc6567483b122e4481c51ce962658cdd78624e26cad3ddd7f64fb4f297233781dcefe270b5bfd49e
+  checksum: a6cb9a9e83c7894e95abe019cfd0414b6f689f665d0d11251f9eabd795f97c2dedffb666f2f816e68970c41bfd059d6abd001ba53923e2ed2f04987b55487f29
   languageName: node
   linkType: hard
 
@@ -3598,6 +3610,15 @@ __metadata:
   version: 15.7.11
   resolution: "@types/prop-types@npm:15.7.11"
   checksum: e53423cf9d510515ef8b47ff42f4f1b65a7b7b37c8704e2dbfcb9a60defe0c0e1f3cb1acfdeb466bad44ca938d7c79bffdd51b48ffb659df2432169d0b27a132
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-state@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@types/prosemirror-state@npm:1.4.0"
+  dependencies:
+    prosemirror-state: "npm:*"
+  checksum: 58658c72ad6fa88f29633237c936ae57e533b53c6dc7b628e4729ab3be8f639e3fc29ab520a0204f71465c53357add7c4cd4a63d436b73b4530ddc9ee291eef0
   languageName: node
   linkType: hard
 
@@ -8107,6 +8128,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"linkifyjs@npm:^4.1.0":
+  version: 4.1.3
+  resolution: "linkifyjs@npm:4.1.3"
+  checksum: 9fb71da06ee710b5587c8b61ff9a0e45303d448f61fab135e44652cff95c09c1abe276158a72384cff6f35a2371d1cec33dfaa7e5280b71dbb142b43d210c75a
+  languageName: node
+  linkType: hard
+
 "lint-staged@npm:^15.2.0":
   version: 15.2.1
   resolution: "lint-staged@npm:15.2.1"
@@ -9342,7 +9370,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-state@npm:^1.0.0, prosemirror-state@npm:^1.2.2, prosemirror-state@npm:^1.3.1, prosemirror-state@npm:^1.4.3":
+"prosemirror-state@npm:*, prosemirror-state@npm:^1.0.0, prosemirror-state@npm:^1.2.2, prosemirror-state@npm:^1.3.1, prosemirror-state@npm:^1.4.3":
   version: 1.4.3
   resolution: "prosemirror-state@npm:1.4.3"
   dependencies:
@@ -10144,14 +10172,16 @@ __metadata:
     "@testing-library/user-event": "npm:^14.5.2"
     "@tiptap/core": "npm:^2.1.16"
     "@tiptap/extension-image": "npm:^2.2.1"
+    "@tiptap/extension-link": "npm:^2.2.2"
     "@tiptap/extension-placeholder": "npm:^2.2.1"
     "@tiptap/extension-underline": "npm:^2.2.1"
-    "@tiptap/pm": "npm:^2.1.16"
+    "@tiptap/pm": "npm:^2.2.3"
     "@tiptap/react": "npm:^2.1.16"
     "@tiptap/starter-kit": "npm:^2.1.16"
     "@types/d3": "npm:^7.4.3"
     "@types/jest": "npm:^29.5.11"
     "@types/node": "npm:^20"
+    "@types/prosemirror-state": "npm:^1.4.0"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@typescript-eslint/eslint-plugin": "npm:^6.18.1"
@@ -10183,6 +10213,8 @@ __metadata:
     next: "npm:14.0.4"
     postcss: "npm:^8"
     prettier: "npm:^3.2.2"
+    prosemirror-state: "npm:^1.4.3"
+    prosemirror-view: "npm:^1.32.7"
     react: "npm:^18"
     react-dom: "npm:^18"
     react-icons: "npm:^5.0.1"
