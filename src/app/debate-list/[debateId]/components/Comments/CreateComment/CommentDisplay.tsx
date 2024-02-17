@@ -1,7 +1,9 @@
 import renderContentWithTags from '@/lib/debate/renderContentWithTags';
+import { loggedInUserState } from '@/store/user/login';
 import { Avatar, Tag } from '@chakra-ui/react';
 import { AiTwotoneAlert, AiOutlineEdit } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { useRecoilValue } from 'recoil';
 
 interface CommentDisplayProps {
   userImg: string;
@@ -10,6 +12,7 @@ interface CommentDisplayProps {
   time: string;
   commentId: number;
   commentIds: number[];
+  commentorId: number;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   onOpen: () => void;
   handleDeleteComment: () => void;
@@ -23,11 +26,14 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
   time,
   commentId,
   commentIds,
+  commentorId,
   handleClickCommentId,
   onOpen,
   handleDeleteComment,
   handleEditComment,
 }) => {
+  const currentUserInfo = useRecoilValue(loggedInUserState);
+  const isEditableUser = currentUserInfo.memberId === commentorId;
   return (
     <>
       <div className="flex flex-col justify-center items-center w-12 mr-4 ">
@@ -59,16 +65,20 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
               className="mr-1 hover:cursor-pointer hover:opacity-50"
               onClick={onOpen}
             />
-            <HiOutlineTrash
-              size="1.1rem"
-              className="mr-1 hover:cursor-pointer hover:opacity-50"
-              onClick={handleDeleteComment}
-            />
-            <AiOutlineEdit
-              size="1.1rem "
-              className="hover:cursor-pointer hover:opacity-50"
-              onClick={handleEditComment}
-            />
+            {isEditableUser && (
+              <>
+                <HiOutlineTrash
+                  size="1.1rem"
+                  className="mr-1 hover:cursor-pointer hover:opacity-50"
+                  onClick={handleDeleteComment}
+                />
+                <AiOutlineEdit
+                  size="1.1rem "
+                  className="hover:cursor-pointer hover:opacity-50"
+                  onClick={handleEditComment}
+                />
+              </>
+            )}
           </div>
         </div>
         <div className="text-sm my-2">

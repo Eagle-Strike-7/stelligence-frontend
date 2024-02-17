@@ -41,7 +41,7 @@ const DebateListCard: React.FC<ListCardProps<{ commentNum: number }>> = ({
         </div>
       </div>
       <div className="justify-between">
-        <div className="flex">
+        <div className="flex gap-1">
           <AiOutlineComment size="1.2rem" />
           <p className="text-sm">{option.commentNum}</p>
         </div>

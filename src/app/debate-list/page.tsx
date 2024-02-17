@@ -11,6 +11,7 @@ import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
 import DebateListCard from '@/app/debate-list/components/DebateListCard';
 import apiClient from '@/service/login/axiosClient';
+import formatDate from '@/lib/formatDate';
 
 interface Debate {
   debateId: number;
@@ -108,7 +109,7 @@ const Page = () => {
               originalTitle={item.documentTitle}
               title={item.documentTitle}
               username={item.contributor.nickname}
-              time={`${item.createdAt}~${item.endAt}`}
+              time={`${formatDate(item.createdAt)}~${formatDate(item.endAt)}`}
               option={{ commentNum: item.commentsCount }}
             />
           </Link>
