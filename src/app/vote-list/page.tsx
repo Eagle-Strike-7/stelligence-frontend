@@ -138,33 +138,42 @@ const Page = () => {
           )}
         </div>
       </div>
-      {voteList &&
-        voteList.map(item => {
-          return (
-            <VoteListCard
-              key={item.contributeId}
-              documentTitle={item.documentTitle}
-              contributeId={item.contributeId}
-              contributeTitle={item.contributeTitle}
-              contributorNickname={item.contributorNickname}
-              createTime={formatDate(item.createdAt) ?? convertDate(new Date())}
-              agreeCount={item.voteSummary.agreeCount ?? 10}
-              disagreeCount={item.voteSummary.disagreeCount ?? 20}
-              contributeStatus={item.contributeStatus}
+      {voteList.length !== 0 ? (
+        <div>
+          {voteList.map(item => {
+            return (
+              <VoteListCard
+                key={item.contributeId}
+                documentTitle={item.documentTitle}
+                contributeId={item.contributeId}
+                contributeTitle={item.contributeTitle}
+                contributorNickname={item.contributorNickname}
+                createTime={
+                  formatDate(item.createdAt) ?? convertDate(new Date())
+                }
+                agreeCount={item.voteSummary.agreeCount ?? 10}
+                disagreeCount={item.voteSummary.disagreeCount ?? 20}
+                contributeStatus={item.contributeStatus}
+              />
+            );
+          })}
+          <Center>
+            <Pagination
+              count={totalPages}
+              showFirstButton
+              showLastButton
+              className="my-10 mb-20"
+              page={currentPage}
+              color="primary"
+              onChange={handlePagination}
             />
-          );
-        })}
-      <Center>
-        <Pagination
-          count={totalPages}
-          showFirstButton
-          showLastButton
-          className="my-10 mb-20"
-          page={currentPage}
-          color="primary"
-          onChange={handlePagination}
-        />
-      </Center>
+          </Center>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3 text-white text-center py-10 ">
+          <p className="text-xl font-bold">목록이 없습니다</p>
+        </div>
+      )}
     </Wrapper>
   );
 };
