@@ -45,6 +45,7 @@ const customTheme = extendTheme({
     },
     secondary: { 500: '#F9AF6C' },
     secondaryLight: { 500: '#FFD8B7' },
+    tertiary: { 500: '#85D2E6' },
     gray: {
       50: '#f2f4f6',
       100: '#EDF2F7',
