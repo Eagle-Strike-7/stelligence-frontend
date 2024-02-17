@@ -45,6 +45,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
           return (
             <CommentCard
               key={comment.commentId}
+              commentorId={comment.commenter.memberId}
               userImg={comment.commenter.profileImgUrl}
               userName={comment.commenter.nickname}
               commentId={comment.commentId}

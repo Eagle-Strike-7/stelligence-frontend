@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import apiClient from './login/axiosClient';
 
 interface UserData {
+  memberId: number;
   nickname: string;
   email: string;
   profileImgUrl: string;
