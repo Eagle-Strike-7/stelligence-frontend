@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { getCommentList } from '@/service/debate/comment';
 import { CommentProps } from '@/types/debate/comment';
 import CommentsHeader from './CommentsHeader';
@@ -9,57 +9,67 @@ interface CommentsSectionProps {
   commentIds: number[];
   commentsUpdated: boolean;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
 }
-const CommentsSection: React.FC<CommentsSectionProps> = ({
-  debateId,
-  commentIds,
-  commentsUpdated,
-  handleClickCommentId,
-}) => {
-  const [commentList, setCommentList] = useState<CommentProps[]>([]);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>('등록순');
 
-  useEffect(() => {
-    getCommentList(debateId)
-      .then(comments => {
-        if (selectedOption === '최신순') {
-          setCommentList([...comments].reverse());
-        } else {
+const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
+  (
+    {
+      debateId,
+      commentIds,
+      commentsUpdated,
+      handleClickCommentId,
+      selectedOption,
+      setSelectedOption,
+    },
+    ref,
+  ) => {
+    const [commentList, setCommentList] = useState<CommentProps[]>([]);
+    const [isChanged, setIsChanged] = useState<boolean>(false);
+
+    useEffect(() => {
+      getCommentList(debateId)
+        .then(comments => {
           setCommentList([...comments]);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching comments:', error);
-      });
-  }, [debateId, commentsUpdated, isChanged, selectedOption]);
+        })
+        .catch(error => {
+          console.error('Error fetching comments:', error);
+        });
+    }, [debateId, commentsUpdated, isChanged]);
 
-  return (
-    <div className="flex flex-col gap-4 rounded-lg mb-16">
-      <CommentsHeader
-        commentsNum={commentList.length}
-        setSelectedOption={setSelectedOption}
-      />
-      <div className="flex flex-col">
-        {commentList.map((comment: CommentProps) => {
-          return (
-            <CommentCard
-              key={comment.commentId}
-              commentorId={comment.commenter.memberId}
-              userImg={comment.commenter.profileImgUrl}
-              userName={comment.commenter.nickname}
-              commentId={comment.commentId}
-              commentContent={comment.content}
-              time={comment.createdAt.replace('T', ' ')}
-              commentIds={commentIds}
-              setIsChanged={setIsChanged}
-              handleClickCommentId={handleClickCommentId}
-            />
-          );
-        })}
+    return (
+      <div ref={ref} className="flex flex-col gap-4 rounded-lg mb-16">
+        <CommentsHeader
+          commentsNum={commentList.length}
+          setSelectedOption={setSelectedOption}
+        />
+        <div className="flex flex-col">
+          {(selectedOption === '최신순'
+            ? [...commentList].reverse()
+            : commentList
+          ).map((comment: CommentProps) => {
+            return (
+              <CommentCard
+                key={comment.commentId}
+                commentorId={comment.commenter.memberId}
+                userImg={comment.commenter.profileImgUrl}
+                userName={comment.commenter.nickname}
+                commentId={comment.commentId}
+                commentContent={comment.content}
+                time={comment.createdAt.replace('T', ' ')}
+                commentIds={commentIds}
+                setIsChanged={setIsChanged}
+                handleClickCommentId={handleClickCommentId}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
+
+CommentsSection.displayName = 'CommentsSection';
 
 export default CommentsSection;

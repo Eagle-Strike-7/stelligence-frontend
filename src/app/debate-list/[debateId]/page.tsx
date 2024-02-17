@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
@@ -26,6 +26,8 @@ const Page = () => {
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string>('');
   const currentUserInfo = useRecoilValue(loggedInUserState);
+  const [selectedOption, setSelectedOption] = useState<string>('등록순');
+  const commentsSectionRef = useRef<HTMLDivElement>(null);
 
   const { data: debateData } = useQuery<
     Debate,
@@ -73,11 +75,15 @@ const Page = () => {
   });
 
   const refreshComments = () => {
-    setCommentsUpdated(prev => {
-      return !prev;
-    });
+    setCommentsUpdated(prev => {return !prev});
+    // 댓글 섹션으로 스크롤 이동
   };
 
+  const scrollToTopComment = () => {
+    if (commentsSectionRef.current) {
+      commentsSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   const handleClickCommentId = (e: React.MouseEvent<HTMLSpanElement>) => {
     setSelectedCommentId(e.currentTarget.id);
   };
@@ -124,6 +130,9 @@ const Page = () => {
         commentIds={commentIds}
         commentsUpdated={commentsUpdated}
         handleClickCommentId={handleClickCommentId}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        ref={commentsSectionRef}
       />
       <CreateComment
         selectedCommentId={selectedCommentId}
@@ -132,6 +141,8 @@ const Page = () => {
         commentIds={commentIds}
         debateStatus={debateData?.status ?? 'OPEN'}
         handleClickCommentId={handleClickCommentId}
+        selectedOption={selectedOption}
+        scrollToTopComment={scrollToTopComment}
       />
     </Wrapper>
   );
