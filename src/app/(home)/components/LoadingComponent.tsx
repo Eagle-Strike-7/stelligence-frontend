@@ -13,8 +13,6 @@ const LoadingComponent = () => {
     '/image/loading14.svg',
   ];
 
-  console.log(loadingImages[Math.floor(Math.random() * loadingImages.length)]);
-
   return (
     <Wrapper>
       <div className="flex flex-col mx-auto align-middle gap-10">
