@@ -1,28 +1,44 @@
+import {
+  ReviseStateProps,
+  getDocumentReviseState,
+} from '@/service/debate/reviseAuth';
 import { DocStatus } from '@/types/star/StarProps';
 import { Button, useToast } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import React from 'react';
 
-interface StarStatusButtonProps {
-  documentStatus: DocStatus;
-  id: { contributeId: number; debateId: number };
-}
-
-const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
+const StarStatusButton = () => {
   const starId = Number(useParams().starId);
   const router = useRouter();
   const toast = useToast();
+
+  const { data: reviseAuthData } = useQuery<
+    ReviseStateProps | undefined,
+    Error,
+    ReviseStateProps,
+    [string, number | undefined]
+  >({
+    queryKey: ['reviseAuth', starId],
+    queryFn: () => {
+      if (!starId) {
+        // NOTE documentId가 없는 경우 즉시 종료하고 undefined를 반환
+        return Promise.resolve(undefined);
+      }
+      return getDocumentReviseState(starId);
+    },
+    enabled: !!starId,
+  });
 
   const handleEdit = () => {
     router.push(`/stars/${starId}/revise`);
   };
 
   const handleVoting = () => {
-    router.push(`/vote-list/${id}`);
+    router.push(`/vote-list/${reviseAuthData?.contributeId}`);
   };
 
   const handleDebating = () => {
-    router.push(`/debate-list/${id}`);
+    router.push(`/debate-list/${reviseAuthData?.debateId}`);
   };
 
   const handlePending = () => {
@@ -35,7 +51,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
 
   return (
     <>
-      {documentStatus === DocStatus.EDITABLE && (
+      {reviseAuthData?.documentStatus === DocStatus.EDITABLE && (
         <Button
           size="md"
           color="primary.500"
@@ -47,7 +63,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
           편집
         </Button>
       )}
-      {documentStatus === DocStatus.VOTING && (
+      {reviseAuthData?.documentStatus === DocStatus.VOTING && (
         <Button
           size="md"
           bgColor="primary.500"
@@ -59,7 +75,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
           투표중
         </Button>
       )}
-      {documentStatus === DocStatus.DEBATING && (
+      {reviseAuthData?.documentStatus === DocStatus.DEBATING && (
         <Button
           size="md"
           bgColor="primary.500"
@@ -71,7 +87,7 @@ const StarStatusButton = ({ documentStatus, id }: StarStatusButtonProps) => {
           토론중
         </Button>
       )}
-      {documentStatus === DocStatus.PENDING && ( // TODO : 이름 변경 필요
+      {reviseAuthData?.documentStatus === DocStatus.PENDING && ( // TODO : 이름 변경 필요
         <Button
           size="md"
           bgColor="primary.500"

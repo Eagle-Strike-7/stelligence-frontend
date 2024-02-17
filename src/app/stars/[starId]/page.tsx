@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '@/components/Common/Wrapper';
 import { Box, Stack } from '@chakra-ui/react';
 import { StarResponseType } from '@/types/common/ResponseType';
-import { DocStatus, Star, StarContributor } from '@/types/star/StarProps';
-import { usePathname } from 'next/navigation';
+import { Star, StarContributor } from '@/types/star/StarProps';
+import { useParams, useSearchParams } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import StarInfo from './components/StarInfo';
 import StarContent from './components/StarContent';
@@ -17,35 +17,39 @@ import formatDate from '../../../lib/formatDate';
 const Page = () => {
   const [title, setTitle] = useState('');
   const [parentDocumentTitle, setParentDocumentTitle] = useState('');
+  const [parentDocumentId, setParentDocumentId] = useState<number>(0);
   const [lastModifiedAt, setLastModifiedAt] = useState('');
   const [content, setContent] = useState('');
   const [originalAuthor, setOriginalAuthor] = useState<string>('');
+  const [currentRevision, setCurrentRevision] = useState<number>(0);
+  const [latestRevision, setLatestRevision] = useState<number>(0);
   const [contributors, setContributors] = useState<StarContributor[]>([]);
-  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
-    DocStatus.EDITABLE,
-  );
-  const [id, setId] = useState({
-    contributeId: 0,
-    debateId: 0,
-  });
 
-  const pathname = usePathname();
-  const documentId = Number(pathname.split('/').pop());
+  const documentId = Number(useParams().starId);
+  const searchParams = useSearchParams();
+
+  let params = {};
+  if (searchParams.has('revision')) {
+    params = { revision: searchParams.get('revision') };
+  }
 
   const getStar = async () => {
     // TODO : getStar 분리
     try {
       const response = await apiClient.get<StarResponseType<Star>>(
         `/api/documents/${documentId}`,
+        { params },
       );
       const { data } = response;
-      console.log('data', data); // FIXME : 기능완성 시 삭제예정
       if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
         setParentDocumentTitle(data.results.parentDocumentTitle);
+        setParentDocumentId(data.results.parentDocumentId);
         setLastModifiedAt(formatDate(data.results.lastModifiedAt));
         setContent(data.results.content);
         setOriginalAuthor(data.results.originalAuthor.nickname);
+        setCurrentRevision(data.results.currentRevision);
+        setLatestRevision(data.results.latestRevision);
         setContributors(
           data.results.contributors.map((contributor: StarContributor) => {
             return {
@@ -54,11 +58,6 @@ const Page = () => {
             };
           }),
         );
-        setDocumentStatus(data.results.documentStatus);
-        setId({
-          contributeId: data.results.contributeId,
-          debateId: data.results.debateId,
-        });
       }
     } catch (error) {
       console.log(error);
@@ -76,9 +75,10 @@ const Page = () => {
           <StarInfo
             title={title}
             parentDocumentTitle={parentDocumentTitle}
+            parentDocumentId={parentDocumentId}
             lastModifiedAt={lastModifiedAt}
-            documentStatus={documentStatus}
-            id={id}
+            currentRevision={currentRevision}
+            latestRevision={latestRevision}
           />
           <StarContent content={content} />
           <StarAuthors

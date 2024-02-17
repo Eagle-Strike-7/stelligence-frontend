@@ -22,7 +22,6 @@ const StarTagInput = ({
     enteredTitle: '', // input에 입력된 제목
     parentTitle: parentDocumentTitle, // 태그로 생성된 제목
   });
-  console.log(searchTitle, parentDocumentTitle);
   const debouncedTitle = useDebounce(searchTitle.enteredTitle, 300);
   const getTagResults = async () => {
     if (debouncedTitle === '') {

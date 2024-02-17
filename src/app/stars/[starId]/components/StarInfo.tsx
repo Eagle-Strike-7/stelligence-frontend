@@ -9,7 +9,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AiOutlineEllipsis } from 'react-icons/ai';
-import { DocStatus } from '@/types/star/StarProps';
 import { useParams, useRouter } from 'next/navigation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -26,18 +25,20 @@ import StarStatusButton from './StarStatusButton';
 interface StarInfoProps {
   title: string;
   parentDocumentTitle: string;
+  parentDocumentId: number;
   lastModifiedAt: string;
-  documentStatus: DocStatus;
-  id: { contributeId: number; debateId: number };
+  currentRevision: number;
+  latestRevision: number;
 }
 
 // NOTE : 글의 정보를 보여주는 컴포넌트
 const StarInfo = ({
   title,
   parentDocumentTitle,
+  parentDocumentId,
   lastModifiedAt,
-  documentStatus,
-  id,
+  currentRevision,
+  latestRevision,
 }: StarInfoProps) => {
   const starId = Number(useParams().starId);
   const router = useRouter();
@@ -119,8 +120,9 @@ const StarInfo = ({
         <PageTitleDescription
           title={title}
           description={`수정일시: ${lastModifiedAt}`}
+          tagTitle={parentDocumentTitle}
+          parentDocumentId={parentDocumentId}
         />
-        <div>{parentDocumentTitle}</div>
       </div>
       <div className="flex flex-col">
         <div className="flex flex-row">
@@ -182,7 +184,7 @@ const StarInfo = ({
           </Menu>
         </div>
         {/* SECTION : 편집/투표중/토론중 버튼 */}
-        <StarStatusButton documentStatus={documentStatus} id={id} />
+        {currentRevision === latestRevision && <StarStatusButton />}
       </div>
     </div>
   );

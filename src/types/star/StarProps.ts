@@ -34,7 +34,4 @@ export interface Star {
   content: string;
   originalAuthor: StarContributor;
   contributors: StarContributor[];
-  documentStatus: DocStatus;
-  contributeId: number;
-  debateId: number;
 }
