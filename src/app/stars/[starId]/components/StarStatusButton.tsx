@@ -1,56 +1,44 @@
-import apiClient from '@/service/login/axiosClient';
-import { StarResponseType } from '@/types/common/ResponseType';
+import {
+  ReviseStateProps,
+  getDocumentReviseState,
+} from '@/service/debate/reviseAuth';
 import { DocStatus } from '@/types/star/StarProps';
 import { Button, useToast } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-
-interface StarStatus {
-  documentId: number;
-  documentStatus: DocStatus;
-  contributeId: number;
-  debateId: number;
-}
 
 const StarStatusButton = () => {
   const starId = Number(useParams().starId);
   const router = useRouter();
   const toast = useToast();
 
-  const [documentStatus, setDocumentStatus] = useState<DocStatus>(
-    DocStatus.EDITABLE,
-  );
-  const [contributeId, setContributeId] = useState<number | null>(0);
-  const [debateId, setDebateId] = useState<number | null>(0);
-
-  const getStarStatus = async () => {
-    // TODO : getStar 분리
-    try {
-      const response = await apiClient.get<StarResponseType<StarStatus>>(
-        `/api/documents/${starId}/status`,
-      );
-      const { data } = response;
-      console.log('data', data); // FIXME : 기능완성 시 삭제예정
-      if (data.success && data.results.documentId === starId) {
-        setDocumentStatus(data.results.documentStatus);
-        setContributeId(data.results.contributeId);
-        setDebateId(data.results.debateId);
+  const { data: reviseAuthData } = useQuery<
+    ReviseStateProps | undefined,
+    Error,
+    ReviseStateProps,
+    [string, number | undefined]
+  >({
+    queryKey: ['reviseAuth', starId],
+    queryFn: () => {
+      if (!starId) {
+        // NOTE documentId가 없는 경우 즉시 종료하고 undefined를 반환
+        return Promise.resolve(undefined);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      return getDocumentReviseState(starId);
+    },
+    enabled: !!starId,
+  });
 
   const handleEdit = () => {
     router.push(`/stars/${starId}/revise`);
   };
 
   const handleVoting = () => {
-    router.push(`/vote-list/${contributeId}`);
+    router.push(`/vote-list/${reviseAuthData?.contributeId}`);
   };
 
   const handleDebating = () => {
-    router.push(`/debate-list/${debateId}`);
+    router.push(`/debate-list/${reviseAuthData?.debateId}`);
   };
 
   const handlePending = () => {
@@ -61,13 +49,9 @@ const StarStatusButton = () => {
     });
   };
 
-  useEffect(() => {
-    getStarStatus();
-  }, []);
-
   return (
     <>
-      {documentStatus === DocStatus.EDITABLE && (
+      {reviseAuthData?.documentStatus === DocStatus.EDITABLE && (
         <Button
           size="md"
           color="primary.500"
@@ -79,7 +63,7 @@ const StarStatusButton = () => {
           편집
         </Button>
       )}
-      {documentStatus === DocStatus.VOTING && (
+      {reviseAuthData?.documentStatus === DocStatus.VOTING && (
         <Button
           size="md"
           bgColor="primary.500"
@@ -91,7 +75,7 @@ const StarStatusButton = () => {
           투표중
         </Button>
       )}
-      {documentStatus === DocStatus.DEBATING && (
+      {reviseAuthData?.documentStatus === DocStatus.DEBATING && (
         <Button
           size="md"
           bgColor="primary.500"
@@ -103,7 +87,7 @@ const StarStatusButton = () => {
           토론중
         </Button>
       )}
-      {documentStatus === DocStatus.PENDING && ( // TODO : 이름 변경 필요
+      {reviseAuthData?.documentStatus === DocStatus.PENDING && ( // TODO : 이름 변경 필요
         <Button
           size="md"
           bgColor="primary.500"

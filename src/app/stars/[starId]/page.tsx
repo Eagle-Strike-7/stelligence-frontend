@@ -41,7 +41,6 @@ const Page = () => {
         { params },
       );
       const { data } = response;
-      console.log(data);
       if (data.success && data.results.documentId === documentId) {
         setTitle(data.results.title);
         setParentDocumentTitle(data.results.parentDocumentTitle);
