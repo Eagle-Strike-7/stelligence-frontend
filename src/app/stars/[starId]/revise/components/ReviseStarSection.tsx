@@ -96,8 +96,9 @@ const ReviseStarSection = ({
           creatingOrder: section.creatingOrder + 1,
         };
         const newCreateAmendments = addCreateAmendment({
+          // 이전 섹션 다음에 추가
           sectionKey: section.sectionId,
-          order: section.creatingOrder + 1, // 이전 섹션 다음에 추가
+          order: section.creatingOrder, // (추가 위치) creatingOrder는 1부터 시작
           dict: createAmendments,
           newAmendment,
         });
@@ -125,7 +126,7 @@ const ReviseStarSection = ({
         // 추가 후 삭제할 경우
         const newCreateAmendments = deleteCreateAmendment({
           sectionKey: section.sectionId,
-          order: section.creatingOrder,
+          order: section.creatingOrder - 1, // 삭제 위치 (creatingOrder는 1부터 시작하기 때문에 -1)
           dict: createAmendments,
         });
         setCreateAmendments(newCreateAmendments);

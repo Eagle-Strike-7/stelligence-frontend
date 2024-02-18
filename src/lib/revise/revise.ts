@@ -29,7 +29,7 @@ const addSection = ({ sections, newSection }: AddSectionProps) => {
     );
   });
 
-  const newSecions = [
+  const newSections = [
     ...sections.slice(0, index + 1), // 이전 색션까지 처리
     newSection,
     ...sections.slice(index + 1).map(section => {
@@ -41,8 +41,7 @@ const addSection = ({ sections, newSection }: AddSectionProps) => {
       return section;
     }),
   ];
-
-  return newSecions;
+  return newSections;
 };
 
 // NOTE : 추가한 섹션 관리
@@ -54,9 +53,11 @@ const addCreateAmendment = ({
 }: AddCreateAmendmentProps) => {
   if (sectionKey in dict) {
     dict[sectionKey].splice(order, 0, newAmendment);
-    for (let i = order + 1; i < dict[sectionKey].length; i += 1) {
-      dict[sectionKey][i].creatingOrder = i;
-    }
+    dict[sectionKey].forEach((amendment, index) => {
+      if (index >= order + 1) {
+        amendment.creatingOrder = index + 1; // creatingOrder 미뤄주기
+      }
+    });
   } else {
     dict[sectionKey] = [newAmendment];
   }
@@ -70,12 +71,10 @@ const modifyCreateAmendment = ({
   dict,
   newAmendment,
 }: AddCreateAmendmentProps) => {
-  for (let i = 0; i < dict[sectionKey].length; i += 1) {
-    if (dict[sectionKey][i].creatingOrder === order) {
-      // 추가했던 amendment 찾기
-      dict[sectionKey][i] = newAmendment;
-      break;
-    }
+  if (sectionKey in dict) {
+    dict[sectionKey] = dict[sectionKey].map(amendment => {
+      return amendment.creatingOrder === order ? newAmendment : amendment;
+    });
   }
   return dict;
 };
@@ -87,10 +86,12 @@ const deleteCreateAmendment = ({
   dict,
 }: DeleteCreateAmendmentProps) => {
   if (sectionKey in dict) {
-    dict[sectionKey].splice(order + 1, 1);
-    for (let i = order + 1; i < dict[sectionKey].length; i += 1) {
-      dict[sectionKey][i].creatingOrder = i;
-    }
+    dict[sectionKey].splice(order, 1);
+    dict[sectionKey].forEach((amendment, index) => {
+      if (index >= order + 1) {
+        amendment.creatingOrder = index;
+      }
+    });
   }
   return dict;
 };
