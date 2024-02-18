@@ -5,7 +5,7 @@ const NoList = ({
   description,
 }: {
   title: string;
-  description: string;
+  description?: string;
 }) => {
   return (
     <div className="flex flex-col gap-3 text-white text-center py-10 ">
