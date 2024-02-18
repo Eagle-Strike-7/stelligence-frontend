@@ -1,8 +1,9 @@
 import { VoteResponse, postVote } from '@/service/vote/voteService';
-import { Button, Progress } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
+import VoteProgressBar from './VoteProgressBar';
 
 const Vote = ({
   voteData,
@@ -16,7 +17,10 @@ const Vote = ({
   const [myVote, setMyVote] = useState<boolean | null>(
     voteData?.results.myVote,
   );
-  const [votePercent, setVotePercent] = useState({ agree: 0, disagree: 0 });
+  const [votePercent, setVotePercent] = useState<{
+    agree: number;
+    disagree: number;
+  }>({ agree: 0, disagree: 0 });
   const queryClient = useQueryClient();
   const voteMutation = useMutation<
     VoteResponse,
@@ -67,6 +71,7 @@ const Vote = ({
       ),
     );
   }, [voteData]);
+
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-xl font-bold mb-3">
@@ -77,14 +82,9 @@ const Vote = ({
           <span className="text-lg font-bold">{votePercent.agree}%</span>
           <span className="text-lg font-bold">{votePercent.disagree}%</span>
         </div>
-        <Progress
-          bg="red.500"
-          colorScheme="blue"
-          value={votePercent.agree}
-          height="2rem"
-          sx={{
-            borderRadius: '1rem',
-          }}
+        <VoteProgressBar
+          agree={votePercent.agree}
+          disagree={votePercent.disagree}
         />
         <div className="flex flex-row justify-between">
           <span className="font-bold">
