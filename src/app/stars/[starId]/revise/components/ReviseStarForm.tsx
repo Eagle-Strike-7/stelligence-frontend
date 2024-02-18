@@ -11,8 +11,13 @@ import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { Amendment } from '@/types/star/ReviseStarProps';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { ReviseDataResponse } from '@/service/vote/voteService';
+import uuid from 'react-uuid';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
+
+export interface CreateDictionaryProps {
+  [key: number]: Amendment[];
+}
 
 interface RevisedStarProps {
   contributeTitle: string;
@@ -41,6 +46,8 @@ const ReviseStarForm = () => {
   const [afterParentDocumentTitle, setAfterParentDocumentTitle] =
     useState<string>('');
   const [sections, setSections] = useState<StarSection[]>([]);
+  const [createAmendments, setCreateAmendments] =
+    useState<CreateDictionaryProps>({});
 
   const addAmendment = (newAmendment: Amendment) => {
     setAmendments(currentAmendments => {
@@ -85,7 +92,6 @@ const ReviseStarForm = () => {
         RevisedStar,
       );
       const { data } = response;
-      console.log('postdata', data); // FIXME : 기능완성 시 삭제예정
       if (data.success) {
         const { contributeId } = data.results;
         router.push(`/vote-list/${contributeId}`);
@@ -103,10 +109,7 @@ const ReviseStarForm = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(amendments);
-  }, [amendments]);
-
+  // TODO : create 포함하기
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contributeTitle === '') {
@@ -117,6 +120,10 @@ const ReviseStarForm = () => {
       alert('수정안을 입력해주세요');
     }
 
+    const createdAmendments = Object.values(createAmendments);
+    createdAmendments.forEach(amendment => {
+      amendments.push(...amendment);
+    });
     const RevisedStar = {
       contributeTitle,
       contributeDescription,
@@ -171,12 +178,14 @@ const ReviseStarForm = () => {
       <div className="flex flex-col w-full my-16">
         {sections.map((section: StarSection) => {
           return (
-            <ReviseStarSection
-              key={`${section.sectionId}-${section.creatingOrder}`}
+            <ReviseStarSection // TODO : key값 변경
+              key={uuid()}
               sections={sections}
               setSections={setSections}
               section={section}
               addAmendment={addAmendment}
+              createAmendments={createAmendments}
+              setCreateAmendments={setCreateAmendments}
             />
           );
         })}

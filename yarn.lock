@@ -9636,6 +9636,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-uuid@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-uuid@npm:2.0.0"
+  checksum: 91f35c83911a2072f181eee0092b45f9ea3590d22268cf8418721756d53205dd9029a873b36a00913807651a0ea5548cc0fc60bad8c4f09bcd7cb03e6ae39ecf
+  languageName: node
+  linkType: hard
+
 "react@npm:^18":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -10218,6 +10225,7 @@ __metadata:
     react: "npm:^18"
     react-dom: "npm:^18"
     react-icons: "npm:^5.0.1"
+    react-uuid: "npm:^2.0.0"
     recoil: "npm:^0.7.7"
     tailwindcss: "npm:^3.3.0"
     ts-jest: "npm:^29.1.2"
