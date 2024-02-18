@@ -171,7 +171,7 @@ const Page = () => {
           </Center>
         </div>
       ) : (
-        <NoList />
+        <NoList title="목록이 없습니다 🛸" />
       )}
     </Wrapper>
   );
