@@ -15,10 +15,31 @@ const ReviseInformation = ({
   const handleClickParentDocument = () => {
     router.push(`/stars/${reviseData.results.parentDocumentId}`);
   };
+
+  const translateStatus = {
+    VOTING: { name: '투표중', color: 'gray.200' },
+    MERGED: { name: '반영 완료', color: 'primary.500' },
+    DEBATING: { name: '토론', color: 'secondary.500' },
+    REJECTED: { name: '미반영', color: 'tertiary.500' },
+  };
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-8 flex flex-row gap-4">
         <MiddleTitle title="개요" color="white" />
+        <Tag
+          size="md"
+          fontWeight="bold"
+          height="fit-content"
+          bgColor={
+            translateStatus[reviseData.results.contributeStatus]
+              ? translateStatus[reviseData.results.contributeStatus].color
+              : 'gray'
+          }
+        >
+          {translateStatus[reviseData.results.contributeStatus]
+            ? translateStatus[reviseData.results.contributeStatus].name
+            : ''}
+        </Tag>
       </div>
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-2 gap-4">
