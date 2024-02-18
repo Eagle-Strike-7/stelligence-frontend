@@ -27,6 +27,7 @@ import {
 import { IoIosMore } from 'react-icons/io';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { AxiosError, AxiosResponse } from 'axios';
+import LoadingComponent from '@/app/(home)/components/LoadingComponent';
 import Vote from './components/Vote';
 
 interface ErrorResponse {
@@ -59,12 +60,11 @@ const Page = () => {
   const deleteReviseMutation = useMutation<AxiosResponse, AxiosError, number>({
     mutationFn: deleteReviseData,
     onSuccess: () => {
-      // TODO 수정요청 삭제 테스트 필요
       queryClient.invalidateQueries({ queryKey: ['contribute', contributeId] });
       toast({
         title: '수정요청이 삭제되었습니다.',
         status: 'success',
-        duration: 1000,
+        duration: 2000,
         isClosable: true,
       });
       router.push('/vote-list');
@@ -75,14 +75,7 @@ const Page = () => {
         const errorData = error.response.data as ErrorResponse;
         toast({
           title: '삭제 실패',
-          description: `${errorData.message}`,
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '삭제 실패',
+          description: `${errorData.message}`, // TODO 메시지 변경 필요
           status: 'error',
           duration: 2000,
           isClosable: true,
@@ -100,11 +93,7 @@ const Page = () => {
   };
 
   if (isLoading) {
-    return (
-      <Wrapper>
-        <div>웜홀 타고 이동중...🧑‍🚀</div>
-      </Wrapper>
-    );
+    return <LoadingComponent />;
   }
   return (
     <Wrapper>
