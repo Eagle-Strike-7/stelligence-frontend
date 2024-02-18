@@ -175,8 +175,6 @@ const ForceGraph = ({
           let fontSize: string | number;
           if (currentZoom < 1.5) {
             fontSize = '0';
-          } else if (currentZoom >= 1.5 && currentZoom < 3) {
-            fontSize = '0.4rem';
           } else {
             fontSize = '0.5rem';
           }
