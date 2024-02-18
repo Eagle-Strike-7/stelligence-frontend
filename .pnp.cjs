@@ -86,6 +86,7 @@ const RAW_RUNTIME_STATE =
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:18.2.0"],\
           ["react-icons", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:5.0.1"],\
+          ["react-uuid", "npm:2.0.0"],\
           ["recoil", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7"],\
           ["tailwindcss", "npm:3.4.1"],\
           ["ts-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.1.2"],\
@@ -13668,6 +13669,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["react-uuid", [\
+      ["npm:2.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/react-uuid-npm-2.0.0-110e96194a-10c0.zip/node_modules/react-uuid/",\
+        "packageDependencies": [\
+          ["react-uuid", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["read-cache", [\
       ["npm:1.0.0", {\
         "packageLocation": "../../.yarn/berry/cache/read-cache-npm-1.0.0-00fa89ed05-10c0.zip/node_modules/read-cache/",\
@@ -14288,6 +14298,7 @@ const RAW_RUNTIME_STATE =
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:18.2.0"],\
           ["react-icons", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:5.0.1"],\
+          ["react-uuid", "npm:2.0.0"],\
           ["recoil", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:0.7.7"],\
           ["tailwindcss", "npm:3.4.1"],\
           ["ts-jest", "virtual:3b866903816ecbf9b1bd531c31983f8e3cdea8b90ba948c402239901d45aa40189fd47b6bcaf16a499b5685a36d795748ad3061639c90628b60a35af07a96758#npm:29.1.2"],\

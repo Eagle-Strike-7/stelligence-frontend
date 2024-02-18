@@ -11,6 +11,7 @@ import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { Amendment } from '@/types/star/ReviseStarProps';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { ReviseDataResponse } from '@/service/vote/voteService';
+import uuid from 'react-uuid';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
 
@@ -111,7 +112,6 @@ const ReviseStarForm = () => {
   // TODO : create 포함하기
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(amendments);
     if (contributeTitle === '') {
       alert('수정 요청안 제목을 입력해주세요');
     } else if (contributeDescription === '') {
@@ -179,7 +179,7 @@ const ReviseStarForm = () => {
         {sections.map((section: StarSection) => {
           return (
             <ReviseStarSection // TODO : key값 변경
-              key={`${section.sectionId}-${section.creatingOrder}`}
+              key={uuid()}
               sections={sections}
               setSections={setSections}
               section={section}
