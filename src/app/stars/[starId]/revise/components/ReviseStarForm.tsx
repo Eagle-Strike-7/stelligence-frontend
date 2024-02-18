@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
-import { StarResponseType } from '@/types/common/ResponseType';
+import { Heading, StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarSection } from '@/types/star/StarProps';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
@@ -66,8 +66,17 @@ const ReviseStarForm = () => {
         setAfterDocumentTitle(data.results.title);
         setAfterParentDocumentId(data.results.parentDocumentId);
         setAfterParentDocumentTitle(data.results.parentDocumentTitle);
-        setSections(
-          data.results.sections.map(section => {
+        setSections([
+          {
+            // NOTE : 맨 앞 섹션 추가를 위한 임시 데이터
+            sectionId: 0,
+            revision: 0,
+            heading: Heading.H1,
+            title: '',
+            content: '',
+            creatingOrder: 0,
+          },
+          ...data.results.sections.map(section => {
             return {
               sectionId: section.sectionId,
               revision: section.revision,
@@ -77,7 +86,7 @@ const ReviseStarForm = () => {
               creatingOrder: 0,
             };
           }),
-        );
+        ]);
       }
     } catch (error) {
       console.log(error);

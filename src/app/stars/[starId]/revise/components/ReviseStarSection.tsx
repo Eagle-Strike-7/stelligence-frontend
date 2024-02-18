@@ -149,19 +149,17 @@ const ReviseStarSection = ({
 
   return (
     <>
-      {/* {section.sectionId === 1 && (
-        <CreateButton state={state} setRevise={setRevise} />
-      )} */}
-
       {/* SECTION : 읽기모드 */}
       {state === '읽기' && (
         <>
-          <ReviseStarSectionShow
-            heading={heading}
-            title={beforeTitle}
-            content={beforeContent}
-            setState={setState}
-          />
+          {(section.sectionId !== 0 || section.creatingOrder !== 0) && (
+            <ReviseStarSectionShow
+              heading={heading}
+              title={beforeTitle}
+              content={beforeContent}
+              setState={setState}
+            />
+          )}
           <CreateButton state={state} setState={setState} />
         </>
       )}
@@ -169,12 +167,14 @@ const ReviseStarSection = ({
       {/* SECTION : 추가모드 */}
       {state === '추가' && (
         <>
-          <ReviseStarSectionShow
-            heading={heading}
-            title={afterTitle}
-            content={afterContent}
-            setState={setState}
-          />
+          {section.sectionId !== 0 && (
+            <ReviseStarSectionShow
+              heading={heading}
+              title={afterTitle}
+              content={afterContent}
+              setState={setState}
+            />
+          )}
           <ReviseStarSectionTitle
             heading={createHeading}
             setHeading={setCreateHeading}
