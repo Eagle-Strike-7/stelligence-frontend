@@ -53,17 +53,17 @@ body {
 /* NOTE : list */
 .tiptap ul {
   @apply list-disc;
-  @apply px-4 py-2;
+  @apply px-4;
 }
 
 .tiptap ol {
   @apply list-decimal;
-  @apply px-4 py-2;
+  @apply px-4;
 }
 
 /* NOTE : 인용 */
 .tiptap blockquote {
-  @apply italic border-l-4 border-gray-300 ml-0 mr-0 pl-4 text-gray-600;
+  @apply italic border-l-4 border-gray-300 ml-0 mr-0 pl-4 text-white;
   @apply p-4 m-4;
 }
 
@@ -80,5 +80,5 @@ body {
 /* NOTE : 기본 텍스트 */
 .tiptap p {
   @apply text-base;
-  @apply leading-normal;
+  line-height: 1.8rem;
 }
