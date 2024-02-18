@@ -140,8 +140,12 @@ const Page = () => {
           <div className="flex flex-col">
             <h2 className="text-xl font-bold mb-4">수정 요청 사항</h2>
             <div className="grid grid-cols-2 mb-6">
-              <p className="text-lg text-center text-gray-500">수정 전</p>
-              <p className="text-lg text-center text-gray-500">수정 후</p>
+              <p className="text-lg text-center font-bold text-primary-dark-500 ">
+                수정 전
+              </p>
+              <p className="text-lg text-center font-bold text-primary-dark-500 ">
+                수정 후
+              </p>
             </div>
             {/* SECTION 글 제목 변경사항 */}
             {contributeData?.results.beforeDocumentTitle !==
