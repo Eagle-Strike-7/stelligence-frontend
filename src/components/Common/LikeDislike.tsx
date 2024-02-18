@@ -4,12 +4,12 @@ import { AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 
 const LikeDislike: React.FC<LikeDislikeProps> = ({ likeNum, dislikeNum }) => {
   return (
-    <div className="flex">
-      <div className="flex mr-2">
+    <div className="flex gap-2">
+      <div className="flex gap-1">
         <AiOutlineLike size="1.2rem" />
         <span className="text-sm"> {likeNum}</span>
       </div>
-      <div className="flex">
+      <div className="flex gap-1">
         <AiOutlineDislike size="1.2rem" />
         <span className="text-sm"> {dislikeNum}</span>
       </div>

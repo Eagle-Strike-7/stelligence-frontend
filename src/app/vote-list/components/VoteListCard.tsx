@@ -11,7 +11,7 @@ interface VoteListCardProps {
   createTime: string;
   agreeCount: number;
   disagreeCount: number;
-  contributeStatus: string;
+  contributeStatus: 'VOTING' | 'MERGED' | 'DEBATING' | 'REJECTED';
 }
 
 // TODO - ListCard 컴포넌트를 활용해 재사용성을 높인 구조로 리팩토링
@@ -25,10 +25,10 @@ const VoteListCard = ({
   disagreeCount,
   contributeStatus,
 }: VoteListCardProps) => {
-  const translateStatus: { [key: string]: string } = {
-    MERGED: '반영 완료',
-    DEBATING: '토론',
-    REJECTED: '미반영',
+  const translateStatus = {
+    MERGED: { name: '반영 완료', color: 'primary.500' },
+    DEBATING: { name: '토론', color: 'secondary.500' },
+    REJECTED: { name: '미반영', color: 'tertiary.500' },
   };
 
   const router = useRouter();
@@ -68,8 +68,18 @@ const VoteListCard = ({
           <LikeDislike likeNum={agreeCount} dislikeNum={disagreeCount} />
         </div>
         {contributeStatus !== 'VOTING' && (
-          <Badge colorScheme="green" width="fit-content" alignSelf="end">
-            {translateStatus[contributeStatus] || '투표 상태'}
+          <Badge
+            bgColor={
+              translateStatus[contributeStatus]
+                ? translateStatus[contributeStatus].color
+                : 'gray'
+            }
+            width="fit-content"
+            alignSelf="end"
+          >
+            {translateStatus[contributeStatus]
+              ? translateStatus[contributeStatus].name
+              : '투표 상태'}
           </Badge>
         )}
       </div>

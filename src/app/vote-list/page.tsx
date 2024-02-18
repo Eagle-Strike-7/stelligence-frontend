@@ -9,6 +9,7 @@ import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
+import NoList from '@/components/Common/NoList';
 
 interface ContributeData {
   contributeId: number;
@@ -138,33 +139,40 @@ const Page = () => {
           )}
         </div>
       </div>
-      {voteList &&
-        voteList.map(item => {
-          return (
-            <VoteListCard
-              key={item.contributeId}
-              documentTitle={item.documentTitle}
-              contributeId={item.contributeId}
-              contributeTitle={item.contributeTitle}
-              contributorNickname={item.contributorNickname}
-              createTime={formatDate(item.createdAt) ?? convertDate(new Date())}
-              agreeCount={item.voteSummary.agreeCount ?? 10}
-              disagreeCount={item.voteSummary.disagreeCount ?? 20}
-              contributeStatus={item.contributeStatus}
+      {voteList.length !== 0 ? (
+        <div>
+          {voteList.map(item => {
+            return (
+              <VoteListCard
+                key={item.contributeId}
+                documentTitle={item.documentTitle}
+                contributeId={item.contributeId}
+                contributeTitle={item.contributeTitle}
+                contributorNickname={item.contributorNickname}
+                createTime={
+                  formatDate(item.createdAt) ?? convertDate(new Date())
+                }
+                agreeCount={item.voteSummary.agreeCount ?? 10}
+                disagreeCount={item.voteSummary.disagreeCount ?? 20}
+                contributeStatus={item.contributeStatus}
+              />
+            );
+          })}
+          <Center>
+            <Pagination
+              count={totalPages}
+              showFirstButton
+              showLastButton
+              className="my-10 mb-20"
+              page={currentPage}
+              color="primary"
+              onChange={handlePagination}
             />
-          );
-        })}
-      <Center>
-        <Pagination
-          count={totalPages}
-          showFirstButton
-          showLastButton
-          className="my-10 mb-20"
-          page={currentPage}
-          color="primary"
-          onChange={handlePagination}
-        />
-      </Center>
+          </Center>
+        </div>
+      ) : (
+        <NoList title="목록이 없습니다 🛸" />
+      )}
     </Wrapper>
   );
 };

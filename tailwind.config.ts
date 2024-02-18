@@ -79,6 +79,7 @@ const config: Config = {
         },
         secondary: { dark: '#F9AF6C' },
         secondaryLight: { dark: '#FFD8B7' },
+        tertiary: { dark: '#85D2E6' },
         gray: {
           50: '#F2F4F6',
           100: '#EDF2F7',
