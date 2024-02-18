@@ -1,6 +1,7 @@
 'use client';
 
 import VoteListCard from '@/app/vote-list/components/VoteListCard';
+import NoList from '@/components/Common/NoList';
 import StateTab from '@/components/Common/StateTab';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import Wrapper from '@/components/Common/Wrapper';
@@ -86,10 +87,10 @@ const Page = () => {
           </Center>
         </div>
       ) : (
-        <div className="flex flex-col gap-3 text-white text-center py-10 ">
-          <p className="text-xl font-bold">👽 해당 내용이 없습니다 👽</p>
-          <p>수정요청을 작성해보세요!</p>
-        </div>
+        <NoList
+          title="목록이 없습니다 👽"
+          description="수정요청을 작성해보세요!"
+        />
       )}
     </Wrapper>
   );
