@@ -228,6 +228,7 @@ const Page = () => {
                   <BeforeAfter
                     key={amendment.amendmentId}
                     index={index}
+                    type={amendment.type}
                     beforeHeading={amendment.targetSection.heading}
                     afterHeading={amendment.requestedSectionHeading}
                     beforeTitle={amendment.targetSection.title}
