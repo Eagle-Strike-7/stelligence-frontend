@@ -65,9 +65,13 @@ const ReviseStarSectionShow = ({
           <Button
             size="md"
             color="primary.500"
-            borderColor="primary.500"
-            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-            variant="outline"
+            bgColor=""
+            _hover={{
+              bg: 'primary.500',
+              textColor: '#212121',
+              fontWeight: 600,
+            }}
+            variant="solid"
             h="2rem"
             onClick={handleEditClick}
           >
@@ -76,9 +80,12 @@ const ReviseStarSectionShow = ({
           <Button
             size="md"
             color="primary.500"
-            borderColor="primary.500"
-            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-            variant="outline"
+            _hover={{
+              bg: 'primary.500',
+              textColor: '#212121',
+              fontWeight: 600,
+            }}
+            variant="solid"
             h="2rem"
             onClick={onOpen}
           >

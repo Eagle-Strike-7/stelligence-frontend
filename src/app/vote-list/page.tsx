@@ -1,6 +1,5 @@
 'use client';
 
-import PageTitle from '@/components/Common/Title/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import VoteListCard from '@/app/vote-list/components/VoteListCard';
 import Wrapper from '@/components/Common/Wrapper';
@@ -10,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
 import NoList from '@/components/Common/NoList';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 
 interface ContributeData {
   contributeId: number;
@@ -107,7 +107,7 @@ const Page = () => {
 
   return (
     <Wrapper>
-      <PageTitle pageTitle="투표" />
+      <PageTitleDescription title="투표" description="투표를 확인해보세요" />
       <div className="flex justify-between w-full items-center my-0">
         <StateTab
           tab1="진행중"

@@ -11,7 +11,7 @@ const TitleInput = ({
   isDisable: boolean;
 }) => {
   return (
-    <div className="flex flex-row gap-3 items-center">
+    <div className="flex flex-col gap-3 items-center">
       <span className="text-md font-bold">{title}</span>
       <Input
         className="flex-grow"
