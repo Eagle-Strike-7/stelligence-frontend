@@ -148,7 +148,7 @@ const RightNav = () => {
           >
             <Avatar
               name={userData?.results.nickname}
-              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${userData?.results.profileImgUrl}`}
+              src={userData?.results.profileImgUrl}
               size="xs"
             />
             <h3 className="text-sm self-center">
