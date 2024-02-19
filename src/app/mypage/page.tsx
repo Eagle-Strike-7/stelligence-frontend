@@ -31,6 +31,7 @@ import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
+import NoList from '@/components/Common/NoList';
 import {
   BookmarkData,
   deleteBookmarkData,
@@ -138,7 +139,8 @@ const Page = () => {
         isClosable: true,
       });
       return;
-    } if (oldNickname === newNickname) {
+    }
+    if (oldNickname === newNickname) {
       toast({
         title: '현재 닉네임과 동일합니다.',
         description: '앞 뒤 공백은 포함되지 않습니다',
@@ -293,8 +295,10 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="북마크">
           <ul className="flex flex-row gap-3 flex-wrap">
-            {bookmarks &&
+            {bookmarks.length !== 0 ? (
               bookmarks.map(bookmark => {
+                console.log('북마크 있어요');
+
                 return (
                   // TODO 북마크 삭제 버튼 기능 넣기
                   <li key={bookmark.documentId}>
@@ -316,7 +320,15 @@ const Page = () => {
                     </Tag>
                   </li>
                 );
-              })}
+              })
+            ) : (
+              <div className="mx-auto">
+                <NoList
+                  title="목록이 없습니다🔖"
+                  description="북마크를 추가해보세요!"
+                />
+              </div>
+            )}
           </ul>
           {hasNextPage && (
             <Button
@@ -332,16 +344,25 @@ const Page = () => {
         </TitleCard>
         <TitleCard title="배지">
           <div className="flex flex-wrap gap-3">
-            {badgeData?.results.badges.map(badge => {
-              return (
-                <MyBadge
-                  key={badge.badgeType}
-                  title={badge.badgeTitle}
-                  image={`${process.env.NEXT_PUBLIC_SERVER_URL}${badge.badgeImgUrl}`}
-                  description={badge.badgeDescription}
+            {badgeData?.results.badges.length !== 0 ? (
+              badgeData?.results.badges.map(badge => {
+                return (
+                  <MyBadge
+                    key={badge.badgeType}
+                    title={badge.badgeTitle}
+                    image={`${process.env.NEXT_PUBLIC_SERVER_URL}${badge.badgeImgUrl}`}
+                    description={badge.badgeDescription}
+                  />
+                );
+              })
+            ) : (
+              <div className="mx-auto">
+                <NoList
+                  title="배지가 없습니다☄️"
+                  description="글이나 수정요청을 작성해 배지를 획득하세요!"
                 />
-              );
-            }) ?? '배지 불러오기 실패'}
+              </div>
+            )}
           </div>
         </TitleCard>
         <Button
