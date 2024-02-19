@@ -126,11 +126,19 @@ const Page = () => {
   });
 
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNickname(e.target.value);
+    setNewNickname(e.target.value.trim());
   };
+
   const handleSaveNewNickname = async () => {
     setIsNicknameChanging(false);
-    if (oldNickname === newNickname.trim()) {
+    if (newNickname.length > 15) {
+      toast({
+        title: '닉네임은 최대 15자까지 가능합니다.',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    } if (oldNickname === newNickname) {
       toast({
         title: '현재 닉네임과 동일합니다.',
         description: '앞 뒤 공백은 포함되지 않습니다',
@@ -139,7 +147,7 @@ const Page = () => {
       });
       return;
     }
-    nicknameMutation.mutate(newNickname.trim());
+    nicknameMutation.mutate(newNickname);
   };
 
   const handleClickChange = () => {
