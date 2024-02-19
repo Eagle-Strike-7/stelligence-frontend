@@ -113,7 +113,7 @@ const StarInfo = ({
       <ReportModal
         isOpen={isOpen}
         onClose={onClose}
-        title="document"
+        type="document"
         dataId={starId}
       />
       <div className="flex flex-col">
