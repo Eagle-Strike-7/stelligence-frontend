@@ -20,7 +20,7 @@ const Page = () => {
   const documentId = Number(useParams().starId);
   const [activeTab, setActiveTab] = useState<string>('반영 완료');
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data: specificReviseData } = useQuery<
     SpecificReviseResponse,
