@@ -47,9 +47,12 @@ const ReviseStarSection = ({
 
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
     // SECTION : 섹션 수정
     if (state === '수정') {
+      if (afterTitle === '') {
+        alert('수정 요청할 섹션의 제목을 입력해주세요');
+        return;
+      }
       if (beforeTitle !== afterTitle || beforeContent !== afterContent) {
         if (section.creatingOrder !== 0) {
           // NOTE : 추가 후 수정할 경우
@@ -126,6 +129,10 @@ const ReviseStarSection = ({
 
       // SECTION : 섹션 추가
     } else if (state === '추가') {
+      if (createTitle === '') {
+        alert('추가할 섹션의 제목을 입력해주세요');
+        return;
+      }
       if (createTitle !== '' || createContent !== '') {
         // NOTE : 추가
         const newAmendment = {
@@ -185,14 +192,14 @@ const ReviseStarSection = ({
           dict: existingAmendments,
         });
         setExistingAmendments(newAmendments);
-        // console.log('기존 삭제 후 existingAmendments', existingAmendments);
-        // console.log('기존 삭제 후 sections', sections);
       }
       const newSections = deleteSection({
         sections,
         sectionKey: section.sectionId,
         order: section.creatingOrder,
       });
+      // console.log('기존 삭제 후 existingAmendments', existingAmendments);
+      // console.log('기존 삭제 후 sections', sections);
       setSections(newSections);
     }
     setState('읽기');
