@@ -27,7 +27,7 @@ const InfoMenu = () => {
   return (
     <VStack
       position="fixed"
-      right={2}
+      right={3}
       bottom={16}
       bg="rgba(18,18,18,0.8)"
       padding={2}
