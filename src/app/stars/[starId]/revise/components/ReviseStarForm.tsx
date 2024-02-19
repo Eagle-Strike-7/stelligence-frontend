@@ -60,7 +60,9 @@ const ReviseStarForm = () => {
       if (data.success && data.results.documentId === documentId) {
         setAfterDocumentTitle(data.results.title);
         setAfterParentDocumentId(data.results.parentDocumentId);
-        setAfterParentDocumentTitle(data.results.parentDocumentTitle);
+        if (data.results.parentDocumentId !== null) {
+          setAfterParentDocumentTitle(data.results.parentDocumentTitle);
+        }
         setSections([
           {
             // NOTE : 맨 앞 섹션 추가를 위한 임시 데이터
