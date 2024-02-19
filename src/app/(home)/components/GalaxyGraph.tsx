@@ -59,7 +59,7 @@ const ForceGraph = ({
             return (d as GraphNode).id;
           })
           .distance(40)
-          .strength(1),
+          .strength(0.8),
       )
       .force('charge', d3.forceManyBody().strength(-80))
       .force('center', d3.forceCenter(centerX, centerY))
@@ -129,18 +129,42 @@ const ForceGraph = ({
         link.style('stroke', color);
       };
 
-      // NOTE 호버 이벤트 핸들러
+      let isHovered = false;
+      // NOTE 마우스 호버 시 동작하는 함수
       const handleMouseOver = (event: MouseEvent, hoveredNode: GraphNode) => {
+        isHovered = true;
         node.style('opacity', 0.2);
         node
           .filter((node: GraphNode) => {
             return node.group === hoveredNode.group;
           })
           .style('opacity', 1);
+        node
+          .filter((d: GraphNode) => {return d.id === hoveredNode.id})
+          .transition('all 0.5 easeout')
+          .attr('r', 5);
+
         link.attr('stroke-opacity', 0.5);
 
-        d3.select(event.target as SVGElement).style('cursor', 'pointer');
+        const currentZoom = d3.zoomTransform(svg.node()!).k;
+        nodeText
+          .filter((node: GraphNode) => {return node.id === hoveredNode.id})
+          .transition('all 0.5 easeout')
+          .ease(d3.easeQuadInOut)
+          .style('font-size', d => {
+            if (searchResults.includes(d.id)) {
+              return '0.7rem';
+            }
+            return currentZoom < 1.5 ? '0.7rem' : '0.5rem';
+          })
+          .attr('y', d => {
+            return currentZoom < 1.5 ? (d.y ?? 0) + 28 : (d.y ?? 0) + 20;
+          });
+        nodeText.style('fill', (d: GraphNode) => {
+          return d.id === hoveredNode.id ? '#d9d9d9' : '#6B7280';
+        });
 
+        d3.select(event.target as SVGElement).style('cursor', 'pointer');
         const relatedLinks = link.filter((d: GraphLink) => {
           return (
             (d.source as GraphNode).group === hoveredNode.group &&
@@ -152,12 +176,40 @@ const ForceGraph = ({
         relatedLinks.classed(styles.flow, true);
       };
 
-      const handleMouseOut = () => {
-        node.style('opacity', 1);
-        link.classed(styles.pulse, false);
-        changeLinkColor(link, '#999');
-        link.classed(styles.flow, false);
+      // NOTE 마우스 호버 제거 시 동작하는 함수
+      const handleMouseOut = (event: MouseEvent, hoveredNode: GraphNode) => {
+        if (isHovered) {
+          isHovered = false;
+          node.style('opacity', 1);
+          link.classed(styles.pulse, false);
+          changeLinkColor(link, '#999');
+          link.classed(styles.flow, false);
+
+          node.transition().attr('r', 3);
+
+          const currentZoom = d3.zoomTransform(svg.node()!).k;
+          nodeText
+            .filter((node: GraphNode) => {return node.id === hoveredNode.id})
+            .transition('')
+            .ease(d3.easeQuadInOut)
+            .style('font-size', d => {
+              if (searchResults.includes(d.id)) {
+                return '0.7rem'; // NOTE 검색 결과에 해당하는 노드는 항상 0.7rem
+              }
+              return currentZoom < 1.5 ? '0' : '0.5rem';
+            })
+            .attr('y', d => {
+              if (searchResults.includes(d.id)) {
+                return (d.y ?? 0) + 25;
+              }
+
+              return (d.y ?? 0) + 15;
+            });
+
+          nodeText.style('fill', '#d9d9d9');
+        }
       };
+
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
@@ -172,19 +224,15 @@ const ForceGraph = ({
 
           const currentZoom = event.transform.k;
 
-          nodeText
-            .transition()
-            .duration(300)
-            .ease(d3.easeQuadInOut)
-            .style('font-size', d => {
-              if (searchResults.includes(d.id)) {
-                return '0.9rem';
-              }
-              if (currentZoom < 1.3) {
-                return '0';
-              }
-              return '0.5rem';
-            });
+          nodeText.transition().style('font-size', d => {
+            if (searchResults.includes(d.id)) {
+              return '0.9rem';
+            }
+            if (currentZoom < 1.5) {
+              return '0';
+            }
+            return '0.5rem';
+          });
         });
 
       const initialScale = 0.9;
@@ -233,7 +281,6 @@ const ForceGraph = ({
         .on('click', handleNodeClick)
         .on('mouseover', handleMouseOver)
         .on('mouseout', handleMouseOut)
-
         .call(drag);
 
       const nodeText = svg
