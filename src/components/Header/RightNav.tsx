@@ -85,6 +85,20 @@ const RightNav = () => {
     logoutMutation.mutate();
   };
 
+  const handleCheckLogin = () => {
+    if (!isLogin) {
+      toast({
+        title: '로그인이 필요합니다.',
+        duration: 2000,
+        isClosable: true,
+        status: 'warning',
+      });
+      router.push('/login');
+    } else {
+      router.push('/new-star');
+    }
+  };
+
   // FIXME 임시 내용, 추후 폴백 컨텐츠로 변경
   if (isError) {
     console.log('error');
@@ -97,19 +111,18 @@ const RightNav = () => {
   return (
     <div className="flex mr-20 w-40 justify-end place-items-center">
       <div className="inline mr-4">
-        <Link href="/new-star">
-          <Button
-            leftIcon={<HiOutlinePencil size="20px" />}
-            variant="ghost"
-            textColor="white"
-            _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-            cursor="pointer"
-            size="sm"
-            rounded="sm"
-          >
-            <h2 className="text-md text-semibold">별생성</h2>
-          </Button>
-        </Link>
+        <Button
+          leftIcon={<HiOutlinePencil size="20px" />}
+          variant="ghost"
+          textColor="white"
+          _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+          cursor="pointer"
+          size="sm"
+          rounded="sm"
+          onClick={handleCheckLogin}
+        >
+          <h2 className="text-md text-semibold">별생성</h2>
+        </Button>
       </div>
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}

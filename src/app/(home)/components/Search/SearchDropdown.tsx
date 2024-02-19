@@ -1,18 +1,18 @@
 import useOutsideClick from '@/hooks/common/useOutsideClick';
 import { SearchResult } from '@/types/graph/GraphProps';
 import { Box, VStack } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface SearchDropdownProps {
-  searchResults: SearchResult[];
+  searchResultsNew: SearchResult[] | undefined;
   setIsDropdownOpen: (isOpen: boolean) => void;
-  handleDropdownSelect: (e: any) => void;
+  handleSelectItem: (event: any) => void;
 }
 
 const SearchDropdown: React.FC<SearchDropdownProps> = ({
-  searchResults,
+  searchResultsNew,
   setIsDropdownOpen,
-  handleDropdownSelect,
+  handleSelectItem,
 }) => {
   // NOTE 포커스 아웃 처리를 위한 drodownRef를 생성
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -21,6 +21,8 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
   useOutsideClick(dropdownRef, () => {
     setIsDropdownOpen(false);
   });
+
+  useEffect(() => {}, [searchResultsNew]);
 
   return (
     <VStack
@@ -41,11 +43,11 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
       zIndex="dropdown"
       borderColor="#292929"
     >
-      {searchResults.length > 0 ? (
-        searchResults.map(result => {
+      {searchResultsNew && searchResultsNew.length > 0 ? (
+        searchResultsNew.map(result => {
           return (
             <Box
-              onClick={handleDropdownSelect}
+              onClick={handleSelectItem}
               id={result.title}
               key={result.documentId}
               lineHeight="2.5rem"

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
@@ -10,7 +10,7 @@ import Link from '@tiptap/extension-link';
 import { Node } from '@tiptap/core';
 import FixedMenu from './FixedMenu';
 import styles from '../../../../styles/starSectionInput.module.css';
-import LinkifyExtension, { getMentionId } from './MentionLink';
+import LinkifyExtension from './MentionLink';
 
 interface StarContentProps {
   content: string;
@@ -58,51 +58,21 @@ const StarContentInput = ({ content, setContent }: StarContentProps) => {
     },
   });
 
-  const handleLink = async () => {
-    if (editor) {
-      const { from, to } = editor.state.selection;
-      const selectedText = editor.state.doc.textBetween(from, to, ' ');
-
-      const starId = await getMentionId(selectedText);
-      if (starId) {
-        editor
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .setLink({ href: `http://www.stelligence.site/stars/${starId}` })
-          .run();
-      }
-    }
-  };
-
-  const logContent = () => {
-    if (editor) {
-      const htmlContent = editor.getHTML();
-      console.log(htmlContent);
-    }
-  };
+  // const logContent = () => {
+  //   if (editor) {
+  //     const htmlContent = editor.getHTML();
+  //     console.log(htmlContent);
+  //   }
+  // };
 
   return (
     <div className="border border-gray-300 rounded-md">
-      {editor && (
-        <>
-          <FixedMenu editor={editor} />
-          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-            <button
-              type="button"
-              onClick={handleLink}
-              className="text-black text-sm bg-primaryLight-dark rounded-sm px-1"
-            >
-              Link
-            </button>
-          </BubbleMenu>
-        </>
-      )}
+      {editor && <FixedMenu editor={editor} />}
       <EditorContent editor={editor} className={styles.ProseMirror} />
 
-      <button type="button" onClick={logContent}>
+      {/* <button type="button" onClick={logContent}>
         Log Content
-      </button>
+      </button> */}
     </div>
   );
 };

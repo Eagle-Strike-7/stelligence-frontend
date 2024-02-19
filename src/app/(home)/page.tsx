@@ -8,7 +8,7 @@ import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import { usePathname } from 'next/navigation';
 import useDebounce from '@/hooks/common/useDebounce';
-import apiClient from '@/service/login/axiosClient';
+import getSearchResult from '@/service/search/getSearchResult';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/Search/SearchInput';
 import SearchDropdown from './components/Search/SearchDropdown';
@@ -16,54 +16,45 @@ import LoadingComponent from './components/LoadingComponent';
 import ErrorComponent from './components/ErrorComponent';
 
 const Home = () => {
-  const [searchText, setSearchText] = useState<string>('');
-  // NOTE 드롭다운에서 클릭한 요소 state
-  const [selectedItem, setSelectedItem] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const pathname = usePathname();
+  const [searchText, setSearchText] = useState<string>('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const debouncedQuery = useDebounce(searchText, 300);
 
   // NOTE 페이지 바뀔 때마다 input 초기화
   useEffect(() => {
     setSearchText('');
   }, [pathname]);
 
-  const debouncedSearchText = useDebounce(searchText, 300);
+  const {
+    data: searchResultsNew,
+    refetch,
+    isSuccess,
+  } = useQuery<SearchResult[]>({
+    queryKey: ['searchResults', debouncedQuery],
+    queryFn: () => {return getSearchResult(debouncedQuery)},
+    enabled: !!debouncedQuery && debouncedQuery.length > 0, // 조건부 쿼리 실행
+  });
 
-  useEffect(() => {
-    const handleInputChange = async (text: string) => {
-      if (!text.trim()) return;
-      apiClient
-        .get(`/api/documents/search`, {
-          params: { title: text, depth: 3 },
-        })
-        .then(response => {
-          setSearchResults(response.data.results);
-        })
-        .catch(error => {
-          console.error('Error fetching search results: ', error);
-        });
-    };
-    // NOTE 드롭다운에서 선택된 항목이 있으면 그 값을 사용하고, 그렇지 않으면 디바운스된 검색 텍스트를 사용
-    const queryText = selectedItem || debouncedSearchText;
-    handleInputChange(queryText);
-  }, [debouncedSearchText, selectedItem]);
-
-  const handleChangedSearchInput = (e: any) => {
-    e.stopPropagation();
-    const { value } = e.target;
-    setSearchText(value);
-    // NOTE 검색 텍스트가 있을 때만 드롭다운을 열도록 설정
-    setIsDropdownOpen(value !== '');
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+    setSearchText(event.target.value);
+    setIsDropdownOpen(event.target.value !== '');
   };
 
-  const handleDropdownSelect = (e: any) => {
-    e.stopPropagation();
-    const selectedValue = e.target.id;
-    setSearchText(selectedValue);
-    setSelectedItem(selectedValue);
+  const handleSelectItem = (event: any) => {
+    setSearchText(event.target.id);
     setIsDropdownOpen(false);
+  };
+
+  const handleSearch = () => {
+    if (searchText) refetch();
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const { data, isError, isLoading } = useQuery<Graph>({
@@ -80,16 +71,16 @@ const Home = () => {
       <div className="mt-8 relative">
         <SearchInput
           searchText={searchText}
-          setSearchText={setSearchText}
           isDropdownOpen={isDropdownOpen}
-          setIsDropdownOpen={setIsDropdownOpen}
-          handleChangedSearchInput={handleChangedSearchInput}
+          handleChange={handleChange}
+          handleKeyDown={handleKeyDown}
+          handleSearch={handleSearch}
         />
         {searchText && isDropdownOpen && (
           <SearchDropdown
-            searchResults={searchResults}
+            searchResultsNew={searchResultsNew}
             setIsDropdownOpen={setIsDropdownOpen}
-            handleDropdownSelect={handleDropdownSelect}
+            handleSelectItem={handleSelectItem}
           />
         )}
       </div>
@@ -99,7 +90,8 @@ const Home = () => {
           <GalaxyGraph
             nodes={data.nodes}
             links={data.links}
-            searchResults={extractSearchIdOnly(searchResults)}
+            searchResults={extractSearchIdOnly(searchResultsNew) || []}
+            isSearchSuccess={isSuccess}
           />
         )}
       </div>

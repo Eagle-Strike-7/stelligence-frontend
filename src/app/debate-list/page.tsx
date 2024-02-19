@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { Pagination } from '@mui/material';
 import { Center } from '@chakra-ui/react';
 import Wrapper from '@/components/Common/Wrapper';
-import PageTitle from '@/components/Common/Title/PageTitle';
 import StateTab from '@/components/Common/StateTab';
 import ChakraSelect from '@/components/Common/ChakraSelect';
 import DebateListCard from '@/app/debate-list/components/DebateListCard';
 import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 
 interface Debate {
   debateId: number;
@@ -92,7 +92,7 @@ const Page = () => {
 
   return (
     <Wrapper>
-      <PageTitle pageTitle="토론" />
+      <PageTitleDescription title="토론" description="토론을 확인해보세요" />
       <div className="flex justify-between w-full items-center">
         <StateTab
           tab1="진행중"

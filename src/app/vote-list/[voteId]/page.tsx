@@ -3,7 +3,6 @@
 import BeforeAfter from '@/components/Common/BeforeAfter';
 import Wrapper from '@/components/Common/Wrapper';
 import {
-  Card,
   IconButton,
   Input,
   Menu,
@@ -27,6 +26,7 @@ import {
 import { IoIosMore } from 'react-icons/io';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { AxiosError, AxiosResponse } from 'axios';
+import LoadingComponent from '@/app/(home)/components/LoadingComponent';
 import Vote from './components/Vote';
 
 interface ErrorResponse {
@@ -59,12 +59,11 @@ const Page = () => {
   const deleteReviseMutation = useMutation<AxiosResponse, AxiosError, number>({
     mutationFn: deleteReviseData,
     onSuccess: () => {
-      // TODO 수정요청 삭제 테스트 필요
       queryClient.invalidateQueries({ queryKey: ['contribute', contributeId] });
       toast({
         title: '수정요청이 삭제되었습니다.',
         status: 'success',
-        duration: 1000,
+        duration: 2000,
         isClosable: true,
       });
       router.push('/vote-list');
@@ -75,14 +74,7 @@ const Page = () => {
         const errorData = error.response.data as ErrorResponse;
         toast({
           title: '삭제 실패',
-          description: `${errorData.message}`,
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '삭제 실패',
+          description: `${errorData.message}`, // TODO 메시지 변경 필요
           status: 'error',
           duration: 2000,
           isClosable: true,
@@ -100,11 +92,7 @@ const Page = () => {
   };
 
   if (isLoading) {
-    return (
-      <Wrapper>
-        <div>웜홀 타고 이동중...🧑‍🚀</div>
-      </Wrapper>
-    );
+    return <LoadingComponent />;
   }
   return (
     <Wrapper>
@@ -112,7 +100,11 @@ const Page = () => {
         <div className="flex justify-between">
           <PageTitleDescription
             title={status === 'VOTING' ? '투표하기' : '투표 결과'}
-            description="수정요청 반영 여부에 대해 투표하세요!"
+            description={
+              status === 'VOTING'
+                ? '수정요청 반영 여부에 대해 투표하세요!'
+                : '지난 투표 결과를 확인해보세요!'
+            }
             relatedDebateId={contributeData?.results.relatedDebateId}
           />
           <Menu>
@@ -139,16 +131,21 @@ const Page = () => {
             </MenuList>
           </Menu>
         </div>
-        <div className="flex flex-col gap-8">
+        <div
+          className={`flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20 ${contributeData?.results.contributeStatus !== 'VOTING' ? 'opacity-80' : ''}`}
+        >
           {/* SECTION 수정요청 글 정보 영역 */}
           {contributeData && <ReviseInformation reviseData={contributeData} />}
-          <hr />
           {/* SECTION 수정요청 사항 영역 */}
           <div className="flex flex-col">
-            <h2 className="text-xl font-bold mb-4">수정 요청 사항</h2>
+            <h2 className="text-xl font-bold mt-20 mb-8">수정 요청 사항</h2>
             <div className="grid grid-cols-2 mb-6">
-              <p className="text-lg text-center text-gray-500">수정 전</p>
-              <p className="text-lg text-center text-gray-500">수정 후</p>
+              <p className="text-lg text-center font-bold text-primary-dark-500 ">
+                수정 전
+              </p>
+              <p className="text-lg text-center font-bold text-primary-dark-500 ">
+                수정 후
+              </p>
             </div>
             {/* SECTION 글 제목 변경사항 */}
             {contributeData?.results.beforeDocumentTitle !==
@@ -231,6 +228,7 @@ const Page = () => {
                   <BeforeAfter
                     key={amendment.amendmentId}
                     index={index}
+                    type={amendment.type}
                     beforeHeading={amendment.targetSection.heading}
                     afterHeading={amendment.requestedSectionHeading}
                     beforeTitle={amendment.targetSection.title}
@@ -245,13 +243,7 @@ const Page = () => {
         </div>
         {/* SECTION 투표 영역 */}
         <div className="mt-16">
-          <Card
-            padding="2rem"
-            variant="outline"
-            borderColor="primaryGray.500"
-            bgColor="transparent"
-            color="white"
-          >
+          <div className="flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20">
             {voteData && (
               <Vote
                 voteData={voteData}
@@ -259,7 +251,7 @@ const Page = () => {
                 status={status}
               />
             )}
-          </Card>
+          </div>
         </div>
       </div>
     </Wrapper>

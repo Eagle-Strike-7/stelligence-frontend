@@ -37,7 +37,7 @@ const ReviseContent = ({
   }
 
   return (
-    <div className="flex flex-col w-full my-8">
+    <div className="flex flex-col w-full">
       <EditorContent
         editor={editor}
         className={`${styles.ProseMirror} ${styles.revise__content}`}

@@ -113,7 +113,7 @@ const StarInfo = ({
       <ReportModal
         isOpen={isOpen}
         onClose={onClose}
-        title="document"
+        type="document"
         dataId={starId}
       />
       <div className="flex flex-col">
@@ -131,8 +131,10 @@ const StarInfo = ({
             <Button
               size="md"
               variant="ghost"
-              color="white"
-              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              color="primary.500"
+              _hover={{
+                bg: 'transparent',
+              }}
               p="0"
               onClick={handleDeleteBookmark}
             >
@@ -143,7 +145,10 @@ const StarInfo = ({
               size="md"
               variant="ghost"
               color="white"
-              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              _hover={{ textColor: 'primary.500', fontWeight: 600 }}
+              _active={{
+                bg: 'transparent',
+              }}
               p="0"
               onClick={handleCreateBookmark}
             >
@@ -159,8 +164,16 @@ const StarInfo = ({
               variant="ghost"
               p="0.5rem"
               mb="0.1rem"
-              _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-              _expanded={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
+              _hover={{
+                bg: 'transparent',
+                textColor: 'primary.500',
+                fontWeight: 600,
+              }}
+              _expanded={{
+                bg: '#303134',
+                textColor: 'white',
+                fontWeight: 600,
+              }}
             >
               <AiOutlineEllipsis size="1.5rem" />
             </MenuButton>

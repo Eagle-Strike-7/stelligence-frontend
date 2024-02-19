@@ -6,6 +6,8 @@ import { StarterKit } from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
 import FixedMenu from '@/components/Common/Star/StarContentInput/FixedMenu';
+import Link from '@tiptap/extension-link';
+import LinkifyExtension from '@/components/Common/Star/StarContentInput/MentionLink';
 import styles from '../../../../../styles/starSectionInput.module.css';
 
 interface StarContentProps {
@@ -15,7 +17,16 @@ interface StarContentProps {
 // NOTE : 글 섹션의 내용의 수정/추가를 입력받는 컴포넌트 (TipTap)
 const ReviseStarSectionInput = ({ content, setContent }: StarContentProps) => {
   const editor = useEditor({
-    extensions: [StarterKit, Image, Underline],
+    extensions: [
+      StarterKit,
+      Image,
+      Underline,
+      LinkifyExtension,
+      Link.configure({
+        openOnClick: true,
+        autolink: false,
+      }),
+    ],
     content,
     onUpdate: () => {
       if (editor) {

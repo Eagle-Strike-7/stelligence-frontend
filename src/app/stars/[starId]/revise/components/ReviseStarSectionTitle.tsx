@@ -37,15 +37,14 @@ const ReviseStarSectionTitle = ({
   };
 
   return (
-    // FIXME : 제목 크기 select 위치 수정
     <div className="flex flex-col w-full justify-center my-8">
       <div className="flex flex-row w-full items-end mb-2">
         <Select
-          placeholder="소제목"
           size="sm"
           color="white"
           variant="flushed"
           w="6rem"
+          value={heading}
           onChange={handleHeadingChange}
         >
           <option value="H1">H1</option>

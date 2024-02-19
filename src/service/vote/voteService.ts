@@ -32,6 +32,7 @@ export interface ReviseDataResponse {
     documentId: number;
     documentTitle: string;
     parentDocumentId: number;
+    parentDocumentTitle: string;
     contributor: {
       memberId: number;
       nickname: string;
