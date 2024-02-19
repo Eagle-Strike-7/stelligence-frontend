@@ -28,8 +28,6 @@ import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
-import { useSetRecoilState } from 'recoil';
-import { loginState } from '@/store/user/login';
 import {
   BookmarkData,
   deleteBookmarkData,
@@ -43,7 +41,6 @@ import MyBadge from './components/MyBadge';
 
 const Page = () => {
   const queryClient = useQueryClient();
-  const setIsLogin = useSetRecoilState(loginState);
   const [currentBookmarkPage, setCurrentBookmarkPage] = useState<number>(0);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [bookmarks, setBookmarks] = useState<BookmarkData[]>([]);
@@ -156,7 +153,6 @@ const Page = () => {
   const quitMutation = useMutation<AxiosResponse, Error>({
     mutationFn: deleteUserData,
     onSuccess: () => {
-      setIsLogin(false);
       router.push('/');
       queryClient.invalidateQueries({ queryKey: ['user'] });
       removeLoginStateLocalStorage();
