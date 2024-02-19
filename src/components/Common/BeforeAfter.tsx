@@ -1,8 +1,11 @@
 import ReviseContent from '@/app/vote-list/[voteId]/components/ReviseContent';
+import { WriteType } from '@/types/common/ResponseType';
 import React from 'react';
+import ReviseDescription from '../ReviseDescription';
 
 const BeforeAfter = ({
   index,
+  type,
   beforeHeading,
   afterHeading,
   beforeTitle,
@@ -11,6 +14,7 @@ const BeforeAfter = ({
   afterContent,
 }: {
   index: number;
+  type: WriteType;
   beforeHeading: string;
   afterHeading: string;
   beforeTitle: string;
@@ -20,7 +24,8 @@ const BeforeAfter = ({
 }) => {
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-lg font-bold text-white">#{index + 1}</h1>
+      <ReviseDescription index={index} type={type} />
+
       <div className="grid grid-cols-2 gap-5">
         <div className="flex flex-col gap-1">
           <ReviseContent
