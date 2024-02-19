@@ -17,6 +17,7 @@ const Vote = ({
   const [myVote, setMyVote] = useState<boolean | null>(
     voteData?.results.myVote,
   );
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [votePercent, setVotePercent] = useState<{
     agree: number;
     disagree: number;
@@ -30,7 +31,8 @@ const Vote = ({
     mutationFn: postVote,
     onSuccess: (data: VoteResponse) => {
       queryClient.invalidateQueries({ queryKey: ['vote', contributeId] });
-      console.log('myVote: ', data.results.myVote);
+      console.log('데이터는: ', data);
+      setIsSuccess(data.success);
       setMyVote(data.results.myVote);
     },
     onError: (error: Error) => {
@@ -99,8 +101,8 @@ const Vote = ({
         <div className="flex flex-row gap-4 justify-center">
           <Button
             leftIcon={<FaRegThumbsUp />}
-            bgColor={myVote === true ? 'blue.500' : undefined}
-            color={myVote === true ? 'white' : 'black'}
+            bgColor={isSuccess && myVote === true ? 'blue.500' : undefined}
+            color={isSuccess && myVote === true ? 'white' : 'black'}
             _hover={{
               bg: 'blue.500',
               color: 'white',
@@ -112,8 +114,8 @@ const Vote = ({
           </Button>
           <Button
             leftIcon={<FaRegThumbsDown />}
-            bgColor={myVote === false ? 'red.500' : undefined}
-            color={myVote === false ? 'white' : 'black'}
+            bgColor={isSuccess && myVote === false ? 'red.500' : undefined}
+            color={isSuccess && myVote === false ? 'white' : 'black'}
             _hover={{
               bg: 'red.500',
               color: 'white',
