@@ -166,7 +166,7 @@ const ForceGraph = ({
         .on('zoom', event => {
           svg
             .selectAll('g')
-            .transition()
+            .transition('all 0.5 easeout')
             .duration(400)
             .ease(d3.easeQuadInOut)
             .attr('transform', event.transform);
@@ -179,7 +179,7 @@ const ForceGraph = ({
             fontSize = '0.5rem';
           }
           nodeText.style('font-size', d => {
-            return searchResults.includes(d.id) ? '0.7rem' : fontSize;
+            return searchResults.includes(d.id) ? '0.5rem' : fontSize;
           });
         });
 
