@@ -148,17 +148,22 @@ const Notification = ({
       <ModalContent
         position="fixed"
         top="0"
-        right="5rem"
-        width="25rem"
+        right="30rem"
+        width="20rem"
         padding={0}
+        bgColor="#2e2e2e"
+        borderWidth={2}
+        borderColor="#292929"
+        rounded="lg"
       >
         <ModalHeader display="flex" flexDirection="column" gap={2} paddingX="4">
           <div className="flex flex-row justify-between">
-            <h1 className="text-lg text-black font-bold">알림</h1>
+            <h1 className="text-lg text-white font-bold">알림</h1>
             <div className="flex flex-row gap-2">
               <Button
                 variant="outline"
                 size="xs"
+                color="white"
                 onClick={handlePatchNotificationAll}
               >
                 모두 읽음
@@ -166,6 +171,7 @@ const Notification = ({
               <Button
                 variant="outline"
                 size="xs"
+                color="white"
                 onClick={handleDeleteNotificationAll}
               >
                 모두 삭제
@@ -180,7 +186,7 @@ const Notification = ({
                 <div key={item.notificationId} className="flex flex-col">
                   <div className="flex flex-row gap-2 justify-between">
                     {!item.read && (
-                      <div className="text-secondary-dark">
+                      <div className="text-secondary-dark mt-1">
                         <FaCircle className="w-2 h-2" />
                       </div>
                     )}
@@ -188,24 +194,30 @@ const Notification = ({
                       href={item.uri}
                       data-uri={item.uri}
                       data-notificationid={item.notificationId}
-                      className="text-sm text-black flex-1"
+                      className="text-sm text-white flex-1"
                       onClick={handlePatchNotification}
                     >
                       {item.message}
                     </Link>
                     <Button
-                      color="primaryGray.500"
+                      color="primary.500"
                       fontSize="xs"
                       bg="transparent"
                       size="xs"
+                      width="fit-content"
+                      padding={0}
+                      _hover={{
+                        bgColor: 'transparent',
+                        color: 'white',
+                      }}
                       data-notificationid={item.notificationId}
                       onClick={handleDeleteNotification}
                     >
-                      <FaRegTrashAlt />
+                      <FaRegTrashAlt className="p-0" />
                     </Button>
                   </div>
                   <div className="flex justify-end">
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#8d8d8d]">
                       {formatDate(item.createdAt)}
                     </p>
                   </div>

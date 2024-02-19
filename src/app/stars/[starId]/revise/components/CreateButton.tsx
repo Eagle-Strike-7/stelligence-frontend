@@ -24,6 +24,9 @@ const CreateButton = ({ state, setState }: CreateButtonProps) => {
           color="primary.500"
           variant="ghost"
           onClick={handleClick}
+          _hover={{
+            color: 'primary.100',
+          }}
         >
           <IoRemoveOutline className="h-8 w-20" />
           <AiOutlinePlusCircle className="h-8 w-8" />
