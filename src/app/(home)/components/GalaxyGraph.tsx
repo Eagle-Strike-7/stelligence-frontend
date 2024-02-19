@@ -158,7 +158,6 @@ const ForceGraph = ({
         changeLinkColor(link, '#999');
         link.classed(styles.flow, false);
       };
-
       // NOTE 줌 핸들러 정의
       const zoomHandler = d3
         .zoom<SVGSVGElement, unknown>()
@@ -172,15 +171,22 @@ const ForceGraph = ({
             .attr('transform', event.transform);
 
           const currentZoom = event.transform.k;
-          let fontSize: string | number;
-          if (currentZoom < 1.5) {
-            fontSize = '0';
-          } else {
-            fontSize = '0.5rem';
-          }
-          nodeText.style('font-size', d => {
-            return searchResults.includes(d.id) ? '0.5rem' : fontSize;
-          });
+
+          nodeText
+            .transition()
+            .duration(300)
+            .ease(d3.easeQuadInOut)
+            .style('font-size', d => {
+              if (searchResults.includes(d.id)) {
+                return '0.9rem';
+              } 
+                if (currentZoom < 1.3) {
+                  return '0';
+                } 
+                  return '0.5rem';
+                
+              
+            });
         });
 
       const initialZoom = d3.zoomIdentity.translate(160, 120).scale(0.6);
@@ -224,6 +230,7 @@ const ForceGraph = ({
         .on('click', handleNodeClick)
         .on('mouseover', handleMouseOver)
         .on('mouseout', handleMouseOut)
+
         .call(drag);
 
       const nodeText = svg
