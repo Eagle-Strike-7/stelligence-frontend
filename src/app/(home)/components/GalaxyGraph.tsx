@@ -9,9 +9,15 @@ import styles from '../../../styles/graph.module.css';
 
 interface GraphProps extends Graph {
   searchResults: string[];
+  isSearchSuccess: boolean;
 }
 
-const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
+const ForceGraph = ({
+  nodes,
+  links,
+  searchResults,
+  isSearchSuccess,
+}: GraphProps) => {
   const ref = useRef<SVGSVGElement>(null);
   const router = useRouter();
 
@@ -60,6 +66,8 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       .force('collide', d3.forceCollide().radius(25))
       .force('radial', d3.forceRadial(0, centerX, centerY));
   };
+
+  //  const debouncedSearchSuccess = useDebounce(isSearchSuccess, 1000);
 
   useEffect(() => {
     if (ref.current) {
@@ -279,7 +287,7 @@ const ForceGraph = ({ nodes, links, searchResults }: GraphProps) => {
       // NOTE SVG 요소에 줌 핸들러 적용
       svg.call(zoomHandler.transform, initialZoom);
     }
-  }, [nodes, links, router, searchResults]);
+  }, [router, isSearchSuccess]);
 
   return <svg ref={ref} width={1200} height={700} />;
 };

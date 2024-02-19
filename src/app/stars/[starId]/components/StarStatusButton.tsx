@@ -53,7 +53,7 @@ const StarStatusButton = () => {
     <>
       {reviseAuthData?.documentStatus === DocStatus.EDITABLE && (
         <Button
-          size="md"
+          size="sm"
           color="primary.500"
           borderColor="primary.500"
           _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}

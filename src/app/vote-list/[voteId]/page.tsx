@@ -132,7 +132,7 @@ const Page = () => {
           </Menu>
         </div>
         <div
-          className={`flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20 ${contributeData?.results.contributeStatus !== 'VOTING' ? 'opacity-60' : ''}`}
+          className={`flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20 ${contributeData?.results.contributeStatus !== 'VOTING' ? 'opacity-80' : ''}`}
         >
           {/* SECTION 수정요청 글 정보 영역 */}
           {contributeData && <ReviseInformation reviseData={contributeData} />}
@@ -243,9 +243,7 @@ const Page = () => {
         </div>
         {/* SECTION 투표 영역 */}
         <div className="mt-16">
-          <div
-            className="flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20"
-          >
+          <div className="flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20">
             {voteData && (
               <Vote
                 voteData={voteData}

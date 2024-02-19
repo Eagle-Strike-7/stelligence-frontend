@@ -16,10 +16,10 @@ const StateTab: React.FC<{
   };
 
   return (
-    <div className="flex my-6">
+    <div className="flex -mt-2 mb-6 ml-1">
       <Button
         variant="ghost"
-        fontSize="lg"
+        fontSize="xl"
         fontWeight="semibold"
         color="text.dark"
         opacity={activeTab === tab1 ? '1' : '0.2'}
@@ -40,7 +40,7 @@ const StateTab: React.FC<{
 
       <Button
         variant="ghost"
-        fontSize="lg"
+        fontSize="xl"
         fontWeight="semibold"
         color="text.dark"
         opacity={activeTab === tab2 ? '1' : '0.2'}

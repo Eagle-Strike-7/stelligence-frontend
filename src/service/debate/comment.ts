@@ -30,15 +30,22 @@ export const postNewComment = async (newContent: string, debateId: number) => {
     return response.data;
   } catch (error) {
     console.error('댓글 생성 중 오류 발생:', error);
-    throw error;
+    throw Error('댓글 생성 실패');
   }
 };
+
+export interface UpdateCommentArgs {
+  commentId: number;
+  newContent: string;
+  debateId: number;
+}
+
 // NOTE 댓글 수정
-export const updateComment = async (
-  commentId: number,
-  newContent: string,
-  debateId: number,
-) => {
+export const updateComment = async ({
+  commentId,
+  newContent,
+  debateId,
+}: UpdateCommentArgs): Promise<any> => {
   try {
     const response = await apiClient.patch(
       `/api/debates/${debateId}/comments/${commentId}`,
@@ -49,20 +56,24 @@ export const updateComment = async (
     return response.data;
   } catch (error) {
     console.error('댓글 수정 중 오류 발생:', error);
-    throw error;
+    throw new Error('댓글 수정 실패');
   }
 };
 
+export interface DeleteCommentArgs {
+  commentId: number;
+  debateId: number;
+}
+
 // NOTE 댓글 삭제
-export const deleteComment = async (
-  commentId: number,
-  debateId: number,
-): Promise<boolean> => {
+export const deleteComment = async ({
+  commentId,
+  debateId,
+}: DeleteCommentArgs): Promise<void> => {
   try {
     await apiClient.delete(`/api/debates/${debateId}/comments/${commentId}`);
-    return true;
   } catch (error) {
     console.error('댓글 삭제 중 오류 발생:', error);
-    throw error;
+    throw new Error('댓글 삭제 실패');
   }
 };
