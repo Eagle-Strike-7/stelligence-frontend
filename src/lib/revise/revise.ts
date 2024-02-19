@@ -1,27 +1,34 @@
 import { StarSection } from '@/types/star/StarProps';
-import { CreateDictionaryProps } from '@/app/stars/[starId]/revise/components/ReviseStarForm';
+import { DictionaryProps } from '@/app/stars/[starId]/revise/components/ReviseStarForm';
 import { Amendment } from '@/types/star/ReviseStarProps';
+import { WriteType, Heading } from '@/types/common/ResponseType';
 
-interface AddSectionProps {
+interface SectionProps {
   sections: StarSection[];
   newSection: StarSection;
 }
 
-interface AddCreateAmendmentProps {
+interface DeleteSectionProps {
+  sections: StarSection[];
   sectionKey: number;
   order: number;
-  dict: CreateDictionaryProps;
+}
+
+interface AddAmendmentProps {
+  sectionKey: number;
+  order: number;
+  dict: DictionaryProps;
   newAmendment: Amendment;
 }
 
-interface DeleteCreateAmendmentProps {
+interface DeleteAmendmentProps {
   sectionKey: number;
   order: number;
-  dict: CreateDictionaryProps;
+  dict: DictionaryProps;
 }
 
 // NOTE : 추가한 섹션 보여주기
-const addSection = ({ sections, newSection }: AddSectionProps) => {
+const addSection = ({ sections, newSection }: SectionProps) => {
   const index = sections.findIndex(section => {
     return (
       section.sectionId === newSection.sectionId &&
@@ -44,13 +51,46 @@ const addSection = ({ sections, newSection }: AddSectionProps) => {
   return newSections;
 };
 
-// NOTE : 추가한 섹션 관리
-const addCreateAmendment = ({
+// NOTE : 수정한 섹션 보여주기
+const updateSection = ({ sections, newSection }: SectionProps) => {
+  let index;
+  if (newSection.creatingOrder === 0) {
+    index = sections.findIndex(section => {
+      return section.sectionId === newSection.sectionId;
+    });
+    index -= 1;
+  } else {
+    index = sections.findIndex(section => {
+      return (
+        section.sectionId === newSection.sectionId &&
+        section.creatingOrder === newSection.creatingOrder - 1
+      );
+    });
+  }
+
+  const newSections = [
+    ...sections.slice(0, index + 1), // 이전 색션까지 처리
+    newSection,
+    ...sections.slice(index + 2, sections.length),
+  ];
+  return newSections;
+};
+
+// NOTE : 삭제한 섹션
+const deleteSection = ({ sections, sectionKey, order }: DeleteSectionProps) => {
+  const newSections = sections.filter(section => {
+    return section.sectionId !== sectionKey || section.creatingOrder !== order;
+  });
+  return newSections;
+};
+
+// NOTE : 섹션 추가 요청
+const addAmendment = ({
   sectionKey,
   order,
   dict,
   newAmendment,
-}: AddCreateAmendmentProps) => {
+}: AddAmendmentProps) => {
   if (sectionKey in dict) {
     dict[sectionKey].splice(order, 0, newAmendment);
     dict[sectionKey].forEach((amendment, index) => {
@@ -64,27 +104,25 @@ const addCreateAmendment = ({
   return dict;
 };
 
-// NOTE : 추가한 섹션의 내용 수정
-const modifyCreateAmendment = ({
+// NOTE : 섹션 수정 요청
+const updateAmendment = ({
   sectionKey,
   order,
   dict,
   newAmendment,
-}: AddCreateAmendmentProps) => {
+}: AddAmendmentProps) => {
   if (sectionKey in dict) {
     dict[sectionKey] = dict[sectionKey].map(amendment => {
       return amendment.creatingOrder === order ? newAmendment : amendment;
     });
+  } else if (order === 0) {
+    dict[sectionKey] = [newAmendment];
   }
   return dict;
 };
 
-// NOTE : 추가한 섹션의 내용 삭제
-const deleteCreateAmendment = ({
-  sectionKey,
-  order,
-  dict,
-}: DeleteCreateAmendmentProps) => {
+// NOTE : 섹션 삭제 요청
+const deleteAmendment = ({ sectionKey, order, dict }: DeleteAmendmentProps) => {
   if (sectionKey in dict) {
     dict[sectionKey].splice(order, 1);
     dict[sectionKey].forEach((amendment, index) => {
@@ -93,12 +131,26 @@ const deleteCreateAmendment = ({
       }
     });
   }
+  if (order === 0) {
+    // 기존 섹션
+    const newAmendment = {
+      sectionId: sectionKey,
+      type: WriteType.DELETE,
+      newSectionHeading: Heading.H1,
+      newSectionTitle: '',
+      newSectionContent: '',
+      creatingOrder: order,
+    };
+    dict[sectionKey] = [newAmendment];
+  }
   return dict;
 };
 
 export {
-  addCreateAmendment,
-  modifyCreateAmendment,
-  deleteCreateAmendment,
   addSection,
+  updateSection,
+  deleteSection,
+  addAmendment,
+  updateAmendment,
+  deleteAmendment,
 };
