@@ -2,12 +2,15 @@ import {
   ReviseStateProps,
   getDocumentReviseState,
 } from '@/service/debate/reviseAuth';
+import { loginState } from '@/store/user/login';
 import { DocStatus } from '@/types/star/StarProps';
 import { Button, useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
 
 const StarStatusButton = () => {
+  const [isLogin] = useRecoilState(loginState);
   const starId = Number(useParams().starId);
   const router = useRouter();
   const toast = useToast();
@@ -30,7 +33,17 @@ const StarStatusButton = () => {
   });
 
   const handleEdit = () => {
-    router.push(`/stars/${starId}/revise`);
+    if (!isLogin) {
+      toast({
+        title: '로그인이 필요합니다.',
+        duration: 2000,
+        isClosable: true,
+        status: 'warning',
+      });
+      router.push('/login');
+    } else {
+      router.push(`/stars/${starId}/revise`);
+    }
   };
 
   const handleVoting = () => {

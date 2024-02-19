@@ -24,9 +24,6 @@ import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
-// import { useSetRecoilState } from 'recoil';
-// import { loginState } from '@/store/user/login';
-// import deleteCookie from '@/store/user/withdrawal';
 import { useRouter } from 'next/navigation';
 import { removeLoginStateLocalStorage } from '@/service/login/loginState';
 import { ErrorResponse } from '@/types/common/ResponseType';
@@ -156,17 +153,17 @@ const Page = () => {
   const quitMutation = useMutation<AxiosResponse, Error>({
     mutationFn: deleteUserData,
     onSuccess: () => {
+      router.push('/');
       queryClient.invalidateQueries({ queryKey: ['user'] });
       removeLoginStateLocalStorage();
       onClose();
+
       toast({
         title: '회원탈퇴 완료! 다음에 다시 만나요👋',
         status: 'success',
         duration: 1000,
         isClosable: true,
       });
-
-      router.push('/');
     },
     onError: (error: Error) => {
       console.error('회원탈퇴 실패: ', error);
