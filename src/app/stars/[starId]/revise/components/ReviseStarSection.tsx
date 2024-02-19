@@ -219,7 +219,7 @@ const ReviseStarSection = ({
       {/* SECTION : 추가모드 */}
       {state === '추가' && (
         <>
-          {section.sectionId !== 0 && (
+          {!(section.sectionId === 0 && section.creatingOrder === 0) && (
             <ReviseStarSectionShow
               heading={heading}
               title={afterTitle}
