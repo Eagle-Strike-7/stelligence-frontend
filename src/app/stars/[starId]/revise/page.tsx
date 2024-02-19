@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import useRequireLogin from '@/hooks/common/useRequireLogin';
 import Wrapper from '@/components/Common/Wrapper';
