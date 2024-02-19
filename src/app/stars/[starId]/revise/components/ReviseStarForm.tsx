@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
-import { StarResponseType } from '@/types/common/ResponseType';
+import { Heading, StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarSection } from '@/types/star/StarProps';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
@@ -15,7 +15,7 @@ import uuid from 'react-uuid';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
 
-export interface CreateDictionaryProps {
+export interface DictionaryProps {
   [key: number]: Amendment[];
 }
 
@@ -41,19 +41,15 @@ const ReviseStarForm = () => {
   const [afterDocumentTitle, setAfterDocumentTitle] = useState<string>('');
   const [afterParentDocumentId, setAfterParentDocumentId] = useState<
     number | null
-  >(0);
+  >(null);
   const [relatedDebateId, setRelatedDebateId] = useState<number | null>(null);
   const [afterParentDocumentTitle, setAfterParentDocumentTitle] =
     useState<string>('');
   const [sections, setSections] = useState<StarSection[]>([]);
-  const [createAmendments, setCreateAmendments] =
-    useState<CreateDictionaryProps>({});
-
-  const addAmendment = (newAmendment: Amendment) => {
-    setAmendments(currentAmendments => {
-      return [...currentAmendments, newAmendment];
-    });
-  };
+  const [createAmendments, setCreateAmendments] = useState<DictionaryProps>({});
+  const [existingAmendments, setExistingAmendments] = useState<DictionaryProps>(
+    {},
+  );
 
   // FIXME : getStarSection 분리
   const getStarSections = async () => {
@@ -66,8 +62,17 @@ const ReviseStarForm = () => {
         setAfterDocumentTitle(data.results.title);
         setAfterParentDocumentId(data.results.parentDocumentId);
         setAfterParentDocumentTitle(data.results.parentDocumentTitle);
-        setSections(
-          data.results.sections.map(section => {
+        setSections([
+          {
+            // NOTE : 맨 앞 섹션 추가를 위한 임시 데이터
+            sectionId: 0,
+            revision: 0,
+            heading: Heading.H1,
+            title: '',
+            content: '',
+            creatingOrder: 0,
+          },
+          ...data.results.sections.map(section => {
             return {
               sectionId: section.sectionId,
               revision: section.revision,
@@ -77,7 +82,7 @@ const ReviseStarForm = () => {
               creatingOrder: 0,
             };
           }),
-        );
+        ]);
       }
     } catch (error) {
       console.log(error);
@@ -120,10 +125,15 @@ const ReviseStarForm = () => {
       alert('수정안을 입력해주세요');
     }
 
+    // SECTION : 수정요청안 합치기
     const createdAmendments = Object.values(createAmendments);
-    createdAmendments.forEach(amendment => {
+    setAmendments(createdAmendments);
+    console.log('createdAmendments', amendments);
+    const UpdatedAmendments = Object.values(existingAmendments);
+    UpdatedAmendments.forEach(amendment => {
       amendments.push(...amendment);
     });
+
     const RevisedStar = {
       contributeTitle,
       contributeDescription,
@@ -183,9 +193,10 @@ const ReviseStarForm = () => {
               sections={sections}
               setSections={setSections}
               section={section}
-              addAmendment={addAmendment}
               createAmendments={createAmendments}
               setCreateAmendments={setCreateAmendments}
+              existingAmendments={existingAmendments}
+              setExistingAmendments={setExistingAmendments}
             />
           );
         })}

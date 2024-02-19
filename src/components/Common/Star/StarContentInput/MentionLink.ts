@@ -8,19 +8,19 @@ export const getMentionId = async (selectedText: string) => {
     return '';
   }
   try {
-    console.log('selectedText:', selectedText);
-    const response = await apiClient.get('/api/documents/search', {
+    const response = await apiClient.get('/api/documents/exact-search', {
       params: {
         title: selectedText,
         limit: 1,
       },
     });
     const { data } = response;
+    console.log(data);
     if (data.results.length === 0) {
       alert('해당하는 문서가 없습니다.');
       throw new Error('해당하는 문서가 없습니다.');
     } else {
-      const starId = data.results[0].documentId;
+      const starId = data.results.documentId;
       return starId;
     }
   } catch (error) {

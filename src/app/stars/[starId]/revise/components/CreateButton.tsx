@@ -6,7 +6,7 @@ import { IoRemoveOutline } from 'react-icons/io5';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 interface CreateButtonProps {
-  state: '읽기' | '추가';
+  state: '읽기' | '추가' | '수정' | '삭제';
   setState: (value: '추가') => void;
 }
 

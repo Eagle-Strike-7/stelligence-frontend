@@ -1,7 +1,17 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@chakra-ui/react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
+  useDisclosure,
+} from '@chakra-ui/react';
+
 import { Heading } from '@/types/common/ResponseType';
 import StarContent from '../../components/StarContent';
 
@@ -9,8 +19,8 @@ interface SectionShowProps {
   heading: Heading;
   title: string;
   content: string;
-  // state: '읽기' | '추가';
   setState: (value: '읽기' | '수정' | '추가' | '삭제') => void;
+  handleClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const headSizeClass: { [key: string]: string } = {
@@ -26,15 +36,23 @@ const ReviseStarSectionShow = ({
   title,
   content,
   setState,
+  handleClick,
 }: SectionShowProps) => {
   const headSize = headSizeClass[heading] || 'text-lg';
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef<HTMLButtonElement>(null);
 
   const handleEditClick = () => {
     setState('수정');
   };
 
-  const handleDeleteClick = () => {
+  const handleQuit = (e: React.MouseEvent<HTMLButtonElement>) => {
     setState('삭제');
+    if (handleClick) {
+      handleClick(e);
+    }
+    onClose();
   };
 
   return (
@@ -69,10 +87,34 @@ const ReviseStarSectionShow = ({
             }}
             variant="solid"
             h="2rem"
-            onClick={handleDeleteClick}
+            onClick={onOpen}
           >
             삭제
           </Button>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg">
+                  {title} 섹션 삭제하기
+                </AlertDialogHeader>
+                <AlertDialogBody>
+                  삭제하시겠습니까? 삭제된 섹션은 되돌릴 수 없습니다.
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                  <Button colorScheme="red" ref={cancelRef} onClick={onClose}>
+                    취소
+                  </Button>
+                  <Button onClick={handleQuit} ml={3}>
+                    삭제
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </div>
       </div>
       <StarContent content={content} />
