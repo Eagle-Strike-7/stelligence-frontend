@@ -37,7 +37,6 @@ const ReviseStarForm = () => {
   const [contributeTitle, setContributeTitle] = useState<string>('');
   const [contributeDescription, setContributeDescription] =
     useState<string>('');
-  const [amendments, setAmendments] = useState<Amendment[]>([]);
   const [afterDocumentTitle, setAfterDocumentTitle] = useState<string>('');
   const [afterParentDocumentId, setAfterParentDocumentId] = useState<
     number | null
@@ -117,33 +116,31 @@ const ReviseStarForm = () => {
   // TODO : create 포함하기
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // SECTION : 수정요청안 합치기
+    const newCreatedAmendments = Object.values(createAmendments).flat();
+    const newUpdatedAmendments = Object.values(existingAmendments).flat();
+    const newAmendments = [...newCreatedAmendments, ...newUpdatedAmendments];
+    // console.log(newAmendments);
+
     if (contributeTitle === '') {
       alert('수정 요청안 제목을 입력해주세요');
     } else if (contributeDescription === '') {
       alert('수정 요청 이유를 입력해주세요');
-    } else if (amendments.length === 0) {
+    } else if (newAmendments.length === 0) {
       alert('수정안을 입력해주세요');
     }
-
-    // SECTION : 수정요청안 합치기
-    const createdAmendments = Object.values(createAmendments);
-    setAmendments(createdAmendments);
-    console.log('createdAmendments', amendments);
-    const UpdatedAmendments = Object.values(existingAmendments);
-    UpdatedAmendments.forEach(amendment => {
-      amendments.push(...amendment);
-    });
 
     const RevisedStar = {
       contributeTitle,
       contributeDescription,
-      amendments,
+      amendments: newAmendments,
       documentId,
       afterDocumentTitle,
       afterParentDocumentId,
       relatedDebateId,
     };
-
+    // console.log(RevisedStar);
     // TODO : 함수 정의
     postRevisedStar(RevisedStar);
   };
