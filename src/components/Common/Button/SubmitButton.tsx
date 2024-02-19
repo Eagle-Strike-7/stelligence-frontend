@@ -8,11 +8,17 @@ const SubmitButton = ({ name }: { name: string }) => {
       <Button
         mt="2.5rem"
         w="fit-content"
-        size="lg"
-        variant="solid"
+        size="md"
+        variant="outline"
+        borderColor="transparent"
         bgColor="primary.500"
-        color="white"
+        color="#212121"
         type="submit"
+        _hover={{
+          bgColor: '#393939',
+          color: 'primary.500',
+          opacity: 0.8,
+        }}
       >
         {name}
       </Button>

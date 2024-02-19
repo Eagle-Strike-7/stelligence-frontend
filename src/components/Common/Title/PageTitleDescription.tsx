@@ -31,7 +31,7 @@ const PageTitleDescription = ({
   };
   // FIXME : 태그 정리하기
   return (
-    <div className="flex flex-col gap-1 text-white w-max ml-2 mb-12">
+    <div className="flex flex-col gap-1 text-white w-max ml-1 mb-12">
       <div className="flex">
         <h1 className="text-4xl font-bold w-fit">{title}</h1>
         {relatedDebateId && (
