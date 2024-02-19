@@ -15,10 +15,9 @@ const LoginInterceptor = () => {
       error => {
         // SECTION UnAuthorized: 로그인하지 않은 사용자가 접속했을 때
         if (error.response && error.response.status === 401) {
-          router.push('/login');
           toast({
             title: '로그인이 필요합니다',
-            description: '다시 로그인 해주세요🚀',
+            description: '우주로 출발해주세요🚀',
             status: 'warning',
             duration: 1000,
             isClosable: true,
