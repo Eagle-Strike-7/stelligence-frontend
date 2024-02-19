@@ -36,21 +36,21 @@ const ReviseStarSectionInput = ({ content, setContent }: StarContentProps) => {
     },
   });
 
-  const logContent = () => {
-    if (editor) {
-      const htmlContent = editor.getHTML();
-      console.log(htmlContent);
-    }
-  };
+  // const logContent = () => {
+  //   if (editor) {
+  //     const htmlContent = editor.getHTML();
+  //     console.log(htmlContent);
+  //   }
+  // };
 
   return (
     <div className="border border-gray-300 rounded-md mb-8">
       {editor && <FixedMenu editor={editor} />}
       <EditorContent editor={editor} className={styles.ProseMirror} />
 
-      <button type="button" className="text-white" onClick={logContent}>
+      {/* <button type="button" className="text-white" onClick={logContent}>
         Log Content
-      </button>
+      </button> */}
     </div>
   );
 };
