@@ -179,17 +179,20 @@ const ForceGraph = ({
             .style('font-size', d => {
               if (searchResults.includes(d.id)) {
                 return '0.9rem';
-              } 
-                if (currentZoom < 1.3) {
-                  return '0';
-                } 
-                  return '0.5rem';
-                
-              
+              }
+              if (currentZoom < 1.3) {
+                return '0';
+              }
+              return '0.5rem';
             });
         });
 
-      const initialZoom = d3.zoomIdentity.translate(160, 120).scale(0.6);
+      const initialScale = 0.9;
+      const translateX = centerX - centerX * initialScale;
+      const translateY = centerY - centerY * initialScale;
+      const initialZoom = d3.zoomIdentity
+        .translate(translateX, translateY)
+        .scale(initialScale);
       svg.call(zoomHandler);
 
       // NOTE 포스 시뮬레이션 설정
