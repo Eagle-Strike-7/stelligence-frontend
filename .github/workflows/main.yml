@@ -24,7 +24,7 @@ jobs:
           npm install -g yarn
           corepack enable
           corepack install --global yarn@stable
-          yarn set version stable
+          yarn set version 4.0.2
 
       - name: Install Dependencies
         run: yarn install
