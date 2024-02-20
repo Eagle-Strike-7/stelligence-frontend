@@ -36,7 +36,7 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
   const isEditableUser = currentUserInfo.memberId === commentorId;
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-12 mr-4 ">
+      <div className="flex flex-col justify-center items-center w-12 mr-4  ">
         <Avatar src={userImg} size="sm" />
       </div>
       <div className="flex-col w-full">
@@ -57,7 +57,9 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
             >
               #{commentId}
             </Tag>
-            <p className="text-sm text-primary-dark-500">{userName}</p>
+            <p className="text-sm text-primary-dark-500 break-all">
+              {userName}
+            </p>
           </div>
           <div className="flex justify-center align-center">
             <AiTwotoneAlert
@@ -81,10 +83,10 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
             )}
           </div>
         </div>
-        <div className="text-sm my-2">
+        <div className="text-sm my-2 break-all">
           <div>{renderContentWithTags(commentContent, commentIds)}</div>
         </div>
-        <div className="flex justify-end items-baseline">
+        <div className="flex justify-end items-baseline break-all">
           <p className="text-gray-600 text-xs">{time.split('.')[0]}</p>
         </div>
       </div>
