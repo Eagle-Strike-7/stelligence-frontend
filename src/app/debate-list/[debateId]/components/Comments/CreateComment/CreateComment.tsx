@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { postNewComment } from '@/service/debate/comment';
 import scrollToBottom from '@/lib/debate/scrollToBottom';
-import { Button, Textarea } from '@chakra-ui/react';
+import { Button, Textarea, useToast } from '@chakra-ui/react';
 import {
   HiOutlineChevronDoubleDown,
   HiOutlineChevronDoubleUp,
@@ -29,10 +29,12 @@ const CreateComment = ({
   scrollToTopComment,
 }: CommentCreateProps) => {
   const textareaRef = useRef(null);
-  const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
+  const [isCreateCommentOpen, setIsCommentCreateOpen] =
+    useState<boolean>(false);
   const [newContent, setNewContent] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
+  const toast = useToast();
 
   useEffect(() => {
     if (selectedCommentId) {
@@ -49,23 +51,33 @@ const CreateComment = ({
         });
       }
     }
-  }, [selectedCommentId]); // newContent를 의존성 배열에서 제거
+  }, [selectedCommentId]);
 
   // NOTE 커서 위치 기반으로 드롭다운 위치 계산하는 함수
   const calculateDropdownPosition = (textarea: HTMLTextAreaElement) => {
     const text = textarea.value;
     const cursorIndex = textarea.selectionStart;
-    const lineNumber = text.substr(0, cursorIndex).split('\n').length;
+    const lastNewLineIndex =
+      text.substring(0, cursorIndex).lastIndexOf('\n') + 1;
+    const currentLineTextLength = cursorIndex - lastNewLineIndex;
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10);
-    const currentLineText = text.substr(0, cursorIndex).split('\n').pop();
-    const charWidth = parseInt(getComputedStyle(textarea).fontSize, 10) * 0.6;
+    const charWidth = parseInt(getComputedStyle(textarea).fontSize, 10) * 0.7;
+    const textareaWidth = textarea.offsetWidth;
+    const dropdownWidth = 20;
     const additionalLeftOffset = 15;
-    const approximateLeft = currentLineText
-      ? currentLineText.length * charWidth + additionalLeftOffset
-      : 10;
-    const additionalOffset = 30;
-    const approximateTop =
-      (lineNumber - 1) * lineHeight + textarea.offsetTop + additionalOffset;
+    let approximateLeft =
+      currentLineTextLength * charWidth + additionalLeftOffset;
+
+    const lineNumber = text.substr(0, cursorIndex).split('\n').length;
+    let approximateTop =
+      (lineNumber - 1) * lineHeight + textarea.offsetTop + 35;
+
+    if (approximateLeft + dropdownWidth > textareaWidth - 1) {
+      approximateLeft =
+        ((currentLineTextLength * charWidth) % textareaWidth) +
+        additionalLeftOffset;
+      approximateTop += lineHeight;
+    }
 
     setCursorPosition({ top: approximateTop, left: approximateLeft });
   };
@@ -75,7 +87,6 @@ const CreateComment = ({
     const textarea = e.target;
     setNewContent(textarea.value);
 
-    // '#'이 포함되어 있는지 확인하고 드롭다운 표시 여부 결정
     const hasHashOrHashAndNumber = /#$|#\d+$/.test(textarea.value);
     if (hasHashOrHashAndNumber) {
       setShowDropdown(true);
@@ -93,6 +104,26 @@ const CreateComment = ({
 
   // NOTE 댓글 작성 제출 함수
   const handleSubmitComment = () => {
+    if (newContent.length === 0) {
+      toast({
+        title: `댓글 작성 실패`,
+        description: '빈 댓글입니다. 댓글을 입력해주세요!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (newContent.length > 1000) {
+      toast({
+        title: `댓글 작성 실패`,
+        description: '댓글은 1000자 이하까지만 입력 가능합니다.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
     postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
@@ -111,9 +142,8 @@ const CreateComment = ({
 
   // NOTE 엔터 키 입력 시 댓글 작성
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // 엔터 키를 누르고, Shift 키가 함께 눌리지 않았을 경우 실행
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // 텍스트 영역에서의 엔터 기본 동작(새 줄 추가) 방지
+      e.preventDefault();
       handleSubmitComment();
     }
   };
@@ -158,7 +188,7 @@ const CreateComment = ({
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={newContent}
             onChange={handleChangeInput}
-            onClick={handleChangeInput} // 커서 이동 시에도 위치 업데이트
+            onClick={handleChangeInput}
             style={{ lineHeight: '20px' }}
             onKeyDown={handleKeyDown}
           />
@@ -188,7 +218,7 @@ const CreateComment = ({
             color="text.light"
             marginBottom={6}
             _hover={{
-              bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
+              bg: 'rgba(118, 147, 231, 0.7)', // primary.500
               color: 'white',
               transition: 'background-color 0.5s ease',
             }}

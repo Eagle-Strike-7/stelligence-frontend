@@ -75,8 +75,9 @@ const Page = () => {
   });
 
   const refreshComments = () => {
-    setCommentsUpdated(prev => {return !prev});
-    // 댓글 섹션으로 스크롤 이동
+    setCommentsUpdated(prev => {
+      return !prev;
+    });
   };
 
   const scrollToTopComment = () => {
@@ -91,7 +92,7 @@ const Page = () => {
   const isDebateClosed = debateData?.status === 'CLOSED';
   const commentIds =
     comments?.map(comment => {
-      return comment.commentId;
+      return comment.sequence;
     }) || [];
   const reviseAuthUsersId =
     comments?.map(comment => {
@@ -133,6 +134,7 @@ const Page = () => {
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         ref={commentsSectionRef}
+        selectedCommentId={selectedCommentId}
       />
       <CreateComment
         selectedCommentId={selectedCommentId}

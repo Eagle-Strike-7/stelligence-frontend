@@ -10,6 +10,14 @@ const renderContentWithTags = (
   let match: RegExpExecArray | null;
   let lastIndex = 0;
   const elements: ReactNode[] = [];
+  const handleClickInCommentTag = (e: any) => {
+    const commentId = e.target.id; // 또는 적절한 방식으로 commentId를 추출
+    const element = document.getElementById(`comment-${commentId}`);
+
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   match = regex.exec(commentContent);
   while (match !== null) {
@@ -24,10 +32,17 @@ const renderContentWithTags = (
     if (commentIds.includes(id)) {
       elements.push(
         <Tag
+          size="sm"
           key={matchIndex}
           bg="primary.900"
           color="primary.300"
           fontWeight={700}
+          h="1.5rem"
+          w="max-content"
+          marginY={0.5}
+          id={matchText}
+          _hover={{ cursor: 'pointer' }}
+          onClick={handleClickInCommentTag}
         >
           {matchText}
         </Tag>,

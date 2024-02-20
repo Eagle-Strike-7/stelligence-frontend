@@ -13,6 +13,7 @@ import EditCommentForm from './CreateComment/EditCommentForm';
 import CommentDisplay from './CreateComment/CommentDisplay';
 
 export interface DebateCommentProps {
+  id: string;
   userImg: string;
   userName: string;
   commentContent: string;
@@ -20,11 +21,14 @@ export interface DebateCommentProps {
   commentId: number;
   commentIds: number[];
   commentorId: number;
+  sequence: string;
+  selectedCommentId: string;
   setIsChanged: Dispatch<SetStateAction<boolean>>;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
 const CommentCard: React.FC<DebateCommentProps> = ({
+  id,
   userImg,
   userName,
   commentContent,
@@ -32,6 +36,8 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   commentId,
   commentorId,
   commentIds,
+  sequence,
+  selectedCommentId,
   setIsChanged,
   handleClickCommentId,
 }) => {
@@ -84,8 +90,12 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', debateId] });
-      setIsChanged(prev => {return !prev});
-      setIsEdit(prev => {return !prev});
+      setIsChanged(prev => {
+        return !prev;
+      });
+      setIsEdit(prev => {
+        return !prev;
+      });
       toast({
         title: `댓글 수정 성공!`,
         description: '댓글 수정이 완료되었습니다.',
@@ -123,17 +133,19 @@ const CommentCard: React.FC<DebateCommentProps> = ({
       />
       {isEdit ? (
         <EditCommentForm
+          selectedCommentId={selectedCommentId}
           updatedComment={updatedComment}
           setUpdatedComment={setUpdatedComment}
           handleUpdateComment={handleUpdateComment}
         />
       ) : (
         <CommentDisplay
+          id={id}
           userImg={userImg}
           userName={userName}
           commentContent={commentContent}
           time={time}
-          commentId={commentId}
+          sequence={sequence}
           commentIds={commentIds}
           commentorId={commentorId}
           handleClickCommentId={handleClickCommentId}

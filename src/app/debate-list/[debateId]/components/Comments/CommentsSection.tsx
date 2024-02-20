@@ -11,6 +11,7 @@ interface CommentsSectionProps {
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   selectedOption: string;
   setSelectedOption: (option: string) => void;
+  selectedCommentId: string;
 }
 
 const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
@@ -22,6 +23,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
       handleClickCommentId,
       selectedOption,
       setSelectedOption,
+      selectedCommentId,
     },
     ref,
   ) => {
@@ -51,6 +53,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
           ).map((comment: CommentProps) => {
             return (
               <CommentCard
+                id={`comment-#${comment.sequence}`}
                 key={comment.commentId}
                 commentorId={comment.commenter.memberId}
                 userImg={comment.commenter.profileImgUrl}
@@ -59,8 +62,10 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
                 commentContent={comment.content}
                 time={comment.createdAt.replace('T', ' ')}
                 commentIds={commentIds}
+                sequence={comment.sequence.toString()}
                 setIsChanged={setIsChanged}
                 handleClickCommentId={handleClickCommentId}
+                selectedCommentId={selectedCommentId}
               />
             );
           })}
