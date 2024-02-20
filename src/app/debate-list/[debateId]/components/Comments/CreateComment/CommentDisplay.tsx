@@ -10,13 +10,13 @@ interface CommentDisplayProps {
   userName: string;
   commentContent: string;
   time: string;
-  commentId: number;
   commentIds: number[];
   commentorId: number;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   onOpen: () => void;
   handleDeleteComment: () => void;
   handleEditComment: () => void;
+  sequence: string;
 }
 
 const CommentDisplay: React.FC<CommentDisplayProps> = ({
@@ -24,9 +24,9 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
   userName,
   commentContent,
   time,
-  commentId,
   commentIds,
   commentorId,
+  sequence,
   handleClickCommentId,
   onOpen,
   handleDeleteComment,
@@ -34,6 +34,7 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
 }) => {
   const currentUserInfo = useRecoilValue(loggedInUserState);
   const isEditableUser = currentUserInfo.memberId === commentorId;
+  console.log(commentIds);
   return (
     <>
       <div className="flex flex-col justify-center items-center w-12 mr-4  ">
@@ -53,9 +54,9 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
               fontWeight={700}
               size="sm"
               onClick={handleClickCommentId}
-              id={commentId.toString()}
+              id={sequence.toString()}
             >
-              #{commentId}
+              #{sequence}
             </Tag>
             <p className="text-sm text-primary-dark-500 break-all">
               {userName}

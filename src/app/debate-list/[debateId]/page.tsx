@@ -92,7 +92,7 @@ const Page = () => {
   const isDebateClosed = debateData?.status === 'CLOSED';
   const commentIds =
     comments?.map(comment => {
-      return comment.commentId;
+      return comment.sequence;
     }) || [];
   const reviseAuthUsersId =
     comments?.map(comment => {

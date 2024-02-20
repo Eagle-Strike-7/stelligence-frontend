@@ -61,6 +61,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
                 commentContent={comment.content}
                 time={comment.createdAt.replace('T', ' ')}
                 commentIds={commentIds}
+                sequence={comment.sequence.toString()}
                 setIsChanged={setIsChanged}
                 handleClickCommentId={handleClickCommentId}
                 selectedCommentId={selectedCommentId}
