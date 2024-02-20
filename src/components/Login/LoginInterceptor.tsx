@@ -1,4 +1,8 @@
 import apiClient from '@/service/login/axiosClient';
+import {
+  getLoginStateLocalStorage,
+  removeLoginStateLocalStorage,
+} from '@/service/login/loginState';
 import { loginState } from '@/store/user/login';
 import { useToast } from '@chakra-ui/react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -30,6 +34,12 @@ const LoginInterceptor = () => {
             duration: 1000,
             isClosable: true,
           });
+        } else if (
+          error.response &&
+          error.response.status === 403 &&
+          getLoginStateLocalStorage()
+        ) {
+          removeLoginStateLocalStorage();
         }
 
         return Promise.reject(error);

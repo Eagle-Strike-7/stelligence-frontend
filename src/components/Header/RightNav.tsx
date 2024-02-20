@@ -10,7 +10,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
@@ -19,6 +19,10 @@ import { FaBell } from 'react-icons/fa';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import countNotification from '@/store/notification/countNotification';
+import {
+  removeLoginStateLocalStorage,
+  setLoginStateLocalStorage,
+} from '@/service/login/loginState';
 import Notification from './Notification';
 
 const RightNav = () => {
@@ -28,6 +32,7 @@ const RightNav = () => {
 
   const router = useRouter();
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   // NOTE 회원정보 요청
   const {
@@ -41,9 +46,9 @@ const RightNav = () => {
     staleTime: Infinity,
   });
 
-  // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
+  // NOTE 회원정보 데이터 변경 시 로그인 전역상태 변경
   useEffect(() => {
-    setIsLogin({ isLoggedIn: true, isLoading: false });
+    setIsLogin({ isLoggedIn: !!userData?.success, isLoading: false });
 
     setLoggedInUserState({
       memberId: userData?.results.memberId ?? 0,
@@ -52,13 +57,18 @@ const RightNav = () => {
       profileImgUrl: userData?.results.profileImgUrl ?? '',
     });
     setLatestLogin(userData?.results.socialType);
-  }, [userData]);
+  }, [userData?.results]);
+
+  useEffect(() => {
+    setLoginStateLocalStorage(true);
+  }, []);
 
   // NOTE 로그아웃 요청
   const logoutMutation = useMutation<ResponseType<{}>, Error>({
     mutationFn: postLogout,
-    onSuccess: response => {
-      console.log('로그아웃 성공: ', response.success);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      removeLoginStateLocalStorage();
       setIsLogin({ isLoggedIn: false, isLoading: false });
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
