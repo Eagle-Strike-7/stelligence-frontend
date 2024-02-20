@@ -27,6 +27,6 @@
 
 /* Handle */
 .revise__content::-webkit-scrollbar-thumb {
-  background: rgba(118, 147, 231, 1);
+  background: rgba(118, 147, 231, 0.5);
   border-radius: 10px;
 }
