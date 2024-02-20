@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { postNewComment } from '@/service/debate/comment';
 import scrollToBottom from '@/lib/debate/scrollToBottom';
-import { Button, Textarea } from '@chakra-ui/react';
+import { Button, Textarea, useToast } from '@chakra-ui/react';
 import {
   HiOutlineChevronDoubleDown,
   HiOutlineChevronDoubleUp,
@@ -33,6 +33,7 @@ const CreateComment = ({
   const [newContent, setNewContent] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
+  const toast = useToast();
 
   useEffect(() => {
     if (selectedCommentId) {
@@ -93,6 +94,25 @@ const CreateComment = ({
 
   // NOTE 댓글 작성 제출 함수
   const handleSubmitComment = () => {
+    if (newContent.length === 0) {
+      toast({
+        title: `댓글 작성 실패`,
+        description: '빈 댓글입니다. 댓글을 입력해주세요!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    } if (newContent.length > 1000) {
+      toast({
+        title: `댓글 작성 실패`,
+        description: '댓글은 1000자 이하까지만 입력 가능합니다.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
     postNewComment(newContent, debateId)
       .then(() => {
         onCommentCreated();
