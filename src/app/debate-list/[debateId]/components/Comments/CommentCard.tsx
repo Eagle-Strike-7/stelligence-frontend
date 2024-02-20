@@ -13,6 +13,7 @@ import EditCommentForm from './CreateComment/EditCommentForm';
 import CommentDisplay from './CreateComment/CommentDisplay';
 
 export interface DebateCommentProps {
+  id: string;
   userImg: string;
   userName: string;
   commentContent: string;
@@ -27,6 +28,7 @@ export interface DebateCommentProps {
 }
 
 const CommentCard: React.FC<DebateCommentProps> = ({
+  id,
   userImg,
   userName,
   commentContent,
@@ -138,6 +140,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         />
       ) : (
         <CommentDisplay
+          id={id}
           userImg={userImg}
           userName={userName}
           commentContent={commentContent}

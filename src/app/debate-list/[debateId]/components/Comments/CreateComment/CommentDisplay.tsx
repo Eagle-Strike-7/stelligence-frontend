@@ -6,6 +6,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import { useRecoilValue } from 'recoil';
 
 interface CommentDisplayProps {
+  id: string;
   userImg: string;
   userName: string;
   commentContent: string;
@@ -20,6 +21,7 @@ interface CommentDisplayProps {
 }
 
 const CommentDisplay: React.FC<CommentDisplayProps> = ({
+  id,
   userImg,
   userName,
   commentContent,
@@ -34,10 +36,13 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
 }) => {
   const currentUserInfo = useRecoilValue(loggedInUserState);
   const isEditableUser = currentUserInfo.memberId === commentorId;
-  console.log(commentIds);
+
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-12 mr-4  ">
+      <div
+        className="flex flex-col justify-center items-center w-12 mr-4 "
+        id={id}
+      >
         <Avatar src={userImg} size="sm" />
       </div>
       <div className="flex-col w-full">

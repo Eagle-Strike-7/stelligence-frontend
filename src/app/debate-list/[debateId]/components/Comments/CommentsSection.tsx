@@ -53,6 +53,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
           ).map((comment: CommentProps) => {
             return (
               <CommentCard
+                id={`comment-#${comment.sequence}`}
                 key={comment.commentId}
                 commentorId={comment.commenter.memberId}
                 userImg={comment.commenter.profileImgUrl}
