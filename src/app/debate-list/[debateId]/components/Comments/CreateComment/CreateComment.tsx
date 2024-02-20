@@ -51,7 +51,7 @@ const CreateComment = ({
         });
       }
     }
-  }, [selectedCommentId]); // newContent를 의존성 배열에서 제거
+  }, [selectedCommentId]);
 
   // NOTE 커서 위치 기반으로 드롭다운 위치 계산하는 함수
   const calculateDropdownPosition = (textarea: HTMLTextAreaElement) => {
@@ -133,9 +133,8 @@ const CreateComment = ({
 
   // NOTE 엔터 키 입력 시 댓글 작성
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // 엔터 키를 누르고, Shift 키가 함께 눌리지 않았을 경우 실행
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // 텍스트 영역에서의 엔터 기본 동작(새 줄 추가) 방지
+      e.preventDefault();
       handleSubmitComment();
     }
   };
@@ -180,7 +179,7 @@ const CreateComment = ({
             placeholder="댓글을 여기에 입력해주세요 :)"
             value={newContent}
             onChange={handleChangeInput}
-            onClick={handleChangeInput} // 커서 이동 시에도 위치 업데이트
+            onClick={handleChangeInput}
             style={{ lineHeight: '20px' }}
             onKeyDown={handleKeyDown}
           />
@@ -210,7 +209,7 @@ const CreateComment = ({
             color="text.light"
             marginBottom={6}
             _hover={{
-              bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
+              bg: 'rgba(118, 147, 231, 0.7)', // primary.500
               color: 'white',
               transition: 'background-color 0.5s ease',
             }}
