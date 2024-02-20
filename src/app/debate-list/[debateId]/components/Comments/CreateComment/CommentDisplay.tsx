@@ -84,8 +84,10 @@ const CommentDisplay: React.FC<CommentDisplayProps> = ({
             )}
           </div>
         </div>
-        <div className="text-sm my-2 break-all">
-          <div>{renderContentWithTags(commentContent, commentIds)}</div>
+        <div className="text-sm my-2 break-all ">
+          <p className="leading-[1.5rem] align-middle">
+            {renderContentWithTags(commentContent, commentIds)}
+          </p>
         </div>
         <div className="flex justify-end items-baseline break-all">
           <p className="text-gray-600 text-xs">{time.split('.')[0]}</p>

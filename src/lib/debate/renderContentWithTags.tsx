@@ -24,10 +24,14 @@ const renderContentWithTags = (
     if (commentIds.includes(id)) {
       elements.push(
         <Tag
+          size="sm"
           key={matchIndex}
           bg="primary.900"
           color="primary.300"
           fontWeight={700}
+          h="1.5rem"
+          w="max-content"
+          marginY={0.5}
         >
           {matchText}
         </Tag>,
