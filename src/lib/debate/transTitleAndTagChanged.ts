@@ -1,4 +1,5 @@
 import { Amendment } from '@/types/common/Amendment';
+import { WriteType } from '@/types/common/ResponseType';
 
 const transTitleTagtoAmendment = (
   changedType: 'title' | 'tag',
@@ -11,7 +12,7 @@ const transTitleTagtoAmendment = (
 
   return {
     amendmentId: 0,
-    type: 'UPDATE',
+    type: WriteType.UPDATE,
     targetSection: {
       sectionId: 0,
       revision: 0,
