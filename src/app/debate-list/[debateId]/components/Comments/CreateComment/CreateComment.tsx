@@ -153,11 +153,11 @@ const CreateComment = ({
   const renderCreateCommentBox = () => {
     if (debateStatus !== 'OPEN') {
       return (
-        <div className="flex justify-center pt-3 z-10 place-items-baseline">
-          <span className="text-xl font-bold flex-shrink-0 mr-4">
-            종료된 토론입니다.
-          </span>
-        </div>
+        <div className="flex justify-center pt-3 z-10 align-center w-full ">
+            <span className="text-xl font-bold flex-shrink-0">
+              종료된 토론입니다.
+            </span>
+          </div>
       );
     }
 
@@ -270,7 +270,7 @@ const CreateComment = ({
   };
 
   return (
-    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto bg-background-dark text-white border-primary-dark-800 border-t-2 border-l-2 border-r-2  shadow-lg rounded-md ">
+    <div className="flex flex-col sticky bottom-0 mx-auto xl:w-[70rem] lg:w-[60rem] md:w-[50rem] pt-2 pb-6 px-6 bg-background-dark text-white border-primary-dark-800 border-t-2 border-l-2 border-r-2  shadow-lg rounded-md ">
       {renderCreateCommentBox()}
     </div>
   );

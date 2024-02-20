@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import Wrapper from '@/components/Common/Wrapper';
 import { usePathname } from 'next/navigation';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { getCommentList } from '@/service/debate/comment';
@@ -13,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CommentProps } from '@/types/debate/comment';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/store/user/login';
+import { Box, Center } from '@chakra-ui/react';
 import NewReviseRequestButton from './components/NewReviseRequestButton';
 import DebateDetail from './components/DebateDetail/DebateDetail';
 import CommentsSection from './components/Comments/CommentsSection';
@@ -105,49 +105,51 @@ const Page = () => {
     isRevisableDoc && reviseAuthUsersId.includes(currentUserId);
 
   return (
-    <Wrapper>
-      <BackToDebateListButton />
-      <div className="w-max">
-        <PageTitleDescription
-          title={debateData?.status === 'OPEN' ? '토론하기' : '토론결과'}
-          description={
-            debateData?.status === 'OPEN'
-              ? '토론에 참여해보세요'
-              : '종료된 토론의 결과를 확인하세요.'
-          }
-          relatedDebateId={debateData?.contribute.relatedDebateId}
-        />
-      </div>
-      {isDebateClosed && canRequestRevise && (
-        <NewReviseRequestButton
+    <Center>
+      <Box w="70rem" mx={{ base: '4', md: '20' }} my="12" mb="0">
+        <BackToDebateListButton />
+        <div className="w-max">
+          <PageTitleDescription
+            title={debateData?.status === 'OPEN' ? '토론하기' : '토론결과'}
+            description={
+              debateData?.status === 'OPEN'
+                ? '토론에 참여해보세요'
+                : '종료된 토론의 결과를 확인하세요.'
+            }
+            relatedDebateId={debateData?.contribute.relatedDebateId}
+          />
+        </div>
+        {isDebateClosed && canRequestRevise && (
+          <NewReviseRequestButton
+            debateId={debateId}
+            starId={debateData?.contribute.documentId}
+            canRequestRevise={canRequestRevise}
+          />
+        )}
+        {debateData && <DebateDetail debateData={debateData} />}
+        <CommentsSection
           debateId={debateId}
-          starId={debateData?.contribute.documentId}
-          canRequestRevise={canRequestRevise}
+          commentIds={commentIds}
+          commentsUpdated={commentsUpdated}
+          handleClickCommentId={handleClickCommentId}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          ref={commentsSectionRef}
+          selectedCommentId={selectedCommentId}
+          debateStatus={debateData?.status ?? 'OPEN'}
         />
-      )}
-      {debateData && <DebateDetail debateData={debateData} />}
-      <CommentsSection
-        debateId={debateId}
-        commentIds={commentIds}
-        commentsUpdated={commentsUpdated}
-        handleClickCommentId={handleClickCommentId}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        ref={commentsSectionRef}
-        selectedCommentId={selectedCommentId}
-        debateStatus={debateData?.status ?? 'OPEN'}
-      />
-      <CreateComment
-        selectedCommentId={selectedCommentId}
-        onCommentCreated={refreshComments}
-        debateId={debateId}
-        commentIds={commentIds}
-        debateStatus={debateData?.status ?? 'OPEN'}
-        handleClickCommentId={handleClickCommentId}
-        selectedOption={selectedOption}
-        scrollToTopComment={scrollToTopComment}
-      />
-    </Wrapper>
+        <CreateComment
+          selectedCommentId={selectedCommentId}
+          onCommentCreated={refreshComments}
+          debateId={debateId}
+          commentIds={commentIds}
+          debateStatus={debateData?.status ?? 'OPEN'}
+          handleClickCommentId={handleClickCommentId}
+          selectedOption={selectedOption}
+          scrollToTopComment={scrollToTopComment}
+        />
+      </Box>
+    </Center>
   );
 };
 
