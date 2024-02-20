@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import StarContent from '@/app/stars/[starId]/components/StarContent';
 import MiddleTitle from '@/components/Common/Title/MiddleTitle';
 import { Amendment } from '@/types/common/Amendment';
 import { Tag } from '@chakra-ui/react';
 import styles from '@/styles/carousel.module.css';
+import ReviseContent from '@/app/vote-list/[voteId]/components/ReviseContent';
 import { PrevButton, NextButton, DotButton } from './RouteButton';
 
 interface AmendmentsProps {
@@ -72,13 +72,17 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                   />
                   <div className="tiptap flex justify-between gap-5">
                     <div className="w-1/2">
-                      <StarContent
-                        content={`<b>${amendment.targetSection.title}</b> <br/> ${amendment.targetSection.content}`}
+                      <ReviseContent
+                        heading={amendment.targetSection.heading}
+                        title={amendment.targetSection.title}
+                        content={amendment.targetSection.content}
                       />
                     </div>
                     <div className="w-1/2">
-                      <StarContent
-                        content={`<b>${amendment.requestedSectionTitle}</b> <br/> ${amendment.requestedSectionContent}`}
+                      <ReviseContent
+                        heading={amendment.requestedSectionHeading}
+                        title={amendment.requestedSectionTitle}
+                        content={amendment.requestedSectionContent}
                       />
                     </div>
                   </div>
