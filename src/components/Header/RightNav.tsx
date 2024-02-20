@@ -6,6 +6,11 @@ import { ResponseType } from '@/types/common/ResponseType';
 import {
   Avatar,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Tooltip,
   useDisclosure,
   useToast,
@@ -15,7 +20,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
-import { FaBell } from 'react-icons/fa';
+import { FaBell, FaUser } from 'react-icons/fa';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import countNotification from '@/store/notification/countNotification';
@@ -90,12 +95,19 @@ const RightNav = () => {
     },
   });
 
+  // NOTE 유저 메뉴 열기
+  const handleOpenUserMenu = () => {
+    onUserMenuOpen();
+  };
+
   // NOTE 마이페이지로 이동
   const handleClickMypage = () => {
+    onUserMenuClose();
     router.push('/mypage');
   };
   // NOTE 로그아웃 mutation 함수 호출
   const handleLogout = () => {
+    onUserMenuClose();
     logoutMutation.mutate();
   };
 
@@ -121,20 +133,49 @@ const RightNav = () => {
     console.log('loading');
   }
 
-  // NOTE 알림 모달
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
+  // NOTE 유저 정보 모달
+  const [userModalPosition, setUserModalPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const userButtonRef = useRef<HTMLButtonElement>(null);
+  const {
+    isOpen: isUserMenuOpen,
+    onOpen: onUserMenuOpen,
+    onClose: onUserMenuClose,
+  } = useDisclosure();
   useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      setModalPosition({
-        top: buttonRect.bottom - 64,
-        left: buttonRect.left - 250,
+    if (isUserMenuOpen && userButtonRef.current) {
+      const userButtonRect = userButtonRef.current.getBoundingClientRect();
+      setUserModalPosition({
+        top: userButtonRect.bottom - 55,
+        left: userButtonRect.left - 130,
       });
     }
-  }, [isOpen]);
+  }, [isUserMenuOpen]);
+
+  // NOTE 알림 모달
+  const [notiModalPosition, setNotiModalPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const notiButtonRef = useRef<HTMLButtonElement>(null);
+
+  const {
+    isOpen: isNotificationOpen,
+    onOpen: onNotificationOpen,
+    onClose: onNotificationClose,
+  } = useDisclosure();
+
+  useEffect(() => {
+    if (isNotificationOpen && notiButtonRef.current) {
+      const notiButtonRect = notiButtonRef.current.getBoundingClientRect();
+      setNotiModalPosition({
+        top: notiButtonRect.bottom - 64,
+        left: notiButtonRect.left - 270,
+      });
+    }
+  }, [isNotificationOpen]);
 
   return (
     <div className="flex mr-20 w-40 justify-end place-items-center">
@@ -155,16 +196,16 @@ const RightNav = () => {
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
       {userData && isLogin.isLoggedIn ? (
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-0">
           <Button
-            onClick={onOpen}
+            onClick={onNotificationOpen}
             bgColor="transparent"
             color="white"
             fontSize="2xl"
             _hover={{
               bgColor: 'transparent',
             }}
-            ref={buttonRef}
+            ref={notiButtonRef}
             position="relative"
           >
             <FaBell />
@@ -173,46 +214,78 @@ const RightNav = () => {
             )}
           </Button>
           <Notification
-            isOpen={isOpen}
-            onClose={onClose}
-            position={modalPosition}
+            isOpen={isNotificationOpen}
+            onClose={onNotificationClose}
+            position={notiModalPosition}
           />
           <Button
             variant="link"
             gap={2}
             color="white"
             alignSelf="center"
-            onClick={handleClickMypage}
+            position="relative"
+            ref={userButtonRef}
+            onClick={handleOpenUserMenu}
           >
             <Avatar
               name={userData?.results.nickname}
               src={userData?.results.profileImgUrl}
-              size="xs"
+              size="sm"
             />
-            <h3 className="text-sm self-center">
-              {userData?.results.nickname}
-            </h3>
           </Button>
-          <Tooltip
-            hasArrow
-            arrowSize={10}
-            label="지구로 돌아가기🌍"
-            placement="right"
-            color="black"
-            backgroundColor="#f6f6f6"
-            size="lg"
-            padding="0.25rem 0.75rem"
-            rounded="sm"
-          >
-            <Button
-              variant="link"
-              color="white"
-              alignSelf="center"
-              onClick={handleLogout}
+          <Modal onClose={onUserMenuClose} isOpen={isUserMenuOpen}>
+            <ModalOverlay bgColor="transparent" />
+            <ModalContent
+              position="absolute"
+              top={`${userModalPosition.top}px`}
+              left={`${userModalPosition.left}px`}
+              bgColor="#2e2e2e"
+              width="11rem"
+              borderWidth={2}
+              borderColor="#292929"
+              rounded="lg"
             >
-              <AiOutlineLogout className="w-6 h-6" />
-            </Button>
-          </Tooltip>
+              <ModalHeader paddingX="1rem" paddingY="0.5rem">
+                <div className="flex flex-row gap-2 items-center">
+                  <Avatar
+                    name={userData?.results.nickname}
+                    src={userData?.results.profileImgUrl}
+                    size="xs"
+                  />
+                  <h4 className="text-white text-sm text-center">
+                    <span className="text-primary-dark-200">
+                      {userData.results.nickname}
+                    </span>{' '}
+                    님 👋
+                  </h4>
+                </div>
+              </ModalHeader>
+              <ModalBody paddingX="1rem">
+                <div className="flex flex-col gap-3 items-start">
+                  <Button
+                    variant="link"
+                    size="sm"
+                    color="white"
+                    borderBottom="1"
+                    borderColor="white"
+                    leftIcon={<FaUser />}
+                    onClick={handleClickMypage}
+                  >
+                    마이페이지
+                  </Button>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    color="white"
+                    leftIcon={<AiOutlineLogout />}
+                    onClick={handleLogout}
+                  >
+                    지구로 돌아가기
+                  </Button>
+                </div>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </div>
       ) : (
         <div>
