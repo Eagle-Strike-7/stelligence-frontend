@@ -24,9 +24,11 @@ import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
 const Notification = ({
   isOpen,
   onClose,
+  position,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  position: { top: number; left: number };
 }) => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const toast = useToast();
@@ -142,13 +144,15 @@ const Notification = ({
     deleteNotificationMutation.mutate(Number(notificationId));
   };
 
+  console.log('모달의 위치: ', position.top, position.left);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bgColor="transparent" />
       <ModalContent
-        position="fixed"
-        top="0"
-        right="30rem"
+        position="absolute"
+        top={`${position.top}px`}
+        left={`${position.left}px`}
         width="20rem"
         padding={0}
         bgColor="#2e2e2e"
