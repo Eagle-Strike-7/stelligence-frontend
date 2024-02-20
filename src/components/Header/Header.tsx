@@ -50,20 +50,20 @@ const Header = () => {
                 <DrawerCloseButton />
               </DrawerHeader>
               <DrawerBody className="flex flex-col bg-[#212121]">
-                <VoteButton />
-                <DebateButton />
-                <NewStarButton />
+                <VoteButton onClose={onClose} />
+                <DebateButton onClose={onClose} />
+                <NewStarButton onClose={onClose} />
               </DrawerBody>
             </DrawerContent>
           </Drawer>
         </div>
         <div className="mobile:hidden desktop:flex">
-          <Navigation />
+          <Navigation onClose={onClose} />
         </div>
         <Logo />
         <div className="flex flex-row items-center">
           <div className="mobile: hidden desktop:flex">
-            <NewStarButton />
+            <NewStarButton onClose={onClose} />
           </div>
           <Login />
         </div>

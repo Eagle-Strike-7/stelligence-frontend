@@ -1,11 +1,14 @@
+'use client';
+
 import { Button } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
 
-const VoteButton = () => {
+const VoteButton = ({ onClose }: { onClose: () => void }) => {
   const router = useRouter();
   const handleClickVote = () => {
+    onClose();
     router.push('/vote-list');
   };
   return (

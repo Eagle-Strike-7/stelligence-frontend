@@ -5,7 +5,7 @@ import React from 'react';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilValue } from 'recoil';
 
-const NewStarButton = () => {
+const NewStarButton = ({ onClose }: { onClose: () => void }) => {
   const isLogin = useRecoilValue(loginState);
   const toast = useToast();
   const router = useRouter();
@@ -17,8 +17,10 @@ const NewStarButton = () => {
         isClosable: true,
         status: 'warning',
       });
+      onClose();
       router.push('/login');
     } else {
+      onClose();
       router.push('/new-star');
     }
   };

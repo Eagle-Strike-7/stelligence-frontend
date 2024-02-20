@@ -1,11 +1,14 @@
+'use client';
+
 import { Button } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { AiOutlineComment } from 'react-icons/ai';
 
-const DebateButton = () => {
+const DebateButton = ({ onClose }: { onClose: () => void }) => {
   const router = useRouter();
   const handleClickDebate = () => {
+    onClose();
     router.push('/debate-list');
   };
   return (
