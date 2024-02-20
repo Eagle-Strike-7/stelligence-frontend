@@ -29,7 +29,8 @@ const CreateComment = ({
   scrollToTopComment,
 }: CommentCreateProps) => {
   const textareaRef = useRef(null);
-  const [isCreateCommentOpen, setIsCommentCreateOpen] = useState<boolean>(true);
+  const [isCreateCommentOpen, setIsCommentCreateOpen] =
+    useState<boolean>(false);
   const [newContent, setNewContent] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ top: 0, left: 0 });
@@ -103,7 +104,8 @@ const CreateComment = ({
         isClosable: true,
       });
       return;
-    } if (newContent.length > 1000) {
+    }
+    if (newContent.length > 1000) {
       toast({
         title: `댓글 작성 실패`,
         description: '댓글은 1000자 이하까지만 입력 가능합니다.',
