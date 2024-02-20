@@ -7,10 +7,10 @@ import { DocStatus } from '@/types/star/StarProps';
 import { Button, useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 const StarStatusButton = () => {
-  const [isLogin] = useRecoilState(loginState);
+  const isLogin = useRecoilValue(loginState);
   const starId = Number(useParams().starId);
   const router = useRouter();
   const toast = useToast();
@@ -33,7 +33,7 @@ const StarStatusButton = () => {
   });
 
   const handleEdit = () => {
-    if (!isLogin) {
+    if (!isLogin.isLoggedIn) {
       toast({
         title: '로그인이 필요합니다.',
         duration: 2000,

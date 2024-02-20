@@ -3,8 +3,11 @@ export const setLoginStateLocalStorage = (isLogin: boolean | undefined) => {
 };
 
 export const getLoginStateLocalStorage = () => {
-  const isLogin = window.localStorage.getItem('isLogin');
-  return isLogin;
+  if (typeof window !== 'undefined') {
+    const isLogin = window.localStorage.getItem('isLogin');
+    return isLogin;
+  }
+  return null;
 };
 
 export const removeLoginStateLocalStorage = () => {
