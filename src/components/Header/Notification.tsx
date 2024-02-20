@@ -6,6 +6,7 @@ import getNotifications, {
   patchNotification,
   patchNotificationAll,
 } from '@/service/notification/notificationService';
+import { countNotification } from '@/store/notification/countNotification';
 import { ResponseType } from '@/types/common/ResponseType';
 import {
   Button,
@@ -18,8 +19,10 @@ import {
 } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
+import { useSetRecoilState } from 'recoil';
+import NoList from '../Common/NoList';
 
 const Notification = ({
   isOpen,
@@ -30,17 +33,24 @@ const Notification = ({
   onClose: () => void;
   position: { top: number; left: number };
 }) => {
-  const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const toast = useToast();
   const queryClient = useQueryClient();
+  const setNotificationCount = useSetRecoilState(countNotification);
 
   // NOTE 알림 전체 조회
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
     queryKey: ['notification'],
     queryFn: getNotifications,
   });
+
   useEffect(() => {
-    setNotifications(notificationData?.results ?? []);
+    const notReadCount = notificationData?.results.filter(
+      item => {return !item.read},
+    ).length;
+    setNotificationCount({
+      hasNotRead: !!notReadCount,
+      count: notReadCount ?? 0,
+    });
   }, [notificationData]);
 
   // NOTE 알림 전체 읽음 처리
@@ -144,8 +154,6 @@ const Notification = ({
     deleteNotificationMutation.mutate(Number(notificationId));
   };
 
-  console.log('모달의 위치: ', position.top, position.left);
-
   return (
     <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bgColor="transparent" />
@@ -185,49 +193,53 @@ const Notification = ({
         </ModalHeader>
         <ModalBody paddingRight={0} paddingLeft={2}>
           <div className="flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2">
-            {notifications.map(item => {
-              return (
-                <div key={item.notificationId} className="flex flex-col">
-                  <div className="flex flex-row gap-2 justify-between">
-                    {!item.read && (
-                      <div className="text-secondary-dark mt-1">
-                        <FaCircle className="w-2 h-2" />
-                      </div>
-                    )}
-                    <Link
-                      href={item.uri}
-                      data-uri={item.uri}
-                      data-notificationid={item.notificationId}
-                      className="text-sm text-white flex-1"
-                      onClick={handlePatchNotification}
-                    >
-                      {item.message}
-                    </Link>
-                    <Button
-                      color="primary.500"
-                      fontSize="xs"
-                      bg="transparent"
-                      size="xs"
-                      width="fit-content"
-                      padding={0}
-                      _hover={{
-                        bgColor: 'transparent',
-                        color: 'white',
-                      }}
-                      data-notificationid={item.notificationId}
-                      onClick={handleDeleteNotification}
-                    >
-                      <FaRegTrashAlt className="p-0" />
-                    </Button>
+            {notificationData?.results.length ? (
+              notificationData?.results.map(item => {
+                return (
+                  <div key={item.notificationId} className="flex flex-col">
+                    <div className="flex flex-row gap-2 justify-between">
+                      {!item.read && (
+                        <div className="text-secondary-dark mt-1">
+                          <FaCircle className="w-2 h-2" />
+                        </div>
+                      )}
+                      <Link
+                        href={item.uri}
+                        data-uri={item.uri}
+                        data-notificationid={item.notificationId}
+                        className="text-sm text-white flex-1"
+                        onClick={handlePatchNotification}
+                      >
+                        {item.message}
+                      </Link>
+                      <Button
+                        color="primary.500"
+                        fontSize="xs"
+                        bg="transparent"
+                        size="xs"
+                        width="fit-content"
+                        padding={0}
+                        _hover={{
+                          bgColor: 'transparent',
+                          color: 'white',
+                        }}
+                        data-notificationid={item.notificationId}
+                        onClick={handleDeleteNotification}
+                      >
+                        <FaRegTrashAlt className="p-0" />
+                      </Button>
+                    </div>
+                    <div className="flex justify-end">
+                      <p className="text-xs text-[#8d8d8d]">
+                        {formatDate(item.createdAt)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex justify-end">
-                    <p className="text-xs text-[#8d8d8d]">
-                      {formatDate(item.createdAt)}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <NoList title="아직 받은 알림이 없어요 🦦" />
+            )}
           </div>
         </ModalBody>
       </ModalContent>

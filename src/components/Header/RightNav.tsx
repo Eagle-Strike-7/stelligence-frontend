@@ -17,12 +17,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { FaBell } from 'react-icons/fa';
 import { HiOutlinePencil } from 'react-icons/hi';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import countNotification from '@/store/notification/countNotification';
 import Notification from './Notification';
 
 const RightNav = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const setLoggedInUserState = useSetRecoilState(loggedInUserState);
+  const notificationCount = useRecoilValue(countNotification);
 
   const router = useRouter();
   const toast = useToast();
@@ -148,12 +150,17 @@ const RightNav = () => {
             onClick={onOpen}
             bgColor="transparent"
             color="white"
+            fontSize="2xl"
             _hover={{
               bgColor: 'transparent',
             }}
             ref={buttonRef}
+            position="relative"
           >
             <FaBell />
+            {notificationCount.hasNotRead && (
+              <div className="rounded-full bg-secondary-dark w-1.5 h-1.5 absolute top-2 right-4 flex" />
+            )}
           </Button>
           <Notification
             isOpen={isOpen}
