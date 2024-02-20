@@ -23,7 +23,10 @@ const ReviseContent = ({
   });
 
   useEffect(() => {
-    const totalContent = `<${heading.toLowerCase()}>${title}</${heading.toLowerCase()}>${content}`;
+    const totalContent =
+      heading !== ''
+        ? `<${heading.toLowerCase()}>${title}</${heading.toLowerCase()}>${content}`
+        : '';
 
     if (editor) {
       editor.commands.setContent(totalContent);

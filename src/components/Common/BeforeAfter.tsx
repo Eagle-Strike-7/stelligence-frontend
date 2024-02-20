@@ -36,9 +36,9 @@ const BeforeAfter = ({
         </div>
         <div className="flex flex-col gap-1">
           <ReviseContent
-            heading={afterHeading}
-            title={afterTitle}
-            content={afterContent}
+            heading={type === 'DELETE' ? '' : afterHeading}
+            title={type === 'DELETE' ? '' : afterTitle}
+            content={type === 'DELETE' ? '' : afterContent}
           />
         </div>
       </div>

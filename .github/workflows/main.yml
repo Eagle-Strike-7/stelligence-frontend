@@ -20,9 +20,11 @@ jobs:
           node-version: '20.10.0'
 
       - name: Install Yarn
-        run: npm install -g yarn
+        run: |
+          npm install -g yarn
           corepack enable
-          yarn set version stable
+          corepack install --global yarn@stable
+          yarn set version 4.0.2
 
       - name: Install Dependencies
         run: yarn install
