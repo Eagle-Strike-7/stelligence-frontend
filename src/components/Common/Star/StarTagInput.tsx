@@ -81,6 +81,15 @@ const StarTagInput = ({
     searchTag.refetch();
   }, [debouncedTitle]);
 
+  useEffect(() => {
+    setSearchTitle(prevState => {
+      return {
+        ...prevState,
+        parentTitle: parentDocumentTitle,
+      };
+    });
+  }, [parentDocumentTitle]);
+
   return (
     <div className="flex flex-col grow mb-4">
       {inputTitle === '상위 계층 태그' ? (

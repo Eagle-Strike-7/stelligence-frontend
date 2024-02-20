@@ -109,7 +109,7 @@ const StarStatusButton = () => {
           variant="solid"
           onClick={handlePending}
         >
-          심사중
+          수정대기중
         </Button>
       )}
     </>
