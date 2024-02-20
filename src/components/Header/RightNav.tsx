@@ -90,7 +90,7 @@ const RightNav = () => {
   };
 
   const handleCheckLogin = () => {
-    if (!isLogin) {
+    if (!isLogin.isLoggedIn) {
       toast({
         title: '로그인이 필요합니다.',
         duration: 2000,
