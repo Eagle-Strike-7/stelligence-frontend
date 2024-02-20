@@ -5,7 +5,7 @@ const CommentDropdownMenu: React.FC<{
   handleClickDropdownComment: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }> = ({ items, handleClickDropdownComment }) => {
   return (
-    <div className="flex-col absolute py-2 px-3 mt-1 rounded-md shadow-lg z-10 flex gap-2 bg-primary-dark-500/20 ">
+    <div className="flex-col absolute max-h-[7.5rem] overflow-y-auto py-2 px-3 mt-1 rounded-md shadow-lg z-10 flex gap-2 bg-primary-dark-500/20 ">
       {items.map(item => {
         return (
           <Tag

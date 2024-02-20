@@ -57,17 +57,27 @@ const CreateComment = ({
   const calculateDropdownPosition = (textarea: HTMLTextAreaElement) => {
     const text = textarea.value;
     const cursorIndex = textarea.selectionStart;
-    const lineNumber = text.substr(0, cursorIndex).split('\n').length;
+    const lastNewLineIndex =
+      text.substring(0, cursorIndex).lastIndexOf('\n') + 1;
+    const currentLineTextLength = cursorIndex - lastNewLineIndex;
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10);
-    const currentLineText = text.substr(0, cursorIndex).split('\n').pop();
-    const charWidth = parseInt(getComputedStyle(textarea).fontSize, 10) * 0.6;
+    const charWidth = parseInt(getComputedStyle(textarea).fontSize, 10) * 0.7;
+    const textareaWidth = textarea.offsetWidth;
+    const dropdownWidth = 20;
     const additionalLeftOffset = 15;
-    const approximateLeft = currentLineText
-      ? currentLineText.length * charWidth + additionalLeftOffset
-      : 10;
-    const additionalOffset = 30;
-    const approximateTop =
-      (lineNumber - 1) * lineHeight + textarea.offsetTop + additionalOffset;
+    let approximateLeft =
+      currentLineTextLength * charWidth + additionalLeftOffset;
+
+    const lineNumber = text.substr(0, cursorIndex).split('\n').length;
+    let approximateTop =
+      (lineNumber - 1) * lineHeight + textarea.offsetTop + 35;
+
+    if (approximateLeft + dropdownWidth > textareaWidth - 1) {
+      approximateLeft =
+        ((currentLineTextLength * charWidth) % textareaWidth) +
+        additionalLeftOffset;
+      approximateTop += lineHeight;
+    }
 
     setCursorPosition({ top: approximateTop, left: approximateLeft });
   };
@@ -77,7 +87,6 @@ const CreateComment = ({
     const textarea = e.target;
     setNewContent(textarea.value);
 
-    // '#'이 포함되어 있는지 확인하고 드롭다운 표시 여부 결정
     const hasHashOrHashAndNumber = /#$|#\d+$/.test(textarea.value);
     if (hasHashOrHashAndNumber) {
       setShowDropdown(true);
