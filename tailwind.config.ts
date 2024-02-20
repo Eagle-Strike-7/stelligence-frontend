@@ -77,7 +77,19 @@ const config: Config = {
         primaryLight: {
           dark: '#D0D8FB',
         },
-        secondary: { dark: '#F9AF6C' },
+        secondary: {
+          dark: {
+            100: '#feefe2',
+            200: '#fddfc4',
+            300: '#fbcfa7',
+            400: '#fabf89',
+            500: '#f9af6c',
+            600: '#c78c56',
+            700: '#956941',
+            800: '#64462b',
+            900: '#322316',
+          },
+        },
         secondaryLight: { dark: '#FFD8B7' },
         tertiary: { dark: '#85D2E6' },
         gray: {

@@ -153,11 +153,11 @@ const CreateComment = ({
   const renderCreateCommentBox = () => {
     if (debateStatus !== 'OPEN') {
       return (
-        <div className="flex justify-center pt-3 z-10 place-items-baseline">
-          <span className="text-xl font-bold flex-shrink-0 mr-4">
-            종료된 토론입니다.
-          </span>
-        </div>
+        <div className="flex justify-center pt-3 z-10 align-center w-full ">
+            <span className="text-xl font-bold flex-shrink-0">
+              종료된 토론입니다.
+            </span>
+          </div>
       );
     }
 
@@ -168,15 +168,23 @@ const CreateComment = ({
             <div className="relative inline-block">
               <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
             </div>
-
-            <HiOutlineChevronDoubleDown
-              size={20}
-              onClick={() => {
-                return setIsCommentCreateOpen(false);
-              }}
-              className="hover:cursor-pointer"
-              color="primary.500"
-            />
+            <Button
+              bg="primary.500"
+              size="xs"
+              py={4}
+              _hover={{ bg: 'primary.600' }}
+              rounded="full"
+            >
+              <HiOutlineChevronDoubleDown
+                size={20}
+                onClick={() => {
+                  return setIsCommentCreateOpen(false);
+                }}
+                className="hover:cursor-pointer"
+                color="primary.500"
+                strokeWidth={3}
+              />
+            </Button>
           </div>
 
           <Textarea
@@ -219,7 +227,6 @@ const CreateComment = ({
             marginBottom={6}
             _hover={{
               bg: 'rgba(118, 147, 231, 0.7)', // primary.500
-              color: 'white',
               transition: 'background-color 0.5s ease',
             }}
             _active={{
@@ -241,19 +248,29 @@ const CreateComment = ({
     return (
       <div className="flex justify-between pt-3 z-10">
         <span className="text-xl font-bold flex-shrink-0 pb-2">댓글</span>
-        <HiOutlineChevronDoubleUp
-          className="hover:cursor-pointer"
-          size={20}
-          onClick={() => {
-            return setIsCommentCreateOpen(true);
-          }}
-        />
+        <Button
+          bg="primary.500"
+          size="xs"
+          py={4}
+          _hover={{ bg: 'primary.600' }}
+          rounded="full"
+        >
+          <HiOutlineChevronDoubleUp
+            className="hover:cursor-pointer"
+            color="primary.800"
+            size={20}
+            onClick={() => {
+              return setIsCommentCreateOpen(true);
+            }}
+            strokeWidth={3}
+          />
+        </Button>
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col w-[70rem] fixed bottom-0 pt-2 pb-6 px-6 mx-auto border-2 text-white border-primary-dark-500/10 shadow-lg rounded-md bg-background-dark">
+    <div className="flex flex-col sticky bottom-0 mx-auto xl:w-[70rem] lg:w-[60rem] md:w-[50rem] pt-2 pb-6 px-6 bg-background-dark text-white border-primary-dark-800 border-t-2 border-l-2 border-r-2  shadow-lg rounded-md ">
       {renderCreateCommentBox()}
     </div>
   );

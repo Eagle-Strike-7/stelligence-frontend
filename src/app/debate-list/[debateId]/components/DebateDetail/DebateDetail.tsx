@@ -55,6 +55,8 @@ const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {
           <DebateInformation
             contributeData={debateData.contribute}
             debateEndAt={debateData.endAt}
+            documentId={debateData.contribute.documentId}
+            upperTagId={debateData.contribute.parentDocumentId}
           />
           {totalAmendments && <DebateSlider amendments={totalAmendments} />}
         </>

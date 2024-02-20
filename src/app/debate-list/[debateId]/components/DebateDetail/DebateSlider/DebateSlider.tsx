@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import StarContent from '@/app/stars/[starId]/components/StarContent';
 import MiddleTitle from '@/components/Common/Title/MiddleTitle';
 import { Amendment } from '@/types/common/Amendment';
-import { Tag } from '@chakra-ui/react';
 import styles from '@/styles/carousel.module.css';
+import ReviseContent from '@/app/vote-list/[voteId]/components/ReviseContent';
+import ReviseDescription from '@/components/ReviseDescription';
 import { PrevButton, NextButton, DotButton } from './RouteButton';
 
 interface AmendmentsProps {
@@ -45,17 +45,14 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
 
   return (
     <>
-      <div className="mt-10 my-5">
+      <div className="mt-10 mb-6">
         <MiddleTitle title="수정 요청 사항" color="white" />
-        <div className="tiptap flex justify-between gap-5 text-primary-dark-500 ">
-          <p className="font-bold w-1/2 text-center mb-4 ">수정 전</p>
-          <p className="font-bold w-1/2 text-center mb-4">수정 후</p>
+        <div className="tiptap flex justify-between gap-5 text-primary-dark-500 my-4 ">
+          <span className="font-bold text-lg w-1/2 text-center">수정 전</span>
+          <span className="font-bold text-lg w-1/2 text-center">수정 후</span>
         </div>
       </div>
       <div className={`${styles.embla} w-full`}>
-        <Tag bg="primary.500" mb={3}>
-          #{selectedIndex + 1}
-        </Tag>
         <div
           ref={emblaRef}
           className={`${styles.embla__viewport} place-items-center`}
@@ -70,15 +67,23 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                   <div
                     className={`${styles.embla__slide__number} flex justify-end`}
                   />
-                  <div className="tiptap flex justify-between gap-5">
-                    <div className="w-1/2">
-                      <StarContent
-                        content={`<b>${amendment.targetSection.title}</b> <br/> ${amendment.targetSection.content}`}
+                  <ReviseDescription
+                    index={selectedIndex + 1}
+                    type={amendment.type}
+                  />
+                  <div className="tiptap flex flex-col md:flex-row justify-between gap-5 mt-3">
+                    <div className="w-full md:w-1/2">
+                      <ReviseContent
+                        heading={amendment.targetSection.heading}
+                        title={amendment.targetSection.title}
+                        content={amendment.targetSection.content}
                       />
                     </div>
-                    <div className="w-1/2">
-                      <StarContent
-                        content={`<b>${amendment.requestedSectionTitle}</b> <br/> ${amendment.requestedSectionContent}`}
+                    <div className="w-full md:w-1/2">
+                      <ReviseContent
+                        heading={amendment.requestedSectionHeading}
+                        title={amendment.requestedSectionTitle}
+                        content={amendment.requestedSectionContent}
                       />
                     </div>
                   </div>

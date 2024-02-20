@@ -1,3 +1,5 @@
+import { WriteType } from './ResponseType';
+
 export interface Contributor {
   memberId: number;
   nickname: string;
@@ -6,7 +8,7 @@ export interface Contributor {
 
 export interface Amendment {
   amendmentId: number;
-  type: string;
+  type: WriteType;
   targetSection: Section;
   requestedSectionHeading: string;
   requestedSectionTitle: string;

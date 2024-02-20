@@ -4,7 +4,7 @@ import { Box, Center } from '@chakra-ui/react';
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <Center>
-      <Box w="70rem" className="mx-20 mb-40 mt-12">
+      <Box w="70rem" mx={{ base: '4', md: '20' }} my="12" mb="40">
         {children}
       </Box>
     </Center>
