@@ -16,7 +16,7 @@ const DebateInformation = ({
   const leftDebateTime = calculateRemainTime(debateEndAt);
 
   return (
-    <div className="flex flex-col gap-8 mb-4">
+    <div className="flex flex-col gap-5 mb-6">
       <MiddleTitle title="개요" color="white" />
       <div className="grid grid-cols-2 gap-4">
         <LabelText
