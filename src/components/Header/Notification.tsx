@@ -6,7 +6,7 @@ import getNotifications, {
   patchNotification,
   patchNotificationAll,
 } from '@/service/notification/notificationService';
-import { countNotification } from '@/store/notification/countNotification';
+import countNotification from '@/store/notification/countNotification';
 import { ResponseType } from '@/types/common/ResponseType';
 import {
   Button,
@@ -44,9 +44,9 @@ const Notification = ({
   });
 
   useEffect(() => {
-    const notReadCount = notificationData?.results.filter(
-      item => {return !item.read},
-    ).length;
+    const notReadCount = notificationData?.results.filter(item => {
+      return !item.read;
+    }).length;
     setNotificationCount({
       hasNotRead: !!notReadCount,
       count: notReadCount ?? 0,
