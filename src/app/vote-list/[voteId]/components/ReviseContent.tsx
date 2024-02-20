@@ -5,16 +5,19 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import React, { useEffect } from 'react';
 import styles from '@/styles/starContent.module.css';
+import { WriteType } from '@/types/common/ResponseType';
 
 // NOTE : 수정요청 사항 보여주는 컴포넌트
 const ReviseContent = ({
   heading,
   title,
   content,
+  type,
 }: {
   heading: string;
   title: string;
   content: string;
+  type?: WriteType;
 }) => {
   const editor = useEditor({
     extensions: [StarterKit, Image],
@@ -23,10 +26,18 @@ const ReviseContent = ({
   });
 
   useEffect(() => {
-    const totalContent =
+    let totalContent;
+    // NOTE 타입에 따라서 다른 컨텐츠 렌더링
+    totalContent =
       heading !== ''
         ? `<${heading.toLowerCase()}>${title}</${heading.toLowerCase()}>${content}`
         : '';
+    if (type === WriteType.DELETE) {
+      totalContent =
+        heading !== ''
+          ? `<s><${heading.toLowerCase()}>${title}</${heading.toLowerCase()}>${content}</s>`
+          : '';
+    }
 
     if (editor) {
       editor.commands.setContent(totalContent);
@@ -40,10 +51,10 @@ const ReviseContent = ({
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full mb-3">
       <EditorContent
         editor={editor}
-        className={`${styles.ProseMirror} ${styles.revise__content}`}
+        className={`${styles.ProseMirror} ${styles.revise__content} ${type === WriteType.CREATE && styles.created} ${type === WriteType.DELETE && styles.deleted}`}
       />
     </div>
   );

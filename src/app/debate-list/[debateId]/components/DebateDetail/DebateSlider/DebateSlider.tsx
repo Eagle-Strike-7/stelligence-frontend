@@ -68,7 +68,7 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                     className={`${styles.embla__slide__number} flex justify-end`}
                   />
                   <ReviseDescription
-                    index={selectedIndex + 1}
+                    index={selectedIndex}
                     type={amendment.type}
                   />
                   <div className="tiptap flex flex-col md:flex-row justify-between gap-5 mt-3">
@@ -80,10 +80,30 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                       />
                     </div>
                     <div className="w-full md:w-1/2">
+                      {amendment.type === 'CREATE' && (
+                        <ReviseContent
+                          heading={amendment.targetSection.heading ?? ''}
+                          title={amendment.targetSection.title}
+                          content={amendment.targetSection.content}
+                        />
+                      )}
                       <ReviseContent
-                        heading={amendment.requestedSectionHeading}
-                        title={amendment.requestedSectionTitle}
-                        content={amendment.requestedSectionContent}
+                        heading={
+                          amendment.type === 'DELETE'
+                            ? amendment.targetSection.heading ?? ''
+                            : amendment.requestedSectionHeading ?? ''
+                        }
+                        title={
+                          amendment.type === 'DELETE'
+                            ? amendment.targetSection.title ?? ''
+                            : amendment.requestedSectionTitle ?? ''
+                        }
+                        content={
+                          amendment.type === 'DELETE'
+                            ? amendment.targetSection.content ?? ''
+                            : amendment.requestedSectionContent ?? ''
+                        }
+                        type={amendment.type}
                       />
                     </div>
                   </div>
