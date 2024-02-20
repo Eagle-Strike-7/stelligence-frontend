@@ -36,11 +36,13 @@ const RightNav = () => {
     queryKey: ['user'],
     queryFn: getUserData,
     retry: false,
+    staleTime: Infinity,
   });
 
   // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
   useEffect(() => {
-    setIsLogin(!!userData?.success);
+    setIsLogin({ isLoggedIn: true, isLoading: false });
+
     setLoggedInUserState({
       memberId: userData?.results.memberId ?? 0,
       email: userData?.results.email ?? '',
@@ -55,7 +57,7 @@ const RightNav = () => {
     mutationFn: postLogout,
     onSuccess: response => {
       console.log('로그아웃 성공: ', response.success);
-      setIsLogin(false);
+      setIsLogin({ isLoggedIn: false, isLoading: false });
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
       router.push('/');
@@ -126,7 +128,7 @@ const RightNav = () => {
       </div>
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
-      {isLogin ? (
+      {userData && isLogin.isLoggedIn ? (
         <div className="flex flex-row gap-4">
           <Button
             onClick={onOpen}
@@ -148,7 +150,7 @@ const RightNav = () => {
           >
             <Avatar
               name={userData?.results.nickname}
-              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${userData?.results.profileImgUrl}`}
+              src={userData?.results.profileImgUrl}
               size="xs"
             />
             <h3 className="text-sm self-center">
