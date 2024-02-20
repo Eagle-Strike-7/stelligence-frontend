@@ -27,6 +27,7 @@ interface DeleteAmendmentProps {
   dict: DictionaryProps;
 }
 
+// SECTION : 섹션 보여주기에 대한 함수
 // NOTE : 추가한 섹션 보여주기
 const addSection = ({ sections, newSection }: SectionProps) => {
   const index = sections.findIndex(section => {
@@ -84,6 +85,7 @@ const deleteSection = ({ sections, sectionKey, order }: DeleteSectionProps) => {
   return newSections;
 };
 
+// SECTION : 수정요청에 대한 함수
 // NOTE : 섹션 추가 요청
 const addAmendment = ({
   sectionKey,
@@ -124,12 +126,18 @@ const updateAmendment = ({
 // NOTE : 섹션 삭제 요청
 const deleteAmendment = ({ sectionKey, order, dict }: DeleteAmendmentProps) => {
   if (sectionKey in dict) {
-    dict[sectionKey].splice(order, 1);
-    dict[sectionKey].forEach((amendment, index) => {
-      if (index >= order + 1) {
-        amendment.creatingOrder = index;
-      }
-    });
+    if (order === 0) {
+      // 기존 섹션 수정 후 삭제할 경우
+      dict[sectionKey].splice(0, 1);
+    } else {
+      // 추가된 섹션 삭제 (creatingOrder는 1부터 시작 / dict 인덱스는 0부터 시작이므로 -1)
+      dict[sectionKey].splice(order - 1, 1);
+      dict[sectionKey].forEach((amendment, index) => {
+        if (index >= order - 1) {
+          amendment.creatingOrder = index + 1; // creatingOrder 앞으로 당기기
+        }
+      });
+    }
   }
   if (order === 0) {
     // 기존 섹션

@@ -85,6 +85,7 @@ const ReviseStarSection = ({
             newSection,
           });
           setSections(newSections);
+          // console.log('추가-수정 후 newCreateAmendments', newCreateAmendments);
           // console.log('추가-수정 후 createAmendments', createAmendments);
           // console.log('추가-수정 후 sections', sections);
         } else {
@@ -118,7 +119,6 @@ const ReviseStarSection = ({
             newSection,
           });
           setSections(newSections);
-          // console.log('기존 수정 후 newAmendment', newAmendment);
           // console.log('기존 수정 후 existingAmendments', existingAmendments);
           // console.log('기존 수정 후 sections', sections);
         }
@@ -177,18 +177,18 @@ const ReviseStarSection = ({
         // NOTE : 추가 후 삭제할 경우
         const newCreateAmendments = deleteAmendment({
           sectionKey: section.sectionId,
-          order: section.creatingOrder - 1, // 삭제 위치: 현재 섹션 (creatingOrder는 1부터 시작하기 때문에 -1)
+          order: section.creatingOrder,
           dict: createAmendments,
         });
         setCreateAmendments(newCreateAmendments);
-
+        // console.log('삭제 후 newCreateAmendments', newCreateAmendments);
         // console.log('삭제 후 createAmendments', createAmendments);
         // console.log('삭제 후 sections', sections);
       } else {
         // NOTE : 기존 문단을 삭제할 경우
         const newAmendments = deleteAmendment({
           sectionKey: section.sectionId,
-          order: section.creatingOrder, // 삭제 위치: 현재 섹션 (creatingOrder는 1부터 시작하기 때문에 -1)
+          order: section.creatingOrder,
           dict: existingAmendments,
         });
         setExistingAmendments(newAmendments);
@@ -198,9 +198,13 @@ const ReviseStarSection = ({
         sectionKey: section.sectionId,
         order: section.creatingOrder,
       });
-      // console.log('기존 삭제 후 existingAmendments', existingAmendments);
-      // console.log('기존 삭제 후 sections', sections);
       setSections(newSections);
+
+      // console.log('기존 삭제 후 createAmendments', createAmendments);
+      // console.log('기존 삭제 후 existingAmendments', existingAmendments);
+
+      // console.log('기존 삭제 후 newSections', newSections);
+      // console.log('기존 삭제 후 sections', sections);
     }
     setState('읽기');
   };
