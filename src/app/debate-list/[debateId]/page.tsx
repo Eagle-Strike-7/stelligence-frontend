@@ -123,7 +123,6 @@ const Page = () => {
           <NewReviseRequestButton
             debateId={debateId}
             starId={debateData?.contribute.documentId}
-            canRequestRevise={canRequestRevise}
           />
         )}
         {debateData && <DebateDetail debateData={debateData} />}
