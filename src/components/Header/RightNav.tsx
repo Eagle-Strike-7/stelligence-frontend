@@ -13,16 +13,18 @@ import {
 import { useQuery, useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { FaBell } from 'react-icons/fa';
 import { HiOutlinePencil } from 'react-icons/hi';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import countNotification from '@/store/notification/countNotification';
 import Notification from './Notification';
 
 const RightNav = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const setLoggedInUserState = useSetRecoilState(loggedInUserState);
+  const notificationCount = useRecoilValue(countNotification);
 
   const router = useRouter();
   const toast = useToast();
@@ -36,11 +38,13 @@ const RightNav = () => {
     queryKey: ['user'],
     queryFn: getUserData,
     retry: false,
+    staleTime: Infinity,
   });
 
   // NOTE 미니프로필 데이터 변경 시 로그인 전역상태 변경
   useEffect(() => {
-    setIsLogin(!!userData?.success);
+    setIsLogin({ isLoggedIn: true, isLoading: false });
+
     setLoggedInUserState({
       memberId: userData?.results.memberId ?? 0,
       email: userData?.results.email ?? '',
@@ -55,7 +59,7 @@ const RightNav = () => {
     mutationFn: postLogout,
     onSuccess: response => {
       console.log('로그아웃 성공: ', response.success);
-      setIsLogin(false);
+      setIsLogin({ isLoggedIn: false, isLoading: false });
 
       // NOTE 로그아웃 성공 시 login atom에 null 값 지정 & 메인페이지 이동
       router.push('/');
@@ -107,10 +111,24 @@ const RightNav = () => {
     console.log('loading');
   }
 
+  // NOTE 알림 모달
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      setModalPosition({
+        top: buttonRect.bottom - 64,
+        left: buttonRect.left - 250,
+      });
+    }
+  }, [isOpen]);
+
   return (
     <div className="flex mr-20 w-40 justify-end place-items-center">
-      <div className="inline mr-4">
+      <div className="inline mr-4 relative">
         <Button
           leftIcon={<HiOutlinePencil size="20px" />}
           variant="ghost"
@@ -126,19 +144,29 @@ const RightNav = () => {
       </div>
 
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
-      {isLogin ? (
+      {userData && isLogin.isLoggedIn ? (
         <div className="flex flex-row gap-4">
           <Button
             onClick={onOpen}
             bgColor="transparent"
             color="white"
+            fontSize="2xl"
             _hover={{
               bgColor: 'transparent',
             }}
+            ref={buttonRef}
+            position="relative"
           >
             <FaBell />
+            {notificationCount.hasNotRead && (
+              <div className="rounded-full bg-secondary-dark w-1.5 h-1.5 absolute top-2 right-4 flex" />
+            )}
           </Button>
-          <Notification isOpen={isOpen} onClose={onClose} />
+          <Notification
+            isOpen={isOpen}
+            onClose={onClose}
+            position={modalPosition}
+          />
           <Button
             variant="link"
             gap={2}
@@ -148,7 +176,7 @@ const RightNav = () => {
           >
             <Avatar
               name={userData?.results.nickname}
-              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/${userData?.results.profileImgUrl}`}
+              src={userData?.results.profileImgUrl}
               size="xs"
             />
             <h3 className="text-sm self-center">
