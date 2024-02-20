@@ -20,6 +20,7 @@ export interface DebateCommentProps {
   commentId: number;
   commentIds: number[];
   commentorId: number;
+  selectedCommentId: string;
   setIsChanged: Dispatch<SetStateAction<boolean>>;
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
@@ -32,6 +33,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   commentId,
   commentorId,
   commentIds,
+  selectedCommentId,
   setIsChanged,
   handleClickCommentId,
 }) => {
@@ -84,8 +86,12 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', debateId] });
-      setIsChanged(prev => {return !prev});
-      setIsEdit(prev => {return !prev});
+      setIsChanged(prev => {
+        return !prev;
+      });
+      setIsEdit(prev => {
+        return !prev;
+      });
       toast({
         title: `댓글 수정 성공!`,
         description: '댓글 수정이 완료되었습니다.',
@@ -123,6 +129,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
       />
       {isEdit ? (
         <EditCommentForm
+          selectedCommentId={selectedCommentId}
           updatedComment={updatedComment}
           setUpdatedComment={setUpdatedComment}
           handleUpdateComment={handleUpdateComment}

@@ -11,6 +11,7 @@ interface CommentsSectionProps {
   handleClickCommentId: (e: React.MouseEvent<HTMLSpanElement>) => void;
   selectedOption: string;
   setSelectedOption: (option: string) => void;
+  selectedCommentId: string;
 }
 
 const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
@@ -22,6 +23,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
       handleClickCommentId,
       selectedOption,
       setSelectedOption,
+      selectedCommentId,
     },
     ref,
   ) => {
@@ -61,6 +63,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
                 commentIds={commentIds}
                 setIsChanged={setIsChanged}
                 handleClickCommentId={handleClickCommentId}
+                selectedCommentId={selectedCommentId}
               />
             );
           })}
