@@ -6,7 +6,7 @@ interface PageTitleDescriptionProps {
   title: string;
   description: string;
   tagTitle?: string;
-  relatedDebateId?: number;
+  relatedDebateId?: number | null;
   parentDocumentId?: number;
 }
 

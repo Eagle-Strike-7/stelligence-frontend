@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import { Heading, StarResponseType } from '@/types/common/ResponseType';
 import { Star, StarSection } from '@/types/star/StarProps';
@@ -33,11 +33,16 @@ interface RevisedStarProps {
 const ReviseStarForm = () => {
   const documentId = Number(useParams().starId);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [contributeTitle, setContributeTitle] = useState<string>('');
   const [contributeDescription, setContributeDescription] =
     useState<string>('');
+  const [beforeDocumentTitle, setBeforeDocumentTitle] = useState<string>('');
   const [afterDocumentTitle, setAfterDocumentTitle] = useState<string>('');
+  const [beforeParentDocumentId, setBeforeParentDocumentId] = useState<
+    number | null
+  >(null);
   const [afterParentDocumentId, setAfterParentDocumentId] = useState<
     number | null
   >(null);
@@ -58,7 +63,9 @@ const ReviseStarForm = () => {
       );
       const { data } = response;
       if (data.success && data.results.documentId === documentId) {
+        setBeforeDocumentTitle(data.results.title);
         setAfterDocumentTitle(data.results.title);
+        setBeforeParentDocumentId(data.results.parentDocumentId);
         setAfterParentDocumentId(data.results.parentDocumentId);
         if (data.results.parentDocumentId !== null) {
           setAfterParentDocumentTitle(data.results.parentDocumentTitle);
@@ -109,9 +116,9 @@ const ReviseStarForm = () => {
 
   useEffect(() => {
     getStarSections();
-    if (localStorage.getItem('debateId') !== null) {
-      setRelatedDebateId(Number(localStorage.getItem('debateId')));
-      localStorage.removeItem('debateId');
+    if (searchParams.has('debateId')) {
+      const debateId = searchParams.get('revision');
+      setRelatedDebateId(Number(debateId));
     }
   }, []);
 
@@ -123,28 +130,32 @@ const ReviseStarForm = () => {
     const newCreatedAmendments = Object.values(createAmendments).flat();
     const newUpdatedAmendments = Object.values(existingAmendments).flat();
     const newAmendments = [...newCreatedAmendments, ...newUpdatedAmendments];
-    // console.log(newAmendments);
+    // console.log('newAmendments', newAmendments);
 
     if (contributeTitle === '') {
       alert('수정 요청안 제목을 입력해주세요');
     } else if (contributeDescription === '') {
       alert('수정 요청 이유를 입력해주세요');
-    } else if (newAmendments.length === 0) {
+    } else if (
+      beforeDocumentTitle === afterDocumentTitle &&
+      beforeParentDocumentId === afterParentDocumentId &&
+      newAmendments.length === 0
+    ) {
       alert('수정안을 입력해주세요');
+    } else {
+      const RevisedStar = {
+        contributeTitle,
+        contributeDescription,
+        amendments: newAmendments,
+        documentId,
+        afterDocumentTitle,
+        afterParentDocumentId,
+        relatedDebateId,
+      };
+      // console.log(RevisedStar);
+      // TODO : 함수 정의
+      postRevisedStar(RevisedStar);
     }
-
-    const RevisedStar = {
-      contributeTitle,
-      contributeDescription,
-      amendments: newAmendments,
-      documentId,
-      afterDocumentTitle,
-      afterParentDocumentId,
-      relatedDebateId,
-    };
-    // console.log(RevisedStar);
-    // TODO : 함수 정의
-    postRevisedStar(RevisedStar);
   };
 
   return (
@@ -152,7 +163,7 @@ const ReviseStarForm = () => {
       <PageTitleDescription
         title="수정 요청하기"
         description="글을 수정해보세요"
-        relatedDebateId={Number(localStorage.getItem('debateId'))}
+        relatedDebateId={relatedDebateId}
       />
       {/* SECTION : 수정요청안 제목 */}
       <StarTitleInput
