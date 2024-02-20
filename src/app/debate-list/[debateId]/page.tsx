@@ -135,6 +135,7 @@ const Page = () => {
         setSelectedOption={setSelectedOption}
         ref={commentsSectionRef}
         selectedCommentId={selectedCommentId}
+        debateStatus={debateData?.status ?? 'OPEN'}
       />
       <CreateComment
         selectedCommentId={selectedCommentId}

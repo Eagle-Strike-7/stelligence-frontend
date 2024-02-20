@@ -12,6 +12,7 @@ interface CommentsSectionProps {
   selectedOption: string;
   setSelectedOption: (option: string) => void;
   selectedCommentId: string;
+  debateStatus: 'OPEN' | 'CLOSED' | null;
 }
 
 const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
@@ -24,6 +25,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
       selectedOption,
       setSelectedOption,
       selectedCommentId,
+      debateStatus,
     },
     ref,
   ) => {
@@ -46,30 +48,38 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
           commentsNum={commentList.length}
           setSelectedOption={setSelectedOption}
         />
-        <div className="flex flex-col">
-          {(selectedOption === '최신순'
-            ? [...commentList].reverse()
-            : commentList
-          ).map((comment: CommentProps) => {
-            return (
-              <CommentCard
-                id={`comment-#${comment.sequence}`}
-                key={comment.commentId}
-                commentorId={comment.commenter.memberId}
-                userImg={comment.commenter.profileImgUrl}
-                userName={comment.commenter.nickname}
-                commentId={comment.commentId}
-                commentContent={comment.content}
-                time={comment.createdAt.replace('T', ' ')}
-                commentIds={commentIds}
-                sequence={comment.sequence.toString()}
-                setIsChanged={setIsChanged}
-                handleClickCommentId={handleClickCommentId}
-                selectedCommentId={selectedCommentId}
-              />
-            );
-          })}
-        </div>
+        {commentList.length !== 0 ? (
+          <div className="flex flex-col">
+            {(selectedOption === '최신순'
+              ? [...commentList].reverse()
+              : commentList
+            ).map((comment: CommentProps) => {
+              return (
+                <CommentCard
+                  id={`comment-#${comment.sequence}`}
+                  key={comment.commentId}
+                  commentorId={comment.commenter.memberId}
+                  userImg={comment.commenter.profileImgUrl}
+                  userName={comment.commenter.nickname}
+                  commentId={comment.commentId}
+                  commentContent={comment.content}
+                  time={comment.createdAt.replace('T', ' ')}
+                  commentIds={commentIds}
+                  sequence={comment.sequence.toString()}
+                  setIsChanged={setIsChanged}
+                  handleClickCommentId={handleClickCommentId}
+                  selectedCommentId={selectedCommentId}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-white flex justify-center h-20 w-full align-middle py-6 my-2 rounded-md bg-primary-dark-500/10 ">
+            {debateStatus === 'OPEN'
+              ? '작성된 댓글이 없습니다! 토론에 참여해보세요 💬'
+              : '작성된 댓글이 없습니다.'}
+          </div>
+        )}
       </div>
     );
   },

@@ -102,19 +102,23 @@ const Page = () => {
         />
         <ChakraSelect options={options} setSelectedOption={setSelectedOption} />
       </div>
-      {debateLists.map(item => {
-        return (
-          <Link href={`/debate-list/${item.debateId}`} key={item.debateId}>
-            <DebateListCard
-              originalTitle={item.documentTitle}
-              title={item.documentTitle}
-              username={item.contributor.nickname}
-              time={`${formatDate(item.createdAt)}~${formatDate(item.endAt)}`}
-              option={{ commentNum: item.commentsCount }}
-            />
-          </Link>
-        );
-      })}
+      {debateLists.length !== 0 ? (
+        debateLists.map(item => {
+          return (
+            <Link href={`/debate-list/${item.debateId}`} key={item.debateId}>
+              <DebateListCard
+                originalTitle={item.documentTitle}
+                title={item.documentTitle}
+                username={item.contributor.nickname}
+                time={`${formatDate(item.createdAt)}~${formatDate(item.endAt)}`}
+                option={{ commentNum: item.commentsCount }}
+              />
+            </Link>
+          );
+        })
+      ) : (
+        <div className="flex text-white justify-center">목록이 없습니다 🙅‍♀️</div>
+      )}
       <Center>
         <Pagination
           count={totalPages}
