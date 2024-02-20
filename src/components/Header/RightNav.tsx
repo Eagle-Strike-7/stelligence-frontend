@@ -21,7 +21,6 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
 import { FaBell, FaUser } from 'react-icons/fa';
-import { HiOutlinePencil } from 'react-icons/hi';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import countNotification from '@/store/notification/countNotification';
 import {
@@ -111,20 +110,6 @@ const RightNav = () => {
     logoutMutation.mutate();
   };
 
-  const handleCheckLogin = () => {
-    if (!isLogin.isLoggedIn) {
-      toast({
-        title: '로그인이 필요합니다.',
-        duration: 2000,
-        isClosable: true,
-        status: 'warning',
-      });
-      router.push('/login');
-    } else {
-      router.push('/new-star');
-    }
-  };
-
   // FIXME 임시 내용, 추후 폴백 컨텐츠로 변경
   if (isError) {
     console.log('error');
@@ -178,22 +163,7 @@ const RightNav = () => {
   }, [isNotificationOpen]);
 
   return (
-    <div className="flex mr-20 w-40 justify-end place-items-center">
-      <div className="inline mr-4 relative">
-        <Button
-          leftIcon={<HiOutlinePencil size="20px" />}
-          variant="ghost"
-          textColor="white"
-          _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-          cursor="pointer"
-          size="sm"
-          rounded="sm"
-          onClick={handleCheckLogin}
-        >
-          <h2 className="text-md text-semibold">별생성</h2>
-        </Button>
-      </div>
-
+    <div className="flex mobile:mr-4 desktop:mr-20">
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
       {userData && isLogin.isLoggedIn ? (
         <div className="flex flex-row gap-0">
