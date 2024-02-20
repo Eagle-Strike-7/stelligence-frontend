@@ -23,13 +23,13 @@ const DebateInformation = ({
   return (
     <div className="flex flex-col gap-5 mb-6">
       <MiddleTitle title="개요" color="white" />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <LabelText
           label="수정 요청안 제목"
           text={contributeData.contributeTitle || 'X'}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 ">
         <Link href={`/stars/${documentId}`}>
           <LabelText label="글제목" text={contributeData.documentTitle} />
         </Link>
@@ -47,7 +47,7 @@ const DebateInformation = ({
           )}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <LabelText
           label="수정 요청자"
           text={contributeData.contributor.nickname || 'X'}

@@ -71,15 +71,15 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                     index={selectedIndex + 1}
                     type={amendment.type}
                   />
-                  <div className="tiptap flex justify-between gap-5 mt-3">
-                    <div className="w-1/2">
+                  <div className="tiptap flex flex-col md:flex-row justify-between gap-5 mt-3">
+                    <div className="w-full md:w-1/2">
                       <ReviseContent
                         heading={amendment.targetSection.heading}
                         title={amendment.targetSection.title}
                         content={amendment.targetSection.content}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full md:w-1/2">
                       <ReviseContent
                         heading={amendment.requestedSectionHeading}
                         title={amendment.requestedSectionTitle}

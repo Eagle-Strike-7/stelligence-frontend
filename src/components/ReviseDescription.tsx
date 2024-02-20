@@ -30,7 +30,7 @@ const ReviseDescription = ({
     <div className="flex flex-row gap-2 text-center items-center">
       <Tag bg="primary.500" color="black" fontSize="sm" width="fit-content">
         #{index + 1}
-        <span className="font-bold">
+        <span className="font-bold hidden md:inline">
           {translateType[type] ? `: ${translateType[type].name}` : ''}
         </span>
       </Tag>
