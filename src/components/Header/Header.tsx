@@ -6,7 +6,7 @@ import Logo from './Logo';
 
 const Header = () => {
   return (
-    <div className="flex w-full h-16 bg-[#212121] border-b border-gray-500/20 text-white justify-center sticky top-0 z-10">
+    <div className="flex w-full h-16 bg-[#212121] border-b border-gray-500/20 text-white justify-center">
       <Box
         display="flex"
         width="80rem"
