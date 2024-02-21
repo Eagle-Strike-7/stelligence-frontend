@@ -1,45 +1,37 @@
-import { Button } from '@chakra-ui/react';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { Button } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const NewReviseRequestButton: React.FC<{
   debateId: number;
   starId: number | undefined;
-  canRequestRevise: boolean;
-}> = ({ debateId, starId, canRequestRevise }) => {
-  const router = useRouter();
-
-  const handleNewReviseRequestByDebate = () => {
-    // NOTE 수정 요청 권한이 있는 사람만 가능
-    if (canRequestRevise) {
-      // NOTE 로컬스토리지에 debateId 저장
-      localStorage.setItem('debateId', debateId.toString());
-      // NOTE 수정 요청 페이지로 이동
-      router.push(`/stars/${starId}/revise`);
-    } else {
-      alert('수정 요청 권한이 없습니다.');
-    }
-  };
+}> = ({ debateId, starId }) => {
   return (
     <div className="flex text-center place-self-center justify-center mb-4 mt-[-1rem] ">
-      <Button
-        variant="solid"
-        bg="primary.500"
-        color="white"
-        width="70rem"
-        _hover={{
-          bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
-          color: 'white',
-          transition: 'background-color 0.5s ease',
+      <Link
+        href={{
+          pathname: `/stars/${starId}/revise`,
+          query: { debateId },
         }}
-        _focus={{
-          boxShadow:
-            '0 0 1px 2px rgba(88, 144, 255, 0.75), 0 1px 1px rgba(0, 0, 0, 0.15)',
-        }}
-        onClick={handleNewReviseRequestByDebate}
       >
-        새 수정 요청
-      </Button>
+        <Button
+          variant="solid"
+          bg="primary.500"
+          color="white"
+          width="70rem"
+          _hover={{
+            bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
+            color: 'white',
+            transition: 'background-color 0.5s ease',
+          }}
+          _focus={{
+            boxShadow:
+              '0 0 1px 2px rgba(88, 144, 255, 0.75), 0 1px 1px rgba(0, 0, 0, 0.15)',
+          }}
+        >
+          새 수정 요청
+        </Button>
+      </Link>
     </div>
   );
 };
