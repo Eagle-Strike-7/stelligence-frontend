@@ -168,7 +168,7 @@ const RightNav = () => {
   }, [isNotificationOpen]);
 
   return (
-    <div className="flex mobile:mr-4 desktop:mr-20">
+    <div className="flex mobile:mr-4 desktop:mr-20 ml-3">
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
       {userData && isLogin.isLoggedIn ? (
         <div className="flex flex-row gap-0">
@@ -177,6 +177,7 @@ const RightNav = () => {
             bgColor="transparent"
             color="white"
             fontSize="2xl"
+            size="sm"
             _hover={{
               bgColor: 'transparent',
             }}
