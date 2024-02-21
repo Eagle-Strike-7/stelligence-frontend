@@ -23,6 +23,7 @@ import React, { useEffect } from 'react';
 import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
 import { useSetRecoilState } from 'recoil';
 import NoList from '../Common/NoList';
+import styles from '../../styles/scrollbar.module.css';
 
 const Notification = ({
   isOpen,
@@ -39,7 +40,7 @@ const Notification = ({
 
   // NOTE 알림 전체 조회
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
-    queryKey: ['notification'],
+    queryKey: ['notification', isOpen],
     queryFn: getNotifications,
   });
 
@@ -51,13 +52,13 @@ const Notification = ({
       hasNotRead: !!notReadCount,
       count: notReadCount ?? 0,
     });
-  }, [notificationData]);
+  }, [notificationData?.results]);
 
   // NOTE 알림 전체 읽음 처리
   const patchNotificationAllMutation = useMutation({
     mutationFn: patchNotificationAll,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       toast({
         title: '알림 전체 읽음 처리 완료 🌻',
         status: 'success',
@@ -84,7 +85,7 @@ const Notification = ({
   const deleteNotificationAllMutation = useMutation({
     mutationFn: deleteNotificationAll,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       toast({
         title: '알림 전체 삭제 완료 🦦',
         status: 'success',
@@ -111,7 +112,7 @@ const Notification = ({
   const patchNotificationMutation = useMutation({
     mutationFn: patchNotification,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       onClose();
     },
     onError: () => {
@@ -135,7 +136,7 @@ const Notification = ({
   const deleteNotificationMutation = useMutation({
     mutationFn: deleteNotification,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
     },
     onError: () => {
       toast({
@@ -176,6 +177,10 @@ const Notification = ({
                 variant="outline"
                 size="xs"
                 color="white"
+                _hover={{
+                  backgroundColor: 'white',
+                  color: '#2e2e2e',
+                }}
                 onClick={handlePatchNotificationAll}
               >
                 모두 읽음
@@ -184,6 +189,10 @@ const Notification = ({
                 variant="outline"
                 size="xs"
                 color="white"
+                _hover={{
+                  backgroundColor: 'white',
+                  color: '#2e2e2e',
+                }}
                 onClick={handleDeleteNotificationAll}
               >
                 모두 삭제
@@ -192,7 +201,9 @@ const Notification = ({
           </div>
         </ModalHeader>
         <ModalBody paddingRight={0} paddingLeft={2}>
-          <div className="flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2">
+          <div
+            className={`flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2 ${styles.scrollbar}`}
+          >
             {notificationData?.results.length ? (
               notificationData?.results.map(item => {
                 return (
