@@ -5,6 +5,7 @@ import calculateRemainTime from '@/lib/calculateRemainTime';
 import { Tag } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import MiddleTitle from '@/components/Common/Title/MiddleTitle';
+import Link from 'next/link';
 
 const ReviseInformation = ({
   reviseData,
@@ -43,10 +44,12 @@ const ReviseInformation = ({
       </div>
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-2 gap-4">
-          <LabelText
-            label="글 제목"
-            text={reviseData?.results.documentTitle || '없음'}
-          />
+          <Link href={`/stars/${reviseData.results.documentId}`}>
+            <LabelText
+              label="글 제목"
+              text={reviseData?.results.documentTitle || '없음'}
+            />
+          </Link>
           <div className="flex">
             <h3 className="font-bold text-md w-36 text-white">
               상위 계층 태그
