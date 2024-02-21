@@ -26,7 +26,6 @@ import {
 import { IoIosMore } from 'react-icons/io';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { AxiosError, AxiosResponse } from 'axios';
-import LoadingComponent from '@/app/(home)/components/LoadingComponent';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/store/user/login';
 import Vote from './components/Vote';
@@ -45,7 +44,7 @@ const Page = () => {
   const toast = useToast();
   const router = useRouter();
 
-  const { data: contributeData, isLoading } = useQuery<ReviseDataResponse>({
+  const { data: contributeData } = useQuery<ReviseDataResponse>({
     queryKey: ['contribute', contributeId],
     queryFn: () => {
       return getReviseData(contributeId);
@@ -94,9 +93,6 @@ const Page = () => {
     deleteReviseMutation.mutate(contributeId);
   };
 
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
   return (
     <Wrapper>
       <div className="pt-5">
