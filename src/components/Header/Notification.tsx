@@ -39,7 +39,7 @@ const Notification = ({
 
   // NOTE 알림 전체 조회
   const { data: notificationData } = useQuery<ResponseType<NotificationData>>({
-    queryKey: ['notification'],
+    queryKey: ['notification', isOpen],
     queryFn: getNotifications,
   });
 
@@ -57,7 +57,7 @@ const Notification = ({
   const patchNotificationAllMutation = useMutation({
     mutationFn: patchNotificationAll,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       toast({
         title: '알림 전체 읽음 처리 완료 🌻',
         status: 'success',
@@ -84,7 +84,7 @@ const Notification = ({
   const deleteNotificationAllMutation = useMutation({
     mutationFn: deleteNotificationAll,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       toast({
         title: '알림 전체 삭제 완료 🦦',
         status: 'success',
@@ -111,7 +111,7 @@ const Notification = ({
   const patchNotificationMutation = useMutation({
     mutationFn: patchNotification,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
       onClose();
     },
     onError: () => {
@@ -135,7 +135,7 @@ const Notification = ({
   const deleteNotificationMutation = useMutation({
     mutationFn: deleteNotification,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
+      queryClient.invalidateQueries({ queryKey: ['notification', isOpen] });
     },
     onError: () => {
       toast({
