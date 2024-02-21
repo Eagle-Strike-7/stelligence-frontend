@@ -6,17 +6,20 @@ import { ResponseType } from '@/types/common/ResponseType';
 import {
   Avatar,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Tooltip,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
-import { FaBell } from 'react-icons/fa';
-import { HiOutlinePencil } from 'react-icons/hi';
+import { FaBell, FaUser } from 'react-icons/fa';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import countNotification from '@/store/notification/countNotification';
 import {
@@ -90,27 +93,20 @@ const RightNav = () => {
     },
   });
 
+  // NOTE 유저 메뉴 열기
+  const handleOpenUserMenu = () => {
+    onUserMenuOpen();
+  };
+
   // NOTE 마이페이지로 이동
   const handleClickMypage = () => {
+    onUserMenuClose();
     router.push('/mypage');
   };
   // NOTE 로그아웃 mutation 함수 호출
   const handleLogout = () => {
+    onUserMenuClose();
     logoutMutation.mutate();
-  };
-
-  const handleCheckLogin = () => {
-    if (!isLogin.isLoggedIn) {
-      toast({
-        title: '로그인이 필요합니다.',
-        duration: 2000,
-        isClosable: true,
-        status: 'warning',
-      });
-      router.push('/login');
-    } else {
-      router.push('/new-star');
-    }
   };
 
   // FIXME 임시 내용, 추후 폴백 컨텐츠로 변경
@@ -121,50 +117,69 @@ const RightNav = () => {
     console.log('loading');
   }
 
-  // NOTE 알림 모달
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  // NOTE 로그인 버튼
+  const handleClickLogin = () => {
+    router.push('/login');
+  };
 
+  // NOTE 유저 정보 모달
+  const [userModalPosition, setUserModalPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const userButtonRef = useRef<HTMLButtonElement>(null);
+  const {
+    isOpen: isUserMenuOpen,
+    onOpen: onUserMenuOpen,
+    onClose: onUserMenuClose,
+  } = useDisclosure();
   useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      setModalPosition({
-        top: buttonRect.bottom - 64,
-        left: buttonRect.left - 250,
+    if (isUserMenuOpen && userButtonRef.current) {
+      const userButtonRect = userButtonRef.current.getBoundingClientRect();
+      setUserModalPosition({
+        top: userButtonRect.bottom - 55,
+        left: userButtonRect.left - 130,
       });
     }
-  }, [isOpen]);
+  }, [isUserMenuOpen]);
+
+  // NOTE 알림 모달
+  const [notiModalPosition, setNotiModalPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const notiButtonRef = useRef<HTMLButtonElement>(null);
+
+  const {
+    isOpen: isNotificationOpen,
+    onOpen: onNotificationOpen,
+    onClose: onNotificationClose,
+  } = useDisclosure();
+
+  useEffect(() => {
+    if (isNotificationOpen && notiButtonRef.current) {
+      const notiButtonRect = notiButtonRef.current.getBoundingClientRect();
+      setNotiModalPosition({
+        top: notiButtonRect.bottom - 64,
+        left: notiButtonRect.left - 270,
+      });
+    }
+  }, [isNotificationOpen]);
 
   return (
-    <div className="flex mr-20 w-40 justify-end place-items-center">
-      <div className="inline mr-4 relative">
-        <Button
-          leftIcon={<HiOutlinePencil size="20px" />}
-          variant="ghost"
-          textColor="white"
-          _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
-          cursor="pointer"
-          size="sm"
-          rounded="sm"
-          onClick={handleCheckLogin}
-        >
-          <h2 className="text-md text-semibold">별생성</h2>
-        </Button>
-      </div>
-
+    <div className="flex mobile:mr-4 desktop:mr-20">
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
       {userData && isLogin.isLoggedIn ? (
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-0">
           <Button
-            onClick={onOpen}
+            onClick={onNotificationOpen}
             bgColor="transparent"
             color="white"
             fontSize="2xl"
             _hover={{
               bgColor: 'transparent',
             }}
-            ref={buttonRef}
+            ref={notiButtonRef}
             position="relative"
           >
             <FaBell />
@@ -173,31 +188,86 @@ const RightNav = () => {
             )}
           </Button>
           <Notification
-            isOpen={isOpen}
-            onClose={onClose}
-            position={modalPosition}
+            isOpen={isNotificationOpen}
+            onClose={onNotificationClose}
+            position={notiModalPosition}
           />
           <Button
             variant="link"
             gap={2}
             color="white"
             alignSelf="center"
-            onClick={handleClickMypage}
+            position="relative"
+            ref={userButtonRef}
+            onClick={handleOpenUserMenu}
           >
             <Avatar
               name={userData?.results.nickname}
               src={userData?.results.profileImgUrl}
-              size="xs"
+              size="sm"
             />
-            <h3 className="text-sm self-center">
-              {userData?.results.nickname}
-            </h3>
           </Button>
+          <Modal onClose={onUserMenuClose} isOpen={isUserMenuOpen}>
+            <ModalOverlay bgColor="transparent" />
+            <ModalContent
+              position="absolute"
+              top={`${userModalPosition.top}px`}
+              left={`${userModalPosition.left}px`}
+              bgColor="#2e2e2e"
+              width="11rem"
+              borderWidth={2}
+              borderColor="#292929"
+              rounded="lg"
+            >
+              <ModalHeader paddingX="1rem" paddingY="0.5rem">
+                <div className="flex flex-row gap-2 items-center">
+                  <Avatar
+                    name={userData?.results.nickname}
+                    src={userData?.results.profileImgUrl}
+                    size="xs"
+                  />
+                  <h4 className="text-white text-sm text-center">
+                    <span className="text-primary-dark-200">
+                      {userData.results.nickname}
+                    </span>{' '}
+                    님 👋
+                  </h4>
+                </div>
+              </ModalHeader>
+              <ModalBody paddingX="1rem">
+                <div className="flex flex-col gap-3 items-start">
+                  <Button
+                    variant="link"
+                    size="sm"
+                    color="white"
+                    borderBottom="1"
+                    borderColor="white"
+                    leftIcon={<FaUser />}
+                    onClick={handleClickMypage}
+                  >
+                    마이페이지
+                  </Button>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    color="white"
+                    leftIcon={<AiOutlineLogout />}
+                    onClick={handleLogout}
+                  >
+                    지구로 돌아가기
+                  </Button>
+                </div>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        </div>
+      ) : (
+        <div>
           <Tooltip
             hasArrow
             arrowSize={10}
-            label="지구로 돌아가기🌍"
-            placement="right"
+            label="우주로 출발하기🚀"
+            placement="bottom"
             color="black"
             backgroundColor="#f6f6f6"
             size="lg"
@@ -205,32 +275,16 @@ const RightNav = () => {
             rounded="sm"
           >
             <Button
-              variant="link"
+              bgColor="transparent"
               color="white"
-              alignSelf="center"
-              onClick={handleLogout}
+              _hover={{
+                bgColor: 'transparent',
+                color: 'white',
+              }}
+              onClick={handleClickLogin}
             >
-              <AiOutlineLogout className="w-6 h-6" />
+              <AiOutlineLogin size="24px" />
             </Button>
-          </Tooltip>
-        </div>
-      ) : (
-        <div>
-          <Tooltip
-            hasArrow
-            defaultIsOpen
-            arrowSize={10}
-            label="우주로 출발하기🚀"
-            placement="right"
-            color="black"
-            backgroundColor="#f6f6f6"
-            size="lg"
-            padding="0.25rem 0.75rem"
-            rounded="sm"
-          >
-            <Link href="/login">
-              <AiOutlineLogin className="w-6 h-6" />
-            </Link>
           </Tooltip>
         </div>
       )}

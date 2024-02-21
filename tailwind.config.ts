@@ -18,7 +18,7 @@ const config: Config = {
       },
       screens: {
         mobile: '0rem',
-        desktop: '62rem',
+        desktop: '48rem',
       },
       colors: {
         background: {
