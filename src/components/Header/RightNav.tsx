@@ -16,7 +16,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
@@ -117,6 +116,11 @@ const RightNav = () => {
   if (isLoading) {
     console.log('loading');
   }
+
+  // NOTE 로그인 버튼
+  const handleClickLogin = () => {
+    router.push('/login');
+  };
 
   // NOTE 유저 정보 모달
   const [userModalPosition, setUserModalPosition] = useState({
@@ -261,19 +265,26 @@ const RightNav = () => {
         <div>
           <Tooltip
             hasArrow
-            defaultIsOpen
             arrowSize={10}
             label="우주로 출발하기🚀"
-            placement="right"
+            placement="bottom"
             color="black"
             backgroundColor="#f6f6f6"
             size="lg"
             padding="0.25rem 0.75rem"
             rounded="sm"
           >
-            <Link href="/login">
-              <AiOutlineLogin className="w-6 h-6" />
-            </Link>
+            <Button
+              bgColor="transparent"
+              color="white"
+              _hover={{
+                bgColor: 'transparent',
+                color: 'white',
+              }}
+              onClick={handleClickLogin}
+            >
+              <AiOutlineLogin size="24px" />
+            </Button>
           </Tooltip>
         </div>
       )}
