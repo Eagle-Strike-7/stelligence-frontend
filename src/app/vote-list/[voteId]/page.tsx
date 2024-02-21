@@ -27,6 +27,8 @@ import { IoIosMore } from 'react-icons/io';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { AxiosError, AxiosResponse } from 'axios';
 import LoadingComponent from '@/app/(home)/components/LoadingComponent';
+import { useRecoilValue } from 'recoil';
+import { loggedInUserState } from '@/store/user/login';
 import Vote from './components/Vote';
 
 interface ErrorResponse {
@@ -37,6 +39,7 @@ interface ErrorResponse {
 
 const Page = () => {
   const [status, setStatus] = useState<string | undefined>('DEFAULT');
+  const loggedInUser = useRecoilValue(loggedInUserState);
   const contributeId = Number(useParams().voteId);
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -107,29 +110,35 @@ const Page = () => {
             }
             relatedDebateId={contributeData?.results.relatedDebateId}
           />
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<IoIosMore />}
-              bgColor="transparent"
-              color="white"
-              fontSize="2xl"
-              _hover={{
-                bgColor: 'transparent',
-                color: 'white',
-              }}
-              _focus={{
-                bgColor: 'transparent',
-                color: 'white',
-              }}
-            />
-            <MenuList>
-              <MenuItem icon={<HiOutlineTrash />} onClick={handleDeleteRevise}>
-                삭제하기
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          {contributeData?.results.contributor.memberId ===
+            loggedInUser.memberId && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<IoIosMore />}
+                bgColor="transparent"
+                color="white"
+                fontSize="2xl"
+                _hover={{
+                  bgColor: 'transparent',
+                  color: 'white',
+                }}
+                _focus={{
+                  bgColor: 'transparent',
+                  color: 'white',
+                }}
+              />
+              <MenuList>
+                <MenuItem
+                  icon={<HiOutlineTrash />}
+                  onClick={handleDeleteRevise}
+                >
+                  삭제하기
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </div>
         <div
           className={`flex flex-col p-10 pb-20 rounded-lg  text-white border-2 border-primary-dark-500/20 ${contributeData?.results.contributeStatus !== 'VOTING' ? 'opacity-80' : ''}`}
