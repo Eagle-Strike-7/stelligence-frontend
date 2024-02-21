@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import apiClient from '@/service/login/axiosClient';
 import { Heading, StarResponseType } from '@/types/common/ResponseType';
-import { Star, StarSection } from '@/types/star/StarProps';
+import { DocStatus, Star, StarSection } from '@/types/star/StarProps';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
@@ -12,6 +12,12 @@ import { Amendment } from '@/types/star/ReviseStarProps';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { ReviseDataResponse } from '@/service/vote/voteService';
 import uuid from 'react-uuid';
+import { useToast } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  ReviseStateProps,
+  getDocumentReviseState,
+} from '@/service/debate/reviseAuth';
 import ReviseStarReason from './ReviseStarReason';
 import ReviseStarSection from './ReviseStarSection';
 
@@ -32,6 +38,7 @@ interface RevisedStarProps {
 // NOTE : 수정요청 패이지
 const ReviseStarForm = () => {
   const documentId = Number(useParams().starId);
+  const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -54,6 +61,23 @@ const ReviseStarForm = () => {
   const [existingAmendments, setExistingAmendments] = useState<DictionaryProps>(
     {},
   );
+
+  const { data: reviseAuthData } = useQuery<
+    ReviseStateProps | undefined,
+    Error,
+    ReviseStateProps,
+    [string, number | undefined]
+  >({
+    queryKey: ['reviseAuth', documentId],
+    queryFn: () => {
+      if (!documentId) {
+        // NOTE documentId가 없는 경우 즉시 종료하고 undefined를 반환
+        return Promise.resolve(undefined);
+      }
+      return getDocumentReviseState(documentId);
+    },
+    enabled: !!documentId,
+  });
 
   // FIXME : getStarSection 분리
   const getStarSections = async () => {
@@ -106,6 +130,11 @@ const ReviseStarForm = () => {
       );
       const { data } = response;
       if (data.success) {
+        toast({
+          title: '수정요청을 성공했습니다.',
+          status: 'success',
+          isClosable: true,
+        });
         const { contributeId } = data.results;
         router.push(`/vote-list/${contributeId}`);
       }
@@ -115,10 +144,20 @@ const ReviseStarForm = () => {
   };
 
   useEffect(() => {
-    getStarSections();
-    if (searchParams.has('debateId')) {
-      const debateId = searchParams.get('revision');
-      setRelatedDebateId(Number(debateId));
+    if (reviseAuthData?.documentStatus !== DocStatus.EDITABLE) {
+      toast({
+        title: '편집 가능 상태가 아닙니다.',
+        status: 'error',
+        position: 'top',
+        isClosable: true,
+      });
+      router.push(`/stars/${documentId}`);
+    } else {
+      getStarSections();
+      if (searchParams.has('debateId')) {
+        const debateId = searchParams.get('revision');
+        setRelatedDebateId(Number(debateId));
+      }
     }
   }, []);
 
@@ -133,15 +172,27 @@ const ReviseStarForm = () => {
     // console.log('newAmendments', newAmendments);
 
     if (contributeTitle === '') {
-      alert('수정 요청안 제목을 입력해주세요');
+      toast({
+        title: '수정 요청안 제목을 입력해주세요',
+        status: 'error',
+        isClosable: true,
+      });
     } else if (contributeDescription === '') {
-      alert('수정 요청 이유를 입력해주세요');
+      toast({
+        title: '수정 요청 이유를 입력해주세요',
+        status: 'error',
+        isClosable: true,
+      });
     } else if (
       beforeDocumentTitle === afterDocumentTitle &&
       beforeParentDocumentId === afterParentDocumentId &&
       newAmendments.length === 0
     ) {
-      alert('수정안을 입력해주세요');
+      toast({
+        title: '수정안을 입력해주세요',
+        status: 'error',
+        isClosable: true,
+      });
     } else {
       const RevisedStar = {
         contributeTitle,

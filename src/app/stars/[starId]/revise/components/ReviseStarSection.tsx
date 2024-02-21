@@ -9,6 +9,7 @@ import {
   updateSection,
   deleteSection,
 } from '@/lib/revise/revise';
+import { useToast } from '@chakra-ui/react';
 import ReviseStarSectionTitle from './ReviseStarSectionTitle';
 import ReviseStarSectionShow from './ReviseStarSectionShow';
 import CreateButton from './CreateButton';
@@ -35,6 +36,8 @@ const ReviseStarSection = ({
   existingAmendments,
   setExistingAmendments,
 }: ReviseStarSectionProps) => {
+  const toast = useToast();
+
   const [state, setState] = useState<'읽기' | '수정' | '추가' | '삭제'>('읽기');
   const [heading, setHeading] = useState<Heading>(section.heading);
   const [beforeTitle, setBeforeTitle] = useState<string>(section.title);
@@ -50,7 +53,19 @@ const ReviseStarSection = ({
     // SECTION : 섹션 수정
     if (state === '수정') {
       if (afterTitle === '') {
-        alert('수정 요청할 섹션의 제목을 입력해주세요');
+        toast({
+          title: '수정 요청할 섹션의 제목을 입력해주세요',
+          status: 'error',
+          isClosable: true,
+        });
+        return;
+      }
+      if (afterTitle.length > 100) {
+        toast({
+          title: '100자 이하의 제목을 입력해주세요',
+          status: 'error',
+          isClosable: true,
+        });
         return;
       }
       if (beforeTitle !== afterTitle || beforeContent !== afterContent) {
@@ -130,7 +145,19 @@ const ReviseStarSection = ({
       // SECTION : 섹션 추가
     } else if (state === '추가') {
       if (createTitle === '') {
-        alert('추가할 섹션의 제목을 입력해주세요');
+        toast({
+          title: '수정 요청할 섹션의 제목을 입력해주세요',
+          status: 'error',
+          isClosable: true,
+        });
+        return;
+      }
+      if (createTitle.length > 100) {
+        toast({
+          title: '100자 이하의 제목을 입력해주세요',
+          status: 'error',
+          isClosable: true,
+        });
         return;
       }
       if (createTitle !== '' || createContent !== '') {
