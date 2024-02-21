@@ -9,6 +9,7 @@ import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
 import { usePathname } from 'next/navigation';
 import useDebounce from '@/hooks/common/useDebounce';
 import getSearchResult from '@/service/search/getSearchResult';
+import { Box, Center } from '@chakra-ui/react';
 import GalaxyGraph from './components/GalaxyGraph';
 import SearchInput from './components/Search/SearchInput';
 import SearchDropdown from './components/Search/SearchDropdown';
@@ -32,7 +33,9 @@ const Home = () => {
     isSuccess,
   } = useQuery<SearchResult[]>({
     queryKey: ['searchResults', debouncedQuery],
-    queryFn: () => {return getSearchResult(debouncedQuery)},
+    queryFn: () => {
+      return getSearchResult(debouncedQuery);
+    },
     enabled: !!debouncedQuery && debouncedQuery.length > 0, // 조건부 쿼리 실행
   });
 
@@ -67,35 +70,37 @@ const Home = () => {
   if (isError) return <ErrorComponent />;
 
   return (
-    <div className="flex flex-col items-center pt-2">
-      <div className="mt-8 relative">
-        <SearchInput
-          searchText={searchText}
-          isDropdownOpen={isDropdownOpen}
-          handleChange={handleChange}
-          handleKeyDown={handleKeyDown}
-          handleSearch={handleSearch}
-        />
-        {searchText && isDropdownOpen && (
-          <SearchDropdown
-            searchResultsNew={searchResultsNew}
-            setIsDropdownOpen={setIsDropdownOpen}
-            handleSelectItem={handleSelectItem}
+    <Center>
+      <Box w="full" mx={{ base: '4', md: '10' }} my="12" mb="40">
+        <div className="flex justify-center mt-8 relative w-full">
+          <SearchInput
+            searchText={searchText}
+            isDropdownOpen={isDropdownOpen}
+            handleChange={handleChange}
+            handleKeyDown={handleKeyDown}
+            handleSearch={handleSearch}
           />
-        )}
-      </div>
+          {searchText && isDropdownOpen && (
+            <SearchDropdown
+              searchResultsNew={searchResultsNew}
+              setIsDropdownOpen={setIsDropdownOpen}
+              handleSelectItem={handleSelectItem}
+            />
+          )}
+        </div>
 
-      <div className="mt-5">
-        {data && (
-          <GalaxyGraph
-            nodes={data.nodes}
-            links={data.links}
-            searchResults={extractSearchIdOnly(searchResultsNew) || []}
-            isSearchSuccess={isSuccess}
-          />
-        )}
-      </div>
-    </div>
+        <div className="mt-5 flex justify-center">
+          {data && (
+            <GalaxyGraph
+              nodes={data.nodes}
+              links={data.links}
+              searchResults={extractSearchIdOnly(searchResultsNew) || []}
+              isSearchSuccess={isSuccess}
+            />
+          )}
+        </div>
+      </Box>
+    </Center>
   );
 };
 
