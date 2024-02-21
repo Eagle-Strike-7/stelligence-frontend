@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 'use client';
 
 import * as d3 from 'd3';
@@ -66,8 +68,6 @@ const ForceGraph = ({
       .force('collide', d3.forceCollide().radius(25))
       .force('radial', d3.forceRadial(0, centerX, centerY));
   };
-
-  //  const debouncedSearchSuccess = useDebounce(isSearchSuccess, 1000);
 
   useEffect(() => {
     if (ref.current) {
@@ -252,6 +252,21 @@ const ForceGraph = ({
       // NOTE 포스 시뮬레이션 설정
       const simulation = createSimulation(width, height);
 
+      const updateGraphSize = () => {
+        const { innerWidth, innerHeight } = window;
+        svg.attr('width', innerWidth).attr('height', innerHeight);
+
+        const newCenterX = innerWidth / 2;
+        const newCenterY = innerHeight / 1.7;
+
+        simulation.force('center', d3.forceCenter(newCenterX, newCenterY));
+        simulation.alpha(1).restart();
+      };
+
+      // NOTE 뷰포트 크기 변경 시 그래프 크기 업데이트
+      window.addEventListener('resize', updateGraphSize);
+      updateGraphSize();
+
       // NOTE 드래그 기능을 위한 함수
       const drag = createDragHandler(simulation);
 
@@ -347,10 +362,14 @@ const ForceGraph = ({
 
       // NOTE SVG 요소에 줌 핸들러 적용
       svg.call(zoomHandler.transform, initialZoom);
+
+      return () => {
+        window.removeEventListener('resize', updateGraphSize);
+      };
     }
   }, [router, isSearchSuccess]);
 
-  return <svg ref={ref} width={1000} height={600} />;
+  return <svg ref={ref} width={2000} height={800} />;
 };
 
 export default ForceGraph;
