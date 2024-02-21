@@ -42,7 +42,8 @@ const NewStarForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const startsWithH2orH3 = /^<(h1|h2|h3)>/i;
+    const startsWithHtag = /^<(h1|h2|h3)>/i;
+    setTitle(title.trim());
     if (title === '' || title.length > 20) {
       toast({
         title: '20자 이하의 제목을 입력해주세요',
@@ -55,7 +56,7 @@ const NewStarForm = () => {
         status: 'error',
         isClosable: true,
       });
-    } else if (startsWithH2orH3.test(content) === false) {
+    } else if (startsWithHtag.test(content) === false) {
       toast({
         title:
           '본문은 소제목으로 시작해야 합니다.\n##, ###을 통해 소제목을 생성해주세요.',
