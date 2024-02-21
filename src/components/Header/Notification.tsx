@@ -199,7 +199,7 @@ const Notification = ({
                   <div key={item.notificationId} className="flex flex-col">
                     <div className="flex flex-row gap-2 justify-between">
                       {!item.read && (
-                        <div className="text-secondary-dark mt-1">
+                        <div className="text-secondary-dark-500 mt-1">
                           <FaCircle className="w-2 h-2" />
                         </div>
                       )}
