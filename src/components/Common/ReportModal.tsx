@@ -42,6 +42,7 @@ const ReportModal: React.FC<ModalComponentProps> = ({
     '개인정보 침해 신고',
     '악의적 행위 신고',
     '중복 콘텐츠 신고',
+    '기타',
   ];
 
   const handleSelectReportOption = (
@@ -102,7 +103,7 @@ const ReportModal: React.FC<ModalComponentProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={handleClose} size="md" isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg="#212121" color="text.dark">
         <ModalHeader fontSize="md">
           {type === 'comment' ? '댓글 신고' : '문서 신고'}
         </ModalHeader>
@@ -110,7 +111,12 @@ const ReportModal: React.FC<ModalComponentProps> = ({
         <ModalBody>
           <FormControl>
             <FormLabel fontSize="md">선택</FormLabel>
-            <Select fontSize="sm" onChange={handleSelectReportOption}>
+            <Select
+              fontSize="sm"
+              onChange={handleSelectReportOption}
+              bg="#303134"
+              border="none"
+            >
               {reportOptions.map(option => {
                 return <option key={option}>{option}</option>;
               })}
@@ -121,6 +127,8 @@ const ReportModal: React.FC<ModalComponentProps> = ({
             <Textarea
               fontSize="sm"
               w="full"
+              bg="#303134"
+              border="none"
               value={reportContent}
               onChange={e => {
                 setReportContent(e.target.value);
@@ -142,9 +150,11 @@ const ReportModal: React.FC<ModalComponentProps> = ({
           <Button
             colorScheme="red"
             mr={3}
-            onClick={() =>
-              {return handleReport(type === 'comment' ? 'comments' : 'documents')}
-            }
+            onClick={() => {
+              return handleReport(
+                type === 'comment' ? 'comments' : 'documents',
+              );
+            }}
             fontSize="sm"
             size="sm"
           >
