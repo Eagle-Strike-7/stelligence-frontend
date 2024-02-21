@@ -16,7 +16,9 @@ const Page = () => {
   const [latestLogin, setLatestLogin] = useState<string | undefined>('');
   useEffect(() => {
     const latestLoginString = getLatestLogin()?.replaceAll('"', '');
-    setLatestLogin(latestLoginString);
+    if (latestLoginString !== 'undefined' && latestLoginString !== undefined) {
+      setLatestLogin(latestLoginString);
+    }
   }, []);
 
   // NOTE 테스트를 위한 로직.

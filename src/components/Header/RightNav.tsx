@@ -19,13 +19,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
-import { FaBell, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import countNotification from '@/store/notification/countNotification';
 import {
   removeLoginStateLocalStorage,
   setLoginStateLocalStorage,
 } from '@/service/login/loginState';
+import { BiBell } from 'react-icons/bi';
+import countNotification from '@/store/notification/countNotification';
 import Notification from './Notification';
 
 const RightNav = () => {
@@ -59,7 +60,12 @@ const RightNav = () => {
       nickname: userData?.results.nickname ?? '',
       profileImgUrl: userData?.results.profileImgUrl ?? '',
     });
-    setLatestLogin(userData?.results.socialType);
+    if (
+      userData?.results.socialType !== 'undefined' &&
+      userData?.results.socialType !== undefined
+    ) {
+      setLatestLogin(userData?.results.socialType);
+    }
   }, [userData?.results]);
 
   useEffect(() => {
@@ -167,7 +173,7 @@ const RightNav = () => {
   }, [isNotificationOpen]);
 
   return (
-    <div className="flex mobile:mr-4 desktop:mr-20">
+    <div className="flex mobile:mr-4 desktop:mr-20 ml-3">
       {/* NOTE 로그인 상태라면 미니프로필 & 로그아웃 버튼, 아니라면 로그인 버튼 */}
       {userData && isLogin.isLoggedIn ? (
         <div className="flex flex-row gap-0">
@@ -176,15 +182,16 @@ const RightNav = () => {
             bgColor="transparent"
             color="white"
             fontSize="2xl"
+            size="sm"
             _hover={{
               bgColor: 'transparent',
             }}
             ref={notiButtonRef}
             position="relative"
           >
-            <FaBell />
+            <BiBell />
             {notificationCount.hasNotRead && (
-              <div className="rounded-full bg-secondary-dark w-1.5 h-1.5 absolute top-2 right-4 flex" />
+              <div className="rounded-full bg-secondary-dark-500 w-1.5 h-1.5 absolute top-2 right-4 flex z-10" />
             )}
           </Button>
           <Notification
