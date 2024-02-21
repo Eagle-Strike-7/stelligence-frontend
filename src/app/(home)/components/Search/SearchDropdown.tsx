@@ -28,6 +28,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
     <VStack
       ref={dropdownRef}
       bg="rgba(18,18,18,0.8)"
+      mt={12}
       paddingX={2}
       paddingY={2}
       spacing={2}
@@ -36,7 +37,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
       align="stretch"
       position="absolute"
       color="white"
-      w="40rem"
+      w={{ base: '15rem', sm: '25rem', md: '45rem' }}
       verticalAlign="middle"
       borderBottomLeftRadius="md"
       borderBottomRightRadius="md"

@@ -140,7 +140,9 @@ const ForceGraph = ({
           })
           .style('opacity', 1);
         node
-          .filter((d: GraphNode) => {return d.id === hoveredNode.id})
+          .filter((d: GraphNode) => {
+            return d.id === hoveredNode.id;
+          })
           .transition('all 0.5 easeout')
           .attr('r', 5);
 
@@ -148,7 +150,9 @@ const ForceGraph = ({
 
         const currentZoom = d3.zoomTransform(svg.node()!).k;
         nodeText
-          .filter((node: GraphNode) => {return node.id === hoveredNode.id})
+          .filter((node: GraphNode) => {
+            return node.id === hoveredNode.id;
+          })
           .transition('all 0.5 easeout')
           .ease(d3.easeQuadInOut)
           .style('font-size', d => {
@@ -189,7 +193,9 @@ const ForceGraph = ({
 
           const currentZoom = d3.zoomTransform(svg.node()!).k;
           nodeText
-            .filter((node: GraphNode) => {return node.id === hoveredNode.id})
+            .filter((node: GraphNode) => {
+              return node.id === hoveredNode.id;
+            })
             .transition('')
             .ease(d3.easeQuadInOut)
             .style('font-size', d => {
@@ -344,7 +350,7 @@ const ForceGraph = ({
     }
   }, [router, isSearchSuccess]);
 
-  return <svg ref={ref} width={1200} height={700} />;
+  return <svg ref={ref} width={1000} height={600} />;
 };
 
 export default ForceGraph;
