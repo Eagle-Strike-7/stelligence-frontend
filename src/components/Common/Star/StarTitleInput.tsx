@@ -1,3 +1,4 @@
+import handleKeyDown from '@/lib/handleKeyDown';
 import { Input } from '@chakra-ui/react';
 import React from 'react';
 
@@ -20,7 +21,7 @@ const StarTitleInput = ({ inputTitle, title, setTitle }: StarTitleProps) => {
           {inputTitle}
         </span>
       ) : (
-        <span className=" text-white text-lg font-bold mt-2 mb-2  shrink-0">
+        <span className=" text-white text-lg font-bold mt-2 mb-2 shrink-0">
           {inputTitle}
         </span>
       )}
@@ -31,8 +32,12 @@ const StarTitleInput = ({ inputTitle, title, setTitle }: StarTitleProps) => {
         color="white"
         variant="outline"
         placeholder="글의 제목을 입력해 주세요"
+        errorBorderColor="red.300"
         value={title}
         onChange={handleTitle}
+        onKeyDown={e => {
+          handleKeyDown(e);
+        }}
       />
     </div>
   );
