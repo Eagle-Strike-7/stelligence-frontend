@@ -59,6 +59,7 @@ const VoteProgressBar = ({
             width={`${(agree / totalVotes) * 100}%`}
             bg="blue.500"
             borderLeftRadius="1rem"
+            borderRightRadius={disagree === 0 ? '1rem' : '0'}
             position="absolute"
             left="0"
             initial={{ width: 0 }}
@@ -70,6 +71,7 @@ const VoteProgressBar = ({
             width={`${(disagree / totalVotes) * 100}%`}
             bg="red.500"
             borderRightRadius="1rem"
+            borderLeftRadius={agree === 0 ? '1rem' : '0'}
             position="absolute"
             right="0"
             initial={{ width: 0 }}
