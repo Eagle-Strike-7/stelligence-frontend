@@ -44,7 +44,7 @@ const ReviseStarSectionInput = ({ content, setContent }: StarContentProps) => {
   // };
 
   return (
-    <div className="border border-gray-300 rounded-md mb-8">
+    <div className="rounded-md border border-[#303134] mb-8">
       {editor && <FixedMenu editor={editor} />}
       <EditorContent editor={editor} className={styles.ProseMirror} />
 

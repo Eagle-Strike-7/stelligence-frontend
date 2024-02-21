@@ -69,12 +69,12 @@ body {
 
 /* NOTE : 코드블럭 감싸는 태그 */
 .tiptap pre {
-  @apply bg-gray-100 p-4 m-2 overflow-x-auto rounded-lg;
+  @apply bg-[#1e1e1e] py-1 px-2 overflow-x-auto rounded-lg;
 }
 
 /* NOTE : 코드 입력 태그 */
 .tiptap code {
-  @apply bg-gray-100 font-mono font-bold text-blue-900 my-1 py-1 px-2 rounded;
+  @apply bg-[#1e1e1e] font-mono font-bold overflow-x-auto text-white my-1 p-1 rounded-md;
 }
 
 /* NOTE : 기본 텍스트 */
