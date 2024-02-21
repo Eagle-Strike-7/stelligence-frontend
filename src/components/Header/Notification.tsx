@@ -51,7 +51,7 @@ const Notification = ({
       hasNotRead: !!notReadCount,
       count: notReadCount ?? 0,
     });
-  }, [notificationData]);
+  }, [notificationData?.results]);
 
   // NOTE 알림 전체 읽음 처리
   const patchNotificationAllMutation = useMutation({

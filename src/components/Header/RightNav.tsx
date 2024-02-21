@@ -19,13 +19,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
-import { FaBell, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import countNotification from '@/store/notification/countNotification';
 import {
   removeLoginStateLocalStorage,
   setLoginStateLocalStorage,
 } from '@/service/login/loginState';
+import { BiBell } from 'react-icons/bi';
+import countNotification from '@/store/notification/countNotification';
 import Notification from './Notification';
 
 const RightNav = () => {
@@ -182,9 +183,9 @@ const RightNav = () => {
             ref={notiButtonRef}
             position="relative"
           >
-            <FaBell />
+            <BiBell />
             {notificationCount.hasNotRead && (
-              <div className="rounded-full bg-secondary-dark w-1.5 h-1.5 absolute top-2 right-4 flex" />
+              <div className="rounded-full bg-secondary-dark-500 w-1.5 h-1.5 absolute top-2 right-4 flex z-10" />
             )}
           </Button>
           <Notification
