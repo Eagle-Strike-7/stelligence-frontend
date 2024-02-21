@@ -25,9 +25,13 @@ const NewStarForm = () => {
         `/api/documents`,
         JSON.stringify(star),
       );
-      console.log('response', response.data); // FIXME : 기능완성 시 삭제예정
       if (response.data.success) {
         // 요청 성공하면 해당 문서로 이동
+        toast({
+          title: '글 생성에 성공했습니다.',
+          status: 'success',
+          isClosable: true,
+        });
         const { documentId } = response.data.results;
         router.push(`/stars/${documentId}`);
       }
