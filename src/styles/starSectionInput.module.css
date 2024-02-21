@@ -1,7 +1,8 @@
 .ProseMirror {
-  @apply min-h-96;
-  @apply leading-normal;
-  @apply border-t border-gray-300;
-  @apply text-white;
-  @apply p-4;
+  min-height: 24rem /* 384px */;
+  line-height: 1.5;
+  --tw-bg-opacity: 1;
+  background-color: #303134;
+  color: white;
+  padding: 1rem /* 16px */;
 }

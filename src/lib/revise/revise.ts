@@ -102,6 +102,7 @@ const addAmendment = ({
     });
   } else {
     dict[sectionKey] = [newAmendment];
+    // console.log('dict', dict);
   }
   return dict;
 };

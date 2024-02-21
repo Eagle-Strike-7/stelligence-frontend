@@ -3,6 +3,7 @@ import { Button } from '@chakra-ui/react';
 
 // NOTE : 생성하기/요청하기 버튼
 const SubmitButton = ({ name }: { name: string }) => {
+
   return (
     <div className="flex justify-center">
       <Button

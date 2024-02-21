@@ -3,6 +3,7 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import React, { useEffect } from 'react';
 import styles from '../../../../styles/starContent.module.css';
 
@@ -15,7 +16,14 @@ const StarContent = ({ content }: { content: string }) => {
   }, [content]);
 
   const editor = useEditor({
-    extensions: [StarterKit, Image],
+    extensions: [
+      StarterKit,
+      Image,
+      Link.configure({
+        openOnClick: true,
+        autolink: false,
+      }),
+    ],
     content,
     editable: false,
   });

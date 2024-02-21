@@ -66,7 +66,7 @@ const StarContentInput = ({ content, setContent }: StarContentProps) => {
   // };
 
   return (
-    <div className="border border-gray-300 rounded-md">
+    <div className="rounded-md border border-[#303134]">
       {editor && <FixedMenu editor={editor} />}
       <EditorContent editor={editor} className={styles.ProseMirror} />
 

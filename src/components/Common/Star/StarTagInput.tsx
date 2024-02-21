@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ResponseType } from '@/types/common/ResponseType';
 import { Document } from '@/types/star/NewStarProps';
+import handleKeyDown from '@/lib/handleKeyDown';
 import apiClient from '../../../service/login/axiosClient';
 
 interface StarParentDocumentIdProps {
@@ -65,7 +66,7 @@ const StarTagInput = ({
     setParentDocumentId(doc.documentId);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, doc: Document) => {
+  const handleTagKeyDown = (e: React.KeyboardEvent, doc: Document) => {
     if (e.key === 'Enter') {
       handleClick(doc);
     }
@@ -113,11 +114,14 @@ const StarTagInput = ({
             placeholder="연결할 글의 제목을 입력해 주세요"
             value={searchTitle.enteredTitle}
             onChange={handleChange}
+            onKeyDown={e => {
+              handleKeyDown(e);
+            }}
             zIndex="1"
           />
           {/* NOTE : 검색어가 있을 때만 드롭다운 */}
           {debouncedTitle !== '' ? (
-            <div className="absolute w-full mt-1 border border-gray-300 bg-white rounded-md z-10">
+            <div className="absolute w-full mt-1 bg-[#151515] rounded-md z-10">
               {/* NOTE : 결과가 있을 때 */}
               {searchTag.data && searchTag.data.length > 0 ? (
                 searchTag.data.map(doc => {
@@ -126,12 +130,12 @@ const StarTagInput = ({
                       key={doc.documentId}
                       role="button"
                       tabIndex={0}
-                      className="p-2 pl-4 hover:bg-gray-100 cursor-pointer"
+                      className="p-2 pl-4 text-white hover:bg-[#292929] cursor-pointer"
                       onClick={() => {
                         handleClick(doc);
                       }}
                       onKeyDown={event => {
-                        handleKeyDown(event, doc);
+                        handleTagKeyDown(event, doc);
                       }}
                     >
                       {doc.title}
@@ -140,7 +144,7 @@ const StarTagInput = ({
                 })
               ) : (
                 // NOTE : 결과가 없을 때
-                <div className="p-2">검색 결과가 없습니다</div>
+                <div className="p-2 text-white">검색 결과가 없습니다</div>
               )}
             </div>
           ) : (
