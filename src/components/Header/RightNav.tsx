@@ -60,7 +60,12 @@ const RightNav = () => {
       nickname: userData?.results.nickname ?? '',
       profileImgUrl: userData?.results.profileImgUrl ?? '',
     });
-    setLatestLogin(userData?.results.socialType);
+    if (
+      userData?.results.socialType !== 'undefined' &&
+      userData?.results.socialType !== undefined
+    ) {
+      setLatestLogin(userData?.results.socialType);
+    }
   }, [userData?.results]);
 
   useEffect(() => {
