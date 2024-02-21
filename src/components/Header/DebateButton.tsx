@@ -13,7 +13,7 @@ const DebateButton = ({ onClose }: { onClose: () => void }) => {
   };
   return (
     <Button
-      leftIcon={<AiOutlineComment />}
+      leftIcon={<AiOutlineComment size="20px" />}
       variant="ghost"
       textColor="white"
       _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}

@@ -13,7 +13,7 @@ const VoteButton = ({ onClose }: { onClose: () => void }) => {
   };
   return (
     <Button
-      leftIcon={<AiOutlineLike />}
+      leftIcon={<AiOutlineLike size="20px" />}
       variant="ghost"
       textColor="white"
       _hover={{ bg: '#ebedf0', textColor: 'black', fontWeight: 600 }}
