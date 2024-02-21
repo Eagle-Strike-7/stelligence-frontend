@@ -23,6 +23,7 @@ import React, { useEffect } from 'react';
 import { FaCircle, FaRegTrashAlt } from 'react-icons/fa';
 import { useSetRecoilState } from 'recoil';
 import NoList from '../Common/NoList';
+import styles from '../../styles/scrollbar.module.css';
 
 const Notification = ({
   isOpen,
@@ -192,7 +193,9 @@ const Notification = ({
           </div>
         </ModalHeader>
         <ModalBody paddingRight={0} paddingLeft={2}>
-          <div className="flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2">
+          <div
+            className={`flex flex-col gap-4 mb-4 h-80 overflow-y-scroll px-2 ${styles.scrollbar}`}
+          >
             {notificationData?.results.length ? (
               notificationData?.results.map(item => {
                 return (
