@@ -177,6 +177,10 @@ const Notification = ({
                 variant="outline"
                 size="xs"
                 color="white"
+                _hover={{
+                  backgroundColor: 'white',
+                  color: '#2e2e2e',
+                }}
                 onClick={handlePatchNotificationAll}
               >
                 모두 읽음
@@ -185,6 +189,10 @@ const Notification = ({
                 variant="outline"
                 size="xs"
                 color="white"
+                _hover={{
+                  backgroundColor: 'white',
+                  color: '#2e2e2e',
+                }}
                 onClick={handleDeleteNotificationAll}
               >
                 모두 삭제
