@@ -8,7 +8,9 @@ import StarTagInput from '@/components/Common/Star/StarTagInput';
 import { NewStar } from '@/types/star/NewStarProps';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@chakra-ui/react';
+import { Tooltip, useToast } from '@chakra-ui/react';
+import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 const NewStarForm = () => {
   const router = useRouter();
@@ -75,20 +77,65 @@ const NewStarForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col w-full pt-5 px-32">
-      <StarTitleInput inputTitle="글 제목" title={title} setTitle={setTitle} />
-      <StarTagInput
-        inputTitle="상위 계층 태그"
-        setParentDocumentId={setParentDocumentId}
-      />
-
-      <div className="flex flex-col w-full">
-        <div className="text-white text-md font-bold mb-2">본문</div>
-        <StarContentInput content={content} setContent={setContent} />
+    <>
+      <div className="flex flex-row items-center ml-32">
+        <PageTitleDescription
+          title="별 생성"
+          description="새로운 글을 작성해보세요!"
+        />
+        <Tooltip
+          hasArrow
+          defaultIsOpen
+          closeOnScroll
+          arrowSize={10}
+          label={
+            <div style={{ width: '420px' }}>
+              <p
+                style={{
+                  color: '#47588b',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                작성팁!
+              </p>
+              1️⃣ <strong>[[글제목]]</strong>을 입력하면 다른 글을 언급할 수
+              있어요!
+              <br />
+              2️⃣ <strong>#, ##, ###</strong>을 이용해 문단을 구분할 수 있어요!
+            </div>
+          }
+          placement="right"
+          color="black"
+          backgroundColor="#f6f6f6"
+          size="lg"
+          padding="0.25rem 0.75rem"
+          rounded="sm"
+        >
+          <div className="text-primary-dark-500 mb-1 ml-1">
+            <AiOutlineInfoCircle size="17px" />
+          </div>
+        </Tooltip>
       </div>
+      <form onSubmit={handleSubmit} className="flex flex-col w-full px-32">
+        <StarTitleInput
+          inputTitle="글 제목"
+          title={title}
+          setTitle={setTitle}
+        />
+        <StarTagInput
+          inputTitle="상위 계층 태그"
+          setParentDocumentId={setParentDocumentId}
+        />
 
-      <SubmitButton name="생성하기" />
-    </form>
+        <div className="flex flex-col w-full">
+          <div className="text-white text-md font-bold mb-2">본문</div>
+          <StarContentInput content={content} setContent={setContent} />
+        </div>
+
+        <SubmitButton name="생성하기" />
+      </form>
+    </>
   );
 };
 

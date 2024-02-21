@@ -82,3 +82,18 @@ body {
   @apply text-base;
   line-height: 1.8rem;
 }
+
+/* NOTE : placeholder */
+.tiptap .is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: '마크다운을 활용해 자유롭게 글을 작성해보세요!';
+  white-space: pre-line; /* 개행 문자를 인식하도록 설정 */
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap img {
+  max-width: 70%;
+  height: 70%;
+}

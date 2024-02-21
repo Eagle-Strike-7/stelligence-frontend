@@ -6,10 +6,11 @@ import { StarterKit } from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-// import { Placeholder } from '@tiptap/extension-placeholder';
+import { Placeholder } from '@tiptap/extension-placeholder';
 import { Node } from '@tiptap/core';
 import FixedMenu from './FixedMenu';
 import styles from '../../../../styles/starSectionInput.module.css';
+// import CustomPasteHandler from './ImageExtension';
 import LinkifyExtension from './MentionLink';
 
 interface StarContentProps {
@@ -32,22 +33,23 @@ const StarContentInput = ({ content, setContent }: StarContentProps) => {
         document: false,
       }),
       Image,
+      // CustomPasteHandler,
       Underline,
       LinkifyExtension,
       Link.configure({
         openOnClick: true,
         autolink: false,
       }),
-      // Placeholder.configure({
-      //   placeholder: ({ node }) => {
-      //     console.log(node.type.name);
-      //     if (node.type.name === 'heading') {
-      //       return 'What’s the title?';
-      //     }
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          console.log(node.type.name);
+          if (node.type.name === 'heading') {
+            return '#, ##, ###을 통해 문단을 구분해보세요!';
+          }
 
-      //     return 'Can you add some further context?';
-      //   },
-      // }),
+          return 'Can you add some further context?';
+        },
+      }),
     ],
     content,
     onUpdate: () => {
@@ -58,6 +60,7 @@ const StarContentInput = ({ content, setContent }: StarContentProps) => {
     },
   });
 
+  // FIXME : 콘솔 삭제
   // const logContent = () => {
   //   if (editor) {
   //     const htmlContent = editor.getHTML();
@@ -70,7 +73,7 @@ const StarContentInput = ({ content, setContent }: StarContentProps) => {
       {editor && <FixedMenu editor={editor} />}
       <EditorContent editor={editor} className={styles.ProseMirror} />
 
-      {/* <button type="button" onClick={logContent}>
+      {/* <button type="button" className="text-white" onClick={logContent}>
         Log Content
       </button> */}
     </div>
