@@ -189,18 +189,23 @@ const ForceGraph = ({
           changeLinkColor(link, '#999');
           link.classed(styles.flow, false);
 
-          node.transition().attr('r', 3);
+          // NOTE 호버가 제거되었을 때, 검색 결과에 포함되어 있는지 확인 후 크기 조정
+          node.each(function (d) {
+            const n = d3.select(this);
+            const isSearched = searchResults.includes(d.id);
+            n.transition().attr('r', isSearched ? 6 : 3);
+          });
 
           const currentZoom = d3.zoomTransform(svg.node()!).k;
           nodeText
             .filter((node: GraphNode) => {
               return node.id === hoveredNode.id;
             })
-            .transition('')
+            .transition()
             .ease(d3.easeQuadInOut)
             .style('font-size', d => {
               if (searchResults.includes(d.id)) {
-                return '0.7rem'; // NOTE 검색 결과에 해당하는 노드는 항상 0.7rem
+                return '0.7rem';
               }
               return currentZoom < 1.5 ? '0' : '0.5rem';
             })
@@ -208,7 +213,6 @@ const ForceGraph = ({
               if (searchResults.includes(d.id)) {
                 return (d.y ?? 0) + 25;
               }
-
               return (d.y ?? 0) + 15;
             });
 
