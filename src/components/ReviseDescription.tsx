@@ -22,7 +22,7 @@ const ReviseDescription = ({
     },
     CREATE: {
       name: '생성',
-      description: '"수정 후" 문단이 "수정 전" 문단 뒤에 추가되었습니다',
+      description: '"수정 전" 문단 뒤에 새 문단이 추가되었습니다',
       color: 'tertiary.500',
     },
   };

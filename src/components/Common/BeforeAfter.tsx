@@ -35,10 +35,18 @@ const BeforeAfter = ({
           />
         </div>
         <div className="flex flex-col gap-1">
+          {type === 'CREATE' && (
+            <ReviseContent
+              heading={beforeHeading ?? ''}
+              title={beforeTitle ?? ''}
+              content={beforeContent ?? ''}
+            />
+          )}
           <ReviseContent
-            heading={type === 'DELETE' ? '' : afterHeading}
-            title={type === 'DELETE' ? '' : afterTitle}
-            content={type === 'DELETE' ? '' : afterContent}
+            heading={type === 'DELETE' ? beforeHeading : afterHeading}
+            title={type === 'DELETE' ? beforeTitle : afterTitle}
+            content={type === 'DELETE' ? beforeContent : afterContent}
+            type={type}
           />
         </div>
       </div>
