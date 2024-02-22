@@ -71,8 +71,8 @@ const Home = () => {
 
   return (
     <Center>
-      <Box w="full" mx={{ base: '4', md: '10' }} my="12" mb="40">
-        <div className="flex justify-center mt-8 relative w-full">
+      <Box w="full" mx={{ base: '4', md: '10' }} mt="12">
+        <div className="flex justify-center mt-8 relative w-full mb-6">
           <SearchInput
             searchText={searchText}
             isDropdownOpen={isDropdownOpen}
@@ -89,7 +89,7 @@ const Home = () => {
           )}
         </div>
 
-        <div className="mt-5 flex justify-center">
+        <div className="flex justify-center mt-[-15rem] pt-2">
           {data && (
             <GalaxyGraph
               nodes={data.nodes}
