@@ -47,7 +47,7 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
     <>
       <div className="mt-10 mb-6">
         <MiddleTitle title="수정 요청 사항" color="white" />
-        <div className="tiptap flex justify-between gap-5 text-primary-dark-500 my-4 ">
+        <div className="hidden md:flex tiptap justify-between gap-5 text-primary-dark-500 my-4 ">
           <span className="font-bold text-lg w-1/2 text-center">수정 전</span>
           <span className="font-bold text-lg w-1/2 text-center">수정 후</span>
         </div>
@@ -73,6 +73,7 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                   />
                   <div className="tiptap flex flex-col md:flex-row justify-between gap-5 mt-3">
                     <div className="w-full md:w-1/2">
+                    <span className="flex md:hidden font-bold text-lg w-1/2 text-center text-primary-dark-500 mb-2">수정 전</span>
                       <ReviseContent
                         heading={amendment.targetSection.heading}
                         title={amendment.targetSection.title}
@@ -80,6 +81,7 @@ const DebateSlider = ({ amendments }: AmendmentsProps) => {
                       />
                     </div>
                     <div className="w-full md:w-1/2">
+                    <span className="flex md:hidden font-bold text-lg w-1/2 text-center text-primary-dark-500 mb-2">수정 후</span>
                       {amendment.type === 'CREATE' && (
                         <ReviseContent
                           heading={amendment.targetSection.heading ?? ''}

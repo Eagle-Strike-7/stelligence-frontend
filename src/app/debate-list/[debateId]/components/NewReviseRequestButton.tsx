@@ -9,6 +9,7 @@ const NewReviseRequestButton: React.FC<{
   return (
     <div className="flex text-center place-self-center justify-center mb-4 mt-[-1rem] ">
       <Link
+      className='w-full'
         href={{
           pathname: `/stars/${starId}/revise`,
           query: { debateId },
@@ -18,7 +19,7 @@ const NewReviseRequestButton: React.FC<{
           variant="solid"
           bg="primary.500"
           color="white"
-          width="70rem"
+          width="100%"
           _hover={{
             bg: 'rgba(118, 147, 231, 0.7)', // 'primary.500'에 해당하는 RGBA 값
             color: 'white',
