@@ -1,3 +1,5 @@
+"use client"
+
 import apiClient from '@/service/login/axiosClient';
 import {
   getLoginStateLocalStorage,
