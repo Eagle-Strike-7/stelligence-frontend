@@ -1,42 +1,40 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
-import Header from '@/components/Header/Header';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import { ChakraProvider } from '@chakra-ui/react';
-import { ThemeProvider as MUIThemeProvider } from '@mui/material';
-import muiTheme from '@/theme/mui';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { RecoilRoot } from 'recoil';
 import LoginInterceptor from '@/components/Login/LoginInterceptor';
-import customTheme from '../theme/chakra';
+import { Metadata } from 'next';
+import QueryClientProviderComponent from './layout-components/QueryClient';
+import ClientThemeProviders from './layout-components/ClientThemeProviders';
+import ConditionalHeader from './layout-components/ConditionalHeader';
+import RecoilRootProvider from './layout-components/RecoilRootProvider';
 import InfoButton from './info/components/InfoButton';
 
+
 const inter = Inter({ subsets: ['latin'] });
-const queryClient = new QueryClient();
 
-// NOTE : 화살표 함수 형식으로 변경된 RootLayout 컴포넌트
+export const metadata: Metadata = {
+  applicationName: 'Stelligence',
+  title: 'Stelligence',
+  description : '지식을 별처럼 연결해 탐색하는 사용자 참여형 지식 공유 플랫폼',
+  keywords: ['지식', '별','글','수정', '그래프','투표','토론'],
+  authors: [{ name: '서범석' },{ name: '이영민' },{ name: '이은지' }, { name: '황한나' },{ name: '문지원' },{ name: '이다희' },{ name: '정나리' , url:'https://www.github.com/naringst'},],
+  creator: 'Eagle-Strike-7',
+};
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-
-  const isLoginPage = pathname === '/login';
 
   return (
     <html lang="ko">
       <body className={`${inter.className} bg-background-dark`}>
-        <QueryClientProvider client={queryClient}>
-          <MUIThemeProvider theme={muiTheme}>
-            <ChakraProvider theme={customTheme}>
-              <RecoilRoot>
-                <LoginInterceptor />
-                {!isLoginPage && <Header />}
-                <InfoButton />
-                {children}
-              </RecoilRoot>
-            </ChakraProvider>
-          </MUIThemeProvider>
-        </QueryClientProvider>
+        <QueryClientProviderComponent>
+          <ClientThemeProviders>  
+            <RecoilRootProvider>             
+              <LoginInterceptor />
+              <ConditionalHeader />
+              <InfoButton />
+              {children}
+            </RecoilRootProvider>
+          </ClientThemeProviders>
+        </QueryClientProviderComponent>
       </body>
     </html>
   );
