@@ -67,8 +67,9 @@
 </td>
 <td width="300" align="left">
 <ul>
-<li>..</li>
-
+<li>투표 개발(목록, 상세페이지)</li>
+<li>로그인 개발</li>
+<li>북마크, 배지, 알림 기능 개발</li>
 </ul>
 </td>
 
@@ -87,8 +88,8 @@
 </a>
 </td>
 <td width="100" align="center">
-<a href="https://github.com/hi-rachel">
-<img src="http://img.shields.io/badge/hi-rachel-green?style=social&logo=github"/>
+<a href="https://github.com/LeeDahee23">
+<img src="http://img.shields.io/badge/LeeDahee23-green?style=social&logo=github"/>
 </a>
 </td>
 <td width="100" align="center">
@@ -130,7 +131,8 @@
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 ![GitHub Project](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) 
 
-- 아키텍처 사진
+### 아키텍처
+![아키텍처](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/76282a15-4424-4fff-ac9e-5169fab98139)
 
 
 <br>
@@ -138,7 +140,21 @@
 
 # 팀 컨벤션
 ### 커밋 컨벤션
+| type | 설명 |
+| --- | --- |
+| ✨ feat | 새로운 기능 |
+| 🐞 fix | 버그 수정 |
+| 🛠️ refactor | 기능을 추가하지 않은 코드 변화, 리팩토링 |
+| 🎀 style | CSS 수정 |
+| 💾 build | 빌드 시스템이나 외부 의존성에 영향을 주는 변화 |
+| 📄 docs | 문서 변화 |
+| 🧪 test | 테스트 |
+| ✍️ chore | 빌드 업무 수정, 패키지 매니저 수정(gitignore 수정 등) |
+| ⚙️ setting | 개발 환경 세팅 |
+| 🌐 deploy | 배포 |
 ### 코드리뷰 컨벤션 Pn
+- 뱅크샐러드의 Pn 규칙 도입
+- 도입 이유: 리뷰어가 코멘트의 강조하고 싶은 정도를 표현해서 리뷰 의도를 보다 명확하게 전달하여 온라인 코드리뷰의 한계를 극복하기 위함
 ### lint 컨벤션 (airbnb)
 
 
@@ -146,33 +162,60 @@
 
 # 주요 페이지 및 기능
   ## 유저
-    - 로그인
-    - 마이페이지
+  | 로그인 | 마이페이지 |
+  | --- | --- |
+  | ![로그인](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7fae7c66-9fbb-4e71-a520-d96c77e5b390) | ![마이페이지](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7ec03d83-bf30-4f9a-bc16-371e6ee03d34) |
+
+  - 로그인
+    - 카카오, 네이버, 구글 소셜로그인을 제공합니다.
+    - 3개의 계정을 혼동하지 않고 사용자가 이전에 로그인했던 수단을 확인할 수 있도록 마지막 로그인 수단에 표시해줍니다.
+  - 마이페이지
+    - 사용자가 로그인한 계정의 유저 정보를 확인할 수 있고, 닉네임을 변경할 수 있습니다.
+    - 북마크 목록과 획득한 배지 목록을 확인할 수 있습니다. 북마크한 글을 확인하고 삭제하거나, 배지에 마우스를 올려 배지 설명을 확인하는 등의 상세 기능을 제공합니다.
+    - 더 이상 계정을 사용하지 않는다면 회원 탈퇴를 할 수 있습니다.
   ## 메인
-    - 메인 페이지
+  - 메인 페이지
   
   ## 글
-    - 글 작성 페이지 
-    - 글 조회 페이지
+  - 글 작성 페이지 
+  - 글 조회 페이지
   ## 수정요청
-    - 수정요청 작성 페이지
+  - 수정요청 작성 페이지
   ## 투표
-    - 투표 페이지(목록, 상세)
+  | 투표 목록 | 투표 상세정보 | 투표하기 |
+  | --- | --- | --- |
+  | ![투표 목록](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/f0e29098-5747-4a7c-888a-8f83c34c55d5) | ![투표 상세정보](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/fc5d8862-dcd1-44c5-a1a4-560d12f59cad) | ![투표하기](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7d5416c7-108f-43cc-be38-1d5155e355fc)
+
+  - 투표 목록을 진행 여부에 따라 확인할 수 있습니다. 진행완료 목록에서는 상태별(미반영/반영완료/토론) 필터 기능을 제공합니다.
+  - 투표 상세페이지에서 투표할 수정요청의 상세 정보를 확인하고 해당 수정요청을 반영할 지 사용자가 직접 투표할 수 있습니다.
   ## 토론
-    - 토론 페이지(목록, 상세)
+  - 토론 페이지(목록, 상세)
   ## 부가기능
-    - 지난 수정 요청 페이지 
-    - 역사 페이지
-    - 배지 및 알림
-    - 신고
-    - 은하수 여행가이드
+  | 지난 수정요청 페이지 | 역사 페이지 |
+  | --- | --- |
+  | ![지난수정요청](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/2a078b04-0809-48b0-9f19-291dd589423c) | |
+
+  | 배지 및 알림 | 신고 | 은하수 여행가이드 |
+  | --- | --- | --- |
+  | ![알림](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/6dfb94f2-e1e7-4c06-b450-8a2aa34aa8ad) |  
+
+
+  - 지난 수정 요청 페이지
+    - 이전에 어떤 수정요청이 들어왔었는지 글마다 반영 여부별로 확인할 수 있습니다.
+  - 역사 페이지
+  - 배지 및 알림
+    - 작성한 글, 수정요청이나 배지 획득에 대해 알림을 받을 수 있습니다. 해당 알림을 클릭하면 관련된 글로 이동합니다. 이미 확인한 알림을 개별/일괄 삭제할 수 있습니다.
+       - 수정요청 반영 시, 토론 시, 반려 시, 댓글 등록 시, 토론 종료시, 배지 획득 시 알림 확인 가능
+  - 신고
+  - 은하수 여행가이드
 
 <br>
 
 # 시작 가이드
 ```typescript 
 git clone
-yarn 
+yarn
+yarn build
 yarn start
 ```
 
