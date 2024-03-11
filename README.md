@@ -55,8 +55,13 @@
 <td width="300" align="left">
 <div align='center'></div>
 <ul>
-<li>..</li>
-
+<li>그래프 뷰 구현</li>
+<li>검색 기능 구현</li>
+<li>토론 기능 구현(목록,상세페이지)</li>
+<li>글 역사 페이지 구현</li>
+<li>신고 기능 구현</li>
+<li>은하수 여행자 가이드 구현</li>
+<li>팀: Github Actions, AWS EC2 활용 CI/CD 구현</li>
 </ul>
 
 </td>
