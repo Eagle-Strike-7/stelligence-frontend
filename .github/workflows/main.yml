@@ -37,7 +37,7 @@ jobs:
         env:
           NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
 
-      - name: Deploy to EC2
+      - name: Copy Build Artifacts to EC2
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -46,13 +46,7 @@ jobs:
           SOURCE: '.next/'
           TARGET: '/home/ubuntu/stelligence-deploy'
       
-      # - name: Zip
-      #   run: |
-      #     zip -r app.zip .next
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > /root/key.pem
-      #     scp -P 22 -i /root/key.pem app.zip ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/
-      
-      - name: Deploy to EC2
+      - name: Execute Deployment Script on EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -64,15 +58,6 @@ jobs:
             cd /home/ubuntu
             ./deploy.sh
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-      # - name: Deploy to EC2
-      #   uses: easingthemes/ssh-deploy@v2.1.5
-      #   env:
-      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-      #     REMOTE_USER: ${{ secrets.REMOTE_USER }}
-      #     SOURCE: '.next/'
-      #     TARGET: '/home/ubuntu/stelligence-deploy'
 
       - name: Clean-Up
         run: yarn cache clean
