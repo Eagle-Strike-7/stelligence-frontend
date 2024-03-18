@@ -236,13 +236,27 @@
 
 # 시작 가이드
 📣 시작 전 node, yarn, nvm이 설치되어 있는지 확인해주세요! 모두 설치되어 있어야 실행 가능합니다 :)
-```typescript 
+
+
+```typescript
+// 저장소 클론
 git clone https://github.com/Eagle-Strike-7/stelligence-frontend.git
+
+// 프로젝트 노드 버전(v20.10.0)으로 설정 및 사용
 nvm install
 nvm use
+
+// yarn 버전 설정 및 패키지 설치
 yarn set version 4.0.2
-yarn
+yarn install
+
+// 실행
+// 1. 개발모드로 바로 실행할 때
 yarn dev
+
+// 2. 빌드 후 실행할 떄
+yarn build
+yarn start
 ```
 
 
