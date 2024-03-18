@@ -242,7 +242,7 @@ nvm install
 nvm use
 yarn set version 4.0.2
 yarn
-yarn start
+yarn dev
 ```
 
 
