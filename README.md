@@ -1,6 +1,6 @@
 # Stelligence
 
-![image](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/121412353/8e213278-930a-4b8a-bd09-3a8589d140ae)
+<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/121412353/8e213278-930a-4b8a-bd09-3a8589d140ae" alt="image" width='400px'>
 
 > "함께 만들어나가는 지식의 별자리"<br/>
 지식을 별처럼 연결해 탐색하는 사용자 참여형 지식 공유 플랫폼
@@ -132,7 +132,7 @@
 ![GitHub Project](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) 
 
 ### 아키텍처
-![아키텍처](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/76282a15-4424-4fff-ac9e-5169fab98139)
+<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/76282a15-4424-4fff-ac9e-5169fab98139" alt="아키텍처" width='600px'/>
 
 
 <br>
@@ -164,7 +164,7 @@
   ## 유저
   | 로그인 | 마이페이지 |
   | --- | --- |
-  | ![로그인](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7fae7c66-9fbb-4e71-a520-d96c77e5b390) | ![마이페이지](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7ec03d83-bf30-4f9a-bc16-371e6ee03d34) |
+  | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7fae7c66-9fbb-4e71-a520-d96c77e5b390" alt="로그인" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7ec03d83-bf30-4f9a-bc16-371e6ee03d34" alt="마이페이지" width='400px'>|
 
   - 로그인
     - 카카오, 네이버, 구글 소셜로그인을 제공합니다.
@@ -176,7 +176,8 @@
   ## 메인
 | 그래프 뷰 | 검색 |
   | --- | --- | 
-  |![그래프뷰](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/ce77fd89-1a80-44a2-b1b0-5927859b4081) |![검색](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/5b112f4a-ec89-4428-8832-f3f6a56cd455) | 
+  |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/ce77fd89-1a80-44a2-b1b0-5927859b4081" alt="그래프뷰" width='400px'> |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/5b112f4a-ec89-4428-8832-f3f6a56cd455" alt="검색" width='400px'> | 
+
 
   - 그래프 뷰
     - 작성된 별들을 그래프 뷰로 볼 수 있습니다.
@@ -193,14 +194,14 @@
   ## 투표
   | 투표 목록 | 투표 상세정보 | 투표하기 |
   | --- | --- | --- |
-  | ![투표 목록](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/f0e29098-5747-4a7c-888a-8f83c34c55d5) | ![투표 상세정보](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/fc5d8862-dcd1-44c5-a1a4-560d12f59cad) | ![투표하기](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7d5416c7-108f-43cc-be38-1d5155e355fc)
+  |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/f0e29098-5747-4a7c-888a-8f83c34c55d5" alt="투표 목록" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/fc5d8862-dcd1-44c5-a1a4-560d12f59cad" alt="투표 상세정보" width='400px'> |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/7d5416c7-108f-43cc-be38-1d5155e355fc" alt="투표하기" width='400px'>
 
   - 투표 목록을 진행 여부에 따라 확인할 수 있습니다. 진행완료 목록에서는 상태별(미반영/반영완료/토론) 필터 기능을 제공합니다.
   - 투표 상세페이지에서 투표할 수정요청의 상세 정보를 확인하고 해당 수정요청을 반영할 지 사용자가 직접 투표할 수 있습니다.
   ## 토론
   | 토론 목록 | 토론 상세정보 | 토론하기 |
   | --- | --- | --- |
-  | ![토론 목록](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/52e1e341-aef1-465b-8f7f-3e9fefcbdf4c) | ![토론 상세](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/14eb7199-1b90-45fa-b0c7-b6072e42aa34) | ![투표하기](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/350ad351-695f-45b8-a504-da28742c82fa)
+  |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/52e1e341-aef1-465b-8f7f-3e9fefcbdf4c" alt="토론 목록" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/14eb7199-1b90-45fa-b0c7-b6072e42aa34" alt="토론 상세" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/350ad351-695f-45b8-a504-da28742c82fa" alt="토론하기" width='400px'>
 
  - 토론 목록을 10개씩 페이지 단위로 확인할 수 있습니다. 토론은 진행중/완료에 따라 탭으로 구분 가능하며, 최신순/최신댓글순을 선택할 수 있는 정렬 기능을 제공합니다.
  - 토론 상세페이지에서는 토론할 수정요청의 상세 정보를 슬라이더로 손쉽게 확인 가능합니다. 또한 해당 페이지는 반응형으로 제공되어 모바일에서도 편리하게 볼 수 있습니다.
@@ -210,12 +211,12 @@
   ## 부가기능
   | 지난 수정요청 페이지 | 역사 페이지 |
   | --- | --- |
-  | ![지난수정요청](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/2a078b04-0809-48b0-9f19-291dd589423c) | |
+  | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/2a078b04-0809-48b0-9f19-291dd589423c" alt="지난수정요청" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/3c7c3f08-133b-4a44-98ae-e86427c6fc14" alt="역사" width='400px'>|
+
 
   | 배지 및 알림 | 신고 | 은하수 여행가이드 |
   | --- | --- | --- |
-  | ![알림](https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/6dfb94f2-e1e7-4c06-b450-8a2aa34aa8ad) |  
-
+  | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/82389864/6dfb94f2-e1e7-4c06-b450-8a2aa34aa8ad" alt="알림" width='400px'> | <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/06ed57d5-65f3-47dc-9ace-f40ea5a2ec61" alt="신고" width='400px'>| <img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/92130993/b3e7869e-e460-40f4-873d-e5463004c725" alt="은하수 여행 가이드" width='400px'>| 
 
   - 지난 수정 요청 페이지
     - 이전에 어떤 수정요청이 들어왔었는지 글마다 반영 여부별로 확인할 수 있습니다.
@@ -234,10 +235,13 @@
 <br>
 
 # 시작 가이드
+📣 시작 전 node, yarn, nvm이 설치되어 있는지 확인해주세요! 모두 설치되어 있어야 실행 가능합니다 :)
 ```typescript 
-git clone
+git clone https://github.com/Eagle-Strike-7/stelligence-frontend.git
+nvm install
+nvm use
+yarn set version 4.0.2
 yarn
-yarn build
 yarn start
 ```
 
