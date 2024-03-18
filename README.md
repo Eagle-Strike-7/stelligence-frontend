@@ -216,9 +216,8 @@
    | --- | --- | 
    |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/121412353/fabb79b5-6e2d-4a01-98f3-539fde849836" alt="수정요청 정보" width='450px'> |<img src="https://github.com/Eagle-Strike-7/stelligence-frontend/assets/121412353/a02c06d5-5bbc-4312-83ea-e3fe198f792d" alt="수정요청안" width='450px'> | 
   - 수정요청 작성 페이지
-    - 작성된 글에 대한 수정요청을 할 수 있습니다.
+    - 작성된 글에 대한 수정 요청을 할 수 있습니다.
     - 수정 요청안의 제목과 수정 이유를 작성해 다른 사용자들에게 수정내용을 설명할 수 있습니다.
-   
     - 수정 요청안을 작성하여 글에 대한 수정을 할 수 있습니다.
     - 제목, 상위계층태그의 변경이 가능합니다.
     - 글의 내용을 문단 기준으로 추가, 편집, 삭제를 통해 편집할 수 있습니다.
