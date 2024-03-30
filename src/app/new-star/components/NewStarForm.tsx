@@ -1,16 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import apiClient from '@/service/login/axiosClient';
 import StarContentInput from '@/components/Common/Star/StarContentInput/StarContentInput';
 import StarTitleInput from '@/components/Common/Star/StarTitleInput';
 import StarTagInput from '@/components/Common/Star/StarTagInput';
-import { NewStar } from '@/types/star/NewStarProps';
 import SubmitButton from '@/components/Common/Button/SubmitButton';
 import { useRouter } from 'next/navigation';
 import { Tooltip, useToast } from '@chakra-ui/react';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { StarResponseType } from '@/types/common/ResponseType';
+import { Star } from '@/types/star/StarProps';
+import { postNewStar } from '@/service/star/postNewStar';
 
 const NewStarForm = () => {
   const router = useRouter();
@@ -18,33 +19,6 @@ const NewStarForm = () => {
   const [title, setTitle] = useState<string>('');
   const [parentDocumentId, setParentDocumentId] = useState<number | null>(null);
   const [content, setContent] = useState<string>('');
-
-  const postNewStar = async (star: NewStar) => {
-    try {
-      const response = await apiClient.post(
-        `/api/documents`,
-        JSON.stringify(star),
-      );
-      if (response.data.success) {
-        // 요청 성공하면 해당 문서로 이동
-        toast({
-          title: '글 생성에 성공했습니다.',
-          status: 'success',
-          isClosable: true,
-        });
-        const { documentId } = response.data.results;
-        router.push(`/stars/${documentId}`);
-      }
-    } catch (error) {
-      // 요청 실패하면 에러 출력
-      toast({
-        title: '글 생성에 실패했습니다.\n 다시 시도해주세요.',
-        status: 'error',
-        isClosable: true,
-      });
-      console.error('Error:', error);
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +50,26 @@ const NewStarForm = () => {
         content,
       };
       console.log(newStar);
-      postNewStar(newStar);
+      postNewStar(newStar)
+        .then((data: StarResponseType<Star>) => {
+          if (data.success) {
+            toast({
+              title: '글 생성에 성공했습니다.',
+              status: 'success',
+              isClosable: true,
+            });
+            const { documentId } = data.results;
+            router.push(`/stars/${documentId}`);
+          }
+        })
+        .catch(error => {
+          toast({
+            title: '글 생성에 실패했습니다.\n 다시 시도해주세요.',
+            status: 'error',
+            isClosable: true,
+          });
+          console.error('글 생성 오류', error);
+        });
     }
   };
 
