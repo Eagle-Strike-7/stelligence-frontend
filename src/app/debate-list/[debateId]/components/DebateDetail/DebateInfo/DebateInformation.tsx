@@ -4,7 +4,7 @@ import { Tag } from '@chakra-ui/react';
 import { Contribute } from '@/types/common/Amendment';
 import calculateRemainTime from '@/lib/calculateRemainTime';
 import Link from 'next/link';
-import MiddleTitle from '../../../../../../components/Common/Title/MiddleTitle';
+import MiddleTitle from '@/components/Common/Title/MiddleTitle';
 
 // TODO ReviseInformation과 통일
 const DebateInformation = ({
