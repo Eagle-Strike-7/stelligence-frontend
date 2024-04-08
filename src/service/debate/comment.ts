@@ -1,4 +1,5 @@
-import { CommentApiResponse, CommentProps } from '@/types/debate/comment';
+import { CommentProps } from '@/types/debate/comment';
+import { ResponseType } from '@/types/common/ResponseType';
 import apiClient from '../login/axiosClient';
 
 // NOTE 댓글 리스트 조회
@@ -6,17 +7,17 @@ export const getCommentList = async (
   debateId: number,
 ): Promise<CommentProps[]> => {
   try {
-    const response = await apiClient.get<CommentApiResponse>(
+    const response = await apiClient.get<ResponseType<CommentProps>>(
       `/api/debates/${debateId}/comments`,
     );
 
     if (response.data.success) {
       return response.data.results;
     }
-    console.error('Fetching comments failed:', response.data.message);
+    console.error('댓글 fetching 오류:', response.data.message);
     return [];
   } catch (error) {
-    console.error('Error fetching comments:', error);
+    console.error('댓글 fetching 에러:', error);
     return [];
   }
 };

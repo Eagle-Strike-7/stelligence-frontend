@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import EditCommentForm from './CreateComment/EditCommentForm';
 import CommentDisplay from './CreateComment/CommentDisplay';
 
-export interface DebateCommentProps {
+interface DebateCommentProps {
   id: string;
   userImg: string;
   userName: string;
@@ -50,7 +50,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
   const queryClient = useQueryClient();
 
   const handleEditComment = () => {
-    setIsEdit(prev => {
+    setIsEdit((prev: boolean) => {
       return !prev;
     });
   };
@@ -66,12 +66,11 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         duration: 2000,
         isClosable: true,
       });
-      setIsChanged(prev => {
+      setIsChanged((prev: boolean) => {
         return !prev;
       });
     },
-    onError: error => {
-      console.error('댓글 삭제 실패: ', error);
+    onError: (error: Error) => {
       toast({
         title: '삭제 실패',
         description: error.message,
@@ -90,10 +89,10 @@ const CommentCard: React.FC<DebateCommentProps> = ({
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', debateId] });
-      setIsChanged(prev => {
+      setIsChanged((prev: boolean) => {
         return !prev;
       });
-      setIsEdit(prev => {
+      setIsEdit((prev: boolean) => {
         return !prev;
       });
       toast({
@@ -104,8 +103,7 @@ const CommentCard: React.FC<DebateCommentProps> = ({
         isClosable: true,
       });
     },
-    onError: error => {
-      console.error('댓글 수정 실패: ', error);
+    onError: (error: Error) => {
       toast({
         title: '댓글 수정 실패',
         description: error.message,
