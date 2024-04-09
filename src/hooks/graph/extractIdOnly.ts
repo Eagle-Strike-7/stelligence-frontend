@@ -1,8 +1,8 @@
-import { SearchResult } from '@/types/graph/GraphProps';
+import { ServerNode } from '@/types/graph/GraphProps';
 
-const extractSearchIdOnly = (searchResults: SearchResult[] | undefined) => {
+const extractSearchIdOnly = (searchResults: ServerNode[] | undefined) => {
   if (searchResults) {
-    const resultIds = searchResults.map((item: SearchResult) => {
+    const resultIds = searchResults.map((item: ServerNode) => {
       return item.documentId.toString();
     });
     return resultIds;

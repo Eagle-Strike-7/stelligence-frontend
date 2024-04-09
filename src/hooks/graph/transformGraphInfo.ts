@@ -1,11 +1,11 @@
 import {
-  SearchResult,
+  ServerNode,
   GraphNode,
   ServerLink,
   GraphLink,
 } from '@/types/graph/GraphProps';
 
-export const transformResults = (results: SearchResult[]): GraphNode[] => {
+export const transformResults = (results: ServerNode[]): GraphNode[] => {
   return results.map(result => {
     return {
       id: result.documentId.toString(),
