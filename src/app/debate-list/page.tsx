@@ -12,38 +12,13 @@ import DebateListCard from '@/app/debate-list/components/DebateListCard';
 import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
-
-interface Debate {
-  debateId: number;
-  createdAt: string;
-  endAt: string;
-  documentId: number;
-  documentTitle: string;
-  contributeId: number;
-  contributeTitle: string;
-  commentsCount: number;
-  contributor: {
-    memberId: number;
-    nickname: string;
-    profileImgUrl: string;
-  };
-}
-
-interface ApiResponse {
-  success: boolean;
-  message: string;
-  results: {
-    debates: Debate[];
-    totalPages: number;
-    isFirstPage: boolean;
-    isLastPage: boolean;
-  };
-}
+import { DebateApiResults, DebateListItem } from '@/types/debate/debate';
+import { StarResponseType } from '@/types/common/ResponseType';
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState<string>('진행중');
   const [selectedOption, setSelectedOption] = useState<string>('최신순');
-  const [debateLists, setDebateLists] = useState<Debate[]>([]);
+  const [debateLists, setDebateLists] = useState<DebateListItem[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -62,13 +37,16 @@ const Page = () => {
   // NOTE activeTab에 따라서 다른 axios 호출
   const getDebateLists = async () => {
     try {
-      const response = await apiClient.get<ApiResponse>(`/api/debates`, {
-        params: {
-          status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
-          order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
-          page: currentPage - 1,
+      const response = await apiClient.get<StarResponseType<DebateApiResults>>(
+        `/api/debates`,
+        {
+          params: {
+            status: activeTab === '진행중' ? 'OPEN' : 'CLOSED',
+            order: selectedOption === '최신순' ? 'LATEST' : 'RECENT_COMMENTED',
+            page: currentPage - 1,
+          },
         },
-      });
+      );
 
       if (response.data.success) {
         console.log('데이터 로딩 성공:', response.data.results);
@@ -103,7 +81,7 @@ const Page = () => {
         <ChakraSelect options={options} setSelectedOption={setSelectedOption} />
       </div>
       {debateLists.length !== 0 ? (
-        debateLists.map(item => {
+        debateLists.map((item: DebateListItem) => {
           return (
             <Link href={`/debate-list/${item.debateId}`} key={item.debateId}>
               <DebateListCard

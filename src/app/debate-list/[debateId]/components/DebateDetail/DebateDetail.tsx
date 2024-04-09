@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Amendment } from '@/types/common/Amendment';
+import { DebateDetailItem } from '@/types/debate/debate';
 import transTitleTagtoAmendment from '@/lib/debate/transTitleAndTagChanged';
 import DebateInformation from './DebateInfo/DebateInformation';
 import DebateSlider from './DebateSlider/DebateSlider';
-import { Debate } from '../../page.server';
 
 interface DeabteDetailProps {
-  debateData: Debate;
+  debateData: DebateDetailItem;
 }
 
 const DebateDetail: React.FC<DeabteDetailProps> = ({ debateData }) => {

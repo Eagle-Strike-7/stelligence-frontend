@@ -1,10 +1,10 @@
 import useOutsideClick from '@/hooks/common/useOutsideClick';
-import { SearchResult } from '@/types/graph/GraphProps';
+import { ServerNode } from '@/types/graph/GraphProps';
 import { Box, VStack } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 
 interface SearchDropdownProps {
-  searchResultsNew: SearchResult[] | undefined;
+  searchResultsNew: ServerNode[] | undefined;
   setIsDropdownOpen: (isOpen: boolean) => void;
   handleSelectItem: (event: any) => void;
 }

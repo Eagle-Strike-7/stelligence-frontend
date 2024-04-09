@@ -1,3 +1,4 @@
+// TODO 기본 응답 타입을 results: T로, 배열 타입은 따로 지정하여 수정하기
 export interface ResponseType<T> {
   success: boolean;
   message: string;

@@ -13,7 +13,7 @@ export interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
   target: string | GraphNode;
 }
 
-export interface SearchResult {
+export interface ServerNode {
   documentId: string;
   title: string;
   group: string;

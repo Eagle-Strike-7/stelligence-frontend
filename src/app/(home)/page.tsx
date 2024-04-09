@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Graph, SearchResult } from '@/types/graph/GraphProps';
+import { Graph, ServerNode } from '@/types/graph/GraphProps';
 import '../../styles/graph.module.css';
 import getGraphData from '@/service/graph/getGraphData';
 import extractSearchIdOnly from '@/hooks/graph/extractIdOnly';
@@ -31,7 +31,7 @@ const Home = () => {
     data: searchResultsNew,
     refetch,
     isSuccess,
-  } = useQuery<SearchResult[]>({
+  } = useQuery<ServerNode[]>({
     queryKey: ['searchResults', debouncedQuery],
     queryFn: () => {
       return getSearchResult(debouncedQuery);

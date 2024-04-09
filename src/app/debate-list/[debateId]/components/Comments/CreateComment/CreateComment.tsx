@@ -18,6 +18,7 @@ interface CommentCreateProps {
   selectedOption: string;
   scrollToTopComment: () => void;
 }
+
 const CreateComment = ({
   onCommentCreated,
   debateId,
@@ -51,7 +52,7 @@ const CreateComment = ({
         });
       }
     }
-  }, [selectedCommentId]);
+  }, [selectedCommentId, newContent]);
 
   // NOTE 커서 위치 기반으로 드롭다운 위치 계산하는 함수
   const calculateDropdownPosition = (textarea: HTMLTextAreaElement) => {
@@ -136,7 +137,7 @@ const CreateComment = ({
         }
       })
       .catch(error => {
-        console.error('Error creating comment:', error);
+        throw new Error('댓글 생성 오류:', error);
       });
   };
 
@@ -154,10 +155,10 @@ const CreateComment = ({
     if (debateStatus !== 'OPEN') {
       return (
         <div className="flex justify-center pt-3 z-10 align-center w-full ">
-            <span className="text-xl font-bold flex-shrink-0">
-              종료된 토론입니다.
-            </span>
-          </div>
+          <span className="text-xl font-bold flex-shrink-0">
+            종료된 토론입니다.
+          </span>
+        </div>
       );
     }
 

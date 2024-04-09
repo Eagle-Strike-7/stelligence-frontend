@@ -13,12 +13,14 @@ import { CommentProps } from '@/types/debate/comment';
 import { useRecoilValue } from 'recoil';
 import { loggedInUserState } from '@/store/user/login';
 import { Box, Center } from '@chakra-ui/react';
+import { DebateDetailItem } from '@/types/debate/debate';
 import NewReviseRequestButton from './components/NewReviseRequestButton';
+
 import DebateDetail from './components/DebateDetail/DebateDetail';
 import CommentsSection from './components/Comments/CommentsSection';
 import CreateComment from './components/Comments/CreateComment/CreateComment';
 import BackToDebateListButton from './components/BackToDebateListButton';
-import { Debate, getDebateData } from './page.server';
+import getDebateData from './page.server';
 
 const Page = () => {
   const pathname = usePathname();
@@ -30,9 +32,9 @@ const Page = () => {
   const commentsSectionRef = useRef<HTMLDivElement>(null);
 
   const { data: debateData } = useQuery<
-    Debate,
+    DebateDetailItem,
     Error,
-    Debate,
+    DebateDetailItem,
     [string, number]
   >({
     queryKey: ['debateData', debateId],
@@ -40,7 +42,7 @@ const Page = () => {
       return getDebateData(debateId);
     },
     enabled: !!debateId,
-    staleTime: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 3,
   });
 
   const { data: comments } = useQuery<
@@ -75,7 +77,7 @@ const Page = () => {
   });
 
   const refreshComments = () => {
-    setCommentsUpdated(prev => {
+    setCommentsUpdated((prev: boolean) => {
       return !prev;
     });
   };
@@ -85,22 +87,28 @@ const Page = () => {
       commentsSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   const handleClickCommentId = (e: React.MouseEvent<HTMLSpanElement>) => {
     setSelectedCommentId(e.currentTarget.id);
   };
 
   const isDebateClosed = debateData?.status === 'CLOSED';
+
   const commentIds =
-    comments?.map(comment => {
+    comments?.map((comment: CommentProps) => {
       return comment.sequence;
     }) || [];
+
   const reviseAuthUsersId =
-    comments?.map(comment => {
+    comments?.map((comment: CommentProps) => {
       return comment.commenter.memberId;
     }) || [];
+
   const isRevisableDoc =
     reviseAuthData?.documentStatus === ('EDITABLE' || 'PENDING');
+
   const currentUserId = currentUserInfo.memberId;
+
   const canRequestRevise =
     isRevisableDoc && reviseAuthUsersId.includes(currentUserId);
 

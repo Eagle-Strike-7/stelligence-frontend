@@ -38,7 +38,7 @@ const CommentsSection = forwardRef<HTMLDivElement, CommentsSectionProps>(
           setCommentList([...comments]);
         })
         .catch(error => {
-          console.error('Error fetching comments:', error);
+          throw new Error('댓글 데이터 가져오기 오류:', error);
         });
     }, [debateId, commentsUpdated, isChanged]);
 

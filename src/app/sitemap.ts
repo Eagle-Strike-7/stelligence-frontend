@@ -1,4 +1,4 @@
-import { SearchResult } from '@/types/graph/GraphProps';
+import { ServerNode } from '@/types/graph/GraphProps';
 import { MetadataRoute } from 'next';
 
 const CLIENT_URL = 'https://www.stelligence.site';
@@ -22,7 +22,7 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const posts = await getPosts();
   const nodes = posts.results.documentNodes;
 
-  const stars = nodes.map((node: SearchResult) => {
+  const stars = nodes.map((node: ServerNode) => {
     return {
       url: `https://www.stelligence.site/stars/${node.documentId}}`,
       lastModified: new Date().toISOString(),
