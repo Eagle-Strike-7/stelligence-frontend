@@ -4,7 +4,7 @@ import { DebateDetailItem } from '@/types/debate/debate';
 
 export default async function getDebateData(
   debateId: number,
-): Promise<DebateDetailItem[]> {
+): Promise<DebateDetailItem> {
   try {
     const response = await apiClient.get<ResponseType<DebateDetailItem>>(
       `/api/debates/${debateId}`,
