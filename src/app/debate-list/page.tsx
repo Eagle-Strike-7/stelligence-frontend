@@ -13,7 +13,7 @@ import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { DebateApiResults, DebateListItem } from '@/types/debate/debate';
-import { ResponseType } from '@/types/common/ResponseType';
+import { ResponseType, StarResponseType } from '@/types/common/ResponseType';
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState<string>('진행중');
@@ -37,7 +37,7 @@ const Page = () => {
   // NOTE activeTab에 따라서 다른 axios 호출
   const getDebateLists = async () => {
     try {
-      const response = await apiClient.get<ResponseType<DebateApiResults>>(
+      const response = await apiClient.get<StarResponseType<DebateApiResults>>(
         `/api/debates`,
         {
           params: {

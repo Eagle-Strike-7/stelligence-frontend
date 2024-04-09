@@ -1,12 +1,12 @@
 import apiClient from '@/service/login/axiosClient';
-import { ResponseType } from '@/types/common/ResponseType';
+import { ResponseType, StarResponseType } from '@/types/common/ResponseType';
 import { DebateDetailItem } from '@/types/debate/debate';
 
 export default async function getDebateData(
   debateId: number,
 ): Promise<DebateDetailItem> {
   try {
-    const response = await apiClient.get<ResponseType<DebateDetailItem>>(
+    const response = await apiClient.get<StarResponseType<DebateDetailItem>>(
       `/api/debates/${debateId}`,
     );
     if (!response.data.success) {
