@@ -13,7 +13,7 @@ import apiClient from '@/service/login/axiosClient';
 import formatDate from '@/lib/formatDate';
 import PageTitleDescription from '@/components/Common/Title/PageTitleDescription';
 import { DebateApiResults, DebateListItem } from '@/types/debate/debate';
-import { ResponseType, StarResponseType } from '@/types/common/ResponseType';
+import { StarResponseType } from '@/types/common/ResponseType';
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState<string>('진행중');

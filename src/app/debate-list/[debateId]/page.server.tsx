@@ -1,5 +1,5 @@
 import apiClient from '@/service/login/axiosClient';
-import { ResponseType, StarResponseType } from '@/types/common/ResponseType';
+import { StarResponseType } from '@/types/common/ResponseType';
 import { DebateDetailItem } from '@/types/debate/debate';
 
 export default async function getDebateData(
