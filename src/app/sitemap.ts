@@ -19,8 +19,9 @@ export const getPosts = () => {
 };
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts = await getPosts();
-  const nodes = posts.results.documentNodes;
+  // const posts = await getPosts();
+  // const nodes = posts.results.documentNodes;
+  const nodes: any[] = [];
 
   const stars = nodes.map((node: ServerNode) => {
     return {
